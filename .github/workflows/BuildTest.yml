@@ -9,9 +9,10 @@ jobs:
 
       # Setup Java 1.8 environment for the next steps
       - name: Setup Java
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
-          java-version: 1.8
+          distribution: 'microsoft' # See 'Supported distributions' for available options
+          java-version: '17.0.1'
 
       # Check out current repository
       - name: Fetch Sources
@@ -21,9 +22,16 @@ jobs:
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1.0.3
 
+      - name: Get Kobweb
+        run: brew install varabyte/tap/kobweb
+      
+      - name: Get Chrome
+        uses: browser-actions/setup-chrome@latest
+#       - run: chrome --version
+        
       # Build application
       - name: Test and Build
-        run: ./gradlew kobwebStart -t
+        run: ./gradlew build
 
       # If main branch update, deploy to gh-pages
       - name: Deploy
