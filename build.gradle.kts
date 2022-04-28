@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.kobweb.application)
     alias(libs.plugins.kobwebx.markdown)
+
+    kotlin("plugin.serialization") version "1.6.21"
 }
 
 repositories {
@@ -16,6 +18,8 @@ repositories {
 
 group = "io.github.dennistsar.sirs_kobweb"
 version = "1.0-SNAPSHOT"
+
+val ktorVersion = "1.6.8"//Should upgrade to 2.0.0 but that requies Kotlin 1.6.20 which compose doesn't support yet
 
 kobweb {
     index {
@@ -46,6 +50,9 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)
+                implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
             }
         }
 

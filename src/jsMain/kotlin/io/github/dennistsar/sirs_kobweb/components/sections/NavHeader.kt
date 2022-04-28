@@ -58,6 +58,9 @@ fun NavHeader() {
             NavLink("/", "HOME")
             NavLink("/about", "ABOUT")
             NavLink("/markdown", "MARKDOWN")
+            NavLink("/searchdept", "SearchDept")
+            NavLink("/proflist", "ProfList")
+
             Spacer()
             Button(
                 onClick = { colorMode = colorMode.opposite() },
