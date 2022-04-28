@@ -23,7 +23,7 @@ import org.jetbrains.compose.web.dom.*
 @Page
 @Composable
 fun SearchDept() {
-    PageLayout("SEARCH") {
+    PageLayout("Search") {
         var schoolMap by remember{ mutableStateOf<Map<String, School>>(emptyMap()) }
         remember {
             MainScope().launch {
