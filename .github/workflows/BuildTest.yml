@@ -21,6 +21,9 @@ jobs:
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1.0.3
 
+      - name: Get Kobweb
+        run: brew install varabyte/tap/kobweb
+        
       # Build application
       - name: Test and Build
         run: ./gradlew kobwebStart -t
