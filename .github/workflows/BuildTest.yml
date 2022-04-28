@@ -12,7 +12,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'microsoft' # See 'Supported distributions' for available options
-          java-version: '15'
+          java-version: '17.0.1'
 
       # Check out current repository
       - name: Fetch Sources
