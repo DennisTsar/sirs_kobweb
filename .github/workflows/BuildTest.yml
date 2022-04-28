@@ -11,7 +11,7 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin' # See 'Supported distributions' for available options
+          distribution: 'microsoft' # See 'Supported distributions' for available options
           java-version: '11'
 
       # Check out current repository
