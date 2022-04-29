@@ -35,7 +35,6 @@ code blocks
                 }
                 com.varabyte.kobweb.silk.components.text.Text(" code as well.")
             }
-            io.github.dennistsar.sirs_kobweb.components.widgets.GoHomeLink()
         }
     }
 }
