@@ -12,6 +12,8 @@ jobs:
         with:
           java-version: 1.8
 
+      - name: Get Kobweb
+        run: brew install varabyte/tap/kobweb
       # Check out current repository
       - name: Fetch Sources
         uses: actions/checkout@v2
