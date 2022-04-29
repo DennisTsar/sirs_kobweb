@@ -13,8 +13,6 @@ jobs:
           distribution: 'temurin' # See 'Supported distributions' for available options
           java-version: '11'
 
-      - name: Get Kobweb
-        run: brew install varabyte/tap/kobweb
       # Check out current repository
       - name: Fetch Sources
         uses: actions/checkout@v2
@@ -22,6 +20,9 @@ jobs:
           persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
           fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
 
+      #Comment
+      - name: Get Kobweb
+        run: brew install varabyte/tap/kobweb
 
       # Validate wrapper
       - name: Validate Gradle Wrapper
