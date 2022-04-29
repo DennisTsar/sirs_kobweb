@@ -27,7 +27,7 @@ jobs:
 
       # Build application
       - name: Test and Build
-        run: ./gradlew build
+        run: kobweb export
 
       # If main branch update, deploy to gh-pages
       - name: Deploy 🚀
