@@ -1,0 +1,8 @@
+builtins_platform=JS
+unique_name=io.github.dennistsar.sirs_kobweb\:sirs_kobweb
+compiler_version=1.6.10
+depends=com.varabyte.kobweb\:kobweb-silk com.varabyte.kobwebx\:kobwebx-markdown com.varabyte.kobweb\:kobweb-core com.varabyte.kobweb\:kobweb-silk-icons-fa com.varabyte.kobweb\:kobweb-silk-widgets com.varabyte.kobweb\:kobweb-compose com.varabyte.kobweb\:web-compose-ext org.jetbrains.compose.web\:web-core org.jetbrains.compose.web\:internal-web-core-runtime androidx.compose.runtime\:runtime io.ktor\:ktor-client-core io.ktor\:ktor-http-cio io.ktor\:ktor-http io.ktor\:ktor-utils io.ktor\:ktor-io org.jetbrains.kotlinx\:kotlinx-coroutines-core org.jetbrains.kotlinx\:kotlinx-serialization-json org.jetbrains.kotlinx\:atomicfu org.jetbrains.kotlinx\:kotlinx-serialization-core kotlin
+jsOutputName=sirs_kobweb
+abi_version=1.6.0
+metadata_version=1.4.1
+ir_version=1.0.0
