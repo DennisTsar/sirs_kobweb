@@ -1,4 +1,4 @@
-<!-- This is a [Kobweb](https://github.com/varabyte/kobweb) project bootstrapped with the `site` template.
+This is a [Kobweb](https://github.com/varabyte/kobweb) project bootstrapped with the `site` template.
 
 ## Getting Started
 
@@ -70,4 +70,6 @@ is sitting around watching the console in that case anway. To do that, use:
 
 ```bash
 kobweb run --env prod --mode dumb
-``` -->
+```
+
+Note: using [this](http://localhost:8080) to deal with reloading for dynamic pages
