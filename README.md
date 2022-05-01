@@ -72,4 +72,4 @@ is sitting around watching the console in that case anway. To do that, use:
 kobweb run --env prod --mode dumb
 ```
 
-Note: using [this](http://localhost:8080) to deal with reloading for dynamic pages
+Note: using [this](https://github.com/rafgraph/spa-github-pages) to deal with reloading for dynamic pages
