@@ -97242,7 +97242,7 @@
       var tmp_11 = '' + 'Hello ' + (tmp0_elvis_lhs == null ? 'World' : tmp0_elvis_lhs) + '!';
       Text$composable_0(tmp_11, null, null, $composer_0, 0, 6);
       var tmp_12 = $composer_0;
-      Column$composable(null, null, null, null, composableLambda(tmp_12, -819896082, true, _no_name_provided_$factory_556(messages)), $composer_0, 24576, 15);
+      Column$composable(null, null, null, null, composableLambda(tmp_12, -819896086, true, _no_name_provided_$factory_556(messages)), $composer_0, 24576, 15);
       var tmp$ret$26;
       $l$block_25: {
         var tmp6_remember$composable_0 = $composer_0;
@@ -97304,7 +97304,7 @@
   function ComposableSingletons$IndexKt() {
     ComposableSingletons$IndexKt_instance = this;
     var tmp = this;
-    tmp._lambda_1_7 = composableLambdaInstance(-985533755, false, _no_name_provided_$factory_553());
+    tmp._lambda_1_7 = composableLambdaInstance(-985533751, false, _no_name_provided_$factory_553());
   }
   ComposableSingletons$IndexKt.$metadata$ = {
     simpleName: 'ComposableSingletons$IndexKt',
@@ -97322,7 +97322,7 @@
     $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(1897344631);
     sourceInformation($composer_0, 'C(HomePage$composable)');
     if (!($changed === 0) ? true : !$composer_0._get_skipping__0_k$()) {
-      PageLayout$composable('Welcome to Kobweb!', ComposableSingletons$IndexKt_getInstance()._lambda_1_7, $composer_0, 54);
+      PageLayout$composable('Welcome to Kobweb 2.0!', ComposableSingletons$IndexKt_getInstance()._lambda_1_7, $composer_0, 54);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
     var tmp0_safe_receiver = $composer_0.endRestartGroup_0_k$();
