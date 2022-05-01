@@ -27,11 +27,11 @@ jobs:
 
       # Build application
       - name: Test and Build
-        run: kobweb export --mode dumb
+        run: kobweb export --layout static
 
       # If main branch update, deploy to gh-pages
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
           branch: gh-pages # The branch the action should deploy to.
-          folder: build/processedResources/js/main # The folder the action should deploy.
+          folder: build/docs # The folder the action should deploy.

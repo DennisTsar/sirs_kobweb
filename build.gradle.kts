@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import kotlinx.html.*
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -23,20 +23,38 @@ val ktorVersion = "1.6.8"//Should upgrade to 2.0.0 but that requies Kotlin 1.6.2
 
 kobweb {
     index {
-        description.set("Powered by Kobweb")
+        description.set("Powered by Kobweb 4.0")
+        this.head.add {
+            consumer.onTagComment("For gh-pages 404 redirects. Credit: https://github.com/rafgraph/spa-github-pages")
+            this.script(type="text/javascript"){
+                consumer.onTagContent(
+                    content=
+                    "\n    (function(l) {\n" +
+                            "      if (l.search[1] === '/' ) {\n" +
+                            "        var decoded = l.search.slice(1).split('&').map(function(s) { \n" +
+                            "          return s.replace(/~and~/g, '&')\n" +
+                            "        }).join('?');\n" +
+                            "        window.history.replaceState(null, null,\n" +
+                            "            l.pathname.slice(0, -1) + decoded + l.hash\n" +
+                            "        );\n" +
+                            "      }\n" +
+                            "    }(window.location))\n    "
+                )
+            }
+        }
     }
 }
 
 kotlin {
-    jvm {
-        tasks.withType<KotlinCompile> {
-            kotlinOptions.jvmTarget = "11"
-        }
-
-        tasks.named("jvmJar", Jar::class.java).configure {
-            archiveFileName.set("sirs_kobweb.jar")
-        }
-    }
+//    jvm {
+//        tasks.withType<KotlinCompile> {
+//            kotlinOptions.jvmTarget = "11"
+//        }
+//
+//        tasks.named("jvmJar", Jar::class.java).configure {
+//            archiveFileName.set("sirs_kobweb.jar")
+//        }
+//    }
     js(IR) {
         moduleName = "sirs_kobweb"
         browser {
@@ -66,10 +84,10 @@ kotlin {
              }
         }
 
-        val jvmMain by getting {
-            dependencies {
-                implementation(libs.kobweb.api)
-             }
-        }
+//        val jvmMain by getting {
+//            dependencies {
+//                implementation(libs.kobweb.api)
+//             }
+//        }
     }
 }

@@ -17,7 +17,7 @@ import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.dom.Input
 import org.jetbrains.compose.web.dom.P
 
-@Page
+@Page//("/sirs_kobweb/searchdept")
 @Composable
 fun HomePage() {
     PageLayout("Welcome to Kobweb!") {

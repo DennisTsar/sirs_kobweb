@@ -1,5 +1,6 @@
 site:
   title: "SIRS_Kobweb"
+  routePrefix: "sirs_kobweb"#repo name for gh-pages
 
 server:
   files:
@@ -8,6 +9,6 @@ server:
       script: "build/js/packages/sirs_kobweb/kotlin/sirs_kobweb.js"
       api: "build/libs/sirs_kobweb.jar"
     prod:
-      siteRoot: ".kobweb/site"
+      siteRoot: "build/docs"#for gh-pages purposes
 
   port: 8080

@@ -7,7 +7,7 @@ import com.varabyte.kobweb.silk.components.text.Text
 import io.github.dennistsar.sirs_kobweb.components.layouts.PageLayout
 import org.jetbrains.compose.web.dom.P
 
-@Page
+@Page//("/sirs_kobweb/")
 @Composable
 fun AboutPage() {
     PageLayout("ABOUT") {

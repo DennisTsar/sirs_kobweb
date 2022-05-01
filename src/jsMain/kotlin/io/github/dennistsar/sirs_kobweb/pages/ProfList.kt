@@ -1,37 +1,27 @@
 package io.github.dennistsar.sirs_kobweb.pages
 
 import androidx.compose.runtime.*
-import com.varabyte.kobweb.compose.css.Cursor.Companion.AllScroll
-import com.varabyte.kobweb.compose.css.Cursor.Companion.Text
 import com.varabyte.kobweb.compose.css.Overflow
-import com.varabyte.kobweb.compose.css.ScrollBehavior
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
-import com.varabyte.kobweb.compose.foundation.layout.Spacer
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.rememberPageContext
-import com.varabyte.kobweb.silk.components.icons.fa.FaToolbox
-import com.varabyte.kobweb.silk.components.icons.fa.FaWindows
 import com.varabyte.kobweb.silk.components.text.Text
 import io.github.dennistsar.sirs_kobweb.api.Api
 import io.github.dennistsar.sirs_kobweb.components.layouts.PageLayout
 import io.github.dennistsar.sirs_kobweb.data.Entry
-import io.github.dennistsar.sirs_kobweb.data.School
 import io.github.dennistsar.sirs_kobweb.logic.getProfAves
 import io.github.dennistsar.sirs_kobweb.misc.roundToDecimal
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import org.jetbrains.compose.web.attributes.Draggable
-import org.jetbrains.compose.web.css.CSSKeyframe
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.dom.Button
 
 @Page("proflist/{school}/{dept}")
 @Composable

@@ -20,7 +20,7 @@ import kotlinx.serialization.json.Json
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.dom.*
 
-@Page
+@Page//("/sirs_kobweb/searchdept")
 @Composable
 fun SearchDept() {
     PageLayout("Search") {
