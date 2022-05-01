@@ -17,7 +17,7 @@ jobs:
           distribution: 'temurin' # See 'Supported distributions' for available options
           java-version: '11'
 
-      #Installing Kobweb with brew
+      # Installing Kobweb with brew
       - name: Install Kobweb
         run: brew install varabyte/tap/kobweb
 
@@ -27,7 +27,7 @@ jobs:
 
       # Build application
       - name: Build
-        run: kobweb export --layout static --mode dumb
+        run: kobweb export --layout static --mode dumb # "dumb" prevents java awt display error
 
       # If main branch update, deploy to gh-pages
       - name: Deploy 🚀

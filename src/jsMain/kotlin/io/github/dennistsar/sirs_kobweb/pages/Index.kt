@@ -20,7 +20,7 @@ import org.jetbrains.compose.web.dom.P
 @Page//("/sirs_kobweb/searchdept")
 @Composable
 fun HomePage() {
-    PageLayout("Welcome to Kobweb!") {
+    PageLayout("Welcome to Kobweb 2.0!") {
         var depts by remember{ mutableStateOf<Map<String, School>>(emptyMap()) }
         remember {
             MainScope().launch {
