@@ -3,6 +3,11 @@ package io.github.dennistsar.sirs_kobweb.logic
 import io.github.dennistsar.sirs_kobweb.data.Entry
 import io.github.dennistsar.sirs_kobweb.misc.roundToDecimal
 
+fun getCourseAvesByProf(entries: List<Entry>): Map<String,Map<String,List<List<Int>>>>{
+    return entries.groupBy { it.code.split(":").getOrElse(2){""} }
+        .mapValues { (_,v) -> getProfAves(v) }
+}
+
 fun getProfAves(entries: List<Entry>): Map<String, List<List<Int>>> {
     val names = entries.map { formatName(it.instructor) }
     val mapOfProfs = entries.groupBy { parseName(it.instructor, names) }

@@ -14,6 +14,7 @@ import io.github.dennistsar.sirs_kobweb.api.Api
 import io.github.dennistsar.sirs_kobweb.api.Repository
 import io.github.dennistsar.sirs_kobweb.components.layouts.PageLayout
 import io.github.dennistsar.sirs_kobweb.data.Entry
+import io.github.dennistsar.sirs_kobweb.logic.getCourseAvesByProf
 import io.github.dennistsar.sirs_kobweb.logic.getProfAves
 import io.github.dennistsar.sirs_kobweb.misc.roundToDecimal
 import kotlinx.coroutines.MainScope
@@ -24,22 +25,30 @@ import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 
-@Page("proflist/{school}/{dept}")
+@Page("coursestats/{school}/{dept}/{course}")
 @Composable
-fun ProfList() {
+fun CourseStats() {
     val repository = Repository(Api())
     PageLayout("SEARCH") {
         val ctx = rememberPageContext()
         val school = ctx.params.getValue("school")
         val dept = ctx.params.getValue("dept")
+        val course = ctx.params.getValue("course")
+
 
         var entries: List<Entry> by remember{ mutableStateOf(emptyList()) }
-        var profRatings: Map<String, List<List<Int>>> by remember{ mutableStateOf(emptyMap()) }
+        var mapOfCourses: Map<String,Map<String,Double>> by remember { mutableStateOf(emptyMap()) }
 
         remember {
             MainScope().launch {
+                val k = Api().getEntriesFromGit(school,dept)
+                console.log(k)
                 entries = repository.getEntries(school, dept).data ?: emptyList()
-                profRatings = getProfAves(entries)
+                mapOfCourses = getCourseAvesByProf(entries)
+                    .mapValues {(_,v) ->
+                        v.mapValues { it.value[8].average() }
+                    }
+//                    .mapKeys { it.key.split(":")[2] }
                 console.log("making req${entries.size}")
             }
             console.log(entries.size)
@@ -53,62 +62,18 @@ fun ProfList() {
                 .width(800.px)
                 .overflowY(Overflow.Scroll)
         ) {
-            profRatings.toList().sortedBy { -it.second[8].average() }
-                .forEach { (name,scores) ->
-                    BaseProfCard(name,scores)
+            console.log(mapOfCourses.keys)
+            console.log(mapOfCourses["211"]?.keys)
+            mapOfCourses[course]?.toList()
+                ?.sortedBy { -it.second }
+                ?.forEach { (k,v) ->
+                    Box(
+                        Modifier.fillMaxWidth()
+                            .height(50.px)
+                            .backgroundColor(Color.lightcyan)
+                    ) {
+                        Text("$k: ${v.roundToDecimal(2)}")
                 }
-        }
-    }
-}
-
-@Composable
-fun SpecificProf(entries: List<Entry>){
-    val byClass = entries.groupBy { it.code }
-    Box {
-        byClass.forEach { (code,list) ->
-//            val ave = entries.
-            Text("Average: ")
-        }
-    }
-}
-
-@Composable
-fun BaseProfCard(name: String, scores: List<List<Int>>){
-    Box(
-        Modifier
-            .fillMaxWidth()
-//                            .width(500.px)
-            .height(50.px)
-            .backgroundColor(Color.lightcyan)
-        //                        .padding(50.px)
-    ){
-        Row(
-            Modifier.fillMaxWidth()
-        ) {
-            Text(
-                name,
-                Modifier.fillMaxWidth(20.percent)
-                    .backgroundColor(Color.purple)
-            )
-            scores.forEach { nums ->
-                var hover by remember { mutableStateOf(false) }
-                var customtext by remember { mutableStateOf(nums.average().roundToDecimal(2).toString()) }
-                Text(
-                    customtext,
-                    Modifier
-                        .fillMaxWidth(7.percent)
-                        .onMouseEnter {
-                            hover = true
-                            customtext = nums.size.toString()
-                        }
-                        .onMouseLeave {
-                            hover = false
-                            customtext = nums.average().roundToDecimal(2).toString()
-                        }
-                )
-//                if(hover)
-//                    Text("hi",Modifier.marginBlock(0.px,50.px))
-
             }
         }
     }
