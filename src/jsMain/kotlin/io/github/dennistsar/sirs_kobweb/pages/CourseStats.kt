@@ -4,7 +4,6 @@ import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.css.Overflow
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
-import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.core.Page
@@ -15,14 +14,10 @@ import io.github.dennistsar.sirs_kobweb.api.Repository
 import io.github.dennistsar.sirs_kobweb.components.layouts.PageLayout
 import io.github.dennistsar.sirs_kobweb.data.Entry
 import io.github.dennistsar.sirs_kobweb.logic.getCourseAvesByProf
-import io.github.dennistsar.sirs_kobweb.logic.getProfAves
 import io.github.dennistsar.sirs_kobweb.misc.roundToDecimal
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 import org.jetbrains.compose.web.css.Color
-import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 
 @Page("coursestats/{school}/{dept}/{course}")
@@ -43,7 +38,9 @@ fun CourseStats() {
             MainScope().launch {
                 val k = Api().getEntriesFromGit(school,dept)
                 console.log(k)
-                entries = repository.getEntries(school, dept).data ?: emptyList()
+                entries = repository.getEntries(school, dept).data?.filter { it.scores.size>=80 }
+//                    ?.filter { it.courseName.contains("Lecture") || it.indexNum }
+                    ?: emptyList()
                 mapOfCourses = getCourseAvesByProf(entries)
                     .mapValues {(_,v) ->
                         v.mapValues { it.value[8].average() }

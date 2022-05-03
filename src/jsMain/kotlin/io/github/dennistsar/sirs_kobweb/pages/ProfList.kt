@@ -18,8 +18,6 @@ import io.github.dennistsar.sirs_kobweb.logic.getProfAves
 import io.github.dennistsar.sirs_kobweb.misc.roundToDecimal
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
@@ -38,7 +36,8 @@ fun ProfList() {
 
         remember {
             MainScope().launch {
-                entries = repository.getEntries(school, dept).data ?: emptyList()
+                entries = repository.getEntries(school, dept).data?.filter { it.scores.size>=80 }
+                    ?: emptyList()
                 profRatings = getProfAves(entries)
                 console.log("making req${entries.size}")
             }

@@ -3,7 +3,7 @@ package io.github.dennistsar.sirs_kobweb.api
 import io.ktor.client.*
 import io.ktor.client.request.*
 
-class Api() {
+class Api {
     private val client = HttpClient()
     suspend fun getByDeptOrCourse(
         semester: String,
@@ -46,7 +46,7 @@ class Api() {
     }
 
     suspend fun getEntriesFromGit(school: String, dept: String): String{
-        return client.get("https://raw.githubusercontent.com/DennisTsar/Rutgers-SIRS/master/json-data/$school/$dept.txt")
+        return client.get("https://raw.githubusercontent.com/DennisTsar/Rutgers-SIRS/master/json-data-3/$school/$dept.txt")
     }
 
     suspend fun getSchoolDeptsMapFromGit(): String{

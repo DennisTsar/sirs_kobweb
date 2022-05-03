@@ -2,16 +2,16 @@ package io.github.dennistsar.sirs_kobweb.data
 
 import io.github.dennistsar.sirs_kobweb.misc.substringAfterBefore
 import kotlinx.serialization.Serializable
-
 @Serializable
 class Entry(
-    val instructor : String,
-    val term : String,
-    val code : String,
-    val courseName : String,
-    val indexNum : String?,
-    val enrolled : Int,
-    val responses : Int,
+    val instructor: String,
+    val term: String,
+    val code: String,
+    val courseName: String,
+    val indexNum: String?,
+    val note: String?,
+    val enrolled: Int,
+    val responses: Int,
     val scores: List<Double>,
 ){
     constructor(s: String) : this(
@@ -21,6 +21,11 @@ class Entry(
         courseName = s.substringAfterBefore("<q>","<").replace("&amp;","&"),
         //not always present - generally, but not always, corresponds to class name containing "(Lecture)"
         indexNum = s.substringAfter("index #","").substringBefore(")").ifBlank { null },
+        note = s.substringAfterBefore("<q>","<br><a")
+            .substringAfter("index #")
+            .substringAfter("<br>")
+            .substringAfter("(")
+            .substringBefore(")","").ifBlank { null },
         enrolled = s.substringAfterBefore("Enrollment=  ",",").toInt(),
         responses = s.substringAfterBefore("Responses= "," ").toInt(),
         scores = s.split("<td  class=\"mono").drop(1)

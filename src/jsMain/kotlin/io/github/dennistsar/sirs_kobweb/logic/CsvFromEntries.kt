@@ -1,11 +1,18 @@
 package io.github.dennistsar.sirs_kobweb.logic
 
 import io.github.dennistsar.sirs_kobweb.data.Entry
-import io.github.dennistsar.sirs_kobweb.misc.roundToDecimal
 
 fun getCourseAvesByProf(entries: List<Entry>): Map<String,Map<String,List<List<Int>>>>{
-    return entries.groupBy { it.code.split(":").getOrElse(2){""} }
-        .mapValues { (_,v) -> getProfAves(v) }
+    return entries.groupBy {
+        it.code.split(":")
+            .getOrElse(2){""}
+    }.mapValues { (_,v) ->
+        val a = v.any { it.courseName.contains("Lecture") || it.note!=null }
+        if(a)
+            getProfAves(v.filter { it.courseName.contains("Lecture") || it.note!=null })
+        else
+            getProfAves(v)
+    }
 }
 
 fun getProfAves(entries: List<Entry>): Map<String, List<List<Int>>> {
