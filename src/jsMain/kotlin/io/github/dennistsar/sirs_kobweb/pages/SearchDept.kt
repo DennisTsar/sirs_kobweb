@@ -3,14 +3,15 @@ package io.github.dennistsar.sirs_kobweb.pages
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.asAttributesBuilder
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.rememberPageContext
 import io.github.dennistsar.sirs_kobweb.api.Api
 import io.github.dennistsar.sirs_kobweb.api.Repository
 import io.github.dennistsar.sirs_kobweb.components.layouts.PageLayout
-import io.github.dennistsar.sirs_kobweb.components.sections.CustomDropDown
-import io.github.dennistsar.sirs_kobweb.components.sections.CustomForm
+import io.github.dennistsar.sirs_kobweb.components.widgets.CustomDropDown
+import io.github.dennistsar.sirs_kobweb.components.widgets.CustomForm
 import io.github.dennistsar.sirs_kobweb.data.School
 import io.github.dennistsar.sirs_kobweb.misc.Resource
 import org.jetbrains.compose.web.css.AlignItems
@@ -22,64 +23,77 @@ import org.jetbrains.compose.web.dom.TextInput
 @Composable
 fun SearchDept() {
     val repository = Repository(Api())
-    PageLayout("Search") {
+    PageLayout("Search",Modifier.backgroundColor(Color.lightcyan)) {
         val ctx = rememberPageContext()
-        var map by remember { mutableStateOf<Map<String, School>>(emptyMap()) }
-        var selectedSchool by remember { mutableStateOf("01") }
+        var schoolMap by remember{ mutableStateOf<Map<String, School>>(emptyMap()) }
+        var selectedSchool by remember { mutableStateOf("") }
         var selectedDept by remember { mutableStateOf("") }
 
         var courseText by remember { mutableStateOf("") }
 
-        LaunchedEffect(""){
+        LaunchedEffect(true){
             console.log("making req")
             repository.getSchoolMap()
                 .takeIf { it is Resource.Success }
                 ?.run {
                     data?.let {
-                        map = it
-                        selectedDept = map[selectedSchool]?.depts?.firstOrNull() ?: ""
+                        schoolMap = it
+                        val (code,school) = it.entries.first()
+                        selectedSchool = code
+                        selectedDept = school.depts.firstOrNull() ?: ""
                     }
                 }
         }
+        if(schoolMap.isEmpty())
+            return@PageLayout
 
         val modifier2 = Modifier.fillMaxSize()
-            .backgroundColor(Color.chocolate)
-        val modifier1 = Modifier.backgroundColor(Color.palevioletred)
+//            .backgroundColor(Color.chocolate)
+        val modifier1 = Modifier//.backgroundColor(Color.palevioletred)
 
         CustomForm(
             Modifier
-                .backgroundColor(Color.red)
+//                .backgroundColor(Color.red)
                 .borderRadius(10.px),
             {
+                val schoolDeptStr = "${selectedSchool}/${selectedDept}"
                 val link =
                     if (courseText.isBlank())
-                        "/proflist/${selectedSchool}/${selectedDept}"
+                        "proflist/$schoolDeptStr"
                     else
-                        "/coursestats/${selectedSchool}/${selectedDept}/${courseText}"
-                ctx.router.routeTo("/sirs_kobweb$link")
+                        "coursestats/$schoolDeptStr/${courseText}"
+                ctx.router.routeTo("/sirs_kobweb/$link")//Ideally route prefix gets removed or is at least a var
             }
         ){ submitComposable ->
             Column(
                 Modifier.alignItems(AlignItems.Center).rowGap(5.px)
             ) {
                 CustomDropDown(
-                    selectModifier = modifier1,
+                    selectModifier = modifier1.borderRadius(50.px),
                     optionModifier = modifier2,
-                    list = map.values.toList(),
-                    onSelect = { selectedSchool = it },
-                    getText = { "${it.code} -${it.name}" },
+                    list = schoolMap.values,
+                    onSelect =
+                    {
+                        selectedSchool = it
+                        selectedDept = schoolMap[selectedSchool]?.depts?.firstOrNull() ?: ""
+                    },
+                    getText = { "${it.code} - ${it.name}" },
                     getValue = { it.code }
                 )
                 CustomDropDown(
                     selectModifier = modifier1,
                     optionModifier = modifier2,
-                    list = map[selectedSchool]?.depts,
+                    list = schoolMap[selectedSchool]?.depts,
                     onSelect = { selectedDept = it },
-                    getText = { it }
                 )
-                TextInput(courseText) {
-                    onInput { courseText = it.value }
-                }
+                TextInput(courseText,
+                    Modifier.borderRadius(5.px)
+                        .backgroundColor(Color.green)
+                        .boxShadow("1px 2px 10px grey")
+                        .asAttributesBuilder{
+                            onInput { courseText = it.value }
+                        }
+                )
                 submitComposable()
             }
         }

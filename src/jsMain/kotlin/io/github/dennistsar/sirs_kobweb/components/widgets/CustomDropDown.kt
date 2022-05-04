@@ -1,4 +1,4 @@
-package io.github.dennistsar.sirs_kobweb.components.sections
+package io.github.dennistsar.sirs_kobweb.components.widgets
 
 import androidx.compose.runtime.Composable
 import com.varabyte.kobweb.compose.ui.Modifier
@@ -12,9 +12,9 @@ import org.jetbrains.compose.web.dom.Select
 fun<T> CustomDropDown(
     selectModifier: Modifier = Modifier.fillMaxSize(),
     optionModifier: Modifier = Modifier.fillMaxSize(),
-    list: List<T>?,
+    list: Collection<T>?,
     onSelect: (String) -> Unit,
-    getText: (T) -> String,
+    getText: (T) -> String = {it.toString()},
     getValue: (T) -> String = getText
 ){
     Select(

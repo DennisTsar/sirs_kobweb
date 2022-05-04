@@ -1,8 +1,8 @@
-package io.github.dennistsar.sirs_kobweb.components.sections
+package io.github.dennistsar.sirs_kobweb.components.widgets
 
 import androidx.compose.runtime.Composable
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.asStyleBuilder
+import com.varabyte.kobweb.compose.ui.asAttributesBuilder
 import org.jetbrains.compose.web.attributes.onSubmit
 import org.jetbrains.compose.web.dom.Form
 import org.jetbrains.compose.web.dom.SubmitInput
@@ -22,9 +22,7 @@ fun CustomForm(
         }
     ) {
         content {
-            SubmitInput {
-                style { submitModifier.asStyleBuilder().invoke(this) }
-            }
+            SubmitInput(submitModifier.asAttributesBuilder())
         }
     }
 }

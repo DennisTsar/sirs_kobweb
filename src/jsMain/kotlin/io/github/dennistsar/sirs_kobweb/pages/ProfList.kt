@@ -16,8 +16,6 @@ import io.github.dennistsar.sirs_kobweb.components.layouts.PageLayout
 import io.github.dennistsar.sirs_kobweb.data.Entry
 import io.github.dennistsar.sirs_kobweb.logic.getProfAves
 import io.github.dennistsar.sirs_kobweb.misc.roundToDecimal
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
@@ -34,14 +32,11 @@ fun ProfList() {
         var entries: List<Entry> by remember{ mutableStateOf(emptyList()) }
         var profRatings: Map<String, List<List<Int>>> by remember{ mutableStateOf(emptyMap()) }
 
-        remember {
-            MainScope().launch {
-                entries = repository.getEntries(school, dept).data?.filter { it.scores.size>=80 }
-                    ?: emptyList()
-                profRatings = getProfAves(entries)
-                console.log("making req${entries.size}")
-            }
-            console.log(entries.size)
+        LaunchedEffect(true) {
+            entries = repository.getEntries(school, dept).data?.filter { it.scores.size>=80 }
+                ?: emptyList()
+            profRatings = getProfAves(entries)
+            console.log("making req${entries.size}")
         }
 
         Column(

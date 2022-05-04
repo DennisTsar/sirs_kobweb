@@ -1,27 +1,27 @@
 package io.github.dennistsar.sirs_kobweb.components.layouts
 
-import androidx.compose.runtime.*
-import com.varabyte.kobweb.compose.css.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import com.varabyte.kobweb.compose.css.TextAlign
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
-import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.text.Text
-import kotlinx.browser.document
-import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.dom.*
 import io.github.dennistsar.sirs_kobweb.components.sections.Footer
 import io.github.dennistsar.sirs_kobweb.components.sections.NavHeader
+import kotlinx.browser.document
+import org.jetbrains.compose.web.css.percent
+import org.jetbrains.compose.web.dom.H1
 
 @Composable
-fun PageLayout(title: String, content: @Composable () -> Unit) {
+fun PageLayout(title: String, modifier: Modifier = Modifier, content: @Composable () -> Unit) {
     LaunchedEffect(title) {
         document.title = title
     }
 
-    Box(Modifier
+    Box(modifier
         .fillMaxWidth()
         .minHeight(100.percent)
         // Create a box with two rows: the main content (fills as much space as it can) and the footer (which reserves
