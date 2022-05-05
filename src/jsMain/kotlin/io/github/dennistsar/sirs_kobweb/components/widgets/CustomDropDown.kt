@@ -5,6 +5,9 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.asAttributesBuilder
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
 import com.varabyte.kobweb.silk.components.text.Text
+import org.jetbrains.compose.web.attributes.selected
+import org.jetbrains.compose.web.css.Color
+import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.dom.Option
 import org.jetbrains.compose.web.dom.Select
 
@@ -15,7 +18,8 @@ fun<T> CustomDropDown(
     list: Collection<T>?,
     onSelect: (String) -> Unit,
     getText: (T) -> String = {it.toString()},
-    getValue: (T) -> String = getText
+    getValue: (T) -> String = getText,
+    selected: T? = list?.firstOrNull(),
 ){
     Select(
         selectModifier.asAttributesBuilder {
@@ -27,7 +31,9 @@ fun<T> CustomDropDown(
         list?.forEach {
             Option(
                 getValue(it),
-                optionModifier.asAttributesBuilder()
+                optionModifier.asAttributesBuilder {
+                    if(it==selected) selected()
+                }
             ) {
                 Text(getText(it))
             }
