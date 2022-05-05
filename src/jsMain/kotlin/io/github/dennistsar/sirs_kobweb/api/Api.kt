@@ -46,7 +46,7 @@ class Api {
     }
 
     suspend fun getEntriesFromGit(school: String, dept: String): String{
-        return client.get("https://raw.githubusercontent.com/DennisTsar/Rutgers-SIRS/master/json-data-3/$school/$dept.txt")
+        return client.get("https://raw.githubusercontent.com/DennisTsar/Rutgers-SIRS/master/json-data-4/$school/$dept.txt")
     }
 
     suspend fun getSchoolDeptsMapFromGit(): String{

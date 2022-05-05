@@ -2,6 +2,7 @@ package io.github.dennistsar.sirs_kobweb.data
 
 import io.github.dennistsar.sirs_kobweb.misc.substringAfterBefore
 import kotlinx.serialization.Serializable
+
 @Serializable
 class Entry(
     val instructor: String,
@@ -13,6 +14,7 @@ class Entry(
     val enrolled: Int,
     val responses: Int,
     val scores: List<Double>,
+    val extraQs: List<String>
 ){
     constructor(s: String) : this(
         instructor = s.substringBefore("  "),
@@ -31,7 +33,10 @@ class Entry(
         scores = s.split("<td  class=\"mono").drop(1)
             .map {
                 it.substringAfterBefore(">","<").toDouble()
-            }//indices 0-99 are all the numbers for one entry, row by row
+            },//indices 0-99 are all the numbers for one entry, row by row
+        extraQs = s.split("<td  class='qText' >").drop(10).map {
+            it.substringAfterBefore(". ","</td>")
+        }
     )
 //    val shortTerm = term.first()+term.takeLast(2)
 

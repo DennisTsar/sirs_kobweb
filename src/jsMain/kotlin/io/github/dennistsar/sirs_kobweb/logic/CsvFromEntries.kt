@@ -3,16 +3,17 @@ package io.github.dennistsar.sirs_kobweb.logic
 import io.github.dennistsar.sirs_kobweb.data.Entry
 
 fun getCourseAvesByProf(entries: List<Entry>): Map<String,Map<String,List<List<Int>>>>{
-    return entries.groupBy {
+    return entries
+        .groupBy {
         it.code.split(":")
             .getOrElse(2){""}
-    }.mapValues { (_,v) ->
-        val a = v.any { it.courseName.contains("Lecture") || it.note!=null }
-        if(a)
-            getProfAves(v.filter { it.courseName.contains("Lecture") || it.note!=null })
-        else
-            getProfAves(v)
-    }
+        }.mapValues { (_,v) ->
+            val a = v.any { it.courseName.contains("Lecture") || it.note!=null }
+            if(a)
+                getProfAves(v.filter { it.courseName.contains("Lecture") || it.note!=null })
+            else
+                getProfAves(v)
+        }
 }
 
 fun getProfAves(entries: List<Entry>): Map<String, List<List<Int>>> {
@@ -43,7 +44,10 @@ fun getProfAves(entries: List<Entry>): Map<String, List<List<Int>>> {
 //    if (profRatings.isEmpty())
 //        return null
 
-    return profRatings
+    val d = (0..9).map { i ->
+        profRatings.values.filter { it.size>=10 }.map { it[i] }.flatten()
+    }
+    return profRatings+Pair("Average",d)
 
 //    val profAves = profRatings.map {
 //        val row = it.value[8]//This is the teaching effectiveness question

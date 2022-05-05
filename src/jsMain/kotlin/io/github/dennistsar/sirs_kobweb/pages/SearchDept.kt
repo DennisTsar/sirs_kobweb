@@ -1,6 +1,8 @@
 package io.github.dennistsar.sirs_kobweb.pages
 
 import androidx.compose.runtime.*
+import com.varabyte.kobweb.compose.css.FontStyle
+import com.varabyte.kobweb.compose.css.TextDecorationLine
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Modifier
@@ -24,10 +26,7 @@ import io.github.dennistsar.sirs_kobweb.misc.TenQsShortened
 import io.github.dennistsar.sirs_kobweb.misc.gridVariant11
 import io.github.dennistsar.sirs_kobweb.misc.roundToDecimal
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
-import org.jetbrains.compose.web.css.AlignItems
-import org.jetbrains.compose.web.css.Color
-import org.jetbrains.compose.web.css.deg
-import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
 
 @OptIn(ExperimentalComposeWebApi::class)
@@ -37,7 +36,6 @@ fun SearchDept() {
     val repository = Repository(Api())
     PageLayout("Search",Modifier.backgroundColor(Color.lightcyan)) {
         val ctx = rememberPageContext()
-        val coroutineScope = rememberCoroutineScope()
         var schoolMap: Map<String, School> by remember{ mutableStateOf(emptyMap()) }
         var selectedSchool by remember { mutableStateOf("") }
         var selectedDept by remember { mutableStateOf("") }
@@ -71,7 +69,7 @@ fun SearchDept() {
                     repository.getEntries(selectedSchool, selectedDept)
                         .takeIf { it is Resource.Success }?.data ?: emptyList()
                 else emptyList()
-            courseList = listOf("None") + getCourseAvesByProf(deptEntries).keys
+            courseList = listOf("None") + getCourseAvesByProf(deptEntries).keys.sorted()
         }
 
         if(schoolMap.isEmpty())
@@ -111,51 +109,85 @@ fun SearchDept() {
         if(selectedCourse.isBlank() || selectedCourse=="None")
             return@PageLayout
 
+        // Map<Course,Map<Prof,(Ave Responses,Aves)>>
+        // a. Should make this an object
+        // b. Should make this part of a function (if not part of ths func)
+        val mapOfCourses = getCourseAvesByProf(deptEntries.filter { it.scores.size>=100 })
+            .mapValues { (_,v) ->
+                v.mapValues { (_,listOfAllAnswers) ->
+                    listOfAllAnswers.map { it.size }.average().toInt() to
+                            listOfAllAnswers.map { it.average().roundToDecimal(2) }
+                }
+            }
 
         Div(
             attrs = SimpleGridStyle
                 .toModifier(gridVariant11)
                 .asAttributesBuilder()
         ) {
-            TenQsShortened.forEach {
+            val spacing = 175.px
+            (listOf("")+TenQsShortened).forEach {
                 Text(
                     it,
-                    Modifier.width(100.px)
-                        .padding(10.px)
-                        .transform {
-                            rotate((-30).deg)
-                        }
+                    Modifier.width(spacing)
+                        .transform { rotate((-40).deg) }
+                        .fontSize(15.px)
+                        .margin(topBottom = 50.px, leftRight = (-45).px)
+                        .textDecorationLine(TextDecorationLine.Underline)
                 )
             }
+            mapOfCourses[selectedCourse]
+                ?.toList()
+                ?.sortedBy { -it.second.second[8] }
+                ?.forEach { (prof,nums) ->
+                    Text(
+                        prof,
+                        Modifier.width(175.px)
+                            .fontSize(15.px)
+                            .margin(topBottom = 10.px, leftRight = -spacing/2)
+                    )
+                    nums.second.subList(0,10).forEach {
+                        Text(
+                            it.toString(),
+                            Modifier.width(175.px)
+                                .fontSize(15.px)
+                                .margin(topBottom = 10.px, leftRight = -spacing/2)
+                        )
+                    }
+                }
         }
 //        SimpleGrid(numColumns(11), variant = gridVariant11){
 //
 //        }
 
-        val mapOfCourses = getCourseAvesByProf(deptEntries.filter { it.scores.size>=80 })
-            .mapValues { (_,v) ->
-                v.mapValues { it.value[8].average() }
-            }
-        Column(
-            Modifier
-//                .scrollBehavior(ScrollBehavior.Smooth)
-//                .scrollMargin(50.px)
-                .height(500.px)//
-                .width(800.px)
-//                .overflowY(Overflow.Scroll)
-        ) {
-            mapOfCourses[selectedCourse]?.toList()
-                ?.sortedBy { -it.second }
-                ?.forEach { (k,v) ->
-                    Box(
-                        Modifier.fillMaxWidth()
-                            .height(50.px)
-                            .backgroundColor(Color.lightcyan)
-                    ) {
-                        Text("$k: ${v.roundToDecimal(2)}")
-                    }
-                }
-        }
+        //Map<Course,Map<Prof,(Ave Responses,Aves)>>
+//        val mapOfCourses = getCourseAvesByProf(deptEntries.filter { it.scores.size>=100 })
+//            .mapValues { (_,v) ->
+//                v.mapValues { (_,listOfAllAnswers) ->
+//                    listOfAllAnswers.map { it.size }.average().toInt() to
+//                    listOfAllAnswers.map { it.average().roundToDecimal(2) }
+//                }
+//            }
+//        Column(
+//            Modifier
+////                .scrollBehavior(ScrollBehavior.Smooth)
+////                .scrollMargin(50.px)
+//                .height(500.px)//
+//                .width(800.px)
+////                .overflowY(Overflow.Scroll)
+//        ) {
+//            mapOfCourses[selectedCourse]?.toList()
+//                ?.sortedBy { -it.second }
+//                ?.forEach { (k,v) ->
+//                    Box(
+//                        Modifier.fillMaxWidth()
+//                            .height(50.px)
+//                            .backgroundColor(Color.lightcyan)
+//                    ) {
+//                        Text("$k: ${v.roundToDecimal(2)}")
+//                    }
+//                }
+//        }
     }
 }
 
