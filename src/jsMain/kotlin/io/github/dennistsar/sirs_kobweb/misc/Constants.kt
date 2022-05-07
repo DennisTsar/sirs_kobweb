@@ -40,6 +40,16 @@ val gridVariant11 = run{
         base { gridModifier }
     }
 }
+
+val gridVariant12 = run{
+    val numColumns = 12
+    val gridModifier = Modifier.styleModifier {
+        gridTemplateColumns("repeat($numColumns, 1fr)")
+    }
+    SimpleGridStyle.addVariant("base-$numColumns") {
+        base { gridModifier }
+    }
+}
 //    (0 until 12)
 //        .associate { i ->
 //            val numColumns = i + 1

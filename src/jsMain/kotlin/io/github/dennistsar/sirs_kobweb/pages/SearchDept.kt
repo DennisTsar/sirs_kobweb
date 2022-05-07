@@ -1,9 +1,7 @@
 package io.github.dennistsar.sirs_kobweb.pages
 
 import androidx.compose.runtime.*
-import com.varabyte.kobweb.compose.css.FontStyle
 import com.varabyte.kobweb.compose.css.TextDecorationLine
-import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.asAttributesBuilder
@@ -17,25 +15,21 @@ import io.github.dennistsar.sirs_kobweb.api.Api
 import io.github.dennistsar.sirs_kobweb.api.Repository
 import io.github.dennistsar.sirs_kobweb.components.layouts.PageLayout
 import io.github.dennistsar.sirs_kobweb.components.widgets.CustomDropDown
-import io.github.dennistsar.sirs_kobweb.components.widgets.CustomForm
 import io.github.dennistsar.sirs_kobweb.data.Entry
 import io.github.dennistsar.sirs_kobweb.data.School
 import io.github.dennistsar.sirs_kobweb.logic.getCourseAvesByProf
-import io.github.dennistsar.sirs_kobweb.misc.Resource
-import io.github.dennistsar.sirs_kobweb.misc.TenQsShortened
-import io.github.dennistsar.sirs_kobweb.misc.gridVariant11
-import io.github.dennistsar.sirs_kobweb.misc.roundToDecimal
+import io.github.dennistsar.sirs_kobweb.logic.getProfAves
+import io.github.dennistsar.sirs_kobweb.misc.*
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
 
-@OptIn(ExperimentalComposeWebApi::class)
 @Page
 @Composable
 fun SearchDept() {
     val repository = Repository(Api())
     PageLayout("Search",Modifier.backgroundColor(Color.lightcyan)) {
-        val ctx = rememberPageContext()
+//        val ctx = rememberPageContext()
         var schoolMap: Map<String, School> by remember{ mutableStateOf(emptyMap()) }
         var selectedSchool by remember { mutableStateOf("") }
         var selectedDept by remember { mutableStateOf("") }
@@ -75,44 +69,26 @@ fun SearchDept() {
         if(schoolMap.isEmpty())
             return@PageLayout
 
-        CustomForm(
-            Modifier
-//                .backgroundColor(Color.red)
-                .borderRadius(10.px),
+        searchDeptFormContent(
+            selectedDept = selectedDept,
+            selectedCourse = selectedCourse,
+            schoolList = schoolMap.values,
+            deptList = deptList,//schoolMap[selectedSchool]?.depts ?: emptyList(),
+            courseList = courseList,
+            onSelectSchool =
             {
-                val schoolDeptStr = "${selectedSchool}/${selectedDept}"
-                val link =
-                    if (selectedCourse.isBlank() || selectedCourse=="None")
-                        "proflist/$schoolDeptStr"
-                    else
-                        "coursestats/$schoolDeptStr/$selectedCourse"
-                ctx.router.routeTo("/sirs_kobweb/$link")//Ideally route prefix gets removed or is at least a var
-            }
-        ){ submitComposable ->
-            searchDeptFormContent(
-                selectedDept = selectedDept,
-                selectedCourse = selectedCourse,
-                schoolList = schoolMap.values,
-                deptList = deptList,//schoolMap[selectedSchool]?.depts ?: emptyList(),
-                courseList = courseList,
-                onSelectSchool =
-                {
-                    selectedSchool = it
-                    selectedDept = schoolMap[selectedSchool]?.depts?.firstOrNull() ?: ""
-                },
-                onSelectDept = { selectedDept = it },//Note that this activates the launched effect - look for better way
-                onSelectCourse = { selectedCourse=it },
-                submitComposable = submitComposable,
-            )
-        }
-
-        if(selectedCourse.isBlank() || selectedCourse=="None")
-            return@PageLayout
+                selectedSchool = it
+                selectedDept = schoolMap[selectedSchool]?.depts?.firstOrNull() ?: ""
+            },
+            onSelectDept = { selectedDept = it },//Note that this activates the launched effect - look for better way
+            onSelectCourse = { selectedCourse=it },
+        )
 
         // Map<Course,Map<Prof,(Ave Responses,Aves)>>
         // a. Should make this an object
         // b. Should make this part of a function (if not part of ths func)
-        val mapOfCourses = getCourseAvesByProf(deptEntries.filter { it.scores.size>=100 })
+        val profAves = getCourseAvesByProf(deptEntries.filter { it.scores.size>=100 })
+        val mapOfCourses = profAves
             .mapValues { (_,v) ->
                 v.mapValues { (_,listOfAllAnswers) ->
                     listOfAllAnswers.map { it.size }.average().toInt() to
@@ -120,74 +96,66 @@ fun SearchDept() {
                 }
             }
 
-        Div(
-            attrs = SimpleGridStyle
-                .toModifier(gridVariant11)
-                .asAttributesBuilder()
-        ) {
-            val spacing = 175.px
-            (listOf("")+TenQsShortened).forEach {
+        if(selectedCourse.isBlank() || selectedCourse=="None"){
+            val d = getProfAves(deptEntries.filter { it.scores.size>=100 })
+                .mapValues { (_,listOfAllAnswers) ->
+                    val k = listOfAllAnswers.filter { it.isNotEmpty() }
+                    k.map { it.size }.average().toInt() to
+                            k.map { it.average().roundToDecimal(2) }
+                }.filter { it.value.second.size>=10 }
+            profScoresList(d)
+        }
+        else
+            profScoresList(mapOfCourses[selectedCourse])
+    }
+}
+
+@OptIn(ExperimentalComposeWebApi::class)
+@Composable
+fun profScoresList(
+    list:  Map<String, Pair<Int, List<Double>>>?,
+){
+    Div(
+        attrs = SimpleGridStyle
+            .toModifier(gridVariant12)
+            .asAttributesBuilder()
+    ) {
+        val spacing = 175.px
+        (listOf("")+TenQsShortened+"Total # of Responses").forEach {
+            Text(
+                it,
+                Modifier.width(spacing)
+                    .transform { rotate((-40).deg) }
+                    .fontSize(15.px)
+                    .margin(topBottom = 50.px, leftRight = (-45).px)
+                    .textDecorationLine(TextDecorationLine.Underline)
+            )
+        }
+        list
+            ?.toList()
+            ?.sortedBy { -it.second.second[8] }
+            ?.forEach { (prof,nums) ->
                 Text(
-                    it,
-                    Modifier.width(spacing)
-                        .transform { rotate((-40).deg) }
+                    prof,
+                    Modifier.width(175.px)
                         .fontSize(15.px)
-                        .margin(topBottom = 50.px, leftRight = (-45).px)
-                        .textDecorationLine(TextDecorationLine.Underline)
+                        .margin(topBottom = 10.px, leftRight = -spacing/1.5)
                 )
-            }
-            mapOfCourses[selectedCourse]
-                ?.toList()
-                ?.sortedBy { -it.second.second[8] }
-                ?.forEach { (prof,nums) ->
+                nums.second.subList(0,10).forEach {
                     Text(
-                        prof,
+                        it.toString(),
                         Modifier.width(175.px)
                             .fontSize(15.px)
                             .margin(topBottom = 10.px, leftRight = -spacing/2)
                     )
-                    nums.second.subList(0,10).forEach {
-                        Text(
-                            it.toString(),
-                            Modifier.width(175.px)
-                                .fontSize(15.px)
-                                .margin(topBottom = 10.px, leftRight = -spacing/2)
-                        )
-                    }
                 }
-        }
-//        SimpleGrid(numColumns(11), variant = gridVariant11){
-//
-//        }
-
-        //Map<Course,Map<Prof,(Ave Responses,Aves)>>
-//        val mapOfCourses = getCourseAvesByProf(deptEntries.filter { it.scores.size>=100 })
-//            .mapValues { (_,v) ->
-//                v.mapValues { (_,listOfAllAnswers) ->
-//                    listOfAllAnswers.map { it.size }.average().toInt() to
-//                    listOfAllAnswers.map { it.average().roundToDecimal(2) }
-//                }
-//            }
-//        Column(
-//            Modifier
-////                .scrollBehavior(ScrollBehavior.Smooth)
-////                .scrollMargin(50.px)
-//                .height(500.px)//
-//                .width(800.px)
-////                .overflowY(Overflow.Scroll)
-//        ) {
-//            mapOfCourses[selectedCourse]?.toList()
-//                ?.sortedBy { -it.second }
-//                ?.forEach { (k,v) ->
-//                    Box(
-//                        Modifier.fillMaxWidth()
-//                            .height(50.px)
-//                            .backgroundColor(Color.lightcyan)
-//                    ) {
-//                        Text("$k: ${v.roundToDecimal(2)}")
-//                    }
-//                }
-//        }
+                Text(
+                    nums.first.toString(),
+                    Modifier.width(175.px)
+                        .fontSize(15.px)
+                        .margin(topBottom = 10.px, leftRight = -spacing/2)
+                )
+            }
     }
 }
 
@@ -203,7 +171,6 @@ fun searchDeptFormContent(
     onSelectSchool: (String) -> Unit,
     onSelectDept: (String) -> Unit,
     onSelectCourse: (String) -> Unit,
-    submitComposable: @Composable () -> Unit,
 ){
     Column(
         Modifier.alignItems(AlignItems.Center).rowGap(5.px)
@@ -235,6 +202,5 @@ fun searchDeptFormContent(
             onSelect = onSelectCourse,
             selected = selectedCourse
         )
-        submitComposable()
     }
 }
