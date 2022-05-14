@@ -1,13 +1,15 @@
 package io.github.dennistsar.sirs_kobweb.pages
 
 import androidx.compose.runtime.*
+import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.TextDecorationLine
 import com.varabyte.kobweb.compose.foundation.layout.Column
+import com.varabyte.kobweb.compose.foundation.layout.Row
+import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.asAttributesBuilder
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.core.Page
-import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.layout.SimpleGridStyle
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.Text
@@ -19,10 +21,19 @@ import io.github.dennistsar.sirs_kobweb.data.Entry
 import io.github.dennistsar.sirs_kobweb.data.School
 import io.github.dennistsar.sirs_kobweb.logic.getCourseAvesByProf
 import io.github.dennistsar.sirs_kobweb.logic.getProfAves
-import io.github.dennistsar.sirs_kobweb.misc.*
+import io.github.dennistsar.sirs_kobweb.misc.Resource
+import io.github.dennistsar.sirs_kobweb.misc.TenQsShortened
+import io.github.dennistsar.sirs_kobweb.misc.gridVariant12
+import io.github.dennistsar.sirs_kobweb.misc.roundToDecimal
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
+
+fun List<List<Int>>.toTotalAndAvePair(): Pair<Int,List<Double>>{
+    val k = filter { it.isNotEmpty() }
+    return k.map { it.size }.average().toInt() to
+            k.map { it.average().roundToDecimal(2) }
+}
 
 @Page
 @Composable
@@ -87,26 +98,34 @@ fun SearchDept() {
         // Map<Course,Map<Prof,(Ave Responses,Aves)>>
         // a. Should make this an object
         // b. Should make this part of a function (if not part of ths func)
-        val profAves = getCourseAvesByProf(deptEntries.filter { it.scores.size>=100 })
-        val mapOfCourses = profAves
-            .mapValues { (_,v) ->
-                v.mapValues { (_,listOfAllAnswers) ->
-                    listOfAllAnswers.map { it.size }.average().toInt() to
-                            listOfAllAnswers.map { it.average().roundToDecimal(2) }
-                }
-            }
+
 
         if(selectedCourse.isBlank() || selectedCourse=="None"){
             val d = getProfAves(deptEntries.filter { it.scores.size>=100 })
-                .mapValues { (_,listOfAllAnswers) ->
-                    val k = listOfAllAnswers.filter { it.isNotEmpty() }
-                    k.map { it.size }.average().toInt() to
-                            k.map { it.average().roundToDecimal(2) }
-                }.filter { it.value.second.size>=10 }
-            profScoresList(d)
+                .mapValues { it.value.toTotalAndAvePair() }
+                .filter { it.value.second.size>=10 }
+            console.log(d.values.size)
+            console.log(d.values.count { it.first>20 })
+            profScoresList(d.toList().take(500).toMap())
+//            console.log(d.keys.lastOrNull())
         }
-        else
-            profScoresList(mapOfCourses[selectedCourse])
+        else {
+//            val mapOfCourses = profAves
+//                .mapValues { (_,v) ->
+//                    v.mapValues { (_,listOfAllAnswers) ->
+//                        val k = listOfAllAnswers.filter { it.isNotEmpty() }
+//                        k.map { it.size }.average().toInt() to
+//                                k.map { it.average().roundToDecimal(2) }
+//                    }
+//                }
+//            profScoresList(mapOfCourses[selectedCourse])
+            val profAves = getCourseAvesByProf(deptEntries.filter { it.scores.size>=100 })
+            profScoresList(
+                profAves[selectedCourse]
+                    ?.mapValues { it.value.toTotalAndAvePair() }
+                    ?.filter { it.value.second.size>=10 }
+            )
+        }
     }
 }
 
@@ -131,31 +150,23 @@ fun profScoresList(
                     .textDecorationLine(TextDecorationLine.Underline)
             )
         }
-        list
-            ?.toList()
-            ?.sortedBy { -it.second.second[8] }
-            ?.forEach { (prof,nums) ->
-                Text(
-                    prof,
-                    Modifier.width(175.px)
-                        .fontSize(15.px)
-                        .margin(topBottom = 10.px, leftRight = -spacing/1.5)
-                )
-                nums.second.subList(0,10).forEach {
-                    Text(
-                        it.toString(),
-                        Modifier.width(175.px)
-                            .fontSize(15.px)
-                            .margin(topBottom = 10.px, leftRight = -spacing/2)
-                    )
+
+        val gridElementModifier =
+            Modifier.width(spacing)
+                .fontSize(15.px)
+                .margin(topBottom = 10.px, leftRight = -spacing/1.5)
+
+        list?.run {
+            toList()
+                .sortedBy { -it.second.second[8] }
+                .forEach { (prof, nums) ->
+                    Text(prof, gridElementModifier)
+                    nums.second.subList(0, 10).forEach {
+                        Text(it.toString(), gridElementModifier)
+                    }
+                    Text(nums.first.toString(), gridElementModifier)
                 }
-                Text(
-                    nums.first.toString(),
-                    Modifier.width(175.px)
-                        .fontSize(15.px)
-                        .margin(topBottom = 10.px, leftRight = -spacing/2)
-                )
-            }
+        }
     }
 }
 
@@ -172,15 +183,24 @@ fun searchDeptFormContent(
     onSelectDept: (String) -> Unit,
     onSelectCourse: (String) -> Unit,
 ){
-    Column(
-        Modifier.alignItems(AlignItems.Center).rowGap(5.px)
-    ) {
-        val modifier2 = Modifier.fillMaxSize()
+    val modifier2 = Modifier.fillMaxSize()
 //            .backgroundColor(Color.chocolate)
-        val modifier1 = Modifier//.backgroundColor(Color.palevioletred)
+    val modifier1 = Modifier//.backgroundColor(Color.palevioletred)
+    val labelModifier = Modifier.fontWeight(FontWeight.Bold).padding(2.px,0.px)
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text("School",
+            labelModifier
+                .alignSelf(AlignSelf.Start),
+        )
 
         CustomDropDown(
-            selectModifier = modifier1.borderRadius(50.px),
+            selectModifier =
+            modifier1.borderRadius(50.px)
+                .fillMaxWidth()
+                .background("#ddd"),
             optionModifier = modifier2,
             list = schoolList,
             onSelect = onSelectSchool,
@@ -188,19 +208,37 @@ fun searchDeptFormContent(
             getValue = { it.code },
 //            selected = schoolList.firstOrNull()
         )
-        CustomDropDown(
-            selectModifier = modifier1,
-            optionModifier = modifier2,
-            list = deptList,
-            onSelect = onSelectDept,
-            selected = selectedDept
-        )
-        CustomDropDown(
-            selectModifier = modifier1,
-            optionModifier = modifier2,
-            list = courseList,
-            onSelect = onSelectCourse,
-            selected = selectedCourse
-        )
+
+        Row(
+            Modifier.alignContent(AlignContent.SpaceEvenly)
+        ) {
+            Column(
+                Modifier.margin(topBottom = 5.px, leftRight = 25.px)
+            ){
+                Text("Department", labelModifier)
+
+                CustomDropDown(
+                    selectModifier = modifier1.width(125.px),
+                    optionModifier = modifier2,
+                    list = deptList,
+                    onSelect = onSelectDept,
+                    selected = selectedDept,
+                )
+            }
+
+            Column(
+                Modifier.margin(topBottom = 5.px, leftRight = 25.px)
+            ) {
+                Text("Course (Optional)", labelModifier)
+
+                CustomDropDown(
+                    selectModifier = modifier1.width(125.px),
+                    optionModifier = modifier2,
+                    list = courseList,
+                    onSelect = onSelectCourse,
+                    selected = selectedCourse,
+                )
+            }
+        }
     }
 }

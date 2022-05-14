@@ -22,15 +22,12 @@ fun getProfAves(entries: List<Entry>): Map<String, List<List<Int>>> {
         .filterKeys { it.isNotEmpty() && it != "TA" }
 
     val profRatings = mapOfProfs.filter { it.value.isNotEmpty() }
-        .mapValues { (k, v) ->
+        .mapValues { (_, v) ->
             v.map { i ->
                 i.scores.chunked(10)//grouped by question
                     .map {
-                        it.flatMapIndexed { index, k ->
-                            if (index in 0..4)
-                                List(k.toInt()) { index + 1 }
-                            else
-                                emptyList()
+                        it.subList(0,5).flatMapIndexed{ index, d ->
+                            List(d.toInt()) { index + 1 }
                         }
                     }//maps to all answers as list
                 //ex. 2 5s and 3 4s gives [5,5,4,4,4]

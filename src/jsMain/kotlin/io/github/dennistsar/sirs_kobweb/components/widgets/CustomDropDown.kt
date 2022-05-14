@@ -6,8 +6,6 @@ import com.varabyte.kobweb.compose.ui.asAttributesBuilder
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
 import com.varabyte.kobweb.silk.components.text.Text
 import org.jetbrains.compose.web.attributes.selected
-import org.jetbrains.compose.web.css.Color
-import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.dom.Option
 import org.jetbrains.compose.web.dom.Select
 
@@ -32,7 +30,7 @@ fun<T> CustomDropDown(
             Option(
                 getValue(it),
                 optionModifier.asAttributesBuilder {
-                    if(it==selected) selected()
+                    if (it == selected) selected()
                 }
             ) {
                 Text(getText(it))
