@@ -24,16 +24,11 @@ import io.github.dennistsar.sirs_kobweb.logic.getProfAves
 import io.github.dennistsar.sirs_kobweb.misc.Resource
 import io.github.dennistsar.sirs_kobweb.misc.TenQsShortened
 import io.github.dennistsar.sirs_kobweb.misc.gridVariant12
-import io.github.dennistsar.sirs_kobweb.misc.roundToDecimal
+import io.github.dennistsar.sirs_kobweb.misc.toTotalAndAvesPair
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
-
-fun List<List<Int>>.toTotalAndAvePair(): Pair<Int,List<Double>>{
-    val k = filter { it.isNotEmpty() }
-    return k.map { it.size }.average().toInt() to
-            k.map { it.average().roundToDecimal(2) }
-}
 
 @Page
 @Composable
@@ -41,6 +36,8 @@ fun SearchDept() {
     val repository = Repository(Api())
     PageLayout("Search",Modifier.backgroundColor(Color.lightcyan)) {
 //        val ctx = rememberPageContext()
+        val myCoroutineScope = rememberCoroutineScope()
+
         var schoolMap: Map<String, School> by remember{ mutableStateOf(emptyMap()) }
         var selectedSchool by remember { mutableStateOf("") }
         var selectedDept by remember { mutableStateOf("") }
@@ -51,30 +48,30 @@ fun SearchDept() {
         var deptEntries: List<Entry> by remember { mutableStateOf(emptyList()) }
         var courseList: List<String> by remember { mutableStateOf(emptyList()) }
 
-        LaunchedEffect(true){
-            console.log("making req")
-            repository.getSchoolMap()
-                .takeIf { it is Resource.Success }
-                ?.run {
-                    data?.let { map ->
-                        schoolMap = map
-                        val (code,school) = map.entries.first()
-                        selectedSchool = code
-                        selectedDept = school.depts.firstOrNull() ?: ""
-                    }
-                }
-        }
-
-        LaunchedEffect(selectedDept){
-            console.log("launched effect 2")
+        val updateSelectedDept: (String?) -> Unit = fun(str) {
+            console.log("updating dept: $str")
+            selectedDept = str ?: ""
             deptList = schoolMap[selectedSchool]?.depts ?: emptyList()
             selectedCourse = "None"
-            deptEntries =
-                if ((selectedSchool + selectedDept).isNotBlank())
-                    repository.getEntries(selectedSchool, selectedDept)
-                        .takeIf { it is Resource.Success }?.data ?: emptyList()
-                else emptyList()
-            courseList = listOf("None") + getCourseAvesByProf(deptEntries).keys.sorted()
+            if(str==null)
+                return
+            myCoroutineScope.launch {
+                deptEntries = repository.getEntries(selectedSchool, selectedDept)
+                    .takeIf { it is Resource.Success }
+                    ?.data ?: emptyList()
+                courseList = listOf("None") + getCourseAvesByProf(deptEntries).keys.sorted()
+            }
+        }
+
+        LaunchedEffect(true){
+            console.log("making req")
+            schoolMap =
+                repository.getSchoolMap()
+                    .takeIf { it is Resource.Success }
+                    ?.data ?: emptyMap()
+            val firstSchool = schoolMap["01"]!!//.firstNotNullOf{ it }//entries.first()//idk about the !!//maybe have no default??
+            selectedSchool = firstSchool.code
+            updateSelectedDept(firstSchool.depts.firstOrNull())
         }
 
         if(schoolMap.isEmpty())
@@ -89,50 +86,34 @@ fun SearchDept() {
             onSelectSchool =
             {
                 selectedSchool = it
-                selectedDept = schoolMap[selectedSchool]?.depts?.firstOrNull() ?: ""
+                updateSelectedDept(schoolMap[selectedSchool]?.run{ depts.firstOrNull() })
             },
-            onSelectDept = { selectedDept = it },//Note that this activates the launched effect - look for better way
-            onSelectCourse = { selectedCourse=it },
+            onSelectDept = { updateSelectedDept(it) },
+            onSelectCourse = { selectedCourse = it },
         )
 
-        // Map<Course,Map<Prof,(Ave Responses,Aves)>>
-        // a. Should make this an object
-        // b. Should make this part of a function (if not part of ths func)
+        if(deptEntries.isEmpty())
+            return@PageLayout
 
-
-        if(selectedCourse.isBlank() || selectedCourse=="None"){
-            val d = getProfAves(deptEntries.filter { it.scores.size>=100 })
-                .mapValues { it.value.toTotalAndAvePair() }
-                .filter { it.value.second.size>=10 }
-            console.log(d.values.size)
-            console.log(d.values.count { it.first>20 })
-            profScoresList(d.toList().take(500).toMap())
-//            console.log(d.keys.lastOrNull())
-        }
-        else {
-//            val mapOfCourses = profAves
-//                .mapValues { (_,v) ->
-//                    v.mapValues { (_,listOfAllAnswers) ->
-//                        val k = listOfAllAnswers.filter { it.isNotEmpty() }
-//                        k.map { it.size }.average().toInt() to
-//                                k.map { it.average().roundToDecimal(2) }
-//                    }
-//                }
-//            profScoresList(mapOfCourses[selectedCourse])
-            val profAves = getCourseAvesByProf(deptEntries.filter { it.scores.size>=100 })
-            profScoresList(
-                profAves[selectedCourse]
-                    ?.mapValues { it.value.toTotalAndAvePair() }
-                    ?.filter { it.value.second.size>=10 }
-            )
-        }
+        deptEntries
+            .filter { it.scores.size >= 100 }
+            .let {
+                if(selectedCourse.isBlank() || selectedCourse=="None")
+                    getProfAves(it)
+                else
+                    getCourseAvesByProf(it)[selectedCourse]//!! maybe but edge case where all entries are invalid?
+            }?.run {
+                profScoresList(
+                    mapValues { it.value.toTotalAndAvesPair() }
+                )
+            }
     }
 }
 
 @OptIn(ExperimentalComposeWebApi::class)
 @Composable
 fun profScoresList(
-    list:  Map<String, Pair<Int, List<Double>>>?,
+    list:  Map<String, Pair<Int, List<Double>>>,
 ){
     Div(
         attrs = SimpleGridStyle
@@ -154,19 +135,18 @@ fun profScoresList(
         val gridElementModifier =
             Modifier.width(spacing)
                 .fontSize(15.px)
-                .margin(topBottom = 10.px, leftRight = -spacing/1.5)
+                .margin(topBottom = 10.px, leftRight = -spacing/2)
 
-        list?.run {
-            toList()
-                .sortedBy { -it.second.second[8] }
-                .forEach { (prof, nums) ->
-                    Text(prof, gridElementModifier)
-                    nums.second.subList(0, 10).forEach {
-                        Text(it.toString(), gridElementModifier)
-                    }
-                    Text(nums.first.toString(), gridElementModifier)
+        list.entries
+            .sortedBy { -it.value.second[8] }
+            .take(300)//for performance reasons
+            .forEach { (prof, nums) ->
+                Text(prof, gridElementModifier)
+                nums.second.subList(0, 10).forEach {
+                    Text(it.toString(), gridElementModifier)
                 }
-        }
+                Text(nums.first.toString(), gridElementModifier)
+            }
     }
 }
 

@@ -3,16 +3,16 @@ package io.github.dennistsar.sirs_kobweb.logic
 import io.github.dennistsar.sirs_kobweb.data.Entry
 
 fun getCourseAvesByProf(entries: List<Entry>): Map<String,Map<String,List<List<Int>>>>{
+    //Currently, a not-ideal approach to try to only show profs and not TAs - probably should be a boolean or just marked somehow
+    val isLecture: (Entry) -> Boolean = { it.courseName.contains("Lecture") || it.note!=null }
     return entries
         .groupBy {
-        it.code.split(":")
-            .getOrElse(2){""}
+            it.code.split(":")
+                .getOrElse(2){""}
         }.mapValues { (_,v) ->
-            val a = v.any { it.courseName.contains("Lecture") || it.note!=null }
-            if(a)
-                getProfAves(v.filter { it.courseName.contains("Lecture") || it.note!=null })
-            else
-                getProfAves(v)
+            getProfAves(
+                v.filter(isLecture).ifEmpty { v }
+            )
         }
 }
 
@@ -41,23 +41,10 @@ fun getProfAves(entries: List<Entry>): Map<String, List<List<Int>>> {
 //    if (profRatings.isEmpty())
 //        return null
 
-    val d = (0..9).map { i ->
+    val aves = (0..9).map { i ->
         profRatings.values.filter { it.size>=10 }.map { it[i] }.flatten()
     }
-    return profRatings+Pair("Average",d)
-
-//    val profAves = profRatings.map {
-//        val row = it.value[8]//This is the teaching effectiveness question
-//        Pair(it.key,Pair(row.average().roundToDecimal(2),row.size))
-//    }
-
-//    val deptAve = profAves.map { it.second.first }.average().roundToDecimal(2)
-//    val totalNum = profAves.sumOf { it.second.second }
-//
-//    val csv =  (profAves + Pair("Average", Pair(deptAve,totalNum)))
-//        .sortedBy { -it.second.first }
-//        .joinToString("\n") { "${it.first};${it.second.first};${it.second.second}" }
-//    return "Professor;Rating;Total Responses\n$csv"
+    return profRatings+Pair("Average",aves)
 }
 
 fun formatName(name: String): String{
