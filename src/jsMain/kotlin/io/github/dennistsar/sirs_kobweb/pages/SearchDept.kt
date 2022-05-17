@@ -3,6 +3,7 @@ package io.github.dennistsar.sirs_kobweb.pages
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.TextDecorationLine
+import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
@@ -120,28 +121,47 @@ fun profScoresList(
             .toModifier(gridVariant12)
             .asAttributesBuilder()
     ) {
-        val spacing = 175.px
+        val spacing = 80.px
+        val fontSize = 15.px
         (listOf("")+TenQsShortened+"Total # of Responses").forEach {
-            Text(
-                it,
+            Box(
                 Modifier.width(spacing)
-                    .transform { rotate((-40).deg) }
-                    .fontSize(15.px)
-                    .margin(topBottom = 50.px, leftRight = (-45).px)
-                    .textDecorationLine(TextDecorationLine.Underline)
-            )
+            ){
+                Text(
+                    it,
+                    Modifier
+                        .width(175.px)
+                        .transform { rotate((-45).deg) }
+                        .fontSize(fontSize)
+                        .margin(topBottom = 50.px, leftRight = (-18).px)
+                        .textDecorationLine(TextDecorationLine.Underline)
+                )
+            }
         }
 
         val gridElementModifier =
             Modifier.width(spacing)
-                .fontSize(15.px)
-                .margin(topBottom = 10.px, leftRight = -spacing/2)
+                .fontSize(fontSize)
+                .margin(topBottom = 7.5.px, leftRight = 0.px)
+                .alignSelf(AlignSelf.Center)
+//                .overflowWrap(OverflowWrap.BreakWord)
 
         list.entries
             .sortedBy { -it.value.second[8] }
             .take(300)//for performance reasons
             .forEach { (prof, nums) ->
-                Text(prof, gridElementModifier)
+                Box(gridElementModifier){
+                    val offset = 40.px
+                    Text(prof,
+                        Modifier
+                            .margin(left=-offset)
+                            .width(spacing+offset)
+                            .onClick {
+                                console.log(prof)
+                            }
+                    )
+                }
+
                 nums.second.subList(0, 10).forEach {
                     Text(it.toString(), gridElementModifier)
                 }
@@ -172,8 +192,7 @@ fun searchDeptFormContent(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text("School",
-            labelModifier
-                .alignSelf(AlignSelf.Start),
+            labelModifier.alignSelf(AlignSelf.Start),
         )
 
         CustomDropDown(
