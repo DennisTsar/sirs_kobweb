@@ -14,7 +14,8 @@ import io.github.dennistsar.sirs_kobweb.api.Api
 import io.github.dennistsar.sirs_kobweb.api.Repository
 import io.github.dennistsar.sirs_kobweb.components.layouts.PageLayout
 import io.github.dennistsar.sirs_kobweb.data.Entry
-import io.github.dennistsar.sirs_kobweb.logic.getProfAves
+import io.github.dennistsar.sirs_kobweb.logic.mapByProfs
+import io.github.dennistsar.sirs_kobweb.logic.toProfScores
 import io.github.dennistsar.sirs_kobweb.misc.roundToDecimal
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.percent
@@ -35,7 +36,7 @@ fun ProfList() {
         LaunchedEffect(true) {
             entries = repository.getEntries(school, dept).data?.filter { it.scores.size>=80 }
                 ?: emptyList()
-            profRatings = getProfAves(entries)
+            profRatings = entries.mapByProfs().toProfScores()
             console.log("making req${entries.size}")
         }
 

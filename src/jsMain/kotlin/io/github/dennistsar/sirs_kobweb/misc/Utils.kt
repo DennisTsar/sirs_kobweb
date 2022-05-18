@@ -6,15 +6,19 @@ import kotlinx.coroutines.coroutineScope
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
-fun String.substringAfterBefore(after: String, before: String): String
-    = substringAfter(after).substringBefore(before)
 
-fun Double.roundToDecimal(dec : Int): Double
-    = (this * 10.0.pow(dec)).roundToInt()/10.0.pow(dec)
+typealias ProfScores = Map<String,List<List<Int>>>
+fun String.substringAfterBefore(after: String, before: String): String =
+    substringAfter(after).substringBefore(before)
+
+fun String.isBlankOrNone() = isBlank() || equals("None")
+
+fun Double.roundToDecimal(dec : Int): Double =
+    (this * 10.0.pow(dec)).roundToInt()/10.0.pow(dec)
 
 //Stolen from te interwebs
-suspend fun <A, B> Iterable<A>.pmap(f: suspend (A) -> B): List<B>
-    = coroutineScope {
+suspend fun <A, B> Iterable<A>.pmap(f: suspend (A) -> B): List<B> =
+    coroutineScope {
         map { async { f(it) } }.awaitAll()
     }
 

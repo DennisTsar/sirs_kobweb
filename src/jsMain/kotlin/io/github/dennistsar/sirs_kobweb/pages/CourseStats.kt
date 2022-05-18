@@ -16,7 +16,9 @@ import io.github.dennistsar.sirs_kobweb.api.Repository
 import io.github.dennistsar.sirs_kobweb.components.layouts.PageLayout
 import io.github.dennistsar.sirs_kobweb.components.widgets.CustomDropDown
 import io.github.dennistsar.sirs_kobweb.data.Entry
-import io.github.dennistsar.sirs_kobweb.logic.getCourseAvesByProf
+import io.github.dennistsar.sirs_kobweb.logic.mapByCourses
+import io.github.dennistsar.sirs_kobweb.logic.mapByProfs
+import io.github.dennistsar.sirs_kobweb.logic.toProfScores
 import io.github.dennistsar.sirs_kobweb.misc.roundToDecimal
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.px
@@ -40,9 +42,9 @@ fun CourseStats() {
             entries = repository.getEntries(school, dept).data?.filter { it.scores.size>=80 }
 //                    ?.filter { it.courseName.contains("Lecture") || it.indexNum }
                 ?: emptyList()
-            mapOfCourses = getCourseAvesByProf(entries)
+            mapOfCourses = entries.mapByCourses()
                 .mapValues { (_,v) ->
-                    v.mapValues { it.value[8].average() }
+                    v.mapByProfs().toProfScores().mapValues { it.value[8].average() }
                 }
 //                    .mapKeys { it.key.split(":")[2] }
             console.log("making req${entries.size}")

@@ -20,12 +20,10 @@ import io.github.dennistsar.sirs_kobweb.components.layouts.PageLayout
 import io.github.dennistsar.sirs_kobweb.components.widgets.CustomDropDown
 import io.github.dennistsar.sirs_kobweb.data.Entry
 import io.github.dennistsar.sirs_kobweb.data.School
-import io.github.dennistsar.sirs_kobweb.logic.getCourseAvesByProf
-import io.github.dennistsar.sirs_kobweb.logic.getProfAves
-import io.github.dennistsar.sirs_kobweb.misc.Resource
-import io.github.dennistsar.sirs_kobweb.misc.TenQsShortened
-import io.github.dennistsar.sirs_kobweb.misc.gridVariant12
-import io.github.dennistsar.sirs_kobweb.misc.toTotalAndAvesPair
+import io.github.dennistsar.sirs_kobweb.logic.mapByCourses
+import io.github.dennistsar.sirs_kobweb.logic.mapByProfs
+import io.github.dennistsar.sirs_kobweb.logic.toProfScores
+import io.github.dennistsar.sirs_kobweb.misc.*
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
@@ -43,24 +41,24 @@ fun SearchDept() {
         var selectedSchool by remember { mutableStateOf("") }
         var selectedDept by remember { mutableStateOf("") }
         var selectedCourse by remember { mutableStateOf("") }
-
-        var deptList: List<String> by remember { mutableStateOf(emptyList()) }
+        var selectedProf by remember { mutableStateOf("") }
 
         var deptEntries: List<Entry> by remember { mutableStateOf(emptyList()) }
-        var courseList: List<String> by remember { mutableStateOf(emptyList()) }
+        var mapOfProfs: Map<String,List<Entry>> by remember { mutableStateOf(emptyMap()) }
+        var mapOfCourses: Map<String,List<Entry>>  by remember { mutableStateOf(emptyMap()) }
 
         val updateSelectedDept: (String?) -> Unit = fun(str) {
-            console.log("updating dept: $str")
-            selectedDept = str ?: ""
-            deptList = schoolMap[selectedSchool]?.depts ?: emptyList()
+            console.log("updating dept2: $str")
             selectedCourse = "None"
-            if(str==null)
-                return
+            selectedProf = "None"
+            selectedDept = str ?: "".also { return } // Returns if str is null - kinda cool but a little weird
             myCoroutineScope.launch {
                 deptEntries = repository.getEntries(selectedSchool, selectedDept)
                     .takeIf { it is Resource.Success }
-                    ?.data ?: emptyList()
-                courseList = listOf("None") + getCourseAvesByProf(deptEntries).keys.sorted()
+                    ?.data
+                    ?.filter { it.scores.size >= 100 } ?: emptyList()
+                mapOfProfs = deptEntries.mapByProfs()
+                mapOfCourses = deptEntries.mapByCourses()
             }
         }
 
@@ -75,39 +73,43 @@ fun SearchDept() {
             updateSelectedDept(firstSchool.depts.firstOrNull())
         }
 
-        if(schoolMap.isEmpty())
+        if (schoolMap.isEmpty())
             return@PageLayout
 
         searchDeptFormContent(
             selectedDept = selectedDept,
             selectedCourse = selectedCourse,
-            schoolList = schoolMap.values,
-            deptList = deptList,//schoolMap[selectedSchool]?.depts ?: emptyList(),
-            courseList = courseList,
+            selectedProf = selectedProf,
+            schools = schoolMap.values,
+            depts = schoolMap[selectedSchool]!!.depts,
+            courses = listOf("None") + mapOfCourses.keys.sorted(),
+            profs = listOf("None") + mapOfProfs.keys.sorted(),
             onSelectSchool =
             {
                 selectedSchool = it
-                updateSelectedDept(schoolMap[selectedSchool]?.run{ depts.firstOrNull() })
+                updateSelectedDept(schoolMap[selectedSchool]!!.depts.firstOrNull())
             },
             onSelectDept = { updateSelectedDept(it) },
             onSelectCourse = { selectedCourse = it },
+            onSelectProf = { selectedProf = it },
         )
 
-        if(deptEntries.isEmpty())
+        if (deptEntries.isEmpty())
             return@PageLayout
 
-        deptEntries
-            .filter { it.scores.size >= 100 }
-            .let {
-                if(selectedCourse.isBlank() || selectedCourse=="None")
-                    getProfAves(it)
-                else
-                    getCourseAvesByProf(it)[selectedCourse]//!! maybe but edge case where all entries are invalid?
-            }?.run {
-                profScoresList(
-                    mapValues { it.value.toTotalAndAvesPair() }
-                )
-            }
+        if (!selectedProf.isBlankOrNone())
+            Text(selectedProf)
+
+        val mapOfEntries =
+            if (selectedCourse.isBlankOrNone())
+                mapOfProfs
+            else
+                mapOfCourses[selectedCourse]!!.mapByProfs()
+        profScoresList(
+            mapOfEntries
+                .toProfScores()
+                .mapValues { it.value.toTotalAndAvesPair() }
+        ){}
     }
 }
 
@@ -115,6 +117,7 @@ fun SearchDept() {
 @Composable
 fun profScoresList(
     list:  Map<String, Pair<Int, List<Double>>>,
+    onNameClick: (String) -> Unit,
 ){
     Div(
         attrs = SimpleGridStyle
@@ -156,12 +159,9 @@ fun profScoresList(
                         Modifier
                             .margin(left=-offset)
                             .width(spacing+offset)
-                            .onClick {
-                                console.log(prof)
-                            }
+                            .onClick { onNameClick(prof) }
                     )
                 }
-
                 nums.second.subList(0, 10).forEach {
                     Text(it.toString(), gridElementModifier)
                 }
@@ -176,12 +176,15 @@ fun searchDeptFormContent(
     //Maybe should include selectedSchool too but not practically necessary
     selectedDept: String,
     selectedCourse: String,
-    schoolList: Collection<School>,
-    deptList: Collection<String>,
-    courseList: Collection<String>,
+    selectedProf: String,
+    schools: Collection<School>,
+    depts: Collection<String>,
+    courses: Collection<String>,
+    profs: Collection<String>,
     onSelectSchool: (String) -> Unit,
     onSelectDept: (String) -> Unit,
     onSelectCourse: (String) -> Unit,
+    onSelectProf: (String) -> Unit,
 ){
     val modifier2 = Modifier.fillMaxSize()
 //            .backgroundColor(Color.chocolate)
@@ -201,7 +204,7 @@ fun searchDeptFormContent(
                 .fillMaxWidth()
                 .background("#ddd"),
             optionModifier = modifier2,
-            list = schoolList,
+            list = schools,
             onSelect = onSelectSchool,
             getText = { "${it.code} - ${it.name}" },
             getValue = { it.code },
@@ -219,7 +222,7 @@ fun searchDeptFormContent(
                 CustomDropDown(
                     selectModifier = modifier1.width(125.px),
                     optionModifier = modifier2,
-                    list = deptList,
+                    list = depts,
                     onSelect = onSelectDept,
                     selected = selectedDept,
                 )
@@ -233,9 +236,22 @@ fun searchDeptFormContent(
                 CustomDropDown(
                     selectModifier = modifier1.width(125.px),
                     optionModifier = modifier2,
-                    list = courseList,
+                    list = courses,
                     onSelect = onSelectCourse,
                     selected = selectedCourse,
+                )
+            }
+
+            Column(
+                Modifier.margin(topBottom = 5.px, leftRight = 25.px)
+            ) {
+                Text("Prof (Optional)", labelModifier)
+
+                CustomDropDown(
+                    selectModifier = Modifier.width(125.px),
+                    list = profs,
+                    onSelect = onSelectProf,
+                    selected = selectedProf,
                 )
             }
         }

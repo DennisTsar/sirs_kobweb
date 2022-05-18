@@ -1,32 +1,27 @@
 package io.github.dennistsar.sirs_kobweb.logic
 
 import io.github.dennistsar.sirs_kobweb.data.Entry
+import io.github.dennistsar.sirs_kobweb.misc.ProfScores
 
-fun getCourseAvesByProf(entries: List<Entry>): Map<String,Map<String,List<List<Int>>>>{
+
+fun List<Entry>.mapByCourses(): Map<String, List<Entry>> {
     //Currently, a not-ideal approach to try to only show profs and not TAs - probably should be a boolean or just marked somehow
-    val isLecture: (Entry) -> Boolean = { it.courseName.contains("Lecture") || it.note!=null }
-    return entries
-        .groupBy {
+    return groupBy {
             it.code.split(":")
                 .getOrElse(2){""}
         }.mapValues { (_,v) ->
-            getProfAves(
-                v.filter(isLecture).ifEmpty { v }
-            )
+            v.filter { it.courseName.contains("Lecture") || it.note!=null }
+                .ifEmpty { v }
         }
 }
 
-fun getProfAves(entries: List<Entry>): Map<String, List<List<Int>>> {
-    val names = entries.map { formatName(it.instructor) }
-    val mapOfProfs = entries.groupBy { parseName(it.instructor, names) }
-        .filterKeys { it.isNotEmpty() && it != "TA" }
-
-    val profRatings = mapOfProfs.filter { it.value.isNotEmpty() }
+fun Map<String, List<Entry>>.toProfScores(): ProfScores {
+    val profRatings = filter { it.value.isNotEmpty() }
         .mapValues { (_, v) ->
             v.map { i ->
                 i.scores.chunked(10)//grouped by question
                     .map {
-                        it.subList(0,5).flatMapIndexed{ index, d ->
+                        it.subList(0,5).flatMapIndexed { index, d ->
                             List(d.toInt()) { index + 1 }
                         }
                     }//maps to all answers as list
@@ -47,8 +42,16 @@ fun getProfAves(entries: List<Entry>): Map<String, List<List<Int>>> {
     return profRatings+Pair("Average",aves)
 }
 
+fun List<Entry>.mapByProfs(): Map<String, List<Entry>> {
+    val names = map { formatName(it.instructor) }
+    return groupBy { parseName(it.instructor, names) }
+        .filterKeys { it.isNotEmpty() && it != "TA" }
+}
+
+//fun List<Entry>.toProfScores(): ProfScores = toMapOfProfs().toProfScores()
+
 fun formatName(name: String): String{
-    return name.replace(Regex(" \\(.*\\)|[,]"),"")//removes stuff in parentheses & removes commas
+    return name.replace(Regex(" \\(.*\\)|,"),"")//removes stuff in parentheses & removes commas
         .split(" ")
         .run {
             get(0) + (getOrNull(1)?.let { ", ${it.first()}" } ?: "")//Adds first initial if present
@@ -58,7 +61,7 @@ fun formatName(name: String): String{
 //This exists so that "Smith" and "Smith, John" are grouped together IFF John is the only Smith in the department
 fun parseName(name: String, names: List<String>): String{
     with(formatName(name)){
-        if(contains(','))
+        if (contains(','))
             return this
 
         val filtered = names.filter {
