@@ -11,6 +11,7 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.asAttributesBuilder
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.core.Page
+import com.varabyte.kobweb.silk.components.graphics.Image
 import com.varabyte.kobweb.silk.components.layout.SimpleGridStyle
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.Text
@@ -47,7 +48,10 @@ fun SearchDept() {
         var mapOfProfs: Map<String,List<Entry>> by remember { mutableStateOf(emptyMap()) }
         var mapOfCourses: Map<String,List<Entry>>  by remember { mutableStateOf(emptyMap()) }
 
+        var profListLoading by remember { mutableStateOf(true) }
+
         val updateSelectedDept: (String?) -> Unit = fun(str) {
+            profListLoading = true
             console.log("updating dept2: $str")
             selectedCourse = "None"
             selectedProf = "None"
@@ -76,23 +80,41 @@ fun SearchDept() {
         if (schoolMap.isEmpty())
             return@PageLayout
 
-        searchDeptFormContent(
-            selectedDept = selectedDept,
-            selectedCourse = selectedCourse,
-            selectedProf = selectedProf,
-            schools = schoolMap.values,
-            depts = schoolMap[selectedSchool]!!.depts,
-            courses = listOf("None") + mapOfCourses.keys.sorted(),
-            profs = listOf("None") + mapOfProfs.keys.sorted(),
-            onSelectSchool =
-            {
-                selectedSchool = it
-                updateSelectedDept(schoolMap[selectedSchool]!!.depts.firstOrNull())
-            },
-            onSelectDept = { updateSelectedDept(it) },
-            onSelectCourse = { selectedCourse = it },
-            onSelectProf = { selectedProf = it },
-        )
+        Box(Modifier
+            .fillMaxWidth()
+            .display(DisplayStyle.Flex)
+            .alignItems(AlignItems.Center)
+        ) {
+            Box(Modifier.flex(1))
+            Box{
+                searchDeptFormContent(
+                    selectedDept = selectedDept,
+                    selectedCourse = selectedCourse,
+                    selectedProf = selectedProf,
+                    schools = schoolMap.values,
+                    depts = schoolMap[selectedSchool]!!.depts,
+                    courses = listOf("None") + mapOfCourses.keys.sorted(),
+                    profs = listOf("None") + mapOfProfs.keys.sorted(),
+                    onSelectSchool =
+                    {
+                        selectedSchool = it
+                        updateSelectedDept(schoolMap[selectedSchool]!!.depts.firstOrNull())
+                    },
+                    onSelectDept = { updateSelectedDept(it) },
+                    onSelectCourse = { selectedCourse = it },
+                    onSelectProf = { selectedProf = it },
+                )
+            }
+            Box(Modifier.flex(1)) loading@{
+                if(!profListLoading)
+                    return@loading
+                Image(
+                    "circle_loading.gif",
+                    "Loading",
+                    Modifier.size(75.px)
+                )
+            }
+        }
 
         if (deptEntries.isEmpty())
             return@PageLayout
@@ -105,11 +127,15 @@ fun SearchDept() {
                 mapOfProfs
             else
                 mapOfCourses[selectedCourse]!!.mapByProfs()
+
         profScoresList(
             mapOfEntries
                 .toProfScores()
-                .mapValues { it.value.toTotalAndAvesPair() }
-        ){}
+                .mapValues { it.value.toTotalAndAvesPair() },
+        ) {
+            console.log("hi")
+            profListLoading = false
+        }
     }
 }
 
@@ -117,7 +143,7 @@ fun SearchDept() {
 @Composable
 fun profScoresList(
     list:  Map<String, Pair<Int, List<Double>>>,
-    onNameClick: (String) -> Unit,
+    onLoad: () -> Unit,
 ){
     Div(
         attrs = SimpleGridStyle
@@ -159,7 +185,7 @@ fun profScoresList(
                         Modifier
                             .margin(left=-offset)
                             .width(spacing+offset)
-                            .onClick { onNameClick(prof) }
+//                            .onClick { onLoad(prof) }
                     )
                 }
                 nums.second.subList(0, 10).forEach {
@@ -167,6 +193,7 @@ fun profScoresList(
                 }
                 Text(nums.first.toString(), gridElementModifier)
             }
+        onLoad()
     }
 }
 
