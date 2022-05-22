@@ -25,6 +25,7 @@ import io.github.dennistsar.sirs_kobweb.logic.mapByCourses
 import io.github.dennistsar.sirs_kobweb.logic.mapByProfs
 import io.github.dennistsar.sirs_kobweb.logic.toProfScores
 import io.github.dennistsar.sirs_kobweb.misc.*
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
@@ -35,6 +36,7 @@ import org.jetbrains.compose.web.dom.Div
 fun SearchDept() {
     val repository = Repository(Api())
     PageLayout("Search",Modifier.backgroundColor(Color.lightcyan)) {
+        console.log("m")
 //        val ctx = rememberPageContext()
         val myCoroutineScope = rememberCoroutineScope()
 
@@ -47,11 +49,13 @@ fun SearchDept() {
         var deptEntries: List<Entry> by remember { mutableStateOf(emptyList()) }
         var mapOfProfs: Map<String,List<Entry>> by remember { mutableStateOf(emptyMap()) }
         var mapOfCourses: Map<String,List<Entry>>  by remember { mutableStateOf(emptyMap()) }
+        var mapOfEntriesVar: Map<String,List<Entry>>  by remember { mutableStateOf(emptyMap()) }
+        var mapOfEntries: Map<String,List<Entry>>  by remember { mutableStateOf(emptyMap()) }
 
         var profListLoading by remember { mutableStateOf(true) }
+        var bool3 by remember { mutableStateOf(false) }
 
         val updateSelectedDept: (String?) -> Unit = fun(str) {
-            profListLoading = true
             console.log("updating dept2: $str")
             selectedCourse = "None"
             selectedProf = "None"
@@ -63,6 +67,14 @@ fun SearchDept() {
                     ?.filter { it.scores.size >= 100 } ?: emptyList()
                 mapOfProfs = deptEntries.mapByProfs()
                 mapOfCourses = deptEntries.mapByCourses()
+                console.log("g")
+                profListLoading = true
+                mapOfEntries =
+                    if (selectedCourse.isBlankOrNone())
+                        mapOfProfs
+                    else
+                        mapOfCourses[selectedCourse]!!.mapByProfs()
+                console.log("h")
             }
         }
 
@@ -79,6 +91,13 @@ fun SearchDept() {
 
         if (schoolMap.isEmpty())
             return@PageLayout
+
+
+        if(bool3) {
+            mapOfEntriesVar = mapOfEntries
+            bool3 = false
+            console.log("a  ${mapOfEntries.size} ${mapOfEntriesVar.size}")
+        }
 
         Box(Modifier
             .fillMaxWidth()
@@ -106,13 +125,17 @@ fun SearchDept() {
                 )
             }
             Box(Modifier.flex(1)) loading@{
-                if(!profListLoading)
-                    return@loading
-                Image(
-                    "circle_loading.gif",
-                    "Loading",
-                    Modifier.size(75.px)
-                )
+                if(!(!profListLoading || mapOfEntries.size < 100))
+                    test()
+//                LaunchedEffect(mapOfEntries) {
+                    console.log("d ${mapOfEntries.size}")
+                    if (profListLoading) {
+                        myCoroutineScope.launch {
+                            delay(100)
+                            bool3 = true
+                        }
+                    }
+//                }
             }
         }
 
@@ -122,29 +145,41 @@ fun SearchDept() {
         if (!selectedProf.isBlankOrNone())
             Text(selectedProf)
 
-        val mapOfEntries =
-            if (selectedCourse.isBlankOrNone())
-                mapOfProfs
-            else
-                mapOfCourses[selectedCourse]!!.mapByProfs()
 
+        console.log("c  ")
         profScoresList(
-            mapOfEntries
-                .toProfScores()
-                .mapValues { it.value.toTotalAndAvesPair() },
+            mapOfEntriesVar,
         ) {
             console.log("hi")
             profListLoading = false
         }
+        console.log("j")
     }
+    console.log("k")
+}
+
+@Composable
+fun test(
+){
+    console.log("f")
+
+    Image(
+        "circle_loading.gif",
+        "Loading",
+        Modifier.size(75.px)
+    )
+    console.log("b ")//${mapOfEntries.size} ")
 }
 
 @OptIn(ExperimentalComposeWebApi::class)
 @Composable
 fun profScoresList(
-    list:  Map<String, Pair<Int, List<Double>>>,
+    list2: Map<String, List<Entry>>,
     onLoad: () -> Unit,
 ){
+    val list = list2.toProfScores()
+        .mapValues { it.value.toTotalAndAvesPair() }
+    console.log("i")
     Div(
         attrs = SimpleGridStyle
             .toModifier(gridVariant12)
@@ -179,6 +214,7 @@ fun profScoresList(
             .sortedBy { -it.value.second[8] }
             .take(300)//for performance reasons
             .forEach { (prof, nums) ->
+                if(nums.second.isEmpty()) return@forEach
                 Box(gridElementModifier){
                     val offset = 40.px
                     Text(prof,
