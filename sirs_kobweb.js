@@ -1051,8 +1051,12 @@
   _no_name_provided__671.prototype.constructor = _no_name_provided__671;
   _no_name_provided__680.prototype = Object.create(CoroutineImpl_0.prototype);
   _no_name_provided__680.prototype.constructor = _no_name_provided__680;
-  _no_name_provided__693.prototype = Object.create(CoroutineImpl_0.prototype);
-  _no_name_provided__693.prototype.constructor = _no_name_provided__693;
+  _no_name_provided__681.prototype = Object.create(CoroutineImpl_0.prototype);
+  _no_name_provided__681.prototype.constructor = _no_name_provided__681;
+  _no_name_provided__695.prototype = Object.create(CoroutineImpl_0.prototype);
+  _no_name_provided__695.prototype.constructor = _no_name_provided__695;
+  _no_name_provided__708.prototype = Object.create(CoroutineImpl_0.prototype);
+  _no_name_provided__708.prototype.constructor = _no_name_provided__708;
   function indexOf(_this_, element) {
     if (element == null) {
       var inductionVariable = 0;
@@ -1532,6 +1536,11 @@
     }
     return tmp;
   }
+  function first_0(_this_) {
+    if (_this_.isEmpty_0_k$())
+      throw NoSuchElementException_init_$Create$_0('List is empty.');
+    return _this_.get_ha5a7z_k$(0);
+  }
   function sorted(_this_) {
     if (isInterface(_this_, Collection)) {
       if (_this_._get_size__0_k$() <= 1)
@@ -1796,11 +1805,6 @@
       }
     }
     return result_0;
-  }
-  function first_0(_this_) {
-    if (_this_.isEmpty_0_k$())
-      throw NoSuchElementException_init_$Create$_0('List is empty.');
-    return _this_.get_ha5a7z_k$(0);
   }
   function last(_this_) {
     if (_this_.isEmpty_0_k$())
@@ -11936,6 +11940,20 @@
     }
     return tmp$ret$1;
   };
+  Companion_10.prototype.nativeEscapeReplacement_6wfw3l_k$ = function (literal) {
+    var tmp$ret$1;
+    $l$block_0: {
+      var tmp0_nativeReplace_0 = this._nativeReplacementEscape;
+      var tmp$ret$0;
+      $l$block: {
+        tmp$ret$0 = literal;
+        break $l$block;
+      }
+      tmp$ret$1 = tmp$ret$0.replace(tmp0_nativeReplace_0, '$$$$');
+      break $l$block_0;
+    }
+    return tmp$ret$1;
+  };
   Companion_10.$metadata$ = {
     simpleName: 'Companion',
     kind: 'object',
@@ -12408,6 +12426,26 @@
         }}
        while (inductionVariable < last_1);
     return true;
+  }
+  function replace_0(_this_, oldValue, newValue, ignoreCase) {
+    var tmp$ret$1;
+    $l$block_0: {
+      var tmp0_nativeReplace_0 = new RegExp(Companion_getInstance_9().escape_6wfw3l_k$(oldValue), ignoreCase ? 'gui' : 'gu');
+      var tmp1_nativeReplace_0 = Companion_getInstance_9().nativeEscapeReplacement_6wfw3l_k$(newValue);
+      var tmp$ret$0;
+      $l$block: {
+        tmp$ret$0 = _this_;
+        break $l$block;
+      }
+      tmp$ret$1 = tmp$ret$0.replace(tmp0_nativeReplace_0, tmp1_nativeReplace_0);
+      break $l$block_0;
+    }
+    return tmp$ret$1;
+  }
+  function replace$default_0(_this_, oldValue, newValue, ignoreCase, $mask0, $handler) {
+    if (!(($mask0 & 4) === 0))
+      ignoreCase = false;
+    return replace_0(_this_, oldValue, newValue, ignoreCase);
   }
   function regionMatches(_this_, thisOffset, other, otherOffset, length, ignoreCase) {
     return regionMatchesImpl(_this_, thisOffset, other, otherOffset, length, ignoreCase);
@@ -97952,9 +97990,214 @@
     }
     return tmp$ret$17;
   }
+  function aveScores(_this_) {
+    var tmp$ret$23;
+    $l$block_22: {
+      var tmp$ret$20;
+      $l$block_19: {
+        var tmp$ret$14;
+        $l$block_13: {
+          var tmp$ret$11;
+          $l$block_10: {
+            var tmp$ret$10;
+            $l$block_9: {
+              var tmp0_mapTo_0_1 = ArrayList_init_$Create$_0(collectionSizeOrDefault(_this_, 10));
+              var tmp0_iterator_1_2 = _this_.iterator_0_k$();
+              while (tmp0_iterator_1_2.hasNext_0_k$()) {
+                var item_2_3 = tmp0_iterator_1_2.next_0_k$();
+                var tmp$ret$9;
+                $l$block_8: {
+                  var tmp$ret$8;
+                  $l$block_7: {
+                    var tmp0_map_0_5 = chunked(item_2_3._scores, 10);
+                    var tmp$ret$7;
+                    $l$block_6: {
+                      var tmp0_mapTo_0_1_6 = ArrayList_init_$Create$_0(collectionSizeOrDefault(tmp0_map_0_5, 10));
+                      var tmp0_iterator_1_2_7 = tmp0_map_0_5.iterator_0_k$();
+                      while (tmp0_iterator_1_2_7.hasNext_0_k$()) {
+                        var item_2_3_8 = tmp0_iterator_1_2_7.next_0_k$();
+                        var tmp$ret$6;
+                        $l$block_5: {
+                          var tmp$ret$5;
+                          $l$block_4: {
+                            var tmp0_flatMapIndexed_0_5_9 = item_2_3_8.subList_27zxwg_k$(0, 5);
+                            var tmp$ret$4;
+                            $l$block_3: {
+                              var tmp0_flatMapIndexedTo_0_1_6_10 = ArrayList_init_$Create$();
+                              var index_1_2_7_11 = 0;
+                              var tmp0_iterator_2_3_8_12 = tmp0_flatMapIndexed_0_5_9.iterator_0_k$();
+                              while (tmp0_iterator_2_3_8_12.hasNext_0_k$()) {
+                                var element_3_4_9_13 = tmp0_iterator_2_3_8_12.next_0_k$();
+                                var tmp$ret$3;
+                                $l$block_2: {
+                                  var tmp1_5_6_12_16 = index_1_2_7_11;
+                                  index_1_2_7_11 = tmp1_5_6_12_16 + 1 | 0;
+                                  var tmp1__anonymous__7_11_15 = checkIndexOverflow(tmp1_5_6_12_16);
+                                  var tmp$ret$2;
+                                  $l$block_1: {
+                                    var tmp0_List_0_8_13_17 = numberToInt(element_3_4_9_13);
+                                    var tmp$ret$1;
+                                    $l$block_0: {
+                                      var list_1_1_9_14_18 = ArrayList_init_$Create$_0(tmp0_List_0_8_13_17);
+                                      {
+                                        {
+                                        }
+                                        var inductionVariable = 0;
+                                        if (inductionVariable < tmp0_List_0_8_13_17)
+                                          do {
+                                            var index_3_3_11_16_20 = inductionVariable;
+                                            inductionVariable = inductionVariable + 1 | 0;
+                                            {
+                                              var tmp$ret$0;
+                                              $l$block: {
+                                                tmp$ret$0 = tmp1__anonymous__7_11_15 + 1 | 0;
+                                                break $l$block;
+                                              }
+                                              list_1_1_9_14_18.add_2bq_k$(tmp$ret$0);
+                                              Unit_getInstance();
+                                            }
+                                          }
+                                           while (inductionVariable < tmp0_List_0_8_13_17);
+                                      }
+                                      tmp$ret$1 = list_1_1_9_14_18;
+                                      break $l$block_0;
+                                    }
+                                    tmp$ret$2 = tmp$ret$1;
+                                    break $l$block_1;
+                                  }
+                                  tmp$ret$3 = tmp$ret$2;
+                                  break $l$block_2;
+                                }
+                                var list_4_5_10_14 = tmp$ret$3;
+                                addAll(tmp0_flatMapIndexedTo_0_1_6_10, list_4_5_10_14);
+                                Unit_getInstance();
+                              }
+                              tmp$ret$4 = tmp0_flatMapIndexedTo_0_1_6_10;
+                              break $l$block_3;
+                            }
+                            tmp$ret$5 = tmp$ret$4;
+                            break $l$block_4;
+                          }
+                          tmp$ret$6 = tmp$ret$5;
+                          break $l$block_5;
+                        }
+                        tmp0_mapTo_0_1_6.add_2bq_k$(tmp$ret$6);
+                        Unit_getInstance();
+                      }
+                      tmp$ret$7 = tmp0_mapTo_0_1_6;
+                      break $l$block_6;
+                    }
+                    tmp$ret$8 = tmp$ret$7;
+                    break $l$block_7;
+                  }
+                  tmp$ret$9 = tmp$ret$8;
+                  break $l$block_8;
+                }
+                tmp0_mapTo_0_1.add_2bq_k$(tmp$ret$9);
+                Unit_getInstance();
+              }
+              tmp$ret$10 = tmp0_mapTo_0_1;
+              break $l$block_9;
+            }
+            tmp$ret$11 = tmp$ret$10;
+            break $l$block_10;
+          }
+          var tmp0_flatMap_0 = tmp$ret$11;
+          var tmp$ret$13;
+          $l$block_12: {
+            var tmp0_flatMapTo_0_1 = ArrayList_init_$Create$();
+            var tmp0_iterator_1_2_0 = tmp0_flatMap_0.iterator_0_k$();
+            while (tmp0_iterator_1_2_0.hasNext_0_k$()) {
+              var element_2_3 = tmp0_iterator_1_2_0.next_0_k$();
+              var tmp$ret$12;
+              $l$block_11: {
+                tmp$ret$12 = withIndex_0(element_2_3);
+                break $l$block_11;
+              }
+              var list_3_4 = tmp$ret$12;
+              addAll(tmp0_flatMapTo_0_1, list_3_4);
+              Unit_getInstance();
+            }
+            tmp$ret$13 = tmp0_flatMapTo_0_1;
+            break $l$block_12;
+          }
+          tmp$ret$14 = tmp$ret$13;
+          break $l$block_13;
+        }
+        var tmp1_groupBy_0 = tmp$ret$14;
+        var tmp$ret$19;
+        $l$block_18: {
+          var tmp0_groupByTo_0_1 = LinkedHashMap_init_$Create$();
+          var tmp0_iterator_1_2_1 = tmp1_groupBy_0.iterator_0_k$();
+          while (tmp0_iterator_1_2_1.hasNext_0_k$()) {
+            var element_2_3_0 = tmp0_iterator_1_2_1.next_0_k$();
+            var tmp$ret$15;
+            $l$block_14: {
+              tmp$ret$15 = element_2_3_0._index_0;
+              break $l$block_14;
+            }
+            var key_3_4 = tmp$ret$15;
+            var tmp$ret$17;
+            $l$block_16: {
+              var value_1_6 = tmp0_groupByTo_0_1.get_2bw_k$(key_3_4);
+              var tmp;
+              if (value_1_6 == null) {
+                var tmp$ret$16;
+                $l$block_15: {
+                  tmp$ret$16 = ArrayList_init_$Create$();
+                  break $l$block_15;
+                }
+                var answer_2_7 = tmp$ret$16;
+                tmp0_groupByTo_0_1.put_1q9pf_k$(key_3_4, answer_2_7);
+                Unit_getInstance();
+                tmp = answer_2_7;
+              } else {
+                tmp = value_1_6;
+              }
+              tmp$ret$17 = tmp;
+              break $l$block_16;
+            }
+            var list_4_5 = tmp$ret$17;
+            var tmp$ret$18;
+            $l$block_17: {
+              tmp$ret$18 = element_2_3_0._value;
+              break $l$block_17;
+            }
+            list_4_5.add_2bq_k$(tmp$ret$18);
+            Unit_getInstance();
+          }
+          tmp$ret$19 = tmp0_groupByTo_0_1;
+          break $l$block_18;
+        }
+        tmp$ret$20 = tmp$ret$19;
+        break $l$block_19;
+      }
+      var tmp2_map_0 = tmp$ret$20._get_values__0_k$();
+      var tmp$ret$22;
+      $l$block_21: {
+        var tmp0_mapTo_0_1_0 = ArrayList_init_$Create$_0(collectionSizeOrDefault(tmp2_map_0, 10));
+        var tmp0_iterator_1_2_2 = tmp2_map_0.iterator_0_k$();
+        while (tmp0_iterator_1_2_2.hasNext_0_k$()) {
+          var item_2_3_0 = tmp0_iterator_1_2_2.next_0_k$();
+          var tmp$ret$21;
+          $l$block_20: {
+            tmp$ret$21 = flatten(item_2_3_0);
+            break $l$block_20;
+          }
+          tmp0_mapTo_0_1_0.add_2bq_k$(tmp$ret$21);
+          Unit_getInstance();
+        }
+        tmp$ret$22 = tmp0_mapTo_0_1_0;
+        break $l$block_21;
+      }
+      tmp$ret$23 = tmp$ret$22;
+      break $l$block_22;
+    }
+    return tmp$ret$23;
+  }
   function toProfScores(_this_) {
-    var tmp$ret$34;
-    $l$block_33: {
+    var tmp$ret$10;
+    $l$block_9: {
       var tmp$ret$4;
       $l$block_3: {
         var tmp$ret$3;
@@ -97992,11 +98235,11 @@
         break $l$block_3;
       }
       var tmp0_mapValues_0 = tmp$ret$4;
-      var tmp$ret$33;
-      $l$block_32: {
+      var tmp$ret$9;
+      $l$block_8: {
         var tmp1_mapValuesTo_0_1 = LinkedHashMap_init_$Create$_1(mapCapacity(tmp0_mapValues_0._get_size__0_k$()));
-        var tmp$ret$32;
-        $l$block_31: {
+        var tmp$ret$8;
+        $l$block_7: {
           var tmp0_associateByTo_0_2 = tmp0_mapValues_0._get_entries__0_k$();
           var tmp0_iterator_1_3 = tmp0_associateByTo_0_2.iterator_0_k$();
           while (tmp0_iterator_1_3.hasNext_0_k$()) {
@@ -98007,309 +98250,107 @@
               break $l$block_4;
             }
             var tmp = tmp$ret$5;
-            var tmp$ret$31;
-            $l$block_30: {
+            var tmp$ret$7;
+            $l$block_6: {
               var tmp$ret$6;
               $l$block_5: {
                 tmp$ret$6 = element_2_4._get_value__0_k$();
                 break $l$block_5;
               }
               var v_6 = tmp$ret$6;
-              var tmp$ret$30;
-              $l$block_29: {
-                var tmp$ret$27;
-                $l$block_26: {
-                  var tmp$ret$21;
-                  $l$block_20: {
-                    var tmp$ret$18;
-                    $l$block_17: {
-                      var tmp$ret$17;
-                      $l$block_16: {
-                        var tmp0_mapTo_0_1_10 = ArrayList_init_$Create$_0(collectionSizeOrDefault(v_6, 10));
-                        var tmp0_iterator_1_2_11 = v_6.iterator_0_k$();
-                        while (tmp0_iterator_1_2_11.hasNext_0_k$()) {
-                          var item_2_3_12 = tmp0_iterator_1_2_11.next_0_k$();
-                          var tmp$ret$16;
-                          $l$block_15: {
-                            var tmp$ret$15;
-                            $l$block_14: {
-                              var tmp0_map_0_5_13 = chunked(item_2_3_12._scores, 10);
-                              var tmp$ret$14;
-                              $l$block_13: {
-                                var tmp0_mapTo_0_1_6_14 = ArrayList_init_$Create$_0(collectionSizeOrDefault(tmp0_map_0_5_13, 10));
-                                var tmp0_iterator_1_2_7_15 = tmp0_map_0_5_13.iterator_0_k$();
-                                while (tmp0_iterator_1_2_7_15.hasNext_0_k$()) {
-                                  var item_2_3_8_16 = tmp0_iterator_1_2_7_15.next_0_k$();
-                                  var tmp$ret$13;
-                                  $l$block_12: {
-                                    var tmp$ret$12;
-                                    $l$block_11: {
-                                      var tmp0_flatMapIndexed_0_5_9_17 = item_2_3_8_16.subList_27zxwg_k$(0, 5);
-                                      var tmp$ret$11;
-                                      $l$block_10: {
-                                        var tmp0_flatMapIndexedTo_0_1_6_10_18 = ArrayList_init_$Create$();
-                                        var index_1_2_7_11_19 = 0;
-                                        var tmp0_iterator_2_3_8_12_20 = tmp0_flatMapIndexed_0_5_9_17.iterator_0_k$();
-                                        while (tmp0_iterator_2_3_8_12_20.hasNext_0_k$()) {
-                                          var element_3_4_9_13_21 = tmp0_iterator_2_3_8_12_20.next_0_k$();
-                                          var tmp$ret$10;
-                                          $l$block_9: {
-                                            var tmp1_5_6_12_16_24 = index_1_2_7_11_19;
-                                            index_1_2_7_11_19 = tmp1_5_6_12_16_24 + 1 | 0;
-                                            var tmp1__anonymous__7_11_15_23 = checkIndexOverflow(tmp1_5_6_12_16_24);
-                                            var tmp$ret$9;
-                                            $l$block_8: {
-                                              var tmp0_List_0_8_13_17_25 = numberToInt(element_3_4_9_13_21);
-                                              var tmp$ret$8;
-                                              $l$block_7: {
-                                                var list_1_1_9_14_18_26 = ArrayList_init_$Create$_0(tmp0_List_0_8_13_17_25);
-                                                {
-                                                  {
-                                                  }
-                                                  var inductionVariable = 0;
-                                                  if (inductionVariable < tmp0_List_0_8_13_17_25)
-                                                    do {
-                                                      var index_3_3_11_16_20_28 = inductionVariable;
-                                                      inductionVariable = inductionVariable + 1 | 0;
-                                                      {
-                                                        var tmp$ret$7;
-                                                        $l$block_6: {
-                                                          tmp$ret$7 = tmp1__anonymous__7_11_15_23 + 1 | 0;
-                                                          break $l$block_6;
-                                                        }
-                                                        list_1_1_9_14_18_26.add_2bq_k$(tmp$ret$7);
-                                                        Unit_getInstance();
-                                                      }
-                                                    }
-                                                     while (inductionVariable < tmp0_List_0_8_13_17_25);
-                                                }
-                                                tmp$ret$8 = list_1_1_9_14_18_26;
-                                                break $l$block_7;
-                                              }
-                                              tmp$ret$9 = tmp$ret$8;
-                                              break $l$block_8;
-                                            }
-                                            tmp$ret$10 = tmp$ret$9;
-                                            break $l$block_9;
-                                          }
-                                          var list_4_5_10_14_22 = tmp$ret$10;
-                                          addAll(tmp0_flatMapIndexedTo_0_1_6_10_18, list_4_5_10_14_22);
-                                          Unit_getInstance();
-                                        }
-                                        tmp$ret$11 = tmp0_flatMapIndexedTo_0_1_6_10_18;
-                                        break $l$block_10;
-                                      }
-                                      tmp$ret$12 = tmp$ret$11;
-                                      break $l$block_11;
-                                    }
-                                    tmp$ret$13 = tmp$ret$12;
-                                    break $l$block_12;
-                                  }
-                                  tmp0_mapTo_0_1_6_14.add_2bq_k$(tmp$ret$13);
-                                  Unit_getInstance();
-                                }
-                                tmp$ret$14 = tmp0_mapTo_0_1_6_14;
-                                break $l$block_13;
-                              }
-                              tmp$ret$15 = tmp$ret$14;
-                              break $l$block_14;
-                            }
-                            tmp$ret$16 = tmp$ret$15;
-                            break $l$block_15;
-                          }
-                          tmp0_mapTo_0_1_10.add_2bq_k$(tmp$ret$16);
-                          Unit_getInstance();
-                        }
-                        tmp$ret$17 = tmp0_mapTo_0_1_10;
-                        break $l$block_16;
-                      }
-                      tmp$ret$18 = tmp$ret$17;
-                      break $l$block_17;
-                    }
-                    var tmp0_flatMap_0_9 = tmp$ret$18;
-                    var tmp$ret$20;
-                    $l$block_19: {
-                      var tmp0_flatMapTo_0_1_29 = ArrayList_init_$Create$();
-                      var tmp0_iterator_1_2_30 = tmp0_flatMap_0_9.iterator_0_k$();
-                      while (tmp0_iterator_1_2_30.hasNext_0_k$()) {
-                        var element_2_3_31 = tmp0_iterator_1_2_30.next_0_k$();
-                        var tmp$ret$19;
-                        $l$block_18: {
-                          tmp$ret$19 = withIndex_0(element_2_3_31);
-                          break $l$block_18;
-                        }
-                        var list_3_4_32 = tmp$ret$19;
-                        addAll(tmp0_flatMapTo_0_1_29, list_3_4_32);
-                        Unit_getInstance();
-                      }
-                      tmp$ret$20 = tmp0_flatMapTo_0_1_29;
-                      break $l$block_19;
-                    }
-                    tmp$ret$21 = tmp$ret$20;
-                    break $l$block_20;
-                  }
-                  var tmp1_groupBy_0_8 = tmp$ret$21;
-                  var tmp$ret$26;
-                  $l$block_25: {
-                    var tmp0_groupByTo_0_1_33 = LinkedHashMap_init_$Create$();
-                    var tmp0_iterator_1_2_34 = tmp1_groupBy_0_8.iterator_0_k$();
-                    while (tmp0_iterator_1_2_34.hasNext_0_k$()) {
-                      var element_2_3_35 = tmp0_iterator_1_2_34.next_0_k$();
-                      var tmp$ret$22;
-                      $l$block_21: {
-                        tmp$ret$22 = element_2_3_35._index_0;
-                        break $l$block_21;
-                      }
-                      var key_3_4_36 = tmp$ret$22;
-                      var tmp$ret$24;
-                      $l$block_23: {
-                        var value_1_6_38 = tmp0_groupByTo_0_1_33.get_2bw_k$(key_3_4_36);
-                        var tmp_0;
-                        if (value_1_6_38 == null) {
-                          var tmp$ret$23;
-                          $l$block_22: {
-                            tmp$ret$23 = ArrayList_init_$Create$();
-                            break $l$block_22;
-                          }
-                          var answer_2_7_39 = tmp$ret$23;
-                          tmp0_groupByTo_0_1_33.put_1q9pf_k$(key_3_4_36, answer_2_7_39);
-                          Unit_getInstance();
-                          tmp_0 = answer_2_7_39;
-                        } else {
-                          tmp_0 = value_1_6_38;
-                        }
-                        tmp$ret$24 = tmp_0;
-                        break $l$block_23;
-                      }
-                      var list_4_5_37 = tmp$ret$24;
-                      var tmp$ret$25;
-                      $l$block_24: {
-                        tmp$ret$25 = element_2_3_35._value;
-                        break $l$block_24;
-                      }
-                      list_4_5_37.add_2bq_k$(tmp$ret$25);
-                      Unit_getInstance();
-                    }
-                    tmp$ret$26 = tmp0_groupByTo_0_1_33;
-                    break $l$block_25;
-                  }
-                  tmp$ret$27 = tmp$ret$26;
-                  break $l$block_26;
-                }
-                var tmp2_map_0_7 = tmp$ret$27._get_values__0_k$();
-                var tmp$ret$29;
-                $l$block_28: {
-                  var tmp0_mapTo_0_1_40 = ArrayList_init_$Create$_0(collectionSizeOrDefault(tmp2_map_0_7, 10));
-                  var tmp0_iterator_1_2_41 = tmp2_map_0_7.iterator_0_k$();
-                  while (tmp0_iterator_1_2_41.hasNext_0_k$()) {
-                    var item_2_3_42 = tmp0_iterator_1_2_41.next_0_k$();
-                    var tmp$ret$28;
-                    $l$block_27: {
-                      tmp$ret$28 = flatten(item_2_3_42);
-                      break $l$block_27;
-                    }
-                    tmp0_mapTo_0_1_40.add_2bq_k$(tmp$ret$28);
-                    Unit_getInstance();
-                  }
-                  tmp$ret$29 = tmp0_mapTo_0_1_40;
-                  break $l$block_28;
-                }
-                tmp$ret$30 = tmp$ret$29;
-                break $l$block_29;
-              }
-              tmp$ret$31 = tmp$ret$30;
-              break $l$block_30;
+              tmp$ret$7 = aveScores(v_6);
+              break $l$block_6;
             }
-            tmp1_mapValuesTo_0_1.put_1q9pf_k$(tmp, tmp$ret$31);
+            tmp1_mapValuesTo_0_1.put_1q9pf_k$(tmp, tmp$ret$7);
             Unit_getInstance();
           }
-          tmp$ret$32 = tmp1_mapValuesTo_0_1;
-          break $l$block_31;
+          tmp$ret$8 = tmp1_mapValuesTo_0_1;
+          break $l$block_7;
         }
-        tmp$ret$33 = tmp$ret$32;
-        break $l$block_32;
+        tmp$ret$9 = tmp$ret$8;
+        break $l$block_8;
       }
-      tmp$ret$34 = tmp$ret$33;
-      break $l$block_33;
+      tmp$ret$10 = tmp$ret$9;
+      break $l$block_9;
     }
-    var profRatings = tmp$ret$34;
-    var tmp$ret$43;
-    $l$block_42: {
+    var profRatings = tmp$ret$10;
+    var tmp$ret$19;
+    $l$block_18: {
       var tmp1_map_0 = numberRangeToNumber(0, 9);
-      var tmp$ret$42;
-      $l$block_41: {
+      var tmp$ret$18;
+      $l$block_17: {
         var tmp0_mapTo_0_1 = ArrayList_init_$Create$_0(collectionSizeOrDefault(tmp1_map_0, 10));
-        var inductionVariable_0 = tmp1_map_0._get_first__0_k$();
+        var inductionVariable = tmp1_map_0._get_first__0_k$();
         var last_1 = tmp1_map_0._get_last__0_k$();
-        if (inductionVariable_0 <= last_1)
+        if (inductionVariable <= last_1)
           do {
-            var item_2_3 = inductionVariable_0;
-            inductionVariable_0 = inductionVariable_0 + 1 | 0;
-            var tmp$ret$41;
-            $l$block_40: {
-              var tmp$ret$40;
-              $l$block_39: {
-                var tmp$ret$37;
-                $l$block_36: {
+            var item_2_3 = inductionVariable;
+            inductionVariable = inductionVariable + 1 | 0;
+            var tmp$ret$17;
+            $l$block_16: {
+              var tmp$ret$16;
+              $l$block_15: {
+                var tmp$ret$13;
+                $l$block_12: {
                   var tmp0_filter_0_6 = profRatings._get_values__0_k$();
-                  var tmp$ret$36;
-                  $l$block_35: {
+                  var tmp$ret$12;
+                  $l$block_11: {
                     var tmp0_filterTo_0_1_7 = ArrayList_init_$Create$();
                     var tmp0_iterator_1_2_8 = tmp0_filter_0_6.iterator_0_k$();
                     while (tmp0_iterator_1_2_8.hasNext_0_k$()) {
                       var element_2_3_9 = tmp0_iterator_1_2_8.next_0_k$();
-                      var tmp$ret$35;
-                      $l$block_34: {
-                        tmp$ret$35 = element_2_3_9._get_size__0_k$() >= 10;
-                        break $l$block_34;
+                      var tmp$ret$11;
+                      $l$block_10: {
+                        tmp$ret$11 = element_2_3_9._get_size__0_k$() >= 10;
+                        break $l$block_10;
                       }
-                      if (tmp$ret$35) {
+                      if (tmp$ret$11) {
                         tmp0_filterTo_0_1_7.add_2bq_k$(element_2_3_9);
                         Unit_getInstance();
                       } else {
                       }
                     }
-                    tmp$ret$36 = tmp0_filterTo_0_1_7;
-                    break $l$block_35;
+                    tmp$ret$12 = tmp0_filterTo_0_1_7;
+                    break $l$block_11;
                   }
-                  tmp$ret$37 = tmp$ret$36;
-                  break $l$block_36;
+                  tmp$ret$13 = tmp$ret$12;
+                  break $l$block_12;
                 }
-                var tmp1_map_0_5 = tmp$ret$37;
-                var tmp$ret$39;
-                $l$block_38: {
-                  var tmp0_mapTo_0_1_10_0 = ArrayList_init_$Create$_0(collectionSizeOrDefault(tmp1_map_0_5, 10));
-                  var tmp0_iterator_1_2_11_0 = tmp1_map_0_5.iterator_0_k$();
-                  while (tmp0_iterator_1_2_11_0.hasNext_0_k$()) {
-                    var item_2_3_12_0 = tmp0_iterator_1_2_11_0.next_0_k$();
-                    var tmp$ret$38;
-                    $l$block_37: {
-                      tmp$ret$38 = item_2_3_12_0.get_ha5a7z_k$(item_2_3);
-                      break $l$block_37;
+                var tmp1_map_0_5 = tmp$ret$13;
+                var tmp$ret$15;
+                $l$block_14: {
+                  var tmp0_mapTo_0_1_10 = ArrayList_init_$Create$_0(collectionSizeOrDefault(tmp1_map_0_5, 10));
+                  var tmp0_iterator_1_2_11 = tmp1_map_0_5.iterator_0_k$();
+                  while (tmp0_iterator_1_2_11.hasNext_0_k$()) {
+                    var item_2_3_12 = tmp0_iterator_1_2_11.next_0_k$();
+                    var tmp$ret$14;
+                    $l$block_13: {
+                      tmp$ret$14 = item_2_3_12.get_ha5a7z_k$(item_2_3);
+                      break $l$block_13;
                     }
-                    tmp0_mapTo_0_1_10_0.add_2bq_k$(tmp$ret$38);
+                    tmp0_mapTo_0_1_10.add_2bq_k$(tmp$ret$14);
                     Unit_getInstance();
                   }
-                  tmp$ret$39 = tmp0_mapTo_0_1_10_0;
-                  break $l$block_38;
+                  tmp$ret$15 = tmp0_mapTo_0_1_10;
+                  break $l$block_14;
                 }
-                tmp$ret$40 = tmp$ret$39;
-                break $l$block_39;
+                tmp$ret$16 = tmp$ret$15;
+                break $l$block_15;
               }
-              tmp$ret$41 = flatten(tmp$ret$40);
-              break $l$block_40;
+              tmp$ret$17 = flatten(tmp$ret$16);
+              break $l$block_16;
             }
-            tmp0_mapTo_0_1.add_2bq_k$(tmp$ret$41);
+            tmp0_mapTo_0_1.add_2bq_k$(tmp$ret$17);
             Unit_getInstance();
           }
            while (!(item_2_3 === last_1));
-        tmp$ret$42 = tmp0_mapTo_0_1;
-        break $l$block_41;
+        tmp$ret$18 = tmp0_mapTo_0_1;
+        break $l$block_17;
       }
-      tmp$ret$43 = tmp$ret$42;
-      break $l$block_42;
+      tmp$ret$19 = tmp$ret$18;
+      break $l$block_18;
     }
-    var aves = tmp$ret$43;
+    var aves = tmp$ret$19;
     return plus_4(profRatings, new Pair('Average', aves));
   }
   function mapByProfs(_this_) {
@@ -98724,6 +98765,10 @@
   };
   function isBlankOrNone(_this_) {
     return isBlank(_this_) ? true : equals_1(_this_, 'None');
+  }
+  function decodeURLParam(_this_) {
+    var tmp = replace$default_0(_this_, '%2C', ',', false, 4, null);
+    return replace$default_0(tmp, '%20', ' ', false, 4, null);
   }
   function roundToDecimal(_this_, dec) {
     var tmp$ret$0;
@@ -100789,7 +100834,7 @@
   }
   function SearchDept$composable($composer, $changed) {
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-613365654);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-613365514);
     sourceInformation($composer_0, 'C(SearchDept$composable)');
     if (!($changed === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       var repository = new Repository(new Api());
@@ -100802,7 +100847,7 @@
       }
       var tmp_0 = backgroundColor_1(tmp, tmp$ret$0);
       var tmp_1 = $composer_0;
-      PageLayout$composable('Search', tmp_0, composableLambda(tmp_1, -819896241, true, _no_name_provided_$factory_607(repository)), $composer_0, 390, 0);
+      PageLayout$composable('Search', tmp_0, composableLambda(tmp_1, -819895869, true, _no_name_provided_$factory_607(repository)), $composer_0, 390, 0);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
     var tmp0_safe_receiver = $composer_0.endRestartGroup_0_k$();
@@ -100812,32 +100857,96 @@
       tmp0_safe_receiver.updateScope_wte2v3_k$(_no_name_provided_$factory_608($changed));
     }
   }
-  function profScoresList$composable(list, onLoad, $composer, $changed) {
+  function profSummary$composable(list, $composer, $changed) {
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(750567313);
-    sourceInformation($composer_0, 'C(profScoresList$composable)');
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-443904215);
+    sourceInformation($composer_0, 'C(profSummary$composable)');
     var $dirty = $changed;
     if (($changed & 14) === 0)
       $dirty = $dirty | ($composer_0.changed_wi7j7l_k$(list) ? 4 : 2);
-    if (($changed & 112) === 0)
-      $dirty = $dirty | ($composer_0.changed_wi7j7l_k$(onLoad) ? 32 : 16);
-    if (!(($dirty & 91 ^ 18) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
-      var tmp = toModifier$composable(SimpleGridStyle, gridVariant12, $composer_0, 72, 0);
-      var tmp_0 = asAttributesBuilder$default(tmp, null, 1, null);
-      var tmp_1 = $composer_0;
-      Div$composable(tmp_0, composableLambda(tmp_1, -819891753, true, _no_name_provided_$factory_609(list, onLoad)), $composer_0, 48, 0);
+    if (!(($dirty & 11 ^ 2) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
+      var a = mapByCourses(list);
+      var b = toProfScores(a);
+      var allScores = aveScores(list);
+      var tmp$ret$4;
+      $l$block_3: {
+        var tmp$ret$3;
+        $l$block_2: {
+          var tmp1_mapValuesTo_0_1 = LinkedHashMap_init_$Create$_1(mapCapacity(b._get_size__0_k$()));
+          var tmp$ret$2;
+          $l$block_1: {
+            var tmp0_associateByTo_0_2 = b._get_entries__0_k$();
+            var tmp0_iterator_1_3 = tmp0_associateByTo_0_2.iterator_0_k$();
+            while (tmp0_iterator_1_3.hasNext_0_k$()) {
+              var element_2_4 = tmp0_iterator_1_3.next_0_k$();
+              var tmp$ret$0;
+              $l$block: {
+                tmp$ret$0 = element_2_4._get_key__0_k$();
+                break $l$block;
+              }
+              var tmp = tmp$ret$0;
+              var tmp$ret$1;
+              $l$block_0: {
+                var tmp0_return_6 = toTotalAndAvesPair(element_2_4._get_value__0_k$());
+                tmp$ret$1 = tmp0_return_6;
+                break $l$block_0;
+              }
+              tmp1_mapValuesTo_0_1.put_1q9pf_k$(tmp, tmp$ret$1);
+              Unit_getInstance();
+            }
+            tmp$ret$2 = tmp1_mapValuesTo_0_1;
+            break $l$block_1;
+          }
+          tmp$ret$3 = tmp$ret$2;
+          break $l$block_2;
+        }
+        tmp$ret$4 = tmp$ret$3;
+        break $l$block_3;
+      }
+      var tmp_0 = tmp$ret$4;
+      profScoresList$composable(tmp_0, null, $composer_0, 0, 2);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
     var tmp0_safe_receiver = $composer_0.endRestartGroup_0_k$();
     if (tmp0_safe_receiver === null)
       null;
     else {
-      tmp0_safe_receiver.updateScope_wte2v3_k$(_no_name_provided_$factory_610(list, onLoad, $changed));
+      tmp0_safe_receiver.updateScope_wte2v3_k$(_no_name_provided_$factory_609(list, $changed));
+    }
+  }
+  function profScoresList$composable(list, onLoad, $composer, $changed, $default) {
+    var onLoad_0 = {_v: onLoad};
+    var $composer_0 = $composer;
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(750569225);
+    sourceInformation($composer_0, 'C(profScoresList$composable)');
+    var $dirty = $changed;
+    if (!(($default & 1) === 0))
+      $dirty = $dirty | 6;
+    else if (($changed & 14) === 0)
+      $dirty = $dirty | ($composer_0.changed_wi7j7l_k$(list) ? 4 : 2);
+    if (!(($default & 2) === 0))
+      $dirty = $dirty | 48;
+    else if (($changed & 112) === 0)
+      $dirty = $dirty | ($composer_0.changed_wi7j7l_k$(onLoad_0._v) ? 32 : 16);
+    if (!(($dirty & 91 ^ 18) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
+      if (!(($default & 2) === 0)) {
+        onLoad_0._v = _no_name_provided_$factory_610();
+      }var tmp = toModifier$composable(SimpleGridStyle, gridVariant12, $composer_0, 72, 0);
+      var tmp_0 = asAttributesBuilder$default(tmp, null, 1, null);
+      var tmp_1 = $composer_0;
+      Div$composable(tmp_0, composableLambda(tmp_1, -819890088, true, _no_name_provided_$factory_611(list, onLoad_0, $dirty)), $composer_0, 48, 0);
+    } else
+      $composer_0.skipToGroupEnd_sv8swh_k$();
+    var tmp0_safe_receiver = $composer_0.endRestartGroup_0_k$();
+    if (tmp0_safe_receiver === null)
+      null;
+    else {
+      tmp0_safe_receiver.updateScope_wte2v3_k$(_no_name_provided_$factory_612(list, onLoad_0, $changed, $default));
     }
   }
   function searchDeptFormContent$composable(selectedDept, selectedCourse, selectedProf, schools, depts, courses, profs, onSelectSchool, onSelectDept, onSelectCourse, onSelectProf, $composer, $changed, $changed1) {
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(485077658);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(485079533);
     sourceInformation($composer_0, 'C(searchDeptFormContent$composable)P(9,8,10,7,1!1,6,5,3)');
     var $dirty = $changed;
     var $dirty1 = $changed1;
@@ -100870,32 +100979,31 @@
       var labelModifier = padding_0(fontWeight_0(Companion_getInstance_47(), Companion_getInstance_36()._get_Bold__0_k$()), _get_px_(2), _get_px_(0));
       var tmp_0 = Companion_getInstance_46()._CenterHorizontally;
       var tmp_1 = $composer_0;
-      Column$composable(null, null, tmp_0, null, composableLambda(tmp_1, -819902861, true, _no_name_provided_$factory_611(labelModifier, modifier1, modifier2, schools, onSelectSchool, $dirty, depts, onSelectDept, selectedDept, courses, onSelectCourse, selectedCourse, profs, onSelectProf, selectedProf, $dirty1)), $composer_0, 24576, 11);
+      Column$composable(null, null, tmp_0, null, composableLambda(tmp_1, -819900706, true, _no_name_provided_$factory_613(labelModifier, modifier1, modifier2, schools, onSelectSchool, $dirty, depts, onSelectDept, selectedDept, courses, onSelectCourse, selectedCourse, profs, onSelectProf, selectedProf, $dirty1)), $composer_0, 24576, 11);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
     var tmp0_safe_receiver = $composer_0.endRestartGroup_0_k$();
     if (tmp0_safe_receiver === null)
       null;
     else {
-      tmp0_safe_receiver.updateScope_wte2v3_k$(_no_name_provided_$factory_612(selectedDept, selectedCourse, selectedProf, schools, depts, courses, profs, onSelectSchool, onSelectDept, onSelectCourse, onSelectProf, $changed, $changed1));
+      tmp0_safe_receiver.updateScope_wte2v3_k$(_no_name_provided_$factory_614(selectedDept, selectedCourse, selectedProf, schools, depts, courses, profs, onSelectSchool, onSelectDept, onSelectCourse, onSelectProf, $changed, $changed1));
     }
   }
   function SearchDept$composable$lambda($$changed, $composer, $force) {
     return SearchDept$composable($composer, $$changed | 1);
   }
-  function profScoresList$composable$lambda($list, $onLoad, $$changed, $composer, $force) {
-    return profScoresList$composable($list, $onLoad, $composer, $$changed | 1);
+  function profSummary$composable$lambda($list, $$changed, $composer, $force) {
+    return profSummary$composable($list, $composer, $$changed | 1);
+  }
+  function profScoresList$composable$lambda($list, $onLoad, $$changed, $$default, $composer, $force) {
+    return profScoresList$composable($list, $onLoad._v, $composer, $$changed | 1, $$default);
   }
   function searchDeptFormContent$composable$lambda($selectedDept, $selectedCourse, $selectedProf, $schools, $depts, $courses, $profs, $onSelectSchool, $onSelectDept, $onSelectCourse, $onSelectProf, $$changed, $$changed1, $composer, $force) {
     return searchDeptFormContent$composable($selectedDept, $selectedCourse, $selectedProf, $schools, $depts, $courses, $profs, $onSelectSchool, $onSelectDept, $onSelectCourse, $onSelectProf, $composer, $$changed | 1, $$changed1);
   }
-  function _no_name_provided__680($repository, $selectedSchool$delegate, $selectedDept$delegate, $deptEntries$delegate, $mapOfProfs$delegate, $mapOfCourses$delegate, resultContinuation) {
-    this._$repository_3 = $repository;
-    this._$selectedSchool$delegate = $selectedSchool$delegate;
-    this._$selectedDept$delegate = $selectedDept$delegate;
-    this._$deptEntries$delegate = $deptEntries$delegate;
-    this._$mapOfProfs$delegate = $mapOfProfs$delegate;
-    this._$mapOfCourses$delegate_1 = $mapOfCourses$delegate;
+  function _no_name_provided__680($a, $mapOfEntries$delegate, resultContinuation) {
+    this._$a_0 = $a;
+    this._$mapOfEntries$delegate = $mapOfEntries$delegate;
     CoroutineImpl_0.call(this, resultContinuation);
   }
   _no_name_provided__680.prototype.invoke_2i3g7c_k$ = function ($this$launch, $cont) {
@@ -100909,6 +101017,80 @@
     return Unit_getInstance();
   };
   _no_name_provided__680.prototype.doResume_0_k$ = function () {
+    var suspendResult = this._result_1;
+    $sm: do
+      try {
+        var tmp = this._state_2;
+        switch (tmp) {
+          case 0:
+            this._exceptionState = 2;
+            this._state_2 = 1;
+            suspendResult = delay(new Long(50, 0), this);
+            if (suspendResult === _get_COROUTINE_SUSPENDED_()) {
+              return suspendResult;
+            }
+            continue $sm;
+          case 1:
+            var tmp0_mapValues_0 = toProfScores(this._$a_0);
+            var tmp1_mapValuesTo_0_1 = LinkedHashMap_init_$Create$_1(mapCapacity(tmp0_mapValues_0._get_size__0_k$()));
+            var tmp0_associateByTo_0_2 = tmp0_mapValues_0._get_entries__0_k$();
+            var tmp0_iterator_1_3 = tmp0_associateByTo_0_2.iterator_0_k$();
+            while (tmp0_iterator_1_3.hasNext_0_k$()) {
+              var element_2_4 = tmp0_iterator_1_3.next_0_k$();
+              var tmp_0 = element_2_4._get_key__0_k$();
+              tmp1_mapValuesTo_0_1.put_1q9pf_k$(tmp_0, toTotalAndAvesPair(element_2_4._get_value__0_k$()));
+              Unit_getInstance();
+            }
+
+            invoke$lambda_38(this._$mapOfEntries$delegate, tmp1_mapValuesTo_0_1);
+            return Unit_getInstance();
+          case 2:
+            throw this._exception_0;
+        }
+      } catch ($p) {
+        if (this._exceptionState === 2) {
+          throw $p;
+        } else {
+          this._state_2 = this._exceptionState;
+          this._exception_0 = $p;
+        }
+      }
+     while (true);
+  };
+  _no_name_provided__680.prototype.create_y6imfn_k$ = function ($this$launch, completion) {
+    var i = new _no_name_provided__680(this._$a_0, this._$mapOfEntries$delegate, completion);
+    i._$this$launch_7 = $this$launch;
+    return i;
+  };
+  _no_name_provided__680.$metadata$ = {
+    kind: 'class',
+    interfaces: [],
+    suspendArity: [1]
+  };
+  function _no_name_provided__681($repository, $updateMapOfEntries, $firstTime, $selectedSchool$delegate, $selectedDept$delegate, $deptEntries$delegate, $mapOfProfs$delegate, $mapOfCourses$delegate, $selectedCourse$delegate, $selectedProf$delegate, resultContinuation) {
+    this._$repository_3 = $repository;
+    this._$updateMapOfEntries = $updateMapOfEntries;
+    this._$firstTime = $firstTime;
+    this._$selectedSchool$delegate = $selectedSchool$delegate;
+    this._$selectedDept$delegate = $selectedDept$delegate;
+    this._$deptEntries$delegate = $deptEntries$delegate;
+    this._$mapOfProfs$delegate = $mapOfProfs$delegate;
+    this._$mapOfCourses$delegate_1 = $mapOfCourses$delegate;
+    this._$selectedCourse$delegate_2 = $selectedCourse$delegate;
+    this._$selectedProf$delegate = $selectedProf$delegate;
+    CoroutineImpl_0.call(this, resultContinuation);
+  }
+  _no_name_provided__681.prototype.invoke_2i3g7c_k$ = function ($this$launch, $cont) {
+    var tmp = this.create_y6imfn_k$($this$launch, $cont);
+    tmp._result_1 = Unit_getInstance();
+    tmp._exception_0 = null;
+    return tmp.doResume_0_k$();
+  };
+  _no_name_provided__681.prototype.invoke_20e8_k$ = function (p1, $cont) {
+    this.invoke_2i3g7c_k$((!(p1 == null) ? isInterface(p1, CoroutineScope) : false) ? p1 : THROW_CCE(), $cont);
+    return Unit_getInstance();
+  };
+  _no_name_provided__681.prototype.doResume_0_k$ = function () {
     var suspendResult = this._result_1;
     $sm: do
       try {
@@ -100957,6 +101139,13 @@
             invoke$lambda_32(this._$deptEntries$delegate, ARGUMENT);
             invoke$lambda_34(this._$mapOfProfs$delegate, mapByProfs(invoke$lambda_31(this._$deptEntries$delegate)));
             invoke$lambda_36(this._$mapOfCourses$delegate_1, mapByCourses(invoke$lambda_31(this._$deptEntries$delegate)));
+            this._$updateMapOfEntries(invoke$lambda_27(this._$selectedCourse$delegate_2), false);
+            if (!this._$firstTime)
+              return Unit_getInstance();
+            if (!invoke$lambda_33(this._$mapOfProfs$delegate)._get_keys__0_k$().contains_2bq_k$(invoke$lambda_29(this._$selectedProf$delegate)))
+              invoke$lambda_30(this._$selectedProf$delegate, 'None');
+            if (!invoke$lambda_35(this._$mapOfCourses$delegate_1)._get_keys__0_k$().contains_2bq_k$(invoke$lambda_29(this._$selectedProf$delegate)))
+              invoke$lambda_28(this._$selectedCourse$delegate_2, 'None');
             return Unit_getInstance();
           case 2:
             throw this._exception_0;
@@ -100971,92 +101160,82 @@
       }
      while (true);
   };
-  _no_name_provided__680.prototype.create_y6imfn_k$ = function ($this$launch, completion) {
-    var i = new _no_name_provided__680(this._$repository_3, this._$selectedSchool$delegate, this._$selectedDept$delegate, this._$deptEntries$delegate, this._$mapOfProfs$delegate, this._$mapOfCourses$delegate_1, completion);
-    i._$this$launch_7 = $this$launch;
+  _no_name_provided__681.prototype.create_y6imfn_k$ = function ($this$launch, completion) {
+    var i = new _no_name_provided__681(this._$repository_3, this._$updateMapOfEntries, this._$firstTime, this._$selectedSchool$delegate, this._$selectedDept$delegate, this._$deptEntries$delegate, this._$mapOfProfs$delegate, this._$mapOfCourses$delegate_1, this._$selectedCourse$delegate_2, this._$selectedProf$delegate, completion);
+    i._$this$launch_8 = $this$launch;
     return i;
   };
-  _no_name_provided__680.$metadata$ = {
+  _no_name_provided__681.$metadata$ = {
     kind: 'class',
     interfaces: [],
     suspendArity: [1]
   };
   function invoke$lambda_17($updateSelectedDept, $selectedSchool$delegate, $schoolMap$delegate) {
-    return _no_name_provided_$factory_626($updateSelectedDept, $selectedSchool$delegate, $schoolMap$delegate);
+    return _no_name_provided_$factory_630($updateSelectedDept, $selectedSchool$delegate, $schoolMap$delegate);
   }
   function invoke$lambda_18($updateSelectedDept) {
-    return _no_name_provided_$factory_627($updateSelectedDept);
+    return _no_name_provided_$factory_631($updateSelectedDept);
   }
-  function invoke$lambda_19($selectedCourse$delegate) {
-    return _no_name_provided_$factory_628($selectedCourse$delegate);
+  function invoke$lambda_19($updateMapOfEntries, $selectedCourse$delegate, $selectedProf$delegate) {
+    return _no_name_provided_$factory_632($updateMapOfEntries, $selectedCourse$delegate, $selectedProf$delegate);
   }
-  function invoke$lambda_20($selectedProf$delegate) {
-    return _no_name_provided_$factory_629($selectedProf$delegate);
+  function invoke$lambda_20($selectedProf$delegate, $selectedCourse$delegate, $profListLoading$delegate) {
+    return _no_name_provided_$factory_633($selectedProf$delegate, $selectedCourse$delegate, $profListLoading$delegate);
   }
-  function _no_name_provided__681($updateSelectedDept, $selectedSchool$delegate, $schoolMap$delegate) {
+  function _no_name_provided__682($updateSelectedDept, $selectedSchool$delegate, $schoolMap$delegate) {
     this._$updateSelectedDept = $updateSelectedDept;
     this._$selectedSchool$delegate_0 = $selectedSchool$delegate;
     this._$schoolMap$delegate = $schoolMap$delegate;
   }
-  _no_name_provided__681.prototype.invoke_0_k$ = function () {
-    return invoke$lambda_17(this._$updateSelectedDept, this._$selectedSchool$delegate_0, this._$schoolMap$delegate);
-  };
-  _no_name_provided__681.$metadata$ = {
-    kind: 'class',
-    interfaces: []
-  };
-  function _no_name_provided__682($updateSelectedDept) {
-    this._$updateSelectedDept_0 = $updateSelectedDept;
-  }
   _no_name_provided__682.prototype.invoke_0_k$ = function () {
-    return invoke$lambda_18(this._$updateSelectedDept_0);
+    return invoke$lambda_17(this._$updateSelectedDept, this._$selectedSchool$delegate_0, this._$schoolMap$delegate);
   };
   _no_name_provided__682.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__683($selectedCourse$delegate) {
-    this._$selectedCourse$delegate_2 = $selectedCourse$delegate;
+  function _no_name_provided__683($updateSelectedDept) {
+    this._$updateSelectedDept_0 = $updateSelectedDept;
   }
   _no_name_provided__683.prototype.invoke_0_k$ = function () {
-    return invoke$lambda_19(this._$selectedCourse$delegate_2);
+    return invoke$lambda_18(this._$updateSelectedDept_0);
   };
   _no_name_provided__683.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__684($selectedProf$delegate) {
-    this._$selectedProf$delegate = $selectedProf$delegate;
+  function _no_name_provided__684($updateMapOfEntries, $selectedCourse$delegate, $selectedProf$delegate) {
+    this._$updateMapOfEntries_0 = $updateMapOfEntries;
+    this._$selectedCourse$delegate_3 = $selectedCourse$delegate;
+    this._$selectedProf$delegate_0 = $selectedProf$delegate;
   }
   _no_name_provided__684.prototype.invoke_0_k$ = function () {
-    return invoke$lambda_20(this._$selectedProf$delegate);
+    return invoke$lambda_19(this._$updateMapOfEntries_0, this._$selectedCourse$delegate_3, this._$selectedProf$delegate_0);
   };
   _no_name_provided__684.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__685($updateSelectedDept, $selectedSchool$delegate, $schoolMap$delegate) {
-    this._$updateSelectedDept_1 = $updateSelectedDept;
-    this._$selectedSchool$delegate_1 = $selectedSchool$delegate;
-    this._$schoolMap$delegate_0 = $schoolMap$delegate;
+  function _no_name_provided__685($selectedProf$delegate, $selectedCourse$delegate, $profListLoading$delegate) {
+    this._$selectedProf$delegate_1 = $selectedProf$delegate;
+    this._$selectedCourse$delegate_4 = $selectedCourse$delegate;
+    this._$profListLoading$delegate = $profListLoading$delegate;
   }
-  _no_name_provided__685.prototype.invoke_a4enbm_k$ = function (it) {
-    invoke$lambda_24(this._$selectedSchool$delegate_1, it);
-    this._$updateSelectedDept_1(firstOrNull_0(ensureNotNull(invoke$lambda_21(this._$schoolMap$delegate_0).get_2bw_k$(invoke$lambda_23(this._$selectedSchool$delegate_1)))._depts));
-  };
-  _no_name_provided__685.prototype.invoke_20e8_k$ = function (p1) {
-    this.invoke_a4enbm_k$((!(p1 == null) ? typeof p1 === 'string' : false) ? p1 : THROW_CCE());
-    return Unit_getInstance();
+  _no_name_provided__685.prototype.invoke_0_k$ = function () {
+    return invoke$lambda_20(this._$selectedProf$delegate_1, this._$selectedCourse$delegate_4, this._$profListLoading$delegate);
   };
   _no_name_provided__685.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__686($updateSelectedDept) {
-    this._$updateSelectedDept_2 = $updateSelectedDept;
+  function _no_name_provided__686($updateSelectedDept, $selectedSchool$delegate, $schoolMap$delegate) {
+    this._$updateSelectedDept_1 = $updateSelectedDept;
+    this._$selectedSchool$delegate_1 = $selectedSchool$delegate;
+    this._$schoolMap$delegate_0 = $schoolMap$delegate;
   }
   _no_name_provided__686.prototype.invoke_a4enbm_k$ = function (it) {
-    this._$updateSelectedDept_2(it);
+    invoke$lambda_24(this._$selectedSchool$delegate_1, it);
+    this._$updateSelectedDept_1(firstOrNull_0(ensureNotNull(invoke$lambda_21(this._$schoolMap$delegate_0).get_2bw_k$(invoke$lambda_23(this._$selectedSchool$delegate_1)))._depts), false);
   };
   _no_name_provided__686.prototype.invoke_20e8_k$ = function (p1) {
     this.invoke_a4enbm_k$((!(p1 == null) ? typeof p1 === 'string' : false) ? p1 : THROW_CCE());
@@ -101066,11 +101245,11 @@
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__687($selectedCourse$delegate) {
-    this._$selectedCourse$delegate_3 = $selectedCourse$delegate;
+  function _no_name_provided__687($updateSelectedDept) {
+    this._$updateSelectedDept_2 = $updateSelectedDept;
   }
   _no_name_provided__687.prototype.invoke_a4enbm_k$ = function (it) {
-    invoke$lambda_28(this._$selectedCourse$delegate_3, it);
+    this._$updateSelectedDept_2(it, false);
   };
   _no_name_provided__687.prototype.invoke_20e8_k$ = function (p1) {
     this.invoke_a4enbm_k$((!(p1 == null) ? typeof p1 === 'string' : false) ? p1 : THROW_CCE());
@@ -101080,11 +101259,15 @@
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__688($selectedProf$delegate) {
-    this._$selectedProf$delegate_0 = $selectedProf$delegate;
+  function _no_name_provided__688($updateMapOfEntries, $selectedCourse$delegate, $selectedProf$delegate) {
+    this._$updateMapOfEntries_1 = $updateMapOfEntries;
+    this._$selectedCourse$delegate_5 = $selectedCourse$delegate;
+    this._$selectedProf$delegate_2 = $selectedProf$delegate;
   }
   _no_name_provided__688.prototype.invoke_a4enbm_k$ = function (it) {
-    invoke$lambda_30(this._$selectedProf$delegate_0, it);
+    invoke$lambda_28(this._$selectedCourse$delegate_5, it);
+    invoke$lambda_30(this._$selectedProf$delegate_2, 'None');
+    this._$updateMapOfEntries_1(it, it === 'None');
   };
   _no_name_provided__688.prototype.invoke_20e8_k$ = function (p1) {
     this.invoke_a4enbm_k$((!(p1 == null) ? typeof p1 === 'string' : false) ? p1 : THROW_CCE());
@@ -101094,29 +101277,50 @@
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__689($selectedSchool$delegate, $updateSelectedDept, $schoolMap$delegate, $selectedCourse$delegate, $selectedProf$delegate, $selectedDept$delegate, $mapOfCourses$delegate, $mapOfProfs$delegate) {
+  function _no_name_provided__689($selectedProf$delegate, $selectedCourse$delegate, $profListLoading$delegate) {
+    this._$selectedProf$delegate_3 = $selectedProf$delegate;
+    this._$selectedCourse$delegate_6 = $selectedCourse$delegate;
+    this._$profListLoading$delegate_0 = $profListLoading$delegate;
+  }
+  _no_name_provided__689.prototype.invoke_a4enbm_k$ = function (it) {
+    invoke$lambda_30(this._$selectedProf$delegate_3, it);
+    invoke$lambda_28(this._$selectedCourse$delegate_6, 'None');
+    if (it === 'None') {
+      invoke$lambda_40(this._$profListLoading$delegate_0, true);
+    }};
+  _no_name_provided__689.prototype.invoke_20e8_k$ = function (p1) {
+    this.invoke_a4enbm_k$((!(p1 == null) ? typeof p1 === 'string' : false) ? p1 : THROW_CCE());
+    return Unit_getInstance();
+  };
+  _no_name_provided__689.$metadata$ = {
+    kind: 'class',
+    interfaces: []
+  };
+  function _no_name_provided__690($selectedSchool$delegate, $updateSelectedDept, $schoolMap$delegate, $selectedCourse$delegate, $selectedProf$delegate, $updateMapOfEntries, $profListLoading$delegate, $selectedDept$delegate, $mapOfCourses$delegate, $mapOfProfs$delegate) {
     this._$selectedSchool$delegate_2 = $selectedSchool$delegate;
     this._$updateSelectedDept_3 = $updateSelectedDept;
     this._$schoolMap$delegate_1 = $schoolMap$delegate;
-    this._$selectedCourse$delegate_4 = $selectedCourse$delegate;
-    this._$selectedProf$delegate_1 = $selectedProf$delegate;
+    this._$selectedCourse$delegate_7 = $selectedCourse$delegate;
+    this._$selectedProf$delegate_4 = $selectedProf$delegate;
+    this._$updateMapOfEntries_2 = $updateMapOfEntries;
+    this._$profListLoading$delegate_1 = $profListLoading$delegate;
     this._$selectedDept$delegate_0 = $selectedDept$delegate;
     this._$mapOfCourses$delegate_2 = $mapOfCourses$delegate;
     this._$mapOfProfs$delegate_0 = $mapOfProfs$delegate;
   }
-  _no_name_provided__689.prototype.invoke_jpel0v_k$ = function ($this$Box, $composer, $changed) {
+  _no_name_provided__690.prototype.invoke_jpel0v_k$ = function ($this$Box, $composer, $changed) {
     var $composer_0 = $composer;
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       var tmp = invoke$lambda_25(this._$selectedDept$delegate_0);
-      var tmp_0 = invoke$lambda_27(this._$selectedCourse$delegate_4);
-      var tmp_1 = invoke$lambda_29(this._$selectedProf$delegate_1);
+      var tmp_0 = invoke$lambda_27(this._$selectedCourse$delegate_7);
+      var tmp_1 = invoke$lambda_29(this._$selectedProf$delegate_4);
       var tmp_2 = invoke$lambda_21(this._$schoolMap$delegate_1)._get_values__0_k$();
       var tmp_3 = ensureNotNull(invoke$lambda_21(this._$schoolMap$delegate_1).get_2bw_k$(invoke$lambda_23(this._$selectedSchool$delegate_2)))._depts;
       var tmp_4 = plus(listOf_0('None'), sorted(invoke$lambda_35(this._$mapOfCourses$delegate_2)._get_keys__0_k$()));
       var tmp_5 = plus(listOf_0('None'), sorted(invoke$lambda_33(this._$mapOfProfs$delegate_0)._get_keys__0_k$()));
       var tmp$ret$3;
       $l$block_2: {
-        var tmp0_remember$composable_0 = _no_name_provided_$factory_622(this._$updateSelectedDept_3, this._$selectedSchool$delegate_2, this._$schoolMap$delegate_1);
+        var tmp0_remember$composable_0 = _no_name_provided_$factory_626(this._$updateSelectedDept_3, this._$selectedSchool$delegate_2, this._$schoolMap$delegate_1);
         var tmp1_remember$composable_0 = $composer_0;
         var $composer_1 = tmp1_remember$composable_0;
         $composer_1.startReplaceableGroup_majfzk_k$(884180712);
@@ -101158,7 +101362,7 @@
       var tmp_8 = tmp$ret$3;
       var tmp$ret$7;
       $l$block_6: {
-        var tmp2_remember$composable_0 = _no_name_provided_$factory_623(this._$updateSelectedDept_3);
+        var tmp2_remember$composable_0 = _no_name_provided_$factory_627(this._$updateSelectedDept_3);
         var tmp3_remember$composable_0 = $composer_0;
         var $composer_1_0 = tmp3_remember$composable_0;
         $composer_1_0.startReplaceableGroup_majfzk_k$(884179877);
@@ -101200,15 +101404,15 @@
       var tmp_11 = tmp$ret$7;
       var tmp$ret$11;
       $l$block_10: {
-        var tmp4_remember$composable_0 = _no_name_provided_$factory_624(this._$selectedCourse$delegate_4);
+        var tmp4_remember$composable_0 = _no_name_provided_$factory_628(this._$updateMapOfEntries_2, this._$selectedCourse$delegate_7, this._$selectedProf$delegate_4);
         var tmp5_remember$composable_0 = $composer_0;
         var $composer_1_1 = tmp5_remember$composable_0;
-        $composer_1_1.startReplaceableGroup_majfzk_k$(884179877);
-        sourceInformation($composer_1_1, 'C(remember$composable)P(1):Composables.kt#9igjgp');
+        $composer_1_1.startReplaceableGroup_majfzk_k$(884180712);
+        sourceInformation($composer_1_1, 'C(remember$composable)P(1,2,3):Composables.kt#9igjgp');
         var tmp$ret$10;
         $l$block_9: {
           var tmp1_cache_0_3_1 = $composer_1_1;
-          var tmp2_cache_0_4_1 = $composer_1_1.changed_wi7j7l_k$(this._$selectedCourse$delegate_4);
+          var tmp2_cache_0_4_1 = !!(!!($composer_1_1.changed_wi7j7l_k$(this._$selectedCourse$delegate_7) | $composer_1_1.changed_wi7j7l_k$(this._$selectedProf$delegate_4)) | $composer_1_1.changed_wi7j7l_k$(this._$updateMapOfEntries_2));
           var tmp$ret$9;
           $l$block_8: {
             var tmp0_let_0_5_1 = tmp1_cache_0_3_1.rememberedValue_0_k$();
@@ -101242,15 +101446,15 @@
       var tmp_14 = tmp$ret$11;
       var tmp$ret$15;
       $l$block_14: {
-        var tmp6_remember$composable_0 = _no_name_provided_$factory_625(this._$selectedProf$delegate_1);
+        var tmp6_remember$composable_0 = _no_name_provided_$factory_629(this._$selectedProf$delegate_4, this._$selectedCourse$delegate_7, this._$profListLoading$delegate_1);
         var tmp7_remember$composable_0 = $composer_0;
         var $composer_1_2 = tmp7_remember$composable_0;
-        $composer_1_2.startReplaceableGroup_majfzk_k$(884179877);
-        sourceInformation($composer_1_2, 'C(remember$composable)P(1):Composables.kt#9igjgp');
+        $composer_1_2.startReplaceableGroup_majfzk_k$(884180712);
+        sourceInformation($composer_1_2, 'C(remember$composable)P(1,2,3):Composables.kt#9igjgp');
         var tmp$ret$14;
         $l$block_13: {
           var tmp1_cache_0_3_2 = $composer_1_2;
-          var tmp2_cache_0_4_2 = $composer_1_2.changed_wi7j7l_k$(this._$selectedProf$delegate_1);
+          var tmp2_cache_0_4_2 = !!(!!($composer_1_2.changed_wi7j7l_k$(this._$selectedProf$delegate_4) | $composer_1_2.changed_wi7j7l_k$(this._$selectedCourse$delegate_7)) | $composer_1_2.changed_wi7j7l_k$(this._$profListLoading$delegate_1));
           var tmp$ret$13;
           $l$block_12: {
             var tmp0_let_0_5_2 = tmp1_cache_0_3_2.rememberedValue_0_k$();
@@ -101285,29 +101489,6 @@
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
-  _no_name_provided__689.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
-    var tmp = p1 instanceof BoxScope ? p1 : THROW_CCE();
-    var tmp_0 = (p2 == null ? true : isInterface(p2, Composer)) ? p2 : THROW_CCE();
-    this.invoke_jpel0v_k$(tmp, tmp_0, (!(p3 == null) ? typeof p3 === 'number' : false) ? p3 : THROW_CCE());
-    return Unit_getInstance();
-  };
-  _no_name_provided__689.$metadata$ = {
-    kind: 'class',
-    interfaces: []
-  };
-  function _no_name_provided__690($profListLoading$delegate) {
-    this._$profListLoading$delegate = $profListLoading$delegate;
-  }
-  _no_name_provided__690.prototype.invoke_jpel0v_k$ = function ($this$loading, $composer, $changed) {
-    var $composer_0 = $composer;
-    if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
-      if (!invoke$lambda_37(this._$profListLoading$delegate)) {
-        return Unit_getInstance();
-      }var tmp = size_0(Companion_getInstance_47(), _get_px_(75));
-      Image$composable('circle_loading.gif', 'Loading', tmp, false, null, $composer_0, 54, 24);
-    } else
-      $composer_0.skipToGroupEnd_sv8swh_k$();
-  };
   _no_name_provided__690.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
     var tmp = p1 instanceof BoxScope ? p1 : THROW_CCE();
     var tmp_0 = (p2 == null ? true : isInterface(p2, Composer)) ? p2 : THROW_CCE();
@@ -101315,6 +101496,29 @@
     return Unit_getInstance();
   };
   _no_name_provided__690.$metadata$ = {
+    kind: 'class',
+    interfaces: []
+  };
+  function _no_name_provided__691($profListLoading$delegate) {
+    this._$profListLoading$delegate_2 = $profListLoading$delegate;
+  }
+  _no_name_provided__691.prototype.invoke_jpel0v_k$ = function ($this$loading, $composer, $changed) {
+    var $composer_0 = $composer;
+    if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
+      if (!invoke$lambda_39(this._$profListLoading$delegate_2)) {
+        return Unit_getInstance();
+      }var tmp = size_0(Companion_getInstance_47(), _get_px_(75));
+      Image$composable('circle_loading.gif', 'Loading', tmp, false, null, $composer_0, 54, 24);
+    } else
+      $composer_0.skipToGroupEnd_sv8swh_k$();
+  };
+  _no_name_provided__691.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
+    var tmp = p1 instanceof BoxScope ? p1 : THROW_CCE();
+    var tmp_0 = (p2 == null ? true : isInterface(p2, Composer)) ? p2 : THROW_CCE();
+    this.invoke_jpel0v_k$(tmp, tmp_0, (!(p3 == null) ? typeof p3 === 'number' : false) ? p3 : THROW_CCE());
+    return Unit_getInstance();
+  };
+  _no_name_provided__691.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
@@ -101454,7 +101658,24 @@
     });
     return $mapOfCourses$delegate._set_value__iav7o_k$(value_0);
   }
-  function invoke$lambda_37($profListLoading$delegate) {
+  function invoke$lambda_37($mapOfEntries$delegate) {
+    var tmp$ret$0;
+    $l$block: {
+      var tmp0_getValue_0 = getLocalDelegateReference('mapOfEntries', KMutableProperty0, true, function () {
+        return THROW_ISE();
+      });
+      tmp$ret$0 = $mapOfEntries$delegate._get_value__0_k$();
+      break $l$block;
+    }
+    return tmp$ret$0;
+  }
+  function invoke$lambda_38($mapOfEntries$delegate, value_0) {
+    var tmp0_setValue_0 = getLocalDelegateReference('mapOfEntries', KMutableProperty0, true, function () {
+      return THROW_ISE();
+    });
+    return $mapOfEntries$delegate._set_value__iav7o_k$(value_0);
+  }
+  function invoke$lambda_39($profListLoading$delegate) {
     var tmp$ret$0;
     $l$block: {
       var tmp0_getValue_0 = getLocalDelegateReference('profListLoading', KMutableProperty0, true, function () {
@@ -101465,43 +101686,68 @@
     }
     return tmp$ret$0;
   }
-  function invoke$lambda_38($profListLoading$delegate, value_0) {
+  function invoke$lambda_40($profListLoading$delegate, value_0) {
     var tmp0_setValue_0 = getLocalDelegateReference('profListLoading', KMutableProperty0, true, function () {
       return THROW_ISE();
     });
     return $profListLoading$delegate._set_value__iav7o_k$(value_0);
   }
-  function invoke$lambda_39($profListLoading$delegate) {
-    return _no_name_provided_$factory_618($profListLoading$delegate);
+  function invoke$lambda_41($selectedCourse$delegate, $profListLoading$delegate) {
+    return _no_name_provided_$factory_621($selectedCourse$delegate, $profListLoading$delegate);
   }
-  function _no_name_provided__691() {
+  function _no_name_provided__692() {
   }
-  _no_name_provided__691.prototype.invoke_0_k$ = function () {
+  _no_name_provided__692.prototype.invoke_0_k$ = function () {
     var tmp0_return_4 = EmptyCoroutineContext_getInstance();
     return tmp0_return_4;
   };
-  _no_name_provided__691.$metadata$ = {
+  _no_name_provided__692.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__692($myCoroutineScope, $profListLoading$delegate, $selectedCourse$delegate, $selectedProf$delegate, $selectedDept$delegate, $repository, $selectedSchool$delegate, $deptEntries$delegate, $mapOfProfs$delegate, $mapOfCourses$delegate) {
+  function _no_name_provided__693($myCoroutineScope, $profListLoading$delegate, $mapOfProfs$delegate, $mapOfCourses$delegate, $mapOfEntries$delegate) {
     this._$myCoroutineScope = $myCoroutineScope;
-    this._$profListLoading$delegate_0 = $profListLoading$delegate;
-    this._$selectedCourse$delegate_5 = $selectedCourse$delegate;
-    this._$selectedProf$delegate_2 = $selectedProf$delegate;
-    this._$selectedDept$delegate_1 = $selectedDept$delegate;
-    this._$repository_4 = $repository;
-    this._$selectedSchool$delegate_3 = $selectedSchool$delegate;
-    this._$deptEntries$delegate_0 = $deptEntries$delegate;
+    this._$profListLoading$delegate_3 = $profListLoading$delegate;
     this._$mapOfProfs$delegate_1 = $mapOfProfs$delegate;
     this._$mapOfCourses$delegate_3 = $mapOfCourses$delegate;
+    this._$mapOfEntries$delegate_0 = $mapOfEntries$delegate;
   }
-  _no_name_provided__692.prototype.invoke_qlpr75_k$ = function (str) {
-    invoke$lambda_38(this._$profListLoading$delegate_0, true);
+  _no_name_provided__693.prototype.invoke_5xhc52_k$ = function (ab, bool) {
+    if (bool)
+      invoke$lambda_40(this._$profListLoading$delegate_3, true);
+    var a = isBlankOrNone(ab) ? invoke$lambda_33(this._$mapOfProfs$delegate_1) : mapByProfs(ensureNotNull(invoke$lambda_35(this._$mapOfCourses$delegate_3).get_2bw_k$(ab)));
+    launch$default(this._$myCoroutineScope, null, null, _no_name_provided_$factory_622(a, this._$mapOfEntries$delegate_0, null), 3, null);
+    Unit_getInstance();
+  };
+  _no_name_provided__693.prototype.invoke_osx4an_k$ = function (p1, p2) {
+    var tmp = (!(p1 == null) ? typeof p1 === 'string' : false) ? p1 : THROW_CCE();
+    this.invoke_5xhc52_k$(tmp, (!(p2 == null) ? typeof p2 === 'boolean' : false) ? p2 : THROW_CCE());
+    return Unit_getInstance();
+  };
+  _no_name_provided__693.$metadata$ = {
+    kind: 'class',
+    interfaces: []
+  };
+  function _no_name_provided__694($myCoroutineScope, $profListLoading$delegate, $selectedCourse$delegate, $selectedProf$delegate, $selectedDept$delegate, $repository, $updateMapOfEntries, $selectedSchool$delegate, $deptEntries$delegate, $mapOfProfs$delegate, $mapOfCourses$delegate) {
+    this._$myCoroutineScope_0 = $myCoroutineScope;
+    this._$profListLoading$delegate_4 = $profListLoading$delegate;
+    this._$selectedCourse$delegate_8 = $selectedCourse$delegate;
+    this._$selectedProf$delegate_5 = $selectedProf$delegate;
+    this._$selectedDept$delegate_1 = $selectedDept$delegate;
+    this._$repository_4 = $repository;
+    this._$updateMapOfEntries_3 = $updateMapOfEntries;
+    this._$selectedSchool$delegate_3 = $selectedSchool$delegate;
+    this._$deptEntries$delegate_0 = $deptEntries$delegate;
+    this._$mapOfProfs$delegate_2 = $mapOfProfs$delegate;
+    this._$mapOfCourses$delegate_4 = $mapOfCourses$delegate;
+  }
+  _no_name_provided__694.prototype.invoke_pyh853_k$ = function (str, firstTime) {
     console.log('' + 'updating dept2: ' + str);
-    invoke$lambda_28(this._$selectedCourse$delegate_5, 'None');
-    invoke$lambda_30(this._$selectedProf$delegate_2, 'None');
-    var tmp0_elvis_lhs = str;
+    if (!firstTime) {
+      invoke$lambda_40(this._$profListLoading$delegate_4, true);
+      invoke$lambda_28(this._$selectedCourse$delegate_8, 'None');
+      invoke$lambda_30(this._$selectedProf$delegate_5, 'None');
+    }var tmp0_elvis_lhs = str;
     var tmp;
     if (tmp0_elvis_lhs == null) {
       var tmp$ret$0;
@@ -101519,35 +101765,37 @@
       tmp = tmp0_elvis_lhs;
     }
     invoke$lambda_26(this._$selectedDept$delegate_1, tmp);
-    launch$default(this._$myCoroutineScope, null, null, _no_name_provided_$factory_619(this._$repository_4, this._$selectedSchool$delegate_3, this._$selectedDept$delegate_1, this._$deptEntries$delegate_0, this._$mapOfProfs$delegate_1, this._$mapOfCourses$delegate_3, null), 3, null);
+    launch$default(this._$myCoroutineScope_0, null, null, _no_name_provided_$factory_623(this._$repository_4, this._$updateMapOfEntries_3, firstTime, this._$selectedSchool$delegate_3, this._$selectedDept$delegate_1, this._$deptEntries$delegate_0, this._$mapOfProfs$delegate_2, this._$mapOfCourses$delegate_4, this._$selectedCourse$delegate_8, this._$selectedProf$delegate_5, null), 3, null);
     Unit_getInstance();
   };
-  _no_name_provided__692.prototype.invoke_20e8_k$ = function (p1) {
-    this.invoke_qlpr75_k$((p1 == null ? true : typeof p1 === 'string') ? p1 : THROW_CCE());
+  _no_name_provided__694.prototype.invoke_osx4an_k$ = function (p1, p2) {
+    var tmp = (p1 == null ? true : typeof p1 === 'string') ? p1 : THROW_CCE();
+    this.invoke_pyh853_k$(tmp, (!(p2 == null) ? typeof p2 === 'boolean' : false) ? p2 : THROW_CCE());
     return Unit_getInstance();
   };
-  _no_name_provided__692.$metadata$ = {
+  _no_name_provided__694.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__693($repository, $updateSelectedDept, $schoolMap$delegate, $selectedSchool$delegate, resultContinuation) {
+  function _no_name_provided__695($repository, $updateSelectedDept, $schoolMap$delegate, $selectedSchool$delegate, $selectedDept$delegate, resultContinuation) {
     this._$repository_5 = $repository;
     this._$updateSelectedDept_4 = $updateSelectedDept;
     this._$schoolMap$delegate_2 = $schoolMap$delegate;
     this._$selectedSchool$delegate_4 = $selectedSchool$delegate;
+    this._$selectedDept$delegate_2 = $selectedDept$delegate;
     CoroutineImpl_0.call(this, resultContinuation);
   }
-  _no_name_provided__693.prototype.invoke_2i3g7c_k$ = function ($this$LaunchedEffect, $cont) {
+  _no_name_provided__695.prototype.invoke_2i3g7c_k$ = function ($this$LaunchedEffect, $cont) {
     var tmp = this.create_y6imfn_k$($this$LaunchedEffect, $cont);
     tmp._result_1 = Unit_getInstance();
     tmp._exception_0 = null;
     return tmp.doResume_0_k$();
   };
-  _no_name_provided__693.prototype.invoke_20e8_k$ = function (p1, $cont) {
+  _no_name_provided__695.prototype.invoke_20e8_k$ = function (p1, $cont) {
     this.invoke_2i3g7c_k$((!(p1 == null) ? isInterface(p1, CoroutineScope) : false) ? p1 : THROW_CCE(), $cont);
     return Unit_getInstance();
   };
-  _no_name_provided__693.prototype.doResume_0_k$ = function () {
+  _no_name_provided__695.prototype.doResume_0_k$ = function () {
     var suspendResult = this._result_1;
     $sm: do
       try {
@@ -101577,9 +101825,21 @@
             var tmp1_elvis_lhs = tmp0_safe_receiver == null ? null : tmp0_safe_receiver._data_3;
             var ARGUMENT = tmp1_elvis_lhs == null ? emptyMap() : tmp1_elvis_lhs;
             invoke$lambda_22(this._$schoolMap$delegate_2, ARGUMENT);
-            var firstSchool = ensureNotNull(invoke$lambda_21(this._$schoolMap$delegate_2).get_2bw_k$('01'));
-            invoke$lambda_24(this._$selectedSchool$delegate_4, firstSchool._code_3);
-            this._$updateSelectedDept_4(firstOrNull_0(firstSchool._depts));
+            var tmp2_elvis_lhs = invoke$lambda_21(this._$schoolMap$delegate_2).get_2bw_k$(invoke$lambda_23(this._$selectedSchool$delegate_4));
+            var school = tmp2_elvis_lhs == null ? ensureNotNull(invoke$lambda_21(this._$schoolMap$delegate_2).get_2bw_k$('01')) : tmp2_elvis_lhs;
+            invoke$lambda_24(this._$selectedSchool$delegate_4, school._code_3);
+            var tmp1_takeIf_0 = invoke$lambda_25(this._$selectedDept$delegate_2);
+            var tmp_1;
+            if (school._depts.contains_2bq_k$(tmp1_takeIf_0)) {
+              tmp_1 = tmp1_takeIf_0;
+            } else {
+              {
+                tmp_1 = null;
+              }
+            }
+
+            var tmp3_elvis_lhs = tmp_1;
+            this._$updateSelectedDept_4(tmp3_elvis_lhs == null ? first_0(school._depts) : tmp3_elvis_lhs, true);
             return Unit_getInstance();
           case 2:
             throw this._exception_0;
@@ -101594,81 +101854,86 @@
       }
      while (true);
   };
-  _no_name_provided__693.prototype.create_y6imfn_k$ = function ($this$LaunchedEffect, completion) {
-    var i = new _no_name_provided__693(this._$repository_5, this._$updateSelectedDept_4, this._$schoolMap$delegate_2, this._$selectedSchool$delegate_4, completion);
+  _no_name_provided__695.prototype.create_y6imfn_k$ = function ($this$LaunchedEffect, completion) {
+    var i = new _no_name_provided__695(this._$repository_5, this._$updateSelectedDept_4, this._$schoolMap$delegate_2, this._$selectedSchool$delegate_4, this._$selectedDept$delegate_2, completion);
     i._$this$LaunchedEffect_3 = $this$LaunchedEffect;
     return i;
   };
-  _no_name_provided__693.$metadata$ = {
+  _no_name_provided__695.$metadata$ = {
     kind: 'class',
     interfaces: [],
     suspendArity: [1]
   };
-  function _no_name_provided__694($selectedSchool$delegate, $updateSelectedDept, $schoolMap$delegate, $selectedCourse$delegate, $selectedProf$delegate, $selectedDept$delegate, $mapOfCourses$delegate, $mapOfProfs$delegate, $profListLoading$delegate) {
+  function _no_name_provided__696($selectedSchool$delegate, $updateSelectedDept, $schoolMap$delegate, $selectedCourse$delegate, $selectedProf$delegate, $updateMapOfEntries, $profListLoading$delegate, $selectedDept$delegate, $mapOfCourses$delegate, $mapOfProfs$delegate) {
     this._$selectedSchool$delegate_5 = $selectedSchool$delegate;
     this._$updateSelectedDept_5 = $updateSelectedDept;
     this._$schoolMap$delegate_3 = $schoolMap$delegate;
-    this._$selectedCourse$delegate_6 = $selectedCourse$delegate;
-    this._$selectedProf$delegate_3 = $selectedProf$delegate;
-    this._$selectedDept$delegate_2 = $selectedDept$delegate;
-    this._$mapOfCourses$delegate_4 = $mapOfCourses$delegate;
-    this._$mapOfProfs$delegate_2 = $mapOfProfs$delegate;
-    this._$profListLoading$delegate_1 = $profListLoading$delegate;
+    this._$selectedCourse$delegate_9 = $selectedCourse$delegate;
+    this._$selectedProf$delegate_6 = $selectedProf$delegate;
+    this._$updateMapOfEntries_4 = $updateMapOfEntries;
+    this._$profListLoading$delegate_5 = $profListLoading$delegate;
+    this._$selectedDept$delegate_3 = $selectedDept$delegate;
+    this._$mapOfCourses$delegate_5 = $mapOfCourses$delegate;
+    this._$mapOfProfs$delegate_3 = $mapOfProfs$delegate;
   }
-  _no_name_provided__694.prototype.invoke_jpel0v_k$ = function ($this$Box, $composer, $changed) {
+  _no_name_provided__696.prototype.invoke_jpel0v_k$ = function ($this$Box, $composer, $changed) {
     var $composer_0 = $composer;
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       var tmp = flex_0(Companion_getInstance_47(), 1);
       Box$composable(tmp, null, null, null, $composer_0, 0, 14);
       var tmp_0 = $composer_0;
-      Box$composable(null, null, null, composableLambda(tmp_0, -819894002, true, _no_name_provided_$factory_620(this._$selectedSchool$delegate_5, this._$updateSelectedDept_5, this._$schoolMap$delegate_3, this._$selectedCourse$delegate_6, this._$selectedProf$delegate_3, this._$selectedDept$delegate_2, this._$mapOfCourses$delegate_4, this._$mapOfProfs$delegate_2)), $composer_0, 3072, 7);
+      Box$composable(null, null, null, composableLambda(tmp_0, -819891660, true, _no_name_provided_$factory_624(this._$selectedSchool$delegate_5, this._$updateSelectedDept_5, this._$schoolMap$delegate_3, this._$selectedCourse$delegate_9, this._$selectedProf$delegate_6, this._$updateMapOfEntries_4, this._$profListLoading$delegate_5, this._$selectedDept$delegate_3, this._$mapOfCourses$delegate_5, this._$mapOfProfs$delegate_3)), $composer_0, 3072, 7);
       var tmp_1 = flex_0(Companion_getInstance_47(), 1);
       var tmp_2 = $composer_0;
-      Box$composable(tmp_1, null, null, composableLambda(tmp_2, -819890798, true, _no_name_provided_$factory_621(this._$profListLoading$delegate_1)), $composer_0, 3072, 6);
+      Box$composable(tmp_1, null, null, composableLambda(tmp_2, -819888971, true, _no_name_provided_$factory_625(this._$profListLoading$delegate_5)), $composer_0, 3072, 6);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
-  _no_name_provided__694.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
+  _no_name_provided__696.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
     var tmp = p1 instanceof BoxScope ? p1 : THROW_CCE();
     var tmp_0 = (p2 == null ? true : isInterface(p2, Composer)) ? p2 : THROW_CCE();
     this.invoke_jpel0v_k$(tmp, tmp_0, (!(p3 == null) ? typeof p3 === 'number' : false) ? p3 : THROW_CCE());
-    return Unit_getInstance();
-  };
-  _no_name_provided__694.$metadata$ = {
-    kind: 'class',
-    interfaces: []
-  };
-  function _no_name_provided__695($profListLoading$delegate) {
-    this._$profListLoading$delegate_2 = $profListLoading$delegate;
-  }
-  _no_name_provided__695.prototype.invoke_0_k$ = function () {
-    return invoke$lambda_39(this._$profListLoading$delegate_2);
-  };
-  _no_name_provided__695.$metadata$ = {
-    kind: 'class',
-    interfaces: []
-  };
-  function _no_name_provided__696($profListLoading$delegate) {
-    this._$profListLoading$delegate_3 = $profListLoading$delegate;
-  }
-  _no_name_provided__696.prototype.invoke_sv8swh_k$ = function () {
-    console.log('hi');
-    invoke$lambda_38(this._$profListLoading$delegate_3, false);
-  };
-  _no_name_provided__696.prototype.invoke_0_k$ = function () {
-    this.invoke_sv8swh_k$();
     return Unit_getInstance();
   };
   _no_name_provided__696.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__697($repository) {
+  function _no_name_provided__697($selectedCourse$delegate, $profListLoading$delegate) {
+    this._$selectedCourse$delegate_10 = $selectedCourse$delegate;
+    this._$profListLoading$delegate_6 = $profListLoading$delegate;
+  }
+  _no_name_provided__697.prototype.invoke_0_k$ = function () {
+    return invoke$lambda_41(this._$selectedCourse$delegate_10, this._$profListLoading$delegate_6);
+  };
+  _no_name_provided__697.$metadata$ = {
+    kind: 'class',
+    interfaces: []
+  };
+  function _no_name_provided__698($selectedCourse$delegate, $profListLoading$delegate) {
+    this._$selectedCourse$delegate_11 = $selectedCourse$delegate;
+    this._$profListLoading$delegate_7 = $profListLoading$delegate;
+  }
+  _no_name_provided__698.prototype.invoke_sv8swh_k$ = function () {
+    console.log('hi');
+    if (isBlankOrNone(invoke$lambda_27(this._$selectedCourse$delegate_11)))
+      invoke$lambda_40(this._$profListLoading$delegate_7, false);
+  };
+  _no_name_provided__698.prototype.invoke_0_k$ = function () {
+    this.invoke_sv8swh_k$();
+    return Unit_getInstance();
+  };
+  _no_name_provided__698.$metadata$ = {
+    kind: 'class',
+    interfaces: []
+  };
+  function _no_name_provided__699($repository) {
     this._$repository_6 = $repository;
   }
-  _no_name_provided__697.prototype.invoke_5vwf3d_k$ = function ($composer, $changed) {
+  _no_name_provided__699.prototype.invoke_5vwf3d_k$ = function ($composer, $changed) {
     var $composer_0 = $composer;
     if (!(($changed & 11 ^ 2) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
+      var ctx = rememberPageContext$composable($composer_0, 0);
       var tmp$ret$5;
       $l$block_4: {
         var tmp0_rememberCoroutineScope$composable_0 = null;
@@ -101678,7 +101943,7 @@
         $composer_2.startReplaceableGroup_majfzk_k$(-1430879913);
         sourceInformation($composer_2, 'C(rememberCoroutineScope$composable)475@19849L144:Effects.kt#9igjgp');
         if (!(1 === 0)) {
-          getContext_1 = _no_name_provided_$factory_613();
+          getContext_1 = _no_name_provided_$factory_615();
         }var composer_5 = $composer_2;
         var tmp$ret$4;
         $l$block_3: {
@@ -101799,7 +102064,9 @@
               if (false ? true : tmp0_let_0_4_0 === Companion_getInstance_14()._Empty) {
                 var tmp$ret$11;
                 $l$block_10: {
-                  var tmp0_return_7_0 = mutableStateOf$default('', null, 2, null);
+                  var tmp0_elvis_lhs_8 = ctx._params.get_2bw_k$('school');
+                  var tmp_5 = tmp0_elvis_lhs_8 == null ? '' : tmp0_elvis_lhs_8;
+                  var tmp0_return_7_0 = mutableStateOf$default(tmp_5, null, 2, null);
                   tmp$ret$11 = tmp0_return_7_0;
                   break $l$block_10;
                 }
@@ -101815,8 +102082,8 @@
             tmp$ret$13 = tmp$ret$12;
             break $l$block_12;
           }
-          var tmp_5 = tmp$ret$13;
-          tmp$ret$14 = (tmp_5 == null ? true : isObject(tmp_5)) ? tmp_5 : THROW_CCE();
+          var tmp_6 = tmp$ret$13;
+          tmp$ret$14 = (tmp_6 == null ? true : isObject(tmp_6)) ? tmp_6 : THROW_CCE();
           break $l$block_13;
         }
         var tmp0_2_0 = tmp$ret$14;
@@ -101841,28 +102108,30 @@
             }
             var tmp$ret$17;
             $l$block_16: {
-              var tmp_6;
+              var tmp_7;
               if (false ? true : tmp0_let_0_4_1 === Companion_getInstance_14()._Empty) {
                 var tmp$ret$16;
                 $l$block_15: {
-                  var tmp0_return_7_1 = mutableStateOf$default('', null, 2, null);
+                  var tmp0_elvis_lhs_8_0 = ctx._params.get_2bw_k$('dept');
+                  var tmp_8 = tmp0_elvis_lhs_8_0 == null ? '' : tmp0_elvis_lhs_8_0;
+                  var tmp0_return_7_1 = mutableStateOf$default(tmp_8, null, 2, null);
                   tmp$ret$16 = tmp0_return_7_1;
                   break $l$block_15;
                 }
                 var value_2_2_5_1 = tmp$ret$16;
                 tmp1_cache_0_3_1.updateRememberedValue_qi8yb4_k$(value_2_2_5_1);
-                tmp_6 = value_2_2_5_1;
+                tmp_7 = value_2_2_5_1;
               } else {
-                tmp_6 = tmp0_let_0_4_1;
+                tmp_7 = tmp0_let_0_4_1;
               }
-              tmp$ret$17 = tmp_6;
+              tmp$ret$17 = tmp_7;
               break $l$block_16;
             }
             tmp$ret$18 = tmp$ret$17;
             break $l$block_17;
           }
-          var tmp_7 = tmp$ret$18;
-          tmp$ret$19 = (tmp_7 == null ? true : isObject(tmp_7)) ? tmp_7 : THROW_CCE();
+          var tmp_9 = tmp$ret$18;
+          tmp$ret$19 = (tmp_9 == null ? true : isObject(tmp_9)) ? tmp_9 : THROW_CCE();
           break $l$block_18;
         }
         var tmp0_2_1 = tmp$ret$19;
@@ -101887,28 +102156,30 @@
             }
             var tmp$ret$22;
             $l$block_21: {
-              var tmp_8;
+              var tmp_10;
               if (false ? true : tmp0_let_0_4_2 === Companion_getInstance_14()._Empty) {
                 var tmp$ret$21;
                 $l$block_20: {
-                  var tmp0_return_7_2 = mutableStateOf$default('', null, 2, null);
+                  var tmp0_elvis_lhs_8_1 = ctx._params.get_2bw_k$('course');
+                  var tmp_11 = tmp0_elvis_lhs_8_1 == null ? '' : tmp0_elvis_lhs_8_1;
+                  var tmp0_return_7_2 = mutableStateOf$default(tmp_11, null, 2, null);
                   tmp$ret$21 = tmp0_return_7_2;
                   break $l$block_20;
                 }
                 var value_2_2_5_2 = tmp$ret$21;
                 tmp1_cache_0_3_2.updateRememberedValue_qi8yb4_k$(value_2_2_5_2);
-                tmp_8 = value_2_2_5_2;
+                tmp_10 = value_2_2_5_2;
               } else {
-                tmp_8 = tmp0_let_0_4_2;
+                tmp_10 = tmp0_let_0_4_2;
               }
-              tmp$ret$22 = tmp_8;
+              tmp$ret$22 = tmp_10;
               break $l$block_21;
             }
             tmp$ret$23 = tmp$ret$22;
             break $l$block_22;
           }
-          var tmp_9 = tmp$ret$23;
-          tmp$ret$24 = (tmp_9 == null ? true : isObject(tmp_9)) ? tmp_9 : THROW_CCE();
+          var tmp_12 = tmp$ret$23;
+          tmp$ret$24 = (tmp_12 == null ? true : isObject(tmp_12)) ? tmp_12 : THROW_CCE();
           break $l$block_23;
         }
         var tmp0_2_2 = tmp$ret$24;
@@ -101917,415 +102188,478 @@
         break $l$block_24;
       }
       var selectedCourse$delegate = tmp$ret$25;
-      var tmp$ret$30;
-      $l$block_29: {
+      var tmp$ret$32;
+      $l$block_31: {
         var tmp6_remember$composable_0 = $composer_0;
         var $composer_1_3 = tmp6_remember$composable_0;
         $composer_1_3.startReplaceableGroup_majfzk_k$(884179566);
         sourceInformation($composer_1_3, 'C(remember$composable):Composables.kt#9igjgp');
-        var tmp$ret$29;
-        $l$block_28: {
+        var tmp$ret$31;
+        $l$block_30: {
           var tmp1_cache_0_3_3 = $composer_1_3;
-          var tmp$ret$28;
-          $l$block_27: {
+          var tmp$ret$30;
+          $l$block_29: {
             var tmp0_let_0_4_3 = tmp1_cache_0_3_3.rememberedValue_0_k$();
             {
             }
-            var tmp$ret$27;
-            $l$block_26: {
-              var tmp_10;
+            var tmp$ret$29;
+            $l$block_28: {
+              var tmp_13;
               if (false ? true : tmp0_let_0_4_3 === Companion_getInstance_14()._Empty) {
-                var tmp$ret$26;
-                $l$block_25: {
-                  var tmp0_return_7_3 = mutableStateOf$default('', null, 2, null);
-                  tmp$ret$26 = tmp0_return_7_3;
-                  break $l$block_25;
+                var tmp$ret$28;
+                $l$block_27: {
+                  var tmp0_safe_receiver_10 = ctx._params.get_2bw_k$('prof');
+                  var tmp1_safe_receiver_9 = tmp0_safe_receiver_10 == null ? null : decodeURLParam(tmp0_safe_receiver_10);
+                  var tmp_14;
+                  if (tmp1_safe_receiver_9 == null) {
+                    tmp_14 = null;
+                  } else {
+                    var tmp$ret$27;
+                    $l$block_26: {
+                      var tmp$ret$26;
+                      $l$block_25: {
+                        tmp$ret$26 = tmp1_safe_receiver_9;
+                        break $l$block_25;
+                      }
+                      tmp$ret$27 = tmp$ret$26.toUpperCase();
+                      break $l$block_26;
+                    }
+                    tmp_14 = tmp$ret$27;
+                  }
+                  var tmp2_elvis_lhs_8 = tmp_14;
+                  var tmp_15 = tmp2_elvis_lhs_8 == null ? '' : tmp2_elvis_lhs_8;
+                  var tmp0_return_7_3 = mutableStateOf$default(tmp_15, null, 2, null);
+                  tmp$ret$28 = tmp0_return_7_3;
+                  break $l$block_27;
                 }
-                var value_2_2_5_3 = tmp$ret$26;
+                var value_2_2_5_3 = tmp$ret$28;
                 tmp1_cache_0_3_3.updateRememberedValue_qi8yb4_k$(value_2_2_5_3);
-                tmp_10 = value_2_2_5_3;
+                tmp_13 = value_2_2_5_3;
               } else {
-                tmp_10 = tmp0_let_0_4_3;
+                tmp_13 = tmp0_let_0_4_3;
               }
-              tmp$ret$27 = tmp_10;
-              break $l$block_26;
+              tmp$ret$29 = tmp_13;
+              break $l$block_28;
             }
-            tmp$ret$28 = tmp$ret$27;
-            break $l$block_27;
+            tmp$ret$30 = tmp$ret$29;
+            break $l$block_29;
           }
-          var tmp_11 = tmp$ret$28;
-          tmp$ret$29 = (tmp_11 == null ? true : isObject(tmp_11)) ? tmp_11 : THROW_CCE();
-          break $l$block_28;
+          var tmp_16 = tmp$ret$30;
+          tmp$ret$31 = (tmp_16 == null ? true : isObject(tmp_16)) ? tmp_16 : THROW_CCE();
+          break $l$block_30;
         }
-        var tmp0_2_3 = tmp$ret$29;
+        var tmp0_2_3 = tmp$ret$31;
         $composer_1_3.endReplaceableGroup_sv8swh_k$();
-        tmp$ret$30 = tmp0_2_3;
-        break $l$block_29;
+        tmp$ret$32 = tmp0_2_3;
+        break $l$block_31;
       }
-      var selectedProf$delegate = tmp$ret$30;
-      var tmp$ret$35;
-      $l$block_34: {
+      var selectedProf$delegate = tmp$ret$32;
+      var tmp$ret$37;
+      $l$block_36: {
         var tmp7_remember$composable_0 = $composer_0;
         var $composer_1_4 = tmp7_remember$composable_0;
         $composer_1_4.startReplaceableGroup_majfzk_k$(884179566);
         sourceInformation($composer_1_4, 'C(remember$composable):Composables.kt#9igjgp');
-        var tmp$ret$34;
-        $l$block_33: {
+        var tmp$ret$36;
+        $l$block_35: {
           var tmp1_cache_0_3_4 = $composer_1_4;
-          var tmp$ret$33;
-          $l$block_32: {
+          var tmp$ret$35;
+          $l$block_34: {
             var tmp0_let_0_4_4 = tmp1_cache_0_3_4.rememberedValue_0_k$();
             {
             }
-            var tmp$ret$32;
-            $l$block_31: {
-              var tmp_12;
+            var tmp$ret$34;
+            $l$block_33: {
+              var tmp_17;
               if (false ? true : tmp0_let_0_4_4 === Companion_getInstance_14()._Empty) {
-                var tmp$ret$31;
-                $l$block_30: {
-                  var tmp_13 = emptyList();
-                  var tmp0_return_7_4 = mutableStateOf$default(tmp_13, null, 2, null);
-                  tmp$ret$31 = tmp0_return_7_4;
-                  break $l$block_30;
+                var tmp$ret$33;
+                $l$block_32: {
+                  var tmp_18 = emptyList();
+                  var tmp0_return_7_4 = mutableStateOf$default(tmp_18, null, 2, null);
+                  tmp$ret$33 = tmp0_return_7_4;
+                  break $l$block_32;
                 }
-                var value_2_2_5_4 = tmp$ret$31;
+                var value_2_2_5_4 = tmp$ret$33;
                 tmp1_cache_0_3_4.updateRememberedValue_qi8yb4_k$(value_2_2_5_4);
-                tmp_12 = value_2_2_5_4;
+                tmp_17 = value_2_2_5_4;
               } else {
-                tmp_12 = tmp0_let_0_4_4;
+                tmp_17 = tmp0_let_0_4_4;
               }
-              tmp$ret$32 = tmp_12;
-              break $l$block_31;
+              tmp$ret$34 = tmp_17;
+              break $l$block_33;
             }
-            tmp$ret$33 = tmp$ret$32;
-            break $l$block_32;
+            tmp$ret$35 = tmp$ret$34;
+            break $l$block_34;
           }
-          var tmp_14 = tmp$ret$33;
-          tmp$ret$34 = (tmp_14 == null ? true : isObject(tmp_14)) ? tmp_14 : THROW_CCE();
-          break $l$block_33;
+          var tmp_19 = tmp$ret$35;
+          tmp$ret$36 = (tmp_19 == null ? true : isObject(tmp_19)) ? tmp_19 : THROW_CCE();
+          break $l$block_35;
         }
-        var tmp0_2_4 = tmp$ret$34;
+        var tmp0_2_4 = tmp$ret$36;
         $composer_1_4.endReplaceableGroup_sv8swh_k$();
-        tmp$ret$35 = tmp0_2_4;
-        break $l$block_34;
+        tmp$ret$37 = tmp0_2_4;
+        break $l$block_36;
       }
-      var deptEntries$delegate = tmp$ret$35;
-      var tmp$ret$40;
-      $l$block_39: {
+      var deptEntries$delegate = tmp$ret$37;
+      var tmp$ret$42;
+      $l$block_41: {
         var tmp8_remember$composable_0 = $composer_0;
         var $composer_1_5 = tmp8_remember$composable_0;
         $composer_1_5.startReplaceableGroup_majfzk_k$(884179566);
         sourceInformation($composer_1_5, 'C(remember$composable):Composables.kt#9igjgp');
-        var tmp$ret$39;
-        $l$block_38: {
+        var tmp$ret$41;
+        $l$block_40: {
           var tmp1_cache_0_3_5 = $composer_1_5;
-          var tmp$ret$38;
-          $l$block_37: {
+          var tmp$ret$40;
+          $l$block_39: {
             var tmp0_let_0_4_5 = tmp1_cache_0_3_5.rememberedValue_0_k$();
             {
             }
-            var tmp$ret$37;
-            $l$block_36: {
-              var tmp_15;
+            var tmp$ret$39;
+            $l$block_38: {
+              var tmp_20;
               if (false ? true : tmp0_let_0_4_5 === Companion_getInstance_14()._Empty) {
-                var tmp$ret$36;
-                $l$block_35: {
-                  var tmp_16 = emptyMap();
-                  var tmp0_return_7_5 = mutableStateOf$default(tmp_16, null, 2, null);
-                  tmp$ret$36 = tmp0_return_7_5;
-                  break $l$block_35;
+                var tmp$ret$38;
+                $l$block_37: {
+                  var tmp_21 = emptyMap();
+                  var tmp0_return_7_5 = mutableStateOf$default(tmp_21, null, 2, null);
+                  tmp$ret$38 = tmp0_return_7_5;
+                  break $l$block_37;
                 }
-                var value_2_2_5_5 = tmp$ret$36;
+                var value_2_2_5_5 = tmp$ret$38;
                 tmp1_cache_0_3_5.updateRememberedValue_qi8yb4_k$(value_2_2_5_5);
-                tmp_15 = value_2_2_5_5;
+                tmp_20 = value_2_2_5_5;
               } else {
-                tmp_15 = tmp0_let_0_4_5;
+                tmp_20 = tmp0_let_0_4_5;
               }
-              tmp$ret$37 = tmp_15;
-              break $l$block_36;
+              tmp$ret$39 = tmp_20;
+              break $l$block_38;
             }
-            tmp$ret$38 = tmp$ret$37;
-            break $l$block_37;
+            tmp$ret$40 = tmp$ret$39;
+            break $l$block_39;
           }
-          var tmp_17 = tmp$ret$38;
-          tmp$ret$39 = (tmp_17 == null ? true : isObject(tmp_17)) ? tmp_17 : THROW_CCE();
-          break $l$block_38;
+          var tmp_22 = tmp$ret$40;
+          tmp$ret$41 = (tmp_22 == null ? true : isObject(tmp_22)) ? tmp_22 : THROW_CCE();
+          break $l$block_40;
         }
-        var tmp0_2_5 = tmp$ret$39;
+        var tmp0_2_5 = tmp$ret$41;
         $composer_1_5.endReplaceableGroup_sv8swh_k$();
-        tmp$ret$40 = tmp0_2_5;
-        break $l$block_39;
+        tmp$ret$42 = tmp0_2_5;
+        break $l$block_41;
       }
-      var mapOfProfs$delegate = tmp$ret$40;
-      var tmp$ret$45;
-      $l$block_44: {
+      var mapOfProfs$delegate = tmp$ret$42;
+      var tmp$ret$47;
+      $l$block_46: {
         var tmp9_remember$composable_0 = $composer_0;
         var $composer_1_6 = tmp9_remember$composable_0;
         $composer_1_6.startReplaceableGroup_majfzk_k$(884179566);
         sourceInformation($composer_1_6, 'C(remember$composable):Composables.kt#9igjgp');
-        var tmp$ret$44;
-        $l$block_43: {
+        var tmp$ret$46;
+        $l$block_45: {
           var tmp1_cache_0_3_6 = $composer_1_6;
-          var tmp$ret$43;
-          $l$block_42: {
+          var tmp$ret$45;
+          $l$block_44: {
             var tmp0_let_0_4_6 = tmp1_cache_0_3_6.rememberedValue_0_k$();
             {
             }
-            var tmp$ret$42;
-            $l$block_41: {
-              var tmp_18;
+            var tmp$ret$44;
+            $l$block_43: {
+              var tmp_23;
               if (false ? true : tmp0_let_0_4_6 === Companion_getInstance_14()._Empty) {
-                var tmp$ret$41;
-                $l$block_40: {
-                  var tmp_19 = emptyMap();
-                  var tmp0_return_7_6 = mutableStateOf$default(tmp_19, null, 2, null);
-                  tmp$ret$41 = tmp0_return_7_6;
-                  break $l$block_40;
+                var tmp$ret$43;
+                $l$block_42: {
+                  var tmp_24 = emptyMap();
+                  var tmp0_return_7_6 = mutableStateOf$default(tmp_24, null, 2, null);
+                  tmp$ret$43 = tmp0_return_7_6;
+                  break $l$block_42;
                 }
-                var value_2_2_5_6 = tmp$ret$41;
+                var value_2_2_5_6 = tmp$ret$43;
                 tmp1_cache_0_3_6.updateRememberedValue_qi8yb4_k$(value_2_2_5_6);
-                tmp_18 = value_2_2_5_6;
+                tmp_23 = value_2_2_5_6;
               } else {
-                tmp_18 = tmp0_let_0_4_6;
+                tmp_23 = tmp0_let_0_4_6;
               }
-              tmp$ret$42 = tmp_18;
-              break $l$block_41;
+              tmp$ret$44 = tmp_23;
+              break $l$block_43;
             }
-            tmp$ret$43 = tmp$ret$42;
-            break $l$block_42;
+            tmp$ret$45 = tmp$ret$44;
+            break $l$block_44;
           }
-          var tmp_20 = tmp$ret$43;
-          tmp$ret$44 = (tmp_20 == null ? true : isObject(tmp_20)) ? tmp_20 : THROW_CCE();
-          break $l$block_43;
+          var tmp_25 = tmp$ret$45;
+          tmp$ret$46 = (tmp_25 == null ? true : isObject(tmp_25)) ? tmp_25 : THROW_CCE();
+          break $l$block_45;
         }
-        var tmp0_2_6 = tmp$ret$44;
+        var tmp0_2_6 = tmp$ret$46;
         $composer_1_6.endReplaceableGroup_sv8swh_k$();
-        tmp$ret$45 = tmp0_2_6;
-        break $l$block_44;
+        tmp$ret$47 = tmp0_2_6;
+        break $l$block_46;
       }
-      var mapOfCourses$delegate = tmp$ret$45;
-      var tmp$ret$50;
-      $l$block_49: {
+      var mapOfCourses$delegate = tmp$ret$47;
+      var tmp$ret$52;
+      $l$block_51: {
         var tmp10_remember$composable_0 = $composer_0;
         var $composer_1_7 = tmp10_remember$composable_0;
         $composer_1_7.startReplaceableGroup_majfzk_k$(884179566);
         sourceInformation($composer_1_7, 'C(remember$composable):Composables.kt#9igjgp');
-        var tmp$ret$49;
-        $l$block_48: {
+        var tmp$ret$51;
+        $l$block_50: {
           var tmp1_cache_0_3_7 = $composer_1_7;
-          var tmp$ret$48;
-          $l$block_47: {
+          var tmp$ret$50;
+          $l$block_49: {
             var tmp0_let_0_4_7 = tmp1_cache_0_3_7.rememberedValue_0_k$();
             {
             }
-            var tmp$ret$47;
-            $l$block_46: {
-              var tmp_21;
+            var tmp$ret$49;
+            $l$block_48: {
+              var tmp_26;
               if (false ? true : tmp0_let_0_4_7 === Companion_getInstance_14()._Empty) {
-                var tmp$ret$46;
-                $l$block_45: {
-                  var tmp0_return_7_7 = mutableStateOf$default(true, null, 2, null);
-                  tmp$ret$46 = tmp0_return_7_7;
-                  break $l$block_45;
+                var tmp$ret$48;
+                $l$block_47: {
+                  var tmp_27 = emptyMap();
+                  var tmp0_return_7_7 = mutableStateOf$default(tmp_27, null, 2, null);
+                  tmp$ret$48 = tmp0_return_7_7;
+                  break $l$block_47;
                 }
-                var value_2_2_5_7 = tmp$ret$46;
+                var value_2_2_5_7 = tmp$ret$48;
                 tmp1_cache_0_3_7.updateRememberedValue_qi8yb4_k$(value_2_2_5_7);
-                tmp_21 = value_2_2_5_7;
+                tmp_26 = value_2_2_5_7;
               } else {
-                tmp_21 = tmp0_let_0_4_7;
+                tmp_26 = tmp0_let_0_4_7;
               }
-              tmp$ret$47 = tmp_21;
-              break $l$block_46;
+              tmp$ret$49 = tmp_26;
+              break $l$block_48;
             }
-            tmp$ret$48 = tmp$ret$47;
-            break $l$block_47;
+            tmp$ret$50 = tmp$ret$49;
+            break $l$block_49;
           }
-          var tmp_22 = tmp$ret$48;
-          tmp$ret$49 = (tmp_22 == null ? true : isObject(tmp_22)) ? tmp_22 : THROW_CCE();
-          break $l$block_48;
+          var tmp_28 = tmp$ret$50;
+          tmp$ret$51 = (tmp_28 == null ? true : isObject(tmp_28)) ? tmp_28 : THROW_CCE();
+          break $l$block_50;
         }
-        var tmp0_2_7 = tmp$ret$49;
+        var tmp0_2_7 = tmp$ret$51;
         $composer_1_7.endReplaceableGroup_sv8swh_k$();
-        tmp$ret$50 = tmp0_2_7;
-        break $l$block_49;
+        tmp$ret$52 = tmp0_2_7;
+        break $l$block_51;
       }
-      var profListLoading$delegate = tmp$ret$50;
-      var updateSelectedDept = _no_name_provided_$factory_614(myCoroutineScope, profListLoading$delegate, selectedCourse$delegate, selectedProf$delegate, selectedDept$delegate, this._$repository_6, selectedSchool$delegate, deptEntries$delegate, mapOfProfs$delegate, mapOfCourses$delegate);
-      LaunchedEffect$composable(true, _no_name_provided_$factory_615(this._$repository_6, updateSelectedDept, schoolMap$delegate, selectedSchool$delegate, null), $composer_0, 6);
-      if (invoke$lambda_21(schoolMap$delegate).isEmpty_0_k$()) {
-        return Unit_getInstance();
-      }var tmp_23 = Companion_getInstance_47();
-      var tmp_24 = fillMaxWidth$default(tmp_23, null, 1, null);
-      var tmp$ret$54;
-      $l$block_53: {
-        var tmp11__get_Flex__0 = Companion_getInstance_26();
-        var tmp$ret$53;
-        $l$block_52: {
-          var tmp$ret$52;
-          $l$block_51: {
-            var tmp$ret$51;
-            $l$block_50: {
-              tmp$ret$51 = 'flex';
-              break $l$block_50;
-            }
-            tmp$ret$52 = tmp$ret$51;
-            break $l$block_51;
-          }
-          tmp$ret$53 = tmp$ret$52;
-          break $l$block_52;
-        }
-        tmp$ret$54 = tmp$ret$53;
-        break $l$block_53;
-      }
-      var tmp_25 = display_0(tmp_24, tmp$ret$54);
-      var tmp$ret$58;
-      $l$block_57: {
-        var tmp12__get_Center__0 = Companion_getInstance_28();
-        var tmp$ret$57;
-        $l$block_56: {
-          var tmp$ret$56;
-          $l$block_55: {
-            var tmp$ret$55;
-            $l$block_54: {
-              tmp$ret$55 = 'center';
-              break $l$block_54;
-            }
-            tmp$ret$56 = tmp$ret$55;
-            break $l$block_55;
-          }
-          tmp$ret$57 = tmp$ret$56;
-          break $l$block_56;
-        }
-        tmp$ret$58 = tmp$ret$57;
-        break $l$block_57;
-      }
-      var tmp_26 = alignItems_0(tmp_25, tmp$ret$58);
-      var tmp_27 = $composer_0;
-      Box$composable(tmp_26, null, null, composableLambda(tmp_27, -819893821, true, _no_name_provided_$factory_616(selectedSchool$delegate, updateSelectedDept, schoolMap$delegate, selectedCourse$delegate, selectedProf$delegate, selectedDept$delegate, mapOfCourses$delegate, mapOfProfs$delegate, profListLoading$delegate)), $composer_0, 3072, 6);
-      if (invoke$lambda_31(deptEntries$delegate).isEmpty_0_k$()) {
-        return Unit_getInstance();
-      }$composer_0.startReplaceableGroup_majfzk_k$(-1631072341);
-      if (!isBlankOrNone(invoke$lambda_29(selectedProf$delegate))) {
-        var tmp_28 = invoke$lambda_29(selectedProf$delegate);
-        Text$composable_0(tmp_28, null, null, $composer_0, 0, 6);
-      }$composer_0.endReplaceableGroup_sv8swh_k$();
-      var mapOfEntries = isBlankOrNone(invoke$lambda_27(selectedCourse$delegate)) ? invoke$lambda_33(mapOfProfs$delegate) : mapByProfs(ensureNotNull(invoke$lambda_35(mapOfCourses$delegate).get_2bw_k$(invoke$lambda_27(selectedCourse$delegate))));
-      var tmp$ret$63;
-      $l$block_62: {
-        var tmp13_mapValues_0 = toProfScores(mapOfEntries);
-        var tmp$ret$62;
-        $l$block_61: {
-          var tmp1_mapValuesTo_0_1 = LinkedHashMap_init_$Create$_1(mapCapacity(tmp13_mapValues_0._get_size__0_k$()));
-          var tmp$ret$61;
-          $l$block_60: {
-            var tmp0_associateByTo_0_2 = tmp13_mapValues_0._get_entries__0_k$();
-            var tmp0_iterator_1_3 = tmp0_associateByTo_0_2.iterator_0_k$();
-            while (tmp0_iterator_1_3.hasNext_0_k$()) {
-              var element_2_4 = tmp0_iterator_1_3.next_0_k$();
-              var tmp$ret$59;
-              $l$block_58: {
-                tmp$ret$59 = element_2_4._get_key__0_k$();
-                break $l$block_58;
-              }
-              var tmp_29 = tmp$ret$59;
-              var tmp$ret$60;
-              $l$block_59: {
-                var tmp0_return_6 = toTotalAndAvesPair(element_2_4._get_value__0_k$());
-                tmp$ret$60 = tmp0_return_6;
-                break $l$block_59;
-              }
-              tmp1_mapValuesTo_0_1.put_1q9pf_k$(tmp_29, tmp$ret$60);
-              Unit_getInstance();
-            }
-            tmp$ret$61 = tmp1_mapValuesTo_0_1;
-            break $l$block_60;
-          }
-          tmp$ret$62 = tmp$ret$61;
-          break $l$block_61;
-        }
-        tmp$ret$63 = tmp$ret$62;
-        break $l$block_62;
-      }
-      var tmp_30 = tmp$ret$63;
-      var tmp$ret$67;
-      $l$block_66: {
-        var tmp14_remember$composable_0 = _no_name_provided_$factory_617(profListLoading$delegate);
-        var tmp15_remember$composable_0 = $composer_0;
-        var $composer_1_9 = tmp15_remember$composable_0;
-        $composer_1_9.startReplaceableGroup_majfzk_k$(884179877);
-        sourceInformation($composer_1_9, 'C(remember$composable)P(1):Composables.kt#9igjgp');
-        var tmp$ret$66;
-        $l$block_65: {
+      var mapOfEntries$delegate = tmp$ret$52;
+      var tmp$ret$57;
+      $l$block_56: {
+        var tmp11_remember$composable_0 = $composer_0;
+        var $composer_1_9 = tmp11_remember$composable_0;
+        $composer_1_9.startReplaceableGroup_majfzk_k$(884179566);
+        sourceInformation($composer_1_9, 'C(remember$composable):Composables.kt#9igjgp');
+        var tmp$ret$56;
+        $l$block_55: {
           var tmp1_cache_0_3_8 = $composer_1_9;
-          var tmp2_cache_0_4 = $composer_1_9.changed_wi7j7l_k$(profListLoading$delegate);
-          var tmp$ret$65;
-          $l$block_64: {
-            var tmp0_let_0_5 = tmp1_cache_0_3_8.rememberedValue_0_k$();
+          var tmp$ret$55;
+          $l$block_54: {
+            var tmp0_let_0_4_8 = tmp1_cache_0_3_8.rememberedValue_0_k$();
             {
             }
-            var tmp$ret$64;
-            $l$block_63: {
-              var tmp_31;
+            var tmp$ret$54;
+            $l$block_53: {
+              var tmp_29;
+              if (false ? true : tmp0_let_0_4_8 === Companion_getInstance_14()._Empty) {
+                var tmp$ret$53;
+                $l$block_52: {
+                  var tmp0_return_7_8 = mutableStateOf$default(false, null, 2, null);
+                  tmp$ret$53 = tmp0_return_7_8;
+                  break $l$block_52;
+                }
+                var value_2_2_5_8 = tmp$ret$53;
+                tmp1_cache_0_3_8.updateRememberedValue_qi8yb4_k$(value_2_2_5_8);
+                tmp_29 = value_2_2_5_8;
+              } else {
+                tmp_29 = tmp0_let_0_4_8;
+              }
+              tmp$ret$54 = tmp_29;
+              break $l$block_53;
+            }
+            tmp$ret$55 = tmp$ret$54;
+            break $l$block_54;
+          }
+          var tmp_30 = tmp$ret$55;
+          tmp$ret$56 = (tmp_30 == null ? true : isObject(tmp_30)) ? tmp_30 : THROW_CCE();
+          break $l$block_55;
+        }
+        var tmp0_2_8 = tmp$ret$56;
+        $composer_1_9.endReplaceableGroup_sv8swh_k$();
+        tmp$ret$57 = tmp0_2_8;
+        break $l$block_56;
+      }
+      var profListLoading$delegate = tmp$ret$57;
+      var updateMapOfEntries = _no_name_provided_$factory_616(myCoroutineScope, profListLoading$delegate, mapOfProfs$delegate, mapOfCourses$delegate, mapOfEntries$delegate);
+      var updateSelectedDept = _no_name_provided_$factory_617(myCoroutineScope, profListLoading$delegate, selectedCourse$delegate, selectedProf$delegate, selectedDept$delegate, this._$repository_6, updateMapOfEntries, selectedSchool$delegate, deptEntries$delegate, mapOfProfs$delegate, mapOfCourses$delegate);
+      LaunchedEffect$composable(true, _no_name_provided_$factory_618(this._$repository_6, updateSelectedDept, schoolMap$delegate, selectedSchool$delegate, selectedDept$delegate, null), $composer_0, 6);
+      if (invoke$lambda_21(schoolMap$delegate).isEmpty_0_k$()) {
+        return Unit_getInstance();
+      }var tmp_31 = Companion_getInstance_47();
+      var tmp_32 = fillMaxWidth$default(tmp_31, null, 1, null);
+      var tmp$ret$61;
+      $l$block_60: {
+        var tmp12__get_Flex__0 = Companion_getInstance_26();
+        var tmp$ret$60;
+        $l$block_59: {
+          var tmp$ret$59;
+          $l$block_58: {
+            var tmp$ret$58;
+            $l$block_57: {
+              tmp$ret$58 = 'flex';
+              break $l$block_57;
+            }
+            tmp$ret$59 = tmp$ret$58;
+            break $l$block_58;
+          }
+          tmp$ret$60 = tmp$ret$59;
+          break $l$block_59;
+        }
+        tmp$ret$61 = tmp$ret$60;
+        break $l$block_60;
+      }
+      var tmp_33 = display_0(tmp_32, tmp$ret$61);
+      var tmp$ret$65;
+      $l$block_64: {
+        var tmp13__get_Center__0 = Companion_getInstance_28();
+        var tmp$ret$64;
+        $l$block_63: {
+          var tmp$ret$63;
+          $l$block_62: {
+            var tmp$ret$62;
+            $l$block_61: {
+              tmp$ret$62 = 'center';
+              break $l$block_61;
+            }
+            tmp$ret$63 = tmp$ret$62;
+            break $l$block_62;
+          }
+          tmp$ret$64 = tmp$ret$63;
+          break $l$block_63;
+        }
+        tmp$ret$65 = tmp$ret$64;
+        break $l$block_64;
+      }
+      var tmp_34 = alignItems_0(tmp_33, tmp$ret$65);
+      var tmp_35 = $composer_0;
+      Box$composable(tmp_34, null, null, composableLambda(tmp_35, -819891703, true, _no_name_provided_$factory_619(selectedSchool$delegate, updateSelectedDept, schoolMap$delegate, selectedCourse$delegate, selectedProf$delegate, updateMapOfEntries, profListLoading$delegate, selectedDept$delegate, mapOfCourses$delegate, mapOfProfs$delegate)), $composer_0, 3072, 6);
+      if (invoke$lambda_31(deptEntries$delegate).isEmpty_0_k$()) {
+        return Unit_getInstance();
+      }$composer_0.startReplaceableGroup_majfzk_k$(-1631070518);
+      if (!isBlankOrNone(invoke$lambda_29(selectedProf$delegate))) {
+        var tmp_36 = invoke$lambda_29(selectedProf$delegate);
+        Text$composable_0(tmp_36, null, null, $composer_0, 0, 6);
+        profSummary$composable(ensureNotNull(invoke$lambda_33(mapOfProfs$delegate).get_2bw_k$(invoke$lambda_29(selectedProf$delegate))), $composer_0, 0);
+        $composer_0.endReplaceableGroup_sv8swh_k$();
+        return Unit_getInstance();
+      }$composer_0.endReplaceableGroup_sv8swh_k$();
+      var tmp_37 = invoke$lambda_37(mapOfEntries$delegate);
+      var tmp$ret$69;
+      $l$block_68: {
+        var tmp14_remember$composable_0 = _no_name_provided_$factory_620(selectedCourse$delegate, profListLoading$delegate);
+        var tmp15_remember$composable_0 = $composer_0;
+        var $composer_1_10 = tmp15_remember$composable_0;
+        $composer_1_10.startReplaceableGroup_majfzk_k$(884180255);
+        sourceInformation($composer_1_10, 'C(remember$composable)P(1,2):Composables.kt#9igjgp');
+        var tmp$ret$68;
+        $l$block_67: {
+          var tmp1_cache_0_3_9 = $composer_1_10;
+          var tmp2_cache_0_4 = !!($composer_1_10.changed_wi7j7l_k$(selectedCourse$delegate) | $composer_1_10.changed_wi7j7l_k$(profListLoading$delegate));
+          var tmp$ret$67;
+          $l$block_66: {
+            var tmp0_let_0_5 = tmp1_cache_0_3_9.rememberedValue_0_k$();
+            {
+            }
+            var tmp$ret$66;
+            $l$block_65: {
+              var tmp_38;
               if (tmp2_cache_0_4 ? true : tmp0_let_0_5 === Companion_getInstance_14()._Empty) {
                 var value_2_2_6 = tmp14_remember$composable_0();
-                tmp1_cache_0_3_8.updateRememberedValue_qi8yb4_k$(value_2_2_6);
-                tmp_31 = value_2_2_6;
+                tmp1_cache_0_3_9.updateRememberedValue_qi8yb4_k$(value_2_2_6);
+                tmp_38 = value_2_2_6;
               } else {
-                tmp_31 = tmp0_let_0_5;
+                tmp_38 = tmp0_let_0_5;
               }
-              tmp$ret$64 = tmp_31;
-              break $l$block_63;
+              tmp$ret$66 = tmp_38;
+              break $l$block_65;
             }
-            tmp$ret$65 = tmp$ret$64;
-            break $l$block_64;
+            tmp$ret$67 = tmp$ret$66;
+            break $l$block_66;
           }
-          var tmp_32 = tmp$ret$65;
-          tmp$ret$66 = (tmp_32 == null ? true : isObject(tmp_32)) ? tmp_32 : THROW_CCE();
-          break $l$block_65;
+          var tmp_39 = tmp$ret$67;
+          tmp$ret$68 = (tmp_39 == null ? true : isObject(tmp_39)) ? tmp_39 : THROW_CCE();
+          break $l$block_67;
         }
-        var tmp0_2_8 = tmp$ret$66;
-        $composer_1_9.endReplaceableGroup_sv8swh_k$();
-        tmp$ret$67 = tmp0_2_8;
-        break $l$block_66;
+        var tmp0_2_10 = tmp$ret$68;
+        $composer_1_10.endReplaceableGroup_sv8swh_k$();
+        tmp$ret$69 = tmp0_2_10;
+        break $l$block_68;
       }
-      profScoresList$composable(tmp_30, tmp$ret$67, $composer_0, 0);
+      profScoresList$composable(tmp_37, tmp$ret$69, $composer_0, 0, 0);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
-  _no_name_provided__697.prototype.invoke_osx4an_k$ = function (p1, p2) {
+  _no_name_provided__699.prototype.invoke_osx4an_k$ = function (p1, p2) {
     var tmp = (p1 == null ? true : isInterface(p1, Composer)) ? p1 : THROW_CCE();
     this.invoke_5vwf3d_k$(tmp, (!(p2 == null) ? typeof p2 === 'number' : false) ? p2 : THROW_CCE());
     return Unit_getInstance();
   };
-  _no_name_provided__697.$metadata$ = {
+  _no_name_provided__699.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__698($$changed) {
+  function _no_name_provided__700($$changed) {
     this._$$changed_45 = $$changed;
   }
-  _no_name_provided__698.prototype.invoke_xtxync_k$ = function (p0, p1) {
+  _no_name_provided__700.prototype.invoke_xtxync_k$ = function (p0, p1) {
     return SearchDept$composable$lambda(this._$$changed_45, p0, p1);
   };
-  _no_name_provided__698.prototype.invoke_osx4an_k$ = function (p1, p2) {
+  _no_name_provided__700.prototype.invoke_osx4an_k$ = function (p1, p2) {
     var tmp = (!(p1 == null) ? isInterface(p1, Composer) : false) ? p1 : THROW_CCE();
     this.invoke_xtxync_k$(tmp, (!(p2 == null) ? typeof p2 === 'number' : false) ? p2 : THROW_CCE());
     return Unit_getInstance();
   };
-  _no_name_provided__698.$metadata$ = {
+  _no_name_provided__700.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__699() {
+  function _no_name_provided__701($list, $$changed) {
+    this._$list_1 = $list;
+    this._$$changed_46 = $$changed;
   }
-  _no_name_provided__699.prototype.invoke_sksns0_k$ = function ($this$transform) {
+  _no_name_provided__701.prototype.invoke_xtxync_k$ = function (p0, p1) {
+    return profSummary$composable$lambda(this._$list_1, this._$$changed_46, p0, p1);
+  };
+  _no_name_provided__701.prototype.invoke_osx4an_k$ = function (p1, p2) {
+    var tmp = (!(p1 == null) ? isInterface(p1, Composer) : false) ? p1 : THROW_CCE();
+    this.invoke_xtxync_k$(tmp, (!(p2 == null) ? typeof p2 === 'number' : false) ? p2 : THROW_CCE());
+    return Unit_getInstance();
+  };
+  _no_name_provided__701.$metadata$ = {
+    kind: 'class',
+    interfaces: []
+  };
+  function _no_name_provided__702() {
+  }
+  _no_name_provided__702.prototype.invoke_sv8swh_k$ = function () {
+    return Unit_getInstance();
+  };
+  _no_name_provided__702.prototype.invoke_0_k$ = function () {
+    this.invoke_sv8swh_k$();
+    return Unit_getInstance();
+  };
+  _no_name_provided__702.$metadata$ = {
+    kind: 'class',
+    interfaces: []
+  };
+  function _no_name_provided__703() {
+  }
+  _no_name_provided__703.prototype.invoke_sksns0_k$ = function ($this$transform) {
     $this$transform.rotate_y48ctd_k$(_get_deg_(-45));
   };
-  _no_name_provided__699.prototype.invoke_20e8_k$ = function (p1) {
+  _no_name_provided__703.prototype.invoke_20e8_k$ = function (p1) {
     this.invoke_sksns0_k$((!(p1 == null) ? isInterface(p1, TransformBuilder) : false) ? p1 : THROW_CCE());
     return Unit_getInstance();
   };
-  _no_name_provided__699.$metadata$ = {
+  _no_name_provided__703.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
@@ -102343,34 +102677,37 @@
     kind: 'class',
     interfaces: [Comparator]
   };
-  function _no_name_provided__700($element_2, $fontSize) {
+  function invoke$lambda_42($onLoad) {
+    return _no_name_provided_$factory_638($onLoad, null);
+  }
+  function _no_name_provided__704($element_2, $fontSize) {
     this._$element_2_3 = $element_2;
     this._$fontSize = $fontSize;
   }
-  _no_name_provided__700.prototype.invoke_jpel0v_k$ = function ($this$Box, $composer, $changed) {
+  _no_name_provided__704.prototype.invoke_jpel0v_k$ = function ($this$Box, $composer, $changed) {
     var $composer_5 = $composer;
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_5._get_skipping__0_k$()) {
       var tmp = Companion_getInstance_47();
       var tmp_0 = _get_px_(175);
       var tmp_1 = width$default(tmp, tmp_0, null, 2, null);
-      var tmp_2 = textDecorationLine_0(margin_1(fontSize_0(transform_0(tmp_1, _no_name_provided_$factory_633()), this._$fontSize), _get_px_(50), _get_px_(-18)), Companion_getInstance_40()._get_Underline__0_k$());
+      var tmp_2 = textDecorationLine_0(margin_1(fontSize_0(transform_0(tmp_1, _no_name_provided_$factory_639()), this._$fontSize), _get_px_(50), _get_px_(-18)), Companion_getInstance_40()._get_Underline__0_k$());
       Text$composable_0(this._$element_2_3, tmp_2, null, $composer_5, 0, 4);
     } else
       $composer_5.skipToGroupEnd_sv8swh_k$();
   };
-  _no_name_provided__700.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
+  _no_name_provided__704.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
     var tmp = p1 instanceof BoxScope ? p1 : THROW_CCE();
     var tmp_0 = (p2 == null ? true : isInterface(p2, Composer)) ? p2 : THROW_CCE();
     this.invoke_jpel0v_k$(tmp, tmp_0, (!(p3 == null) ? typeof p3 === 'number' : false) ? p3 : THROW_CCE());
     return Unit_getInstance();
   };
-  _no_name_provided__700.$metadata$ = {
+  _no_name_provided__704.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__701() {
+  function _no_name_provided__705() {
   }
-  _no_name_provided__701.prototype.invoke_9ct64g_k$ = function (a, b) {
+  _no_name_provided__705.prototype.invoke_9ct64g_k$ = function (a, b) {
     var tmp$ret$2;
     $l$block_1: {
       var tmp$ret$0;
@@ -102391,19 +102728,19 @@
     }
     return tmp$ret$2;
   };
-  _no_name_provided__701.prototype.invoke_osx4an_k$ = function (p1, p2) {
+  _no_name_provided__705.prototype.invoke_osx4an_k$ = function (p1, p2) {
     var tmp = (!(p1 == null) ? isInterface(p1, Entry) : false) ? p1 : THROW_CCE();
     return this.invoke_9ct64g_k$(tmp, (!(p2 == null) ? isInterface(p2, Entry) : false) ? p2 : THROW_CCE());
   };
-  _no_name_provided__701.$metadata$ = {
+  _no_name_provided__705.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__702($prof_4, $spacing) {
+  function _no_name_provided__706($prof_4, $spacing) {
     this._$prof_4 = $prof_4;
     this._$spacing = $spacing;
   }
-  _no_name_provided__702.prototype.invoke_jpel0v_k$ = function ($this$Box, $composer, $changed) {
+  _no_name_provided__706.prototype.invoke_jpel0v_k$ = function ($this$Box, $composer, $changed) {
     var $composer_7 = $composer;
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_7._get_skipping__0_k$()) {
       var offset_8 = _get_px_(40);
@@ -102415,26 +102752,77 @@
     } else
       $composer_7.skipToGroupEnd_sv8swh_k$();
   };
-  _no_name_provided__702.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
+  _no_name_provided__706.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
     var tmp = p1 instanceof BoxScope ? p1 : THROW_CCE();
     var tmp_0 = (p2 == null ? true : isInterface(p2, Composer)) ? p2 : THROW_CCE();
     this.invoke_jpel0v_k$(tmp, tmp_0, (!(p3 == null) ? typeof p3 === 'number' : false) ? p3 : THROW_CCE());
     return Unit_getInstance();
   };
-  _no_name_provided__702.$metadata$ = {
+  _no_name_provided__706.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__703($list, $onLoad) {
-    this._$list_1 = $list;
+  function _no_name_provided__707($onLoad) {
     this._$onLoad = $onLoad;
   }
-  _no_name_provided__703.prototype.invoke_ovmwdp_k$ = function ($this$Div, $composer, $changed) {
+  _no_name_provided__707.prototype.invoke_0_k$ = function () {
+    return invoke$lambda_42(this._$onLoad);
+  };
+  _no_name_provided__707.$metadata$ = {
+    kind: 'class',
+    interfaces: []
+  };
+  function _no_name_provided__708($onLoad, resultContinuation) {
+    this._$onLoad_0 = $onLoad;
+    CoroutineImpl_0.call(this, resultContinuation);
+  }
+  _no_name_provided__708.prototype.invoke_2i3g7c_k$ = function ($this$LaunchedEffect, $cont) {
+    var tmp = this.create_y6imfn_k$($this$LaunchedEffect, $cont);
+    tmp._result_1 = Unit_getInstance();
+    tmp._exception_0 = null;
+    return tmp.doResume_0_k$();
+  };
+  _no_name_provided__708.prototype.invoke_20e8_k$ = function (p1, $cont) {
+    this.invoke_2i3g7c_k$((!(p1 == null) ? isInterface(p1, CoroutineScope) : false) ? p1 : THROW_CCE(), $cont);
+    return Unit_getInstance();
+  };
+  _no_name_provided__708.prototype.doResume_0_k$ = function () {
+    var suspendResult = this._result_1;
+    $sm: do
+      try {
+        var tmp = this._state_2;
+        if (tmp === 0) {
+          this._exceptionState = 1;
+          this._$onLoad_0._v();
+          return Unit_getInstance();
+        } else if (tmp === 1) {
+          throw this._exception_0;
+        }} catch ($p) {
+        throw $p;
+      }
+     while (true);
+  };
+  _no_name_provided__708.prototype.create_y6imfn_k$ = function ($this$LaunchedEffect, completion) {
+    var i = new _no_name_provided__708(this._$onLoad_0, completion);
+    i._$this$LaunchedEffect_4 = $this$LaunchedEffect;
+    return i;
+  };
+  _no_name_provided__708.$metadata$ = {
+    kind: 'class',
+    interfaces: [],
+    suspendArity: [1]
+  };
+  function _no_name_provided__709($list, $onLoad, $$dirty) {
+    this._$list_2 = $list;
+    this._$onLoad_1 = $onLoad;
+    this._$$dirty_15 = $$dirty;
+  }
+  _no_name_provided__709.prototype.invoke_ovmwdp_k$ = function ($this$Div, $composer, $changed) {
     var $composer_0 = $composer;
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       var spacing = _get_px_(80);
       var fontSize_1 = _get_px_(15);
-      $composer_0.startReplaceableGroup_majfzk_k$(28422529);
+      $composer_0.startReplaceableGroup_majfzk_k$(28424446);
       {
         var tmp0_forEach_0 = plus_1(plus(listOf_0(''), TenQsShortened), 'Total # of Responses');
         var tmp0_iterator_1 = tmp0_forEach_0.iterator_0_k$();
@@ -102444,7 +102832,7 @@
             var tmp = Companion_getInstance_47();
             var tmp_0 = width$default(tmp, spacing, null, 2, null);
             var tmp_1 = $composer_0;
-            Box$composable(tmp_0, null, null, composableLambda(tmp_1, -819888495, true, _no_name_provided_$factory_630(element_2, fontSize_1)), $composer_0, 3072, 6);
+            Box$composable(tmp_0, null, null, composableLambda(tmp_1, -819889902, true, _no_name_provided_$factory_634(element_2, fontSize_1)), $composer_0, 3072, 6);
           }
         }
       }
@@ -102473,13 +102861,14 @@
         break $l$block_2;
       }
       var gridElementModifier = alignSelf_0(tmp_3, tmp$ret$3);
+      $composer_0.startReplaceableGroup_majfzk_k$(28425275);
       {
         var tmp$ret$5;
         $l$block_4: {
-          var tmp2_sortedBy_0 = this._$list_1._get_entries__0_k$();
+          var tmp2_sortedBy_0 = this._$list_2._get_entries__0_k$();
           var tmp$ret$4;
           $l$block_3: {
-            var tmp_4 = _no_name_provided_$factory_631();
+            var tmp_4 = _no_name_provided_$factory_635();
             tmp$ret$4 = new sam$kotlin_Comparator$0_3(tmp_4);
             break $l$block_3;
           }
@@ -102504,8 +102893,8 @@
             }
             var nums_5 = tmp$ret$7;
             var tmp_5 = $composer_0;
-            Box$composable(gridElementModifier, null, null, composableLambda(tmp_5, -819888888, true, _no_name_provided_$factory_632(prof_4, spacing)), $composer_0, 3072, 6);
-            $composer_0.startReplaceableGroup_majfzk_k$(28423825);
+            Box$composable(gridElementModifier, null, null, composableLambda(tmp_5, -819903419, true, _no_name_provided_$factory_636(prof_4, spacing)), $composer_0, 3072, 6);
+            $composer_0.startReplaceableGroup_majfzk_k$(28425655);
             {
               var tmp0_forEach_0_9 = nums_5._second.subList_27zxwg_k$(0, 10);
               var tmp0_iterator_1_10 = tmp0_forEach_0_9.iterator_0_k$();
@@ -102523,156 +102912,201 @@
           }
         }
       }
-      this._$onLoad();
+      $composer_0.endReplaceableGroup_sv8swh_k$();
+      var tmp$ret$11;
+      $l$block_10: {
+        var tmp4_remember$composable_0 = this._$onLoad_1._v;
+        var tmp5_remember$composable_0 = _no_name_provided_$factory_637(this._$onLoad_1);
+        var tmp6_remember$composable_0 = $composer_0;
+        var tmp7_remember$composable_0 = 14 & this._$$dirty_15 >> 3;
+        var $composer_1 = tmp6_remember$composable_0;
+        $composer_1.startReplaceableGroup_majfzk_k$(884179877);
+        sourceInformation($composer_1, 'C(remember$composable)P(1):Composables.kt#9igjgp');
+        var tmp$ret$10;
+        $l$block_9: {
+          var tmp1_cache_0_3 = $composer_1;
+          var tmp2_cache_0_4 = $composer_1.changed_wi7j7l_k$(tmp4_remember$composable_0);
+          var tmp$ret$9;
+          $l$block_8: {
+            var tmp0_let_0_5 = tmp1_cache_0_3.rememberedValue_0_k$();
+            {
+            }
+            var tmp$ret$8;
+            $l$block_7: {
+              var tmp_8;
+              if (tmp2_cache_0_4 ? true : tmp0_let_0_5 === Companion_getInstance_14()._Empty) {
+                var value_2_2_6 = tmp5_remember$composable_0();
+                tmp1_cache_0_3.updateRememberedValue_qi8yb4_k$(value_2_2_6);
+                tmp_8 = value_2_2_6;
+              } else {
+                tmp_8 = tmp0_let_0_5;
+              }
+              tmp$ret$8 = tmp_8;
+              break $l$block_7;
+            }
+            tmp$ret$9 = tmp$ret$8;
+            break $l$block_8;
+          }
+          var tmp_9 = tmp$ret$9;
+          tmp$ret$10 = (tmp_9 == null ? true : isObject(tmp_9)) ? tmp_9 : THROW_CCE();
+          break $l$block_9;
+        }
+        var tmp0_2 = tmp$ret$10;
+        $composer_1.endReplaceableGroup_sv8swh_k$();
+        tmp$ret$11 = tmp0_2;
+        break $l$block_10;
+      }
+      LaunchedEffect$composable(this._$list_2, tmp$ret$11, $composer_0, 14 & this._$$dirty_15);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
-  _no_name_provided__703.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
+  _no_name_provided__709.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
     var tmp = (!(p1 == null) ? isInterface(p1, ElementScope) : false) ? p1 : THROW_CCE();
     var tmp_0 = (p2 == null ? true : isInterface(p2, Composer)) ? p2 : THROW_CCE();
     this.invoke_ovmwdp_k$(tmp, tmp_0, (!(p3 == null) ? typeof p3 === 'number' : false) ? p3 : THROW_CCE());
     return Unit_getInstance();
   };
-  _no_name_provided__703.$metadata$ = {
+  _no_name_provided__709.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__704($list, $onLoad, $$changed) {
-    this._$list_2 = $list;
-    this._$onLoad_0 = $onLoad;
-    this._$$changed_46 = $$changed;
+  function _no_name_provided__710($list, $onLoad, $$changed, $$default) {
+    this._$list_3 = $list;
+    this._$onLoad_2 = $onLoad;
+    this._$$changed_47 = $$changed;
+    this._$$default_27 = $$default;
   }
-  _no_name_provided__704.prototype.invoke_xtxync_k$ = function (p0, p1) {
-    return profScoresList$composable$lambda(this._$list_2, this._$onLoad_0, this._$$changed_46, p0, p1);
+  _no_name_provided__710.prototype.invoke_xtxync_k$ = function (p0, p1) {
+    return profScoresList$composable$lambda(this._$list_3, this._$onLoad_2, this._$$changed_47, this._$$default_27, p0, p1);
   };
-  _no_name_provided__704.prototype.invoke_osx4an_k$ = function (p1, p2) {
+  _no_name_provided__710.prototype.invoke_osx4an_k$ = function (p1, p2) {
     var tmp = (!(p1 == null) ? isInterface(p1, Composer) : false) ? p1 : THROW_CCE();
     this.invoke_xtxync_k$(tmp, (!(p2 == null) ? typeof p2 === 'number' : false) ? p2 : THROW_CCE());
     return Unit_getInstance();
   };
-  _no_name_provided__704.$metadata$ = {
+  _no_name_provided__710.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__705($labelModifier, $modifier1, $modifier2, $depts, $onSelectDept, $selectedDept, $$dirty) {
+  function _no_name_provided__711($labelModifier, $modifier1, $modifier2, $depts, $onSelectDept, $selectedDept, $$dirty) {
     this._$labelModifier = $labelModifier;
     this._$modifier1 = $modifier1;
     this._$modifier2 = $modifier2;
     this._$depts = $depts;
     this._$onSelectDept = $onSelectDept;
     this._$selectedDept = $selectedDept;
-    this._$$dirty_15 = $$dirty;
+    this._$$dirty_16 = $$dirty;
   }
-  _no_name_provided__705.prototype.invoke_9s02y_k$ = function ($this$Column, $composer, $changed) {
+  _no_name_provided__711.prototype.invoke_9s02y_k$ = function ($this$Column, $composer, $changed) {
     var $composer_0 = $composer;
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       Text$composable_0('Department', this._$labelModifier, null, $composer_0, 6, 4);
       var tmp = _get_px_(125);
       var tmp_0 = width$default(this._$modifier1, tmp, null, 2, null);
-      CustomDropDown$composable(tmp_0, this._$modifier2, this._$depts, this._$onSelectDept, null, null, this._$selectedDept, $composer_0, 896 & this._$$dirty_15 >> 6 | 7168 & this._$$dirty_15 >> 15 | 3670016 & this._$$dirty_15 << 18, 48);
+      CustomDropDown$composable(tmp_0, this._$modifier2, this._$depts, this._$onSelectDept, null, null, this._$selectedDept, $composer_0, 896 & this._$$dirty_16 >> 6 | 7168 & this._$$dirty_16 >> 15 | 3670016 & this._$$dirty_16 << 18, 48);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
-  _no_name_provided__705.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
+  _no_name_provided__711.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
     var tmp = p1 instanceof ColumnScope ? p1 : THROW_CCE();
     var tmp_0 = (p2 == null ? true : isInterface(p2, Composer)) ? p2 : THROW_CCE();
     this.invoke_9s02y_k$(tmp, tmp_0, (!(p3 == null) ? typeof p3 === 'number' : false) ? p3 : THROW_CCE());
     return Unit_getInstance();
   };
-  _no_name_provided__705.$metadata$ = {
+  _no_name_provided__711.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__706($labelModifier, $modifier1, $modifier2, $courses, $onSelectCourse, $selectedCourse, $$dirty) {
+  function _no_name_provided__712($labelModifier, $modifier1, $modifier2, $courses, $onSelectCourse, $selectedCourse, $$dirty) {
     this._$labelModifier_0 = $labelModifier;
     this._$modifier1_0 = $modifier1;
     this._$modifier2_0 = $modifier2;
     this._$courses = $courses;
     this._$onSelectCourse = $onSelectCourse;
     this._$selectedCourse = $selectedCourse;
-    this._$$dirty_16 = $$dirty;
+    this._$$dirty_17 = $$dirty;
   }
-  _no_name_provided__706.prototype.invoke_9s02y_k$ = function ($this$Column, $composer, $changed) {
+  _no_name_provided__712.prototype.invoke_9s02y_k$ = function ($this$Column, $composer, $changed) {
     var $composer_0 = $composer;
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       Text$composable_0('Course (Optional)', this._$labelModifier_0, null, $composer_0, 6, 4);
       var tmp = _get_px_(125);
       var tmp_0 = width$default(this._$modifier1_0, tmp, null, 2, null);
-      CustomDropDown$composable(tmp_0, this._$modifier2_0, this._$courses, this._$onSelectCourse, null, null, this._$selectedCourse, $composer_0, 896 & this._$$dirty_16 >> 9 | 7168 & this._$$dirty_16 >> 18 | 3670016 & this._$$dirty_16 << 15, 48);
+      CustomDropDown$composable(tmp_0, this._$modifier2_0, this._$courses, this._$onSelectCourse, null, null, this._$selectedCourse, $composer_0, 896 & this._$$dirty_17 >> 9 | 7168 & this._$$dirty_17 >> 18 | 3670016 & this._$$dirty_17 << 15, 48);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
-  _no_name_provided__706.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
+  _no_name_provided__712.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
     var tmp = p1 instanceof ColumnScope ? p1 : THROW_CCE();
     var tmp_0 = (p2 == null ? true : isInterface(p2, Composer)) ? p2 : THROW_CCE();
     this.invoke_9s02y_k$(tmp, tmp_0, (!(p3 == null) ? typeof p3 === 'number' : false) ? p3 : THROW_CCE());
     return Unit_getInstance();
   };
-  _no_name_provided__706.$metadata$ = {
+  _no_name_provided__712.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__707($labelModifier, $profs, $onSelectProf, $selectedProf, $$dirty, $$dirty1) {
+  function _no_name_provided__713($labelModifier, $profs, $onSelectProf, $selectedProf, $$dirty, $$dirty1) {
     this._$labelModifier_1 = $labelModifier;
     this._$profs = $profs;
     this._$onSelectProf = $onSelectProf;
     this._$selectedProf = $selectedProf;
-    this._$$dirty_17 = $$dirty;
+    this._$$dirty_18 = $$dirty;
     this._$$dirty1 = $$dirty1;
   }
-  _no_name_provided__707.prototype.invoke_9s02y_k$ = function ($this$Column, $composer, $changed) {
+  _no_name_provided__713.prototype.invoke_9s02y_k$ = function ($this$Column, $composer, $changed) {
     var $composer_0 = $composer;
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       Text$composable_0('Prof (Optional)', this._$labelModifier_1, null, $composer_0, 6, 4);
       var tmp = Companion_getInstance_47();
       var tmp_0 = _get_px_(125);
       var tmp_1 = width$default(tmp, tmp_0, null, 2, null);
-      CustomDropDown$composable(tmp_1, null, this._$profs, this._$onSelectProf, null, null, this._$selectedProf, $composer_0, 896 & this._$$dirty_17 >> 12 | 7168 & this._$$dirty1 << 9 | 3670016 & this._$$dirty_17 << 12, 50);
+      CustomDropDown$composable(tmp_1, null, this._$profs, this._$onSelectProf, null, null, this._$selectedProf, $composer_0, 896 & this._$$dirty_18 >> 12 | 7168 & this._$$dirty1 << 9 | 3670016 & this._$$dirty_18 << 12, 50);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
-  _no_name_provided__707.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
+  _no_name_provided__713.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
     var tmp = p1 instanceof ColumnScope ? p1 : THROW_CCE();
     var tmp_0 = (p2 == null ? true : isInterface(p2, Composer)) ? p2 : THROW_CCE();
     this.invoke_9s02y_k$(tmp, tmp_0, (!(p3 == null) ? typeof p3 === 'number' : false) ? p3 : THROW_CCE());
     return Unit_getInstance();
   };
-  _no_name_provided__707.$metadata$ = {
+  _no_name_provided__713.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__708() {
+  function _no_name_provided__714() {
   }
-  _no_name_provided__708.prototype.invoke_ucd4wn_k$ = function (it) {
+  _no_name_provided__714.prototype.invoke_ucd4wn_k$ = function (it) {
     return '' + it._code_3 + ' - ' + it._name_15;
   };
-  _no_name_provided__708.prototype.invoke_20e8_k$ = function (p1) {
+  _no_name_provided__714.prototype.invoke_20e8_k$ = function (p1) {
     return this.invoke_ucd4wn_k$(p1 instanceof School ? p1 : THROW_CCE());
   };
-  _no_name_provided__708.$metadata$ = {
+  _no_name_provided__714.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__709() {
+  function _no_name_provided__715() {
   }
-  _no_name_provided__709.prototype.invoke_ucd4wn_k$ = function (it) {
+  _no_name_provided__715.prototype.invoke_ucd4wn_k$ = function (it) {
     return it._code_3;
   };
-  _no_name_provided__709.prototype.invoke_20e8_k$ = function (p1) {
+  _no_name_provided__715.prototype.invoke_20e8_k$ = function (p1) {
     return this.invoke_ucd4wn_k$(p1 instanceof School ? p1 : THROW_CCE());
   };
-  _no_name_provided__709.$metadata$ = {
+  _no_name_provided__715.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__710($labelModifier, $modifier1, $modifier2, $depts, $onSelectDept, $selectedDept, $$dirty, $courses, $onSelectCourse, $selectedCourse, $profs, $onSelectProf, $selectedProf, $$dirty1) {
+  function _no_name_provided__716($labelModifier, $modifier1, $modifier2, $depts, $onSelectDept, $selectedDept, $$dirty, $courses, $onSelectCourse, $selectedCourse, $profs, $onSelectProf, $selectedProf, $$dirty1) {
     this._$labelModifier_2 = $labelModifier;
     this._$modifier1_1 = $modifier1;
     this._$modifier2_1 = $modifier2;
     this._$depts_0 = $depts;
     this._$onSelectDept_0 = $onSelectDept;
     this._$selectedDept_0 = $selectedDept;
-    this._$$dirty_18 = $$dirty;
+    this._$$dirty_19 = $$dirty;
     this._$courses_0 = $courses;
     this._$onSelectCourse_0 = $onSelectCourse;
     this._$selectedCourse_0 = $selectedCourse;
@@ -102681,38 +103115,38 @@
     this._$selectedProf_0 = $selectedProf;
     this._$$dirty1_0 = $$dirty1;
   }
-  _no_name_provided__710.prototype.invoke_fpi9a8_k$ = function ($this$Row, $composer, $changed) {
+  _no_name_provided__716.prototype.invoke_fpi9a8_k$ = function ($this$Row, $composer, $changed) {
     var $composer_0 = $composer;
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       var tmp = margin_1(Companion_getInstance_47(), _get_px_(5), _get_px_(25));
       var tmp_0 = $composer_0;
-      Column$composable(tmp, null, null, null, composableLambda(tmp_0, -819903175, true, _no_name_provided_$factory_637(this._$labelModifier_2, this._$modifier1_1, this._$modifier2_1, this._$depts_0, this._$onSelectDept_0, this._$selectedDept_0, this._$$dirty_18)), $composer_0, 24576, 14);
+      Column$composable(tmp, null, null, null, composableLambda(tmp_0, -819901052, true, _no_name_provided_$factory_643(this._$labelModifier_2, this._$modifier1_1, this._$modifier2_1, this._$depts_0, this._$onSelectDept_0, this._$selectedDept_0, this._$$dirty_19)), $composer_0, 24576, 14);
       var tmp_1 = margin_1(Companion_getInstance_47(), _get_px_(5), _get_px_(25));
       var tmp_2 = $composer_0;
-      Column$composable(tmp_1, null, null, null, composableLambda(tmp_2, -819903504, true, _no_name_provided_$factory_638(this._$labelModifier_2, this._$modifier1_1, this._$modifier2_1, this._$courses_0, this._$onSelectCourse_0, this._$selectedCourse_0, this._$$dirty_18)), $composer_0, 24576, 14);
+      Column$composable(tmp_1, null, null, null, composableLambda(tmp_2, -819901857, true, _no_name_provided_$factory_644(this._$labelModifier_2, this._$modifier1_1, this._$modifier2_1, this._$courses_0, this._$onSelectCourse_0, this._$selectedCourse_0, this._$$dirty_19)), $composer_0, 24576, 14);
       var tmp_3 = margin_1(Companion_getInstance_47(), _get_px_(5), _get_px_(25));
       var tmp_4 = $composer_0;
-      Column$composable(tmp_3, null, null, null, composableLambda(tmp_4, -819904036, true, _no_name_provided_$factory_639(this._$labelModifier_2, this._$profs_0, this._$onSelectProf_0, this._$selectedProf_0, this._$$dirty_18, this._$$dirty1_0)), $composer_0, 24576, 14);
+      Column$composable(tmp_3, null, null, null, composableLambda(tmp_4, -819902421, true, _no_name_provided_$factory_645(this._$labelModifier_2, this._$profs_0, this._$onSelectProf_0, this._$selectedProf_0, this._$$dirty_19, this._$$dirty1_0)), $composer_0, 24576, 14);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
-  _no_name_provided__710.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
+  _no_name_provided__716.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
     var tmp = p1 instanceof RowScope ? p1 : THROW_CCE();
     var tmp_0 = (p2 == null ? true : isInterface(p2, Composer)) ? p2 : THROW_CCE();
     this.invoke_fpi9a8_k$(tmp, tmp_0, (!(p3 == null) ? typeof p3 === 'number' : false) ? p3 : THROW_CCE());
     return Unit_getInstance();
   };
-  _no_name_provided__710.$metadata$ = {
+  _no_name_provided__716.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__711($labelModifier, $modifier1, $modifier2, $schools, $onSelectSchool, $$dirty, $depts, $onSelectDept, $selectedDept, $courses, $onSelectCourse, $selectedCourse, $profs, $onSelectProf, $selectedProf, $$dirty1) {
+  function _no_name_provided__717($labelModifier, $modifier1, $modifier2, $schools, $onSelectSchool, $$dirty, $depts, $onSelectDept, $selectedDept, $courses, $onSelectCourse, $selectedCourse, $profs, $onSelectProf, $selectedProf, $$dirty1) {
     this._$labelModifier_3 = $labelModifier;
     this._$modifier1_2 = $modifier1;
     this._$modifier2_2 = $modifier2;
     this._$schools = $schools;
     this._$onSelectSchool = $onSelectSchool;
-    this._$$dirty_19 = $$dirty;
+    this._$$dirty_20 = $$dirty;
     this._$depts_1 = $depts;
     this._$onSelectDept_1 = $onSelectDept;
     this._$selectedDept_1 = $selectedDept;
@@ -102724,7 +103158,7 @@
     this._$selectedProf_1 = $selectedProf;
     this._$$dirty1_1 = $$dirty1;
   }
-  _no_name_provided__711.prototype.invoke_9s02y_k$ = function ($this$Column, $composer, $changed) {
+  _no_name_provided__717.prototype.invoke_9s02y_k$ = function ($this$Column, $composer, $changed) {
     var $composer_0 = $composer;
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       var tmp$ret$3;
@@ -102752,9 +103186,9 @@
       Text$composable_0('School', tmp, null, $composer_0, 6, 4);
       var tmp_0 = borderRadius_0(this._$modifier1_2, _get_px_(50));
       var tmp_1 = background_0(fillMaxWidth$default(tmp_0, null, 1, null), '#ddd');
-      var tmp_2 = _no_name_provided_$factory_634();
-      var tmp_3 = _no_name_provided_$factory_635();
-      CustomDropDown$composable(tmp_1, this._$modifier2_2, this._$schools, this._$onSelectSchool, tmp_2, tmp_3, null, $composer_0, 221184 | 896 & this._$$dirty_19 >> 3 | 7168 & this._$$dirty_19 >> 12, 64);
+      var tmp_2 = _no_name_provided_$factory_640();
+      var tmp_3 = _no_name_provided_$factory_641();
+      CustomDropDown$composable(tmp_1, this._$modifier2_2, this._$schools, this._$onSelectSchool, tmp_2, tmp_3, null, $composer_0, 221184 | 896 & this._$$dirty_20 >> 3 | 7168 & this._$$dirty_20 >> 12, 64);
       var tmp_4 = Companion_getInstance_47();
       var tmp$ret$7;
       $l$block_6: {
@@ -102779,21 +103213,21 @@
       }
       var tmp_5 = alignContent_0(tmp_4, tmp$ret$7);
       var tmp_6 = $composer_0;
-      Row$composable(tmp_5, null, null, null, composableLambda(tmp_6, -819903039, true, _no_name_provided_$factory_636(this._$labelModifier_3, this._$modifier1_2, this._$modifier2_2, this._$depts_1, this._$onSelectDept_1, this._$selectedDept_1, this._$$dirty_19, this._$courses_1, this._$onSelectCourse_1, this._$selectedCourse_1, this._$profs_1, this._$onSelectProf_1, this._$selectedProf_1, this._$$dirty1_1)), $composer_0, 24576, 14);
+      Row$composable(tmp_5, null, null, null, composableLambda(tmp_6, -819901396, true, _no_name_provided_$factory_642(this._$labelModifier_3, this._$modifier1_2, this._$modifier2_2, this._$depts_1, this._$onSelectDept_1, this._$selectedDept_1, this._$$dirty_20, this._$courses_1, this._$onSelectCourse_1, this._$selectedCourse_1, this._$profs_1, this._$onSelectProf_1, this._$selectedProf_1, this._$$dirty1_1)), $composer_0, 24576, 14);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
-  _no_name_provided__711.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
+  _no_name_provided__717.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
     var tmp = p1 instanceof ColumnScope ? p1 : THROW_CCE();
     var tmp_0 = (p2 == null ? true : isInterface(p2, Composer)) ? p2 : THROW_CCE();
     this.invoke_9s02y_k$(tmp, tmp_0, (!(p3 == null) ? typeof p3 === 'number' : false) ? p3 : THROW_CCE());
     return Unit_getInstance();
   };
-  _no_name_provided__711.$metadata$ = {
+  _no_name_provided__717.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__712($selectedDept, $selectedCourse, $selectedProf, $schools, $depts, $courses, $profs, $onSelectSchool, $onSelectDept, $onSelectCourse, $onSelectProf, $$changed, $$changed1) {
+  function _no_name_provided__718($selectedDept, $selectedCourse, $selectedProf, $schools, $depts, $courses, $profs, $onSelectSchool, $onSelectDept, $onSelectCourse, $onSelectProf, $$changed, $$changed1) {
     this._$selectedDept_2 = $selectedDept;
     this._$selectedCourse_2 = $selectedCourse;
     this._$selectedProf_2 = $selectedProf;
@@ -102805,240 +103239,283 @@
     this._$onSelectDept_2 = $onSelectDept;
     this._$onSelectCourse_2 = $onSelectCourse;
     this._$onSelectProf_2 = $onSelectProf;
-    this._$$changed_47 = $$changed;
+    this._$$changed_48 = $$changed;
     this._$$changed1 = $$changed1;
   }
-  _no_name_provided__712.prototype.invoke_xtxync_k$ = function (p0, p1) {
-    return searchDeptFormContent$composable$lambda(this._$selectedDept_2, this._$selectedCourse_2, this._$selectedProf_2, this._$schools_0, this._$depts_2, this._$courses_2, this._$profs_2, this._$onSelectSchool_0, this._$onSelectDept_2, this._$onSelectCourse_2, this._$onSelectProf_2, this._$$changed_47, this._$$changed1, p0, p1);
+  _no_name_provided__718.prototype.invoke_xtxync_k$ = function (p0, p1) {
+    return searchDeptFormContent$composable$lambda(this._$selectedDept_2, this._$selectedCourse_2, this._$selectedProf_2, this._$schools_0, this._$depts_2, this._$courses_2, this._$profs_2, this._$onSelectSchool_0, this._$onSelectDept_2, this._$onSelectCourse_2, this._$onSelectProf_2, this._$$changed_48, this._$$changed1, p0, p1);
   };
-  _no_name_provided__712.prototype.invoke_osx4an_k$ = function (p1, p2) {
+  _no_name_provided__718.prototype.invoke_osx4an_k$ = function (p1, p2) {
     var tmp = (!(p1 == null) ? isInterface(p1, Composer) : false) ? p1 : THROW_CCE();
     this.invoke_xtxync_k$(tmp, (!(p2 == null) ? typeof p2 === 'number' : false) ? p2 : THROW_CCE());
     return Unit_getInstance();
   };
-  _no_name_provided__712.$metadata$ = {
+  _no_name_provided__718.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
   function _no_name_provided_$factory_607($repository) {
-    var i = new _no_name_provided__697($repository);
+    var i = new _no_name_provided__699($repository);
     return function (p1, p2) {
       i.invoke_5vwf3d_k$(p1, p2);
       return Unit_getInstance();
     };
   }
   function _no_name_provided_$factory_608($$changed) {
-    var i = new _no_name_provided__698($$changed);
+    var i = new _no_name_provided__700($$changed);
     return function (p1, p2) {
       i.invoke_xtxync_k$(p1, p2);
       return Unit_getInstance();
     };
   }
-  function _no_name_provided_$factory_609($list, $onLoad) {
-    var i = new _no_name_provided__703($list, $onLoad);
-    return function (p1, p2, p3) {
-      i.invoke_ovmwdp_k$(p1, p2, p3);
-      return Unit_getInstance();
-    };
-  }
-  function _no_name_provided_$factory_610($list, $onLoad, $$changed) {
-    var i = new _no_name_provided__704($list, $onLoad, $$changed);
+  function _no_name_provided_$factory_609($list, $$changed) {
+    var i = new _no_name_provided__701($list, $$changed);
     return function (p1, p2) {
       i.invoke_xtxync_k$(p1, p2);
       return Unit_getInstance();
     };
   }
-  function _no_name_provided_$factory_611($labelModifier, $modifier1, $modifier2, $schools, $onSelectSchool, $$dirty, $depts, $onSelectDept, $selectedDept, $courses, $onSelectCourse, $selectedCourse, $profs, $onSelectProf, $selectedProf, $$dirty1) {
-    var i = new _no_name_provided__711($labelModifier, $modifier1, $modifier2, $schools, $onSelectSchool, $$dirty, $depts, $onSelectDept, $selectedDept, $courses, $onSelectCourse, $selectedCourse, $profs, $onSelectProf, $selectedProf, $$dirty1);
-    return function (p1, p2, p3) {
-      i.invoke_9s02y_k$(p1, p2, p3);
-      return Unit_getInstance();
-    };
-  }
-  function _no_name_provided_$factory_612($selectedDept, $selectedCourse, $selectedProf, $schools, $depts, $courses, $profs, $onSelectSchool, $onSelectDept, $onSelectCourse, $onSelectProf, $$changed, $$changed1) {
-    var i = new _no_name_provided__712($selectedDept, $selectedCourse, $selectedProf, $schools, $depts, $courses, $profs, $onSelectSchool, $onSelectDept, $onSelectCourse, $onSelectProf, $$changed, $$changed1);
-    return function (p1, p2) {
-      i.invoke_xtxync_k$(p1, p2);
-      return Unit_getInstance();
-    };
-  }
-  function _no_name_provided_$factory_613() {
-    var i = new _no_name_provided__691();
-    return function () {
-      return i.invoke_0_k$();
-    };
-  }
-  function _no_name_provided_$factory_614($myCoroutineScope, $profListLoading$delegate, $selectedCourse$delegate, $selectedProf$delegate, $selectedDept$delegate, $repository, $selectedSchool$delegate, $deptEntries$delegate, $mapOfProfs$delegate, $mapOfCourses$delegate) {
-    var i = new _no_name_provided__692($myCoroutineScope, $profListLoading$delegate, $selectedCourse$delegate, $selectedProf$delegate, $selectedDept$delegate, $repository, $selectedSchool$delegate, $deptEntries$delegate, $mapOfProfs$delegate, $mapOfCourses$delegate);
-    return function (p1) {
-      i.invoke_qlpr75_k$(p1);
-      return Unit_getInstance();
-    };
-  }
-  function _no_name_provided_$factory_615($repository, $updateSelectedDept, $schoolMap$delegate, $selectedSchool$delegate, resultContinuation) {
-    var i = new _no_name_provided__693($repository, $updateSelectedDept, $schoolMap$delegate, $selectedSchool$delegate, resultContinuation);
-    var l = function (p1, $cont) {
-      return i.invoke_2i3g7c_k$(p1, $cont);
-    };
-    l.$arity = 1;
-    return l;
-  }
-  function _no_name_provided_$factory_616($selectedSchool$delegate, $updateSelectedDept, $schoolMap$delegate, $selectedCourse$delegate, $selectedProf$delegate, $selectedDept$delegate, $mapOfCourses$delegate, $mapOfProfs$delegate, $profListLoading$delegate) {
-    var i = new _no_name_provided__694($selectedSchool$delegate, $updateSelectedDept, $schoolMap$delegate, $selectedCourse$delegate, $selectedProf$delegate, $selectedDept$delegate, $mapOfCourses$delegate, $mapOfProfs$delegate, $profListLoading$delegate);
-    return function (p1, p2, p3) {
-      i.invoke_jpel0v_k$(p1, p2, p3);
-      return Unit_getInstance();
-    };
-  }
-  function _no_name_provided_$factory_617($profListLoading$delegate) {
-    var i = new _no_name_provided__695($profListLoading$delegate);
-    return function () {
-      return i.invoke_0_k$();
-    };
-  }
-  function _no_name_provided_$factory_618($profListLoading$delegate) {
-    var i = new _no_name_provided__696($profListLoading$delegate);
+  function _no_name_provided_$factory_610() {
+    var i = new _no_name_provided__702();
     return function () {
       i.invoke_sv8swh_k$();
       return Unit_getInstance();
     };
   }
-  function _no_name_provided_$factory_619($repository, $selectedSchool$delegate, $selectedDept$delegate, $deptEntries$delegate, $mapOfProfs$delegate, $mapOfCourses$delegate, resultContinuation) {
-    var i = new _no_name_provided__680($repository, $selectedSchool$delegate, $selectedDept$delegate, $deptEntries$delegate, $mapOfProfs$delegate, $mapOfCourses$delegate, resultContinuation);
+  function _no_name_provided_$factory_611($list, $onLoad, $$dirty) {
+    var i = new _no_name_provided__709($list, $onLoad, $$dirty);
+    return function (p1, p2, p3) {
+      i.invoke_ovmwdp_k$(p1, p2, p3);
+      return Unit_getInstance();
+    };
+  }
+  function _no_name_provided_$factory_612($list, $onLoad, $$changed, $$default) {
+    var i = new _no_name_provided__710($list, $onLoad, $$changed, $$default);
+    return function (p1, p2) {
+      i.invoke_xtxync_k$(p1, p2);
+      return Unit_getInstance();
+    };
+  }
+  function _no_name_provided_$factory_613($labelModifier, $modifier1, $modifier2, $schools, $onSelectSchool, $$dirty, $depts, $onSelectDept, $selectedDept, $courses, $onSelectCourse, $selectedCourse, $profs, $onSelectProf, $selectedProf, $$dirty1) {
+    var i = new _no_name_provided__717($labelModifier, $modifier1, $modifier2, $schools, $onSelectSchool, $$dirty, $depts, $onSelectDept, $selectedDept, $courses, $onSelectCourse, $selectedCourse, $profs, $onSelectProf, $selectedProf, $$dirty1);
+    return function (p1, p2, p3) {
+      i.invoke_9s02y_k$(p1, p2, p3);
+      return Unit_getInstance();
+    };
+  }
+  function _no_name_provided_$factory_614($selectedDept, $selectedCourse, $selectedProf, $schools, $depts, $courses, $profs, $onSelectSchool, $onSelectDept, $onSelectCourse, $onSelectProf, $$changed, $$changed1) {
+    var i = new _no_name_provided__718($selectedDept, $selectedCourse, $selectedProf, $schools, $depts, $courses, $profs, $onSelectSchool, $onSelectDept, $onSelectCourse, $onSelectProf, $$changed, $$changed1);
+    return function (p1, p2) {
+      i.invoke_xtxync_k$(p1, p2);
+      return Unit_getInstance();
+    };
+  }
+  function _no_name_provided_$factory_615() {
+    var i = new _no_name_provided__692();
+    return function () {
+      return i.invoke_0_k$();
+    };
+  }
+  function _no_name_provided_$factory_616($myCoroutineScope, $profListLoading$delegate, $mapOfProfs$delegate, $mapOfCourses$delegate, $mapOfEntries$delegate) {
+    var i = new _no_name_provided__693($myCoroutineScope, $profListLoading$delegate, $mapOfProfs$delegate, $mapOfCourses$delegate, $mapOfEntries$delegate);
+    return function (p1, p2) {
+      i.invoke_5xhc52_k$(p1, p2);
+      return Unit_getInstance();
+    };
+  }
+  function _no_name_provided_$factory_617($myCoroutineScope, $profListLoading$delegate, $selectedCourse$delegate, $selectedProf$delegate, $selectedDept$delegate, $repository, $updateMapOfEntries, $selectedSchool$delegate, $deptEntries$delegate, $mapOfProfs$delegate, $mapOfCourses$delegate) {
+    var i = new _no_name_provided__694($myCoroutineScope, $profListLoading$delegate, $selectedCourse$delegate, $selectedProf$delegate, $selectedDept$delegate, $repository, $updateMapOfEntries, $selectedSchool$delegate, $deptEntries$delegate, $mapOfProfs$delegate, $mapOfCourses$delegate);
+    return function (p1, p2) {
+      i.invoke_pyh853_k$(p1, p2);
+      return Unit_getInstance();
+    };
+  }
+  function _no_name_provided_$factory_618($repository, $updateSelectedDept, $schoolMap$delegate, $selectedSchool$delegate, $selectedDept$delegate, resultContinuation) {
+    var i = new _no_name_provided__695($repository, $updateSelectedDept, $schoolMap$delegate, $selectedSchool$delegate, $selectedDept$delegate, resultContinuation);
     var l = function (p1, $cont) {
       return i.invoke_2i3g7c_k$(p1, $cont);
     };
     l.$arity = 1;
     return l;
   }
-  function _no_name_provided_$factory_620($selectedSchool$delegate, $updateSelectedDept, $schoolMap$delegate, $selectedCourse$delegate, $selectedProf$delegate, $selectedDept$delegate, $mapOfCourses$delegate, $mapOfProfs$delegate) {
-    var i = new _no_name_provided__689($selectedSchool$delegate, $updateSelectedDept, $schoolMap$delegate, $selectedCourse$delegate, $selectedProf$delegate, $selectedDept$delegate, $mapOfCourses$delegate, $mapOfProfs$delegate);
+  function _no_name_provided_$factory_619($selectedSchool$delegate, $updateSelectedDept, $schoolMap$delegate, $selectedCourse$delegate, $selectedProf$delegate, $updateMapOfEntries, $profListLoading$delegate, $selectedDept$delegate, $mapOfCourses$delegate, $mapOfProfs$delegate) {
+    var i = new _no_name_provided__696($selectedSchool$delegate, $updateSelectedDept, $schoolMap$delegate, $selectedCourse$delegate, $selectedProf$delegate, $updateMapOfEntries, $profListLoading$delegate, $selectedDept$delegate, $mapOfCourses$delegate, $mapOfProfs$delegate);
     return function (p1, p2, p3) {
       i.invoke_jpel0v_k$(p1, p2, p3);
       return Unit_getInstance();
     };
   }
-  function _no_name_provided_$factory_621($profListLoading$delegate) {
-    var i = new _no_name_provided__690($profListLoading$delegate);
+  function _no_name_provided_$factory_620($selectedCourse$delegate, $profListLoading$delegate) {
+    var i = new _no_name_provided__697($selectedCourse$delegate, $profListLoading$delegate);
+    return function () {
+      return i.invoke_0_k$();
+    };
+  }
+  function _no_name_provided_$factory_621($selectedCourse$delegate, $profListLoading$delegate) {
+    var i = new _no_name_provided__698($selectedCourse$delegate, $profListLoading$delegate);
+    return function () {
+      i.invoke_sv8swh_k$();
+      return Unit_getInstance();
+    };
+  }
+  function _no_name_provided_$factory_622($a, $mapOfEntries$delegate, resultContinuation) {
+    var i = new _no_name_provided__680($a, $mapOfEntries$delegate, resultContinuation);
+    var l = function (p1, $cont) {
+      return i.invoke_2i3g7c_k$(p1, $cont);
+    };
+    l.$arity = 1;
+    return l;
+  }
+  function _no_name_provided_$factory_623($repository, $updateMapOfEntries, $firstTime, $selectedSchool$delegate, $selectedDept$delegate, $deptEntries$delegate, $mapOfProfs$delegate, $mapOfCourses$delegate, $selectedCourse$delegate, $selectedProf$delegate, resultContinuation) {
+    var i = new _no_name_provided__681($repository, $updateMapOfEntries, $firstTime, $selectedSchool$delegate, $selectedDept$delegate, $deptEntries$delegate, $mapOfProfs$delegate, $mapOfCourses$delegate, $selectedCourse$delegate, $selectedProf$delegate, resultContinuation);
+    var l = function (p1, $cont) {
+      return i.invoke_2i3g7c_k$(p1, $cont);
+    };
+    l.$arity = 1;
+    return l;
+  }
+  function _no_name_provided_$factory_624($selectedSchool$delegate, $updateSelectedDept, $schoolMap$delegate, $selectedCourse$delegate, $selectedProf$delegate, $updateMapOfEntries, $profListLoading$delegate, $selectedDept$delegate, $mapOfCourses$delegate, $mapOfProfs$delegate) {
+    var i = new _no_name_provided__690($selectedSchool$delegate, $updateSelectedDept, $schoolMap$delegate, $selectedCourse$delegate, $selectedProf$delegate, $updateMapOfEntries, $profListLoading$delegate, $selectedDept$delegate, $mapOfCourses$delegate, $mapOfProfs$delegate);
     return function (p1, p2, p3) {
       i.invoke_jpel0v_k$(p1, p2, p3);
       return Unit_getInstance();
     };
   }
-  function _no_name_provided_$factory_622($updateSelectedDept, $selectedSchool$delegate, $schoolMap$delegate) {
-    var i = new _no_name_provided__681($updateSelectedDept, $selectedSchool$delegate, $schoolMap$delegate);
-    return function () {
-      return i.invoke_0_k$();
-    };
-  }
-  function _no_name_provided_$factory_623($updateSelectedDept) {
-    var i = new _no_name_provided__682($updateSelectedDept);
-    return function () {
-      return i.invoke_0_k$();
-    };
-  }
-  function _no_name_provided_$factory_624($selectedCourse$delegate) {
-    var i = new _no_name_provided__683($selectedCourse$delegate);
-    return function () {
-      return i.invoke_0_k$();
-    };
-  }
-  function _no_name_provided_$factory_625($selectedProf$delegate) {
-    var i = new _no_name_provided__684($selectedProf$delegate);
-    return function () {
-      return i.invoke_0_k$();
+  function _no_name_provided_$factory_625($profListLoading$delegate) {
+    var i = new _no_name_provided__691($profListLoading$delegate);
+    return function (p1, p2, p3) {
+      i.invoke_jpel0v_k$(p1, p2, p3);
+      return Unit_getInstance();
     };
   }
   function _no_name_provided_$factory_626($updateSelectedDept, $selectedSchool$delegate, $schoolMap$delegate) {
-    var i = new _no_name_provided__685($updateSelectedDept, $selectedSchool$delegate, $schoolMap$delegate);
-    return function (p1) {
-      i.invoke_a4enbm_k$(p1);
-      return Unit_getInstance();
+    var i = new _no_name_provided__682($updateSelectedDept, $selectedSchool$delegate, $schoolMap$delegate);
+    return function () {
+      return i.invoke_0_k$();
     };
   }
   function _no_name_provided_$factory_627($updateSelectedDept) {
-    var i = new _no_name_provided__686($updateSelectedDept);
+    var i = new _no_name_provided__683($updateSelectedDept);
+    return function () {
+      return i.invoke_0_k$();
+    };
+  }
+  function _no_name_provided_$factory_628($updateMapOfEntries, $selectedCourse$delegate, $selectedProf$delegate) {
+    var i = new _no_name_provided__684($updateMapOfEntries, $selectedCourse$delegate, $selectedProf$delegate);
+    return function () {
+      return i.invoke_0_k$();
+    };
+  }
+  function _no_name_provided_$factory_629($selectedProf$delegate, $selectedCourse$delegate, $profListLoading$delegate) {
+    var i = new _no_name_provided__685($selectedProf$delegate, $selectedCourse$delegate, $profListLoading$delegate);
+    return function () {
+      return i.invoke_0_k$();
+    };
+  }
+  function _no_name_provided_$factory_630($updateSelectedDept, $selectedSchool$delegate, $schoolMap$delegate) {
+    var i = new _no_name_provided__686($updateSelectedDept, $selectedSchool$delegate, $schoolMap$delegate);
     return function (p1) {
       i.invoke_a4enbm_k$(p1);
       return Unit_getInstance();
     };
   }
-  function _no_name_provided_$factory_628($selectedCourse$delegate) {
-    var i = new _no_name_provided__687($selectedCourse$delegate);
+  function _no_name_provided_$factory_631($updateSelectedDept) {
+    var i = new _no_name_provided__687($updateSelectedDept);
     return function (p1) {
       i.invoke_a4enbm_k$(p1);
       return Unit_getInstance();
     };
   }
-  function _no_name_provided_$factory_629($selectedProf$delegate) {
-    var i = new _no_name_provided__688($selectedProf$delegate);
+  function _no_name_provided_$factory_632($updateMapOfEntries, $selectedCourse$delegate, $selectedProf$delegate) {
+    var i = new _no_name_provided__688($updateMapOfEntries, $selectedCourse$delegate, $selectedProf$delegate);
     return function (p1) {
       i.invoke_a4enbm_k$(p1);
       return Unit_getInstance();
     };
   }
-  function _no_name_provided_$factory_630($element_2, $fontSize) {
-    var i = new _no_name_provided__700($element_2, $fontSize);
+  function _no_name_provided_$factory_633($selectedProf$delegate, $selectedCourse$delegate, $profListLoading$delegate) {
+    var i = new _no_name_provided__689($selectedProf$delegate, $selectedCourse$delegate, $profListLoading$delegate);
+    return function (p1) {
+      i.invoke_a4enbm_k$(p1);
+      return Unit_getInstance();
+    };
+  }
+  function _no_name_provided_$factory_634($element_2, $fontSize) {
+    var i = new _no_name_provided__704($element_2, $fontSize);
     return function (p1, p2, p3) {
       i.invoke_jpel0v_k$(p1, p2, p3);
       return Unit_getInstance();
     };
   }
-  function _no_name_provided_$factory_631() {
-    var i = new _no_name_provided__701();
+  function _no_name_provided_$factory_635() {
+    var i = new _no_name_provided__705();
     return function (p1, p2) {
       return i.invoke_9ct64g_k$(p1, p2);
     };
   }
-  function _no_name_provided_$factory_632($prof_4, $spacing) {
-    var i = new _no_name_provided__702($prof_4, $spacing);
+  function _no_name_provided_$factory_636($prof_4, $spacing) {
+    var i = new _no_name_provided__706($prof_4, $spacing);
     return function (p1, p2, p3) {
       i.invoke_jpel0v_k$(p1, p2, p3);
       return Unit_getInstance();
     };
   }
-  function _no_name_provided_$factory_633() {
-    var i = new _no_name_provided__699();
+  function _no_name_provided_$factory_637($onLoad) {
+    var i = new _no_name_provided__707($onLoad);
+    return function () {
+      return i.invoke_0_k$();
+    };
+  }
+  function _no_name_provided_$factory_638($onLoad, resultContinuation) {
+    var i = new _no_name_provided__708($onLoad, resultContinuation);
+    var l = function (p1, $cont) {
+      return i.invoke_2i3g7c_k$(p1, $cont);
+    };
+    l.$arity = 1;
+    return l;
+  }
+  function _no_name_provided_$factory_639() {
+    var i = new _no_name_provided__703();
     return function (p1) {
       i.invoke_sksns0_k$(p1);
       return Unit_getInstance();
     };
   }
-  function _no_name_provided_$factory_634() {
-    var i = new _no_name_provided__708();
+  function _no_name_provided_$factory_640() {
+    var i = new _no_name_provided__714();
     return function (p1) {
       return i.invoke_ucd4wn_k$(p1);
     };
   }
-  function _no_name_provided_$factory_635() {
-    var i = new _no_name_provided__709();
+  function _no_name_provided_$factory_641() {
+    var i = new _no_name_provided__715();
     return function (p1) {
       return i.invoke_ucd4wn_k$(p1);
     };
   }
-  function _no_name_provided_$factory_636($labelModifier, $modifier1, $modifier2, $depts, $onSelectDept, $selectedDept, $$dirty, $courses, $onSelectCourse, $selectedCourse, $profs, $onSelectProf, $selectedProf, $$dirty1) {
-    var i = new _no_name_provided__710($labelModifier, $modifier1, $modifier2, $depts, $onSelectDept, $selectedDept, $$dirty, $courses, $onSelectCourse, $selectedCourse, $profs, $onSelectProf, $selectedProf, $$dirty1);
+  function _no_name_provided_$factory_642($labelModifier, $modifier1, $modifier2, $depts, $onSelectDept, $selectedDept, $$dirty, $courses, $onSelectCourse, $selectedCourse, $profs, $onSelectProf, $selectedProf, $$dirty1) {
+    var i = new _no_name_provided__716($labelModifier, $modifier1, $modifier2, $depts, $onSelectDept, $selectedDept, $$dirty, $courses, $onSelectCourse, $selectedCourse, $profs, $onSelectProf, $selectedProf, $$dirty1);
     return function (p1, p2, p3) {
       i.invoke_fpi9a8_k$(p1, p2, p3);
       return Unit_getInstance();
     };
   }
-  function _no_name_provided_$factory_637($labelModifier, $modifier1, $modifier2, $depts, $onSelectDept, $selectedDept, $$dirty) {
-    var i = new _no_name_provided__705($labelModifier, $modifier1, $modifier2, $depts, $onSelectDept, $selectedDept, $$dirty);
+  function _no_name_provided_$factory_643($labelModifier, $modifier1, $modifier2, $depts, $onSelectDept, $selectedDept, $$dirty) {
+    var i = new _no_name_provided__711($labelModifier, $modifier1, $modifier2, $depts, $onSelectDept, $selectedDept, $$dirty);
     return function (p1, p2, p3) {
       i.invoke_9s02y_k$(p1, p2, p3);
       return Unit_getInstance();
     };
   }
-  function _no_name_provided_$factory_638($labelModifier, $modifier1, $modifier2, $courses, $onSelectCourse, $selectedCourse, $$dirty) {
-    var i = new _no_name_provided__706($labelModifier, $modifier1, $modifier2, $courses, $onSelectCourse, $selectedCourse, $$dirty);
+  function _no_name_provided_$factory_644($labelModifier, $modifier1, $modifier2, $courses, $onSelectCourse, $selectedCourse, $$dirty) {
+    var i = new _no_name_provided__712($labelModifier, $modifier1, $modifier2, $courses, $onSelectCourse, $selectedCourse, $$dirty);
     return function (p1, p2, p3) {
       i.invoke_9s02y_k$(p1, p2, p3);
       return Unit_getInstance();
     };
   }
-  function _no_name_provided_$factory_639($labelModifier, $profs, $onSelectProf, $selectedProf, $$dirty, $$dirty1) {
-    var i = new _no_name_provided__707($labelModifier, $profs, $onSelectProf, $selectedProf, $$dirty, $$dirty1);
+  function _no_name_provided_$factory_645($labelModifier, $profs, $onSelectProf, $selectedProf, $$dirty, $$dirty1) {
+    var i = new _no_name_provided__713($labelModifier, $profs, $onSelectProf, $selectedProf, $$dirty, $$dirty1);
     return function (p1, p2, p3) {
       i.invoke_9s02y_k$(p1, p2, p3);
       return Unit_getInstance();
