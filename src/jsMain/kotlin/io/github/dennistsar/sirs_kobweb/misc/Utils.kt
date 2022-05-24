@@ -11,7 +11,10 @@ typealias ProfScores = Map<String,List<List<Int>>>
 fun String.substringAfterBefore(after: String, before: String): String =
     substringAfter(after).substringBefore(before)
 
-fun String.isBlankOrNone() = isBlank() || equals("None")
+fun String.isBlankOrNone() = isBlank() || equals(NONE)
+
+fun String.decodeURLParam() =
+    replace("%2C",",").replace("%20"," ")
 
 fun Double.roundToDecimal(dec : Int): Double =
     (this * 10.0.pow(dec)).roundToInt()/10.0.pow(dec)

@@ -11,6 +11,7 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.asAttributesBuilder
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.core.Page
+import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.graphics.Image
 import com.varabyte.kobweb.silk.components.layout.SimpleGridStyle
 import com.varabyte.kobweb.silk.components.style.toModifier
@@ -21,10 +22,12 @@ import io.github.dennistsar.sirs_kobweb.components.layouts.PageLayout
 import io.github.dennistsar.sirs_kobweb.components.widgets.CustomDropDown
 import io.github.dennistsar.sirs_kobweb.data.Entry
 import io.github.dennistsar.sirs_kobweb.data.School
+import io.github.dennistsar.sirs_kobweb.logic.aveScores
 import io.github.dennistsar.sirs_kobweb.logic.mapByCourses
 import io.github.dennistsar.sirs_kobweb.logic.mapByProfs
 import io.github.dennistsar.sirs_kobweb.logic.toProfScores
 import io.github.dennistsar.sirs_kobweb.misc.*
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
@@ -35,26 +38,45 @@ import org.jetbrains.compose.web.dom.Div
 fun SearchDept() {
     val repository = Repository(Api())
     PageLayout("Search",Modifier.backgroundColor(Color.lightcyan)) {
-//        val ctx = rememberPageContext()
+        val ctx = rememberPageContext()
         val myCoroutineScope = rememberCoroutineScope()
 
         var schoolMap: Map<String, School> by remember{ mutableStateOf(emptyMap()) }
-        var selectedSchool by remember { mutableStateOf("") }
-        var selectedDept by remember { mutableStateOf("") }
-        var selectedCourse by remember { mutableStateOf("") }
-        var selectedProf by remember { mutableStateOf("") }
+        var selectedSchool by remember { mutableStateOf(ctx.params["school"] ?: "") }
+        var selectedDept by remember { mutableStateOf(ctx.params["dept"] ?: "") }
+        var selectedCourse by remember { mutableStateOf(ctx.params["course"] ?: "") }
+        var selectedProf by remember { mutableStateOf(ctx.params["prof"]?.decodeURLParam()?.uppercase() ?: "") }
 
         var deptEntries: List<Entry> by remember { mutableStateOf(emptyList()) }
         var mapOfProfs: Map<String,List<Entry>> by remember { mutableStateOf(emptyMap()) }
         var mapOfCourses: Map<String,List<Entry>>  by remember { mutableStateOf(emptyMap()) }
+        var mapOfEntries: Map<String, Pair<Int, List<Double>>>  by remember { mutableStateOf(emptyMap()) }
 
-        var profListLoading by remember { mutableStateOf(true) }
+        var profListLoading by remember { mutableStateOf(false) }
 
-        val updateSelectedDept: (String?) -> Unit = fun(str) {
-            profListLoading = true
+        val updateMapOfEntries : (String,Boolean) -> Unit = fun(ab,bool)
+            {
+                if(bool)
+                    profListLoading = true
+                val a =
+                    if (ab.isBlankOrNone())
+                        mapOfProfs
+                    else
+                        mapOfCourses[ab]!!.mapByProfs()
+                myCoroutineScope.launch {
+                    delay(50)
+                    mapOfEntries = a.toProfScores().mapValues { it.value.toTotalAndAvesPair() }
+                }
+            }
+
+        val updateSelectedDept: (String?,Boolean) -> Unit = fun(str,firstTime) {
             console.log("updating dept2: $str")
-            selectedCourse = "None"
-            selectedProf = "None"
+            if(!firstTime){
+                profListLoading = true
+                selectedCourse = NONE
+                selectedProf = NONE
+            }
+
             selectedDept = str ?: "".also { return } // Returns if str is null - kinda cool but a little weird
             myCoroutineScope.launch {
                 deptEntries = repository.getEntries(selectedSchool, selectedDept)
@@ -63,6 +85,14 @@ fun SearchDept() {
                     ?.filter { it.scores.size >= 100 } ?: emptyList()
                 mapOfProfs = deptEntries.mapByProfs()
                 mapOfCourses = deptEntries.mapByCourses()
+                updateMapOfEntries(selectedCourse,false)
+
+                if (!firstTime)
+                    return@launch
+                if (!mapOfProfs.keys.contains(selectedProf))
+                    selectedProf = NONE
+                if (!mapOfCourses.keys.contains(selectedProf))
+                    selectedCourse = NONE
             }
         }
 
@@ -70,11 +100,13 @@ fun SearchDept() {
             console.log("making req")
             schoolMap =
                 repository.getSchoolMap()
-                    .takeIf { it is Resource.Success }
-                    ?.data ?: emptyMap()
-            val firstSchool = schoolMap["01"]!!//.firstNotNullOf{ it }//entries.first()//idk about the !!//maybe have no default??
-            selectedSchool = firstSchool.code
-            updateSelectedDept(firstSchool.depts.firstOrNull())
+                    .takeIf { it is Resource.Success }?.data ?: emptyMap()
+            val school = schoolMap[selectedSchool] ?: schoolMap["01"]!!
+            selectedSchool = school.code
+            updateSelectedDept(
+                selectedDept.takeIf { school.depts.contains(it) } ?: school.depts.first(),
+                true
+            )
         }
 
         if (schoolMap.isEmpty())
@@ -83,7 +115,7 @@ fun SearchDept() {
         Box(Modifier
             .fillMaxWidth()
             .display(DisplayStyle.Flex)
-            .alignItems(AlignItems.Center)
+            .alignItems(AlignItems.Center)// vertical alignment
         ) {
             Box(Modifier.flex(1))
             Box{
@@ -93,16 +125,29 @@ fun SearchDept() {
                     selectedProf = selectedProf,
                     schools = schoolMap.values,
                     depts = schoolMap[selectedSchool]!!.depts,
-                    courses = listOf("None") + mapOfCourses.keys.sorted(),
-                    profs = listOf("None") + mapOfProfs.keys.sorted(),
+                    courses = listOf(NONE) + mapOfCourses.keys.sorted(),
+                    profs = listOf(NONE) + mapOfProfs.keys.sorted(),
                     onSelectSchool =
                     {
                         selectedSchool = it
-                        updateSelectedDept(schoolMap[selectedSchool]!!.depts.firstOrNull())
+                        updateSelectedDept(schoolMap[selectedSchool]!!.depts.firstOrNull(),false)
                     },
-                    onSelectDept = { updateSelectedDept(it) },
-                    onSelectCourse = { selectedCourse = it },
-                    onSelectProf = { selectedProf = it },
+                    onSelectDept = { updateSelectedDept(it,false) },
+                    onSelectCourse =
+                    {
+                        selectedCourse = it
+                        selectedProf = NONE
+//                        if (it==NONE) {console.log("Asdf"); profListLoading = true; }
+                        updateMapOfEntries(it,it==NONE)
+                    },
+                    onSelectProf =
+                    {
+                        selectedProf = it
+                        selectedCourse = NONE
+                        if(it==NONE){
+                            profListLoading = true
+                        }
+                    },
                 )
             }
             Box(Modifier.flex(1)) loading@{
@@ -119,31 +164,36 @@ fun SearchDept() {
         if (deptEntries.isEmpty())
             return@PageLayout
 
-        if (!selectedProf.isBlankOrNone())
+        if (!selectedProf.isBlankOrNone()) {
             Text(selectedProf)
-
-        val mapOfEntries =
-            if (selectedCourse.isBlankOrNone())
-                mapOfProfs
-            else
-                mapOfCourses[selectedCourse]!!.mapByProfs()
+            profSummary(mapOfProfs[selectedProf]!!)
+            return@PageLayout
+        }
 
         profScoresList(
-            mapOfEntries
-                .toProfScores()
-                .mapValues { it.value.toTotalAndAvesPair() },
+            mapOfEntries,
         ) {
             console.log("hi")
-            profListLoading = false
+            if (selectedCourse.isBlankOrNone())
+                profListLoading = false
         }
     }
+}
+
+@Composable
+fun profSummary(list: List<Entry>){
+    val a = list.mapByCourses()
+    val b = a.toProfScores()
+    val allScores = list.aveScores()
+
+    profScoresList(b.mapValues { it.value.toTotalAndAvesPair() })
 }
 
 @OptIn(ExperimentalComposeWebApi::class)
 @Composable
 fun profScoresList(
     list:  Map<String, Pair<Int, List<Double>>>,
-    onLoad: () -> Unit,
+    onLoad: () -> Unit = {},
 ){
     Div(
         attrs = SimpleGridStyle
@@ -173,7 +223,6 @@ fun profScoresList(
                 .fontSize(fontSize)
                 .margin(topBottom = 7.5.px, leftRight = 0.px)
                 .alignSelf(AlignSelf.Center)
-//                .overflowWrap(OverflowWrap.BreakWord)
 
         list.entries
             .sortedBy { -it.value.second[8] }
@@ -181,11 +230,11 @@ fun profScoresList(
             .forEach { (prof, nums) ->
                 Box(gridElementModifier){
                     val offset = 40.px
-                    Text(prof,
+                    Text(
+                        prof,
                         Modifier
                             .margin(left=-offset)
                             .width(spacing+offset)
-//                            .onClick { onLoad(prof) }
                     )
                 }
                 nums.second.subList(0, 10).forEach {
@@ -193,7 +242,9 @@ fun profScoresList(
                 }
                 Text(nums.first.toString(), gridElementModifier)
             }
-        onLoad()
+        LaunchedEffect(list) {
+            onLoad()
+        }
     }
 }
 

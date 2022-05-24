@@ -5,6 +5,8 @@ import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.layout.SimpleGridStyle
 import org.jetbrains.compose.web.css.gridTemplateColumns
 
+const val NONE = "None" // to avoid accidental typos
+
 val TenQs = listOf(
     "The instructor was prepared for class and presented the material in an organized manner",
     "The instructor responded effectively to student comments and questions",

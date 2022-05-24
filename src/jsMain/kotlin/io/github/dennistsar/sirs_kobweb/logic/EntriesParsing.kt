@@ -15,22 +15,26 @@ fun List<Entry>.mapByCourses(): Map<String, List<Entry>> {
         }
 }
 
+fun List<Entry>.aveScores(): List<List<Int>>{
+    return map { i ->
+        i.scores.chunked(10)//grouped by question
+            .map {
+                it.subList(0,5).flatMapIndexed { index, d ->
+                    List(d.toInt()) { index + 1 }
+                }
+            }//maps to all answers as list
+        //ex. 2 5s and 3 4s gives [5,5,4,4,4]
+        //this allows for keeping total # of responses and average calculation after flattening
+    }
+        .flatMap { it.withIndex() }
+        .groupBy({ it.index }, { it.value }).values
+        .map { it.flatten() }
+}
+
 fun Map<String, List<Entry>>.toProfScores(): ProfScores {
     val profRatings = filter { it.value.isNotEmpty() }
         .mapValues { (_, v) ->
-            v.map { i ->
-                i.scores.chunked(10)//grouped by question
-                    .map {
-                        it.subList(0,5).flatMapIndexed { index, d ->
-                            List(d.toInt()) { index + 1 }
-                        }
-                    }//maps to all answers as list
-                //ex. 2 5s and 3 4s gives [5,5,4,4,4]
-                //this allows for keeping total # of responses and average calculation after flattening
-            }
-                .flatMap { it.withIndex() }
-                .groupBy({ it.index }, { it.value }).values
-                .map { it.flatten() }
+            v.aveScores()
         }
 
 //    if (profRatings.isEmpty())
