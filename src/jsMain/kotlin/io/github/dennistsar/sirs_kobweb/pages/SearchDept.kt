@@ -10,6 +10,7 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.asAttributesBuilder
 import com.varabyte.kobweb.compose.ui.modifiers.*
+import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.graphics.Image
@@ -120,6 +121,7 @@ fun SearchDept() {
             Box(Modifier.flex(1))
             Box{
                 searchDeptFormContent(
+                    selectedSchool = schoolMap[selectedSchool]!!,
                     selectedDept = selectedDept,
                     selectedCourse = selectedCourse,
                     selectedProf = selectedProf,
@@ -135,18 +137,17 @@ fun SearchDept() {
                     onSelectDept = { updateSelectedDept(it,false) },
                     onSelectCourse =
                     {
+                        updateMapOfEntries(it,it==NONE)
                         selectedCourse = it
                         selectedProf = NONE
-//                        if (it==NONE) {console.log("Asdf"); profListLoading = true; }
-                        updateMapOfEntries(it,it==NONE)
                     },
                     onSelectProf =
                     {
-                        selectedProf = it
-                        selectedCourse = NONE
-                        if(it==NONE){
-                            profListLoading = true
+                        if (selectedCourse!=NONE) {
+                            selectedCourse = NONE
+                            updateMapOfEntries(selectedCourse,false)
                         }
+                        selectedProf = it
                     },
                 )
             }
@@ -174,8 +175,7 @@ fun SearchDept() {
             mapOfEntries,
         ) {
             console.log("hi")
-            if (selectedCourse.isBlankOrNone())
-                profListLoading = false
+            profListLoading = false
         }
     }
 }
@@ -193,11 +193,13 @@ fun profSummary(list: List<Entry>){
 @Composable
 fun profScoresList(
     list:  Map<String, Pair<Int, List<Double>>>,
+    invisible: Boolean = false,
     onLoad: () -> Unit = {},
 ){
     Div(
         attrs = SimpleGridStyle
             .toModifier(gridVariant12)
+            .styleModifier { if(invisible) display(DisplayStyle.None) }
             .asAttributesBuilder()
     ) {
         val spacing = 80.px
@@ -250,8 +252,7 @@ fun profScoresList(
 
 @Composable
 fun searchDeptFormContent(
-    //First 2 are needed for proper switch back to first upon reset
-    //Maybe should include selectedSchool too but not practically necessary
+    selectedSchool: School,
     selectedDept: String,
     selectedCourse: String,
     selectedProf: String,
@@ -286,7 +287,7 @@ fun searchDeptFormContent(
             onSelect = onSelectSchool,
             getText = { "${it.code} - ${it.name}" },
             getValue = { it.code },
-//            selected = schoolList.firstOrNull()
+            selected = selectedSchool,
         )
 
         Row(
