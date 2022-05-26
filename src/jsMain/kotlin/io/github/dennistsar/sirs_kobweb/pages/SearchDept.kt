@@ -17,16 +17,17 @@ import com.varabyte.kobweb.silk.components.graphics.Image
 import com.varabyte.kobweb.silk.components.layout.SimpleGridStyle
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.Text
-import io.github.dennistsar.sirs_kobweb.api.Api
-import io.github.dennistsar.sirs_kobweb.api.Repository
 import io.github.dennistsar.sirs_kobweb.components.layouts.PageLayout
 import io.github.dennistsar.sirs_kobweb.components.widgets.CustomDropDown
-import io.github.dennistsar.sirs_kobweb.data.Entry
-import io.github.dennistsar.sirs_kobweb.data.School
-import io.github.dennistsar.sirs_kobweb.logic.aveScores
-import io.github.dennistsar.sirs_kobweb.logic.mapByCourses
-import io.github.dennistsar.sirs_kobweb.logic.mapByProfs
-import io.github.dennistsar.sirs_kobweb.logic.toProfScores
+import io.github.dennistsar.sirs_kobweb.components.widgets.LeftRightCenterBox
+import io.github.dennistsar.sirs_kobweb.data.api.Api
+import io.github.dennistsar.sirs_kobweb.data.api.Repository
+import io.github.dennistsar.sirs_kobweb.data.aveScores
+import io.github.dennistsar.sirs_kobweb.data.classes.Entry
+import io.github.dennistsar.sirs_kobweb.data.classes.School
+import io.github.dennistsar.sirs_kobweb.data.mapByCourses
+import io.github.dennistsar.sirs_kobweb.data.mapByProfs
+import io.github.dennistsar.sirs_kobweb.data.toProfScores
 import io.github.dennistsar.sirs_kobweb.misc.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -74,8 +75,8 @@ fun SearchDept() {
             console.log("updating dept2: $str")
             if(!firstTime){
                 profListLoading = true
-                selectedCourse = NONE
-                selectedProf = NONE
+                selectedCourse = None
+                selectedProf = None
             }
 
             selectedDept = str ?: "".also { return } // Returns if str is null - kinda cool but a little weird
@@ -91,9 +92,9 @@ fun SearchDept() {
                 if (!firstTime)
                     return@launch
                 if (!mapOfProfs.keys.contains(selectedProf))
-                    selectedProf = NONE
+                    selectedProf = None
                 if (!mapOfCourses.keys.contains(selectedProf))
-                    selectedCourse = NONE
+                    selectedCourse = None
             }
         }
 
@@ -113,22 +114,31 @@ fun SearchDept() {
         if (schoolMap.isEmpty())
             return@PageLayout
 
-        Box(Modifier
-            .fillMaxWidth()
-            .display(DisplayStyle.Flex)
-            .alignItems(AlignItems.Center)// vertical alignment
-        ) {
-            Box(Modifier.flex(1))
-            Box{
-                searchDeptFormContent(
+        LeftRightCenterBox(
+            Modifier
+                .fillMaxWidth()
+                .alignItems(AlignItems.Center),// vertical alignment
+            right =
+            loading@{
+                if(!profListLoading)
+                    return@loading
+                Image(
+                    "circle_loading.gif",
+                    "Loading",
+                    Modifier.size(75.px)
+                )
+            },
+            center =
+            {
+                SearchDeptFormContent(
                     selectedSchool = schoolMap[selectedSchool]!!,
                     selectedDept = selectedDept,
                     selectedCourse = selectedCourse,
                     selectedProf = selectedProf,
                     schools = schoolMap.values,
                     depts = schoolMap[selectedSchool]!!.depts,
-                    courses = listOf(NONE) + mapOfCourses.keys.sorted(),
-                    profs = listOf(NONE) + mapOfProfs.keys.sorted(),
+                    courses = listOf(None) + mapOfCourses.keys.sorted(),
+                    profs = listOf(None) + mapOfProfs.keys.sorted(),
                     onSelectSchool =
                     {
                         selectedSchool = it
@@ -137,41 +147,32 @@ fun SearchDept() {
                     onSelectDept = { updateSelectedDept(it,false) },
                     onSelectCourse =
                     {
-                        updateMapOfEntries(it,it==NONE)
+                        updateMapOfEntries(it,it==None)
                         selectedCourse = it
-                        selectedProf = NONE
+                        selectedProf = None
                     },
                     onSelectProf =
                     {
-                        if (selectedCourse!=NONE) {
-                            selectedCourse = NONE
+                        if (selectedCourse!=None) {
+                            selectedCourse = None
                             updateMapOfEntries(selectedCourse,false)
                         }
                         selectedProf = it
                     },
                 )
             }
-            Box(Modifier.flex(1)) loading@{
-                if(!profListLoading)
-                    return@loading
-                Image(
-                    "circle_loading.gif",
-                    "Loading",
-                    Modifier.size(75.px)
-                )
-            }
-        }
+        )
 
         if (deptEntries.isEmpty())
             return@PageLayout
 
         if (!selectedProf.isBlankOrNone()) {
             Text(selectedProf)
-            profSummary(mapOfProfs[selectedProf]!!)
+            ProfSummary(mapOfProfs[selectedProf]!!)
             return@PageLayout
         }
 
-        profScoresList(
+        ProfScoresList(
             mapOfEntries,
         ) {
             console.log("hi")
@@ -181,17 +182,17 @@ fun SearchDept() {
 }
 
 @Composable
-fun profSummary(list: List<Entry>){
+fun ProfSummary(list: List<Entry>){
     val a = list.mapByCourses()
     val b = a.toProfScores()
     val allScores = list.aveScores()
 
-    profScoresList(b.mapValues { it.value.toTotalAndAvesPair() })
+    ProfScoresList(b.mapValues { it.value.toTotalAndAvesPair() })
 }
 
 @OptIn(ExperimentalComposeWebApi::class)
 @Composable
-fun profScoresList(
+fun ProfScoresList(
     list:  Map<String, Pair<Int, List<Double>>>,
     invisible: Boolean = false,
     onLoad: () -> Unit = {},
@@ -251,7 +252,7 @@ fun profScoresList(
 }
 
 @Composable
-fun searchDeptFormContent(
+fun SearchDeptFormContent(
     selectedSchool: School,
     selectedDept: String,
     selectedCourse: String,

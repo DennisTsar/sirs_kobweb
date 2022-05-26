@@ -11,7 +11,7 @@ typealias ProfScores = Map<String,List<List<Int>>>
 fun String.substringAfterBefore(after: String, before: String): String =
     substringAfter(after).substringBefore(before)
 
-fun String.isBlankOrNone() = isBlank() || equals(NONE)
+fun String.isBlankOrNone() = isBlank() || equals(None)
 
 fun String.decodeURLParam() =
     replace("%2C",",").replace("%20"," ")

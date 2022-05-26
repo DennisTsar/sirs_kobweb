@@ -1,7 +1,7 @@
-package io.github.dennistsar.sirs_kobweb.api
+package io.github.dennistsar.sirs_kobweb.data.api
 
-import io.github.dennistsar.sirs_kobweb.data.Entry
-import io.github.dennistsar.sirs_kobweb.data.School
+import io.github.dennistsar.sirs_kobweb.data.classes.Entry
+import io.github.dennistsar.sirs_kobweb.data.classes.School
 import io.github.dennistsar.sirs_kobweb.misc.Resource
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json

@@ -6,9 +6,9 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxWidth
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.silk.components.text.Text
-import io.github.dennistsar.sirs_kobweb.api.Api
 import io.github.dennistsar.sirs_kobweb.components.layouts.PageLayout
-import io.github.dennistsar.sirs_kobweb.data.School
+import io.github.dennistsar.sirs_kobweb.data.api.Api
+import io.github.dennistsar.sirs_kobweb.data.classes.School
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString

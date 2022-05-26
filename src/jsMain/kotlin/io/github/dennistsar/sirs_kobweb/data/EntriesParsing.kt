@@ -1,6 +1,6 @@
-package io.github.dennistsar.sirs_kobweb.logic
+package io.github.dennistsar.sirs_kobweb.data
 
-import io.github.dennistsar.sirs_kobweb.data.Entry
+import io.github.dennistsar.sirs_kobweb.data.classes.Entry
 import io.github.dennistsar.sirs_kobweb.misc.ProfScores
 
 

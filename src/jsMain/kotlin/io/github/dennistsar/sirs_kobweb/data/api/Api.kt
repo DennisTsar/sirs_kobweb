@@ -1,4 +1,4 @@
-package io.github.dennistsar.sirs_kobweb.api
+package io.github.dennistsar.sirs_kobweb.data.api
 
 import io.ktor.client.*
 import io.ktor.client.request.*

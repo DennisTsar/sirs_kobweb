@@ -1,4 +1,4 @@
-package io.github.dennistsar.sirs_kobweb.data
+package io.github.dennistsar.sirs_kobweb.data.classes
 
 import io.github.dennistsar.sirs_kobweb.misc.substringAfterBefore
 import kotlinx.serialization.Serializable
@@ -40,7 +40,4 @@ class Entry(
     )
 //    val shortTerm = term.first()+term.takeLast(2)
 
-    override fun toString(): String{
-        return "General.Entry(\"$instructor\",\"$term\",\"$code\",\"$courseName\",\"$indexNum\",$enrolled,$responses,listOf(${scores.joinToString(",")}))"
-    }
 }

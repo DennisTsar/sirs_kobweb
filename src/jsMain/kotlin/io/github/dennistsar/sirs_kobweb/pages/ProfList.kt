@@ -10,12 +10,12 @@ import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.text.Text
-import io.github.dennistsar.sirs_kobweb.api.Api
-import io.github.dennistsar.sirs_kobweb.api.Repository
 import io.github.dennistsar.sirs_kobweb.components.layouts.PageLayout
-import io.github.dennistsar.sirs_kobweb.data.Entry
-import io.github.dennistsar.sirs_kobweb.logic.mapByProfs
-import io.github.dennistsar.sirs_kobweb.logic.toProfScores
+import io.github.dennistsar.sirs_kobweb.data.api.Api
+import io.github.dennistsar.sirs_kobweb.data.api.Repository
+import io.github.dennistsar.sirs_kobweb.data.classes.Entry
+import io.github.dennistsar.sirs_kobweb.data.mapByProfs
+import io.github.dennistsar.sirs_kobweb.data.toProfScores
 import io.github.dennistsar.sirs_kobweb.misc.roundToDecimal
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.percent

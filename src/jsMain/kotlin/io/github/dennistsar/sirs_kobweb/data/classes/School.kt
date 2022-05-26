@@ -1,4 +1,4 @@
-package io.github.dennistsar.sirs_kobweb.data
+package io.github.dennistsar.sirs_kobweb.data.classes
 
 import kotlinx.serialization.Serializable
 
