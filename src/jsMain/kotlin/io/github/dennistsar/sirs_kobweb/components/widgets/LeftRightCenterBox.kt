@@ -14,17 +14,15 @@ fun LeftRightCenterBox(
     left: @Composable () -> Unit = {},
     right: @Composable () -> Unit = {},
     center: @Composable () -> Unit = {},
-){
-    Box(modifier
-        .display(DisplayStyle.Flex)
-    ) {
-        Box(Modifier.flex(1)){
+) {
+    Box(modifier.display(DisplayStyle.Flex)) {
+        Box(Modifier.flex(1)) {
             left()
         }
-        Box{
+        Box {
             center()
         }
-        Box(Modifier.flex(1)){
+        Box(Modifier.flex(1)) {
             right()
         }
     }

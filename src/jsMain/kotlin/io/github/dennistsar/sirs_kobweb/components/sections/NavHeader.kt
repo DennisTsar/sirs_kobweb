@@ -1,6 +1,8 @@
 package io.github.dennistsar.sirs_kobweb.components.sections
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.foundation.layout.Spacer
@@ -59,7 +61,6 @@ fun NavHeader() {
             NavLink("/about", "ABOUT")
             NavLink("/markdown", "MARKDOWN")
             NavLink("/searchdept", "SearchDept")
-            NavLink("/proflist", "ProfList")
 
             Spacer()
             Button(

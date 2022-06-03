@@ -30,10 +30,10 @@ val TenQsShortened = listOf(
     "Learned a Great Deal",
     "Strong Prior Interest",
     "Teaching Effectiveness",
-    "Overall Quality of Course"
+    "Overall Quality of Course",
 )
 
-val gridVariant11 = run{
+val gridVariant11 = run {
     val numColumns = 11
     val gridModifier = Modifier.styleModifier {
         gridTemplateColumns("repeat($numColumns, 1fr)")
@@ -43,7 +43,7 @@ val gridVariant11 = run{
     }
 }
 
-val gridVariant12 = run{
+val gridVariant12 = run {
     val numColumns = 12
     val gridModifier = Modifier.styleModifier {
         gridTemplateColumns("repeat($numColumns, 1fr)")

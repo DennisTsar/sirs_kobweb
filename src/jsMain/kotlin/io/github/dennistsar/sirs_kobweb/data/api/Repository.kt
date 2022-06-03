@@ -9,20 +9,16 @@ import kotlinx.serialization.json.Json
 class Repository(private val api: Api) {
 //        suspend fun getSchoolsMapFromGit(): Map<String, School> =
 //            Json.decodeFromString(api.getSchoolDeptsMapFromGit())
-    suspend fun getSchoolMap(): Resource<Map<String, School>>{
-        val res = api.getSchoolDeptsMapFromGit()
-        return getResource(res)
-    }
+    suspend fun getSchoolMap(): Resource<Map<String, School>> =
+        api.getSchoolDeptsMapFromGit().getResource()
 
-    suspend fun getEntries(school: String, dept: String): Resource<List<Entry>>{
-        val res = api.getEntriesFromGit(school,dept)
-        return getResource(res)
-    }
+    suspend fun getEntries(school: String, dept: String): Resource<List<Entry>> =
+        api.getEntriesFromGit(school,dept).getResource()
 
-    private inline fun<reified T> getResource(s: String): Resource<T>{
+    private inline fun<reified T> String.getResource(): Resource<T> {
         return try {
-            Resource.Success(Json.decodeFromString<T>(s))
-        } catch (e: Exception){
+            Resource.Success(Json.decodeFromString<T>(this))
+        } catch (e: Exception) {
             console.log(e,e.message)
             Resource.Error(e.message?:"?")
         }

@@ -19,14 +19,14 @@ fun<T> CustomDropDown(
     getText: (T) -> String = {it.toString()},
     getValue: (T) -> String = getText,
     selected: T? = list.firstOrNull(),
-){
+) {
     Select(
         selectModifier.asAttributesBuilder {
             onChange {
                 onSelect(it.value ?: "Error")
             }
         }
-    ){
+    ) {
        DomSideEffect {
            val index = list.indexOf(selected)
            it.selectedIndex = if (index>=0) index else 0
@@ -36,7 +36,7 @@ fun<T> CustomDropDown(
         list.forEach {
             Option(
                 getValue(it),
-                optionModifier.asAttributesBuilder()
+                optionModifier.asAttributesBuilder(),
             ) {
                 Text(getText(it))
             }

@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 data class DropDownState<T>(
     val list: Collection<T>,
     val selected: String,
-){
+) {
     constructor(selected: String?) : this(emptyList(),selected ?: "")
 }
 
@@ -57,7 +57,7 @@ class SearchDeptStateImpl(
     private var mapOfCourses: Map<String,List<Entry>> by mutableStateOf(emptyMap())
 
     // this has to be a separate val so that initial parameters can be accessed
-    private val initializeCourseProf = fun(){
+    private val initializeCourseProf = fun() {
         initialCourse?.let {
             if(courseState.list.contains(it)) {
                 courseState = courseState.copy(selected = it)

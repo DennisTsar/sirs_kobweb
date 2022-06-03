@@ -12,7 +12,7 @@ fun CustomForm(
     submitModifier: Modifier,
     submitBehavior: () -> Unit,
     content:  @Composable ((@Composable () -> Unit) -> Unit),
-){
+) {
     Form(
         attrs = {
             onSubmit {

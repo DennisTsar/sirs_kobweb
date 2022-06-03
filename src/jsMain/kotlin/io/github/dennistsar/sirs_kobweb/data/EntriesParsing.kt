@@ -8,7 +8,7 @@ fun List<Entry>.mapByCourses(): Map<String, List<Entry>> {
     //Currently, a not-ideal approach to try to only show profs and not TAs - probably should be a boolean or just marked somehow
     return groupBy {
             it.code.split(":")
-                .getOrElse(2){""}
+                .getOrElse(2) { "" }
         }.mapValues { (_,v) ->
             v.filter { it.courseName.contains("Lecture") || it.note!=null }
                 .ifEmpty { v }

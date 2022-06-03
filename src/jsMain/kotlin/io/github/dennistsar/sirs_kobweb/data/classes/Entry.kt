@@ -14,8 +14,8 @@ class Entry(
     val enrolled: Int,
     val responses: Int,
     val scores: List<Double>,
-    val extraQs: List<String>
-){
+    val extraQs: List<String>,
+) {
     constructor(s: String) : this(
         instructor = s.substringBefore("  "),
         term = s.substringAfterBefore("<br> ","\n"),
@@ -39,5 +39,4 @@ class Entry(
         }
     )
 //    val shortTerm = term.first()+term.takeLast(2)
-
 }

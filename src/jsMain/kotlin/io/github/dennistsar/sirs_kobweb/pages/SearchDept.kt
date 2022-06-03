@@ -83,7 +83,7 @@ fun SearchDept() {
 
         // This logic is kept here as opposed to in State class for performance reasons
         // Prevents having to reload HTML when status changes back to previously used one - it's already loaded
-        when(status){
+        when(status) {
             Status.Prof -> {
                 Text(state.profState.selected)
                 ProfSummary(state.profEntries)
@@ -104,7 +104,7 @@ fun SearchDept() {
 }
 
 @Composable
-fun ProfSummary(list: List<Entry>){
+fun ProfSummary(list: List<Entry>) {
     val a = list.mapByCourses()
     val b = a.toProfScores()
     val allScores = list.aveScores()
@@ -117,7 +117,7 @@ fun ProfSummary(list: List<Entry>){
 fun ProfScoresList(
     list:  Map<String, Pair<Int, List<Double>>>,
     onLoad: () -> Unit = {},
-){
+) {
     Div(
         attrs = SimpleGridStyle
             .toModifier(gridVariant12)
@@ -128,7 +128,7 @@ fun ProfScoresList(
         (listOf("")+TenQsShortened+"Total # of Responses").forEach {
             Box(
                 Modifier.width(spacing)
-            ){
+            ) {
                 Text(
                     it,
                     Modifier
@@ -151,7 +151,7 @@ fun ProfScoresList(
             .sortedBy { -it.value.second[8] }
             .take(300)//for performance reasons
             .forEach { (prof, nums) ->
-                Box(gridElementModifier){
+                Box(gridElementModifier) {
                     val offset = 40.px
                     Text(
                         prof,
@@ -170,7 +170,7 @@ fun ProfScoresList(
 }
 
 @Composable
-fun SearchDeptFormContent(state: SearchDeptState){
+fun SearchDeptFormContent(state: SearchDeptState) {
     val modifier2 = Modifier.fillMaxSize()
 //            .backgroundColor(Color.chocolate)
     val modifier1 = Modifier//.backgroundColor(Color.palevioletred)
@@ -203,7 +203,7 @@ fun SearchDeptFormContent(state: SearchDeptState){
         Row(
             Modifier.alignContent(AlignContent.SpaceEvenly)
         ) {
-            Column(secondRowModifier){
+            Column(secondRowModifier) {
                 Text("Department", labelModifier)
 
                 ReflectiveCustomDropDown(
@@ -213,7 +213,7 @@ fun SearchDeptFormContent(state: SearchDeptState){
                 )
             }
 
-            Column(secondRowModifier){
+            Column(secondRowModifier) {
                 Text("Course (Optional)", labelModifier)
 
                 ReflectiveCustomDropDown(
@@ -223,7 +223,7 @@ fun SearchDeptFormContent(state: SearchDeptState){
                 )
             }
 
-            Column(secondRowModifier){
+            Column(secondRowModifier) {
                 Text("Prof (Optional)", labelModifier)
 
                 ReflectiveCustomDropDown(
@@ -242,7 +242,7 @@ fun ReflectiveCustomDropDown(
     optionModifier: Modifier = Modifier,
     getText: (String) -> String = {it},
     getValue: (String) -> String = getText,
-){
+) {
     with(property) {
         CustomDropDown(
             selectModifier = selectModifier,
