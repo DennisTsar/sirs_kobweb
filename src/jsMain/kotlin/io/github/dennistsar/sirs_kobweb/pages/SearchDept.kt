@@ -1,6 +1,9 @@
 package io.github.dennistsar.sirs_kobweb.pages
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.TextDecorationLine
 import com.varabyte.kobweb.compose.foundation.layout.Box
@@ -10,7 +13,6 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.asAttributesBuilder
 import com.varabyte.kobweb.compose.ui.modifiers.*
-import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.graphics.Image
@@ -24,16 +26,20 @@ import io.github.dennistsar.sirs_kobweb.data.api.Api
 import io.github.dennistsar.sirs_kobweb.data.api.Repository
 import io.github.dennistsar.sirs_kobweb.data.aveScores
 import io.github.dennistsar.sirs_kobweb.data.classes.Entry
-import io.github.dennistsar.sirs_kobweb.data.classes.School
 import io.github.dennistsar.sirs_kobweb.data.mapByCourses
-import io.github.dennistsar.sirs_kobweb.data.mapByProfs
 import io.github.dennistsar.sirs_kobweb.data.toProfScores
-import io.github.dennistsar.sirs_kobweb.misc.*
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import io.github.dennistsar.sirs_kobweb.misc.TenQsShortened
+import io.github.dennistsar.sirs_kobweb.misc.decodeURLParam
+import io.github.dennistsar.sirs_kobweb.misc.gridVariant12
+import io.github.dennistsar.sirs_kobweb.misc.toTotalAndAvesPair
+import io.github.dennistsar.sirs_kobweb.states.DropDownState
+import io.github.dennistsar.sirs_kobweb.states.SearchDeptState
+import io.github.dennistsar.sirs_kobweb.states.SearchDeptStateImpl
+import io.github.dennistsar.sirs_kobweb.states.Status
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
+import kotlin.reflect.KMutableProperty0
 
 @Page
 @Composable
@@ -43,84 +49,28 @@ fun SearchDept() {
         val ctx = rememberPageContext()
         val myCoroutineScope = rememberCoroutineScope()
 
-        var schoolMap: Map<String, School> by remember{ mutableStateOf(emptyMap()) }
-        var selectedSchool by remember { mutableStateOf(ctx.params["school"] ?: "") }
-        var selectedDept by remember { mutableStateOf(ctx.params["dept"] ?: "") }
-        var selectedCourse by remember { mutableStateOf(ctx.params["course"] ?: "") }
-        var selectedProf by remember { mutableStateOf(ctx.params["prof"]?.decodeURLParam()?.uppercase() ?: "") }
-
-        var deptEntries: List<Entry> by remember { mutableStateOf(emptyList()) }
-        var mapOfProfs: Map<String,List<Entry>> by remember { mutableStateOf(emptyMap()) }
-        var mapOfCourses: Map<String,List<Entry>>  by remember { mutableStateOf(emptyMap()) }
-        var mapOfEntries: Map<String, Pair<Int, List<Double>>>  by remember { mutableStateOf(emptyMap()) }
-
-        var profListLoading by remember { mutableStateOf(false) }
-
-        val updateMapOfEntries : (String,Boolean) -> Unit = fun(ab,bool)
-            {
-                if(bool)
-                    profListLoading = true
-                val a =
-                    if (ab.isBlankOrNone())
-                        mapOfProfs
-                    else
-                        mapOfCourses[ab]!!.mapByProfs()
-                myCoroutineScope.launch {
-                    delay(50)
-                    mapOfEntries = a.toProfScores().mapValues { it.value.toTotalAndAvesPair() }
-                }
-            }
-
-        val updateSelectedDept: (String?,Boolean) -> Unit = fun(str,firstTime) {
-            console.log("updating dept2: $str")
-            if(!firstTime){
-                profListLoading = true
-                selectedCourse = None
-                selectedProf = None
-            }
-
-            selectedDept = str ?: "".also { return } // Returns if str is null - kinda cool but a little weird
-            myCoroutineScope.launch {
-                deptEntries = repository.getEntries(selectedSchool, selectedDept)
-                    .takeIf { it is Resource.Success }
-                    ?.data
-                    ?.filter { it.scores.size >= 100 } ?: emptyList()
-                mapOfProfs = deptEntries.mapByProfs()
-                mapOfCourses = deptEntries.mapByCourses()
-                updateMapOfEntries(selectedCourse,false)
-
-                if (!firstTime)
-                    return@launch
-                if (!mapOfProfs.keys.contains(selectedProf))
-                    selectedProf = None
-                if (!mapOfCourses.keys.contains(selectedProf))
-                    selectedCourse = None
-            }
-        }
-
-        LaunchedEffect(true){
-            console.log("making req")
-            schoolMap =
-                repository.getSchoolMap()
-                    .takeIf { it is Resource.Success }?.data ?: emptyMap()
-            val school = schoolMap[selectedSchool] ?: schoolMap["01"]!!
-            selectedSchool = school.code
-            updateSelectedDept(
-                selectedDept.takeIf { school.depts.contains(it) } ?: school.depts.first(),
-                true
+        val state = remember {
+            SearchDeptStateImpl(
+                repository = repository,
+                coroutineScope = myCoroutineScope,
+                initialSchool = ctx.params["school"],
+                initialDept = ctx.params["dept"],
+                initialCourse = ctx.params["course"],
+                initialProf = ctx.params["prof"]?.decodeURLParam()?.uppercase(),
             )
         }
 
-        if (schoolMap.isEmpty())
+        val status = state.status
+
+        if (status == Status.InitialLoading)
             return@PageLayout
 
         LeftRightCenterBox(
             Modifier
                 .fillMaxWidth()
                 .alignItems(AlignItems.Center),// vertical alignment
-            right =
-            loading@{
-                if(!profListLoading)
+            right = loading@{
+                if(!state.profListLoading)
                     return@loading
                 Image(
                     "circle_loading.gif",
@@ -128,55 +78,27 @@ fun SearchDept() {
                     Modifier.size(75.px)
                 )
             },
-            center =
-            {
-                SearchDeptFormContent(
-                    selectedSchool = schoolMap[selectedSchool]!!,
-                    selectedDept = selectedDept,
-                    selectedCourse = selectedCourse,
-                    selectedProf = selectedProf,
-                    schools = schoolMap.values,
-                    depts = schoolMap[selectedSchool]!!.depts,
-                    courses = listOf(None) + mapOfCourses.keys.sorted(),
-                    profs = listOf(None) + mapOfProfs.keys.sorted(),
-                    onSelectSchool =
-                    {
-                        selectedSchool = it
-                        updateSelectedDept(schoolMap[selectedSchool]!!.depts.firstOrNull(),false)
-                    },
-                    onSelectDept = { updateSelectedDept(it,false) },
-                    onSelectCourse =
-                    {
-                        updateMapOfEntries(it,it==None)
-                        selectedCourse = it
-                        selectedProf = None
-                    },
-                    onSelectProf =
-                    {
-                        if (selectedCourse!=None) {
-                            selectedCourse = None
-                            updateMapOfEntries(selectedCourse,false)
-                        }
-                        selectedProf = it
-                    },
-                )
-            }
+            center = { SearchDeptFormContent(state) }
         )
 
-        if (deptEntries.isEmpty())
-            return@PageLayout
-
-        if (!selectedProf.isBlankOrNone()) {
-            Text(selectedProf)
-            ProfSummary(mapOfProfs[selectedProf]!!)
-            return@PageLayout
-        }
-
-        ProfScoresList(
-            mapOfEntries,
-        ) {
-            console.log("hi")
-            profListLoading = false
+        // This logic is kept here as opposed to in State class for performance reasons
+        // Prevents having to reload HTML when status changes back to previously used one - it's already loaded
+        when(status){
+            Status.Prof -> {
+                Text(state.profState.selected)
+                ProfSummary(state.profEntries)
+            }
+            Status.Course -> {
+                ProfScoresList(state.courseSpecificMap) {
+                    state.profListLoading = false
+                }
+            }
+            Status.Dept -> {
+                ProfScoresList(state.wholeDeptMap) {
+                    state.profListLoading = false
+                }
+            }
+            else -> { state.profListLoading = false }
         }
     }
 }
@@ -194,13 +116,11 @@ fun ProfSummary(list: List<Entry>){
 @Composable
 fun ProfScoresList(
     list:  Map<String, Pair<Int, List<Double>>>,
-    invisible: Boolean = false,
     onLoad: () -> Unit = {},
 ){
     Div(
         attrs = SimpleGridStyle
             .toModifier(gridVariant12)
-            .styleModifier { if(invisible) display(DisplayStyle.None) }
             .asAttributesBuilder()
     ) {
         val spacing = 80.px
@@ -245,27 +165,12 @@ fun ProfScoresList(
                 }
                 Text(nums.first.toString(), gridElementModifier)
             }
-        LaunchedEffect(list) {
-            onLoad()
-        }
+        LaunchedEffect(list) { onLoad() }
     }
 }
 
 @Composable
-fun SearchDeptFormContent(
-    selectedSchool: School,
-    selectedDept: String,
-    selectedCourse: String,
-    selectedProf: String,
-    schools: Collection<School>,
-    depts: Collection<String>,
-    courses: Collection<String>,
-    profs: Collection<String>,
-    onSelectSchool: (String) -> Unit,
-    onSelectDept: (String) -> Unit,
-    onSelectCourse: (String) -> Unit,
-    onSelectProf: (String) -> Unit,
-){
+fun SearchDeptFormContent(state: SearchDeptState){
     val modifier2 = Modifier.fillMaxSize()
 //            .backgroundColor(Color.chocolate)
     val modifier1 = Modifier//.backgroundColor(Color.palevioletred)
@@ -278,62 +183,75 @@ fun SearchDeptFormContent(
             labelModifier.alignSelf(AlignSelf.Start),
         )
 
-        CustomDropDown(
-            selectModifier =
-            modifier1.borderRadius(50.px)
-                .fillMaxWidth()
-                .background("#ddd"),
-            optionModifier = modifier2,
-            list = schools,
-            onSelect = onSelectSchool,
-            getText = { "${it.code} - ${it.name}" },
-            getValue = { it.code },
-            selected = selectedSchool,
-        )
+        state::schoolState.run {
+            CustomDropDown(
+                selectModifier = modifier1
+                    .borderRadius(50.px)
+                    .fillMaxWidth()
+                    .background("#ddd"),
+                optionModifier = modifier2,
+                list = get().list,
+                onSelect = { set(get().copy(selected = it)) },
+                getText = { "${it.code} - ${it.name}" },
+                getValue = { it.code },
+                selected = get().list.first { it.code==get().selected },
+            )
+        }
+
+        val secondRowModifier = Modifier.margin(topBottom = 5.px, leftRight = 25.px)
 
         Row(
             Modifier.alignContent(AlignContent.SpaceEvenly)
         ) {
-            Column(
-                Modifier.margin(topBottom = 5.px, leftRight = 25.px)
-            ){
+            Column(secondRowModifier){
                 Text("Department", labelModifier)
 
-                CustomDropDown(
+                ReflectiveCustomDropDown(
+                    property = state::deptState,
                     selectModifier = modifier1.width(125.px),
                     optionModifier = modifier2,
-                    list = depts,
-                    onSelect = onSelectDept,
-                    selected = selectedDept,
                 )
             }
 
-            Column(
-                Modifier.margin(topBottom = 5.px, leftRight = 25.px)
-            ) {
+            Column(secondRowModifier){
                 Text("Course (Optional)", labelModifier)
 
-                CustomDropDown(
+                ReflectiveCustomDropDown(
+                    property = state::courseState,
                     selectModifier = modifier1.width(125.px),
                     optionModifier = modifier2,
-                    list = courses,
-                    onSelect = onSelectCourse,
-                    selected = selectedCourse,
                 )
             }
 
-            Column(
-                Modifier.margin(topBottom = 5.px, leftRight = 25.px)
-            ) {
+            Column(secondRowModifier){
                 Text("Prof (Optional)", labelModifier)
 
-                CustomDropDown(
-                    selectModifier = Modifier.width(125.px),
-                    list = profs,
-                    onSelect = onSelectProf,
-                    selected = selectedProf,
+                ReflectiveCustomDropDown(
+                    property = state::profState,
+                    selectModifier = modifier1.width(125.px),
+                    optionModifier = modifier2,
                 )
             }
         }
+    }
+}
+@Composable
+fun ReflectiveCustomDropDown(
+    property: KMutableProperty0<DropDownState<String>>,
+    selectModifier: Modifier = Modifier,
+    optionModifier: Modifier = Modifier,
+    getText: (String) -> String = {it},
+    getValue: (String) -> String = getText,
+){
+    with(property) {
+        CustomDropDown(
+            selectModifier = selectModifier,
+            optionModifier = optionModifier,
+            list = get().list,
+            onSelect = { set(get().copy(selected = it)) },
+            getText = getText,
+            getValue = getValue,
+            selected = get().selected,
+        )
     }
 }
