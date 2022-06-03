@@ -1,6 +1,6 @@
 package io.github.dennistsar.sirs_kobweb.misc
 
-//Stolen from Philipp Lackner
+// Stolen from Philipp Lackner
 sealed class Resource<T>(val data: T? = null, val message: String? = null) {
     class Success<T>(data: T?): Resource<T>(data)
     class Error<T>(message: String, data: T? = null): Resource<T>(data, message)

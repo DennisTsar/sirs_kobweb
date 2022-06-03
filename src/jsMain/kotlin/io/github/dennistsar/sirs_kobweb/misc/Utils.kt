@@ -19,7 +19,7 @@ fun String.decodeURLParam() =
 fun Double.roundToDecimal(dec : Int): Double =
     (this * 10.0.pow(dec)).roundToInt()/10.0.pow(dec)
 
-//Stolen from te interwebs
+// Stolen from te interwebs
 suspend fun <A, B> Iterable<A>.pmap(f: suspend (A) -> B): List<B> =
     coroutineScope {
         map { async { f(it) } }.awaitAll()
