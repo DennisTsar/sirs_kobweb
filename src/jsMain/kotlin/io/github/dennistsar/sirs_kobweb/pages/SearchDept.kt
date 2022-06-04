@@ -1,7 +1,6 @@
 package io.github.dennistsar.sirs_kobweb.pages
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import com.varabyte.kobweb.compose.css.FontWeight
@@ -93,7 +92,7 @@ fun SearchDept() {
             }
             Status.Course -> ProfScoresList(state.courseSpecificMap, finishLoading)
             Status.Dept -> ProfScoresList(state.wholeDeptMap, finishLoading)
-            else -> {}//finishLoading() // this is only needed for a school that has no entries
+            else -> throw IllegalStateException("State became Loading")
         }
     }
 }
@@ -160,7 +159,7 @@ fun ProfScoresList(
                 }
                 Text(nums.first.toString(), gridElementModifier)
             }
-        LaunchedEffect(list) { onLoad() }
+        remember(list) { onLoad() }
     }
 }
 

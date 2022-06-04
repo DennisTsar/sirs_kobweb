@@ -1,7 +1,7 @@
 package io.github.dennistsar.sirs_kobweb
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
 import com.varabyte.kobweb.compose.ui.modifiers.minHeight
@@ -82,7 +82,7 @@ fun updateTheme(ctx: InitSilkContext) {
 fun MyApp(content: @Composable () -> Unit) {
     SilkApp {
         val colorMode = getColorMode()
-        LaunchedEffect(colorMode) {
+        remember(colorMode) {
             localStorage.setItem(COLOR_MODE_KEY, colorMode.name)
         }
 

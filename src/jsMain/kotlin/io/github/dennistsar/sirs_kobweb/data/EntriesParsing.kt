@@ -36,10 +36,7 @@ fun Map<String, List<Entry>>.toProfScores(): ProfScores {
     val profRatings = filter { it.value.isNotEmpty() }
         .mapValues { (_, v) ->
             v.aveScores()
-        }
-
-//    if (profRatings.isEmpty())
-//        return null
+        }.ifEmpty { return emptyMap() }
 
     val aves = (0..9).map { i ->
         profRatings.values.filter { it.size>=10 }.map { it[i] }.flatten()

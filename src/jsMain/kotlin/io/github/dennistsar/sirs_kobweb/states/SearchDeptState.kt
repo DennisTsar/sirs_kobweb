@@ -20,7 +20,6 @@ data class DropDownState<T>(
 
 enum class Status {
     InitialLoading,
-    Loading,
     Dept,
     Course,
     Prof,
@@ -73,7 +72,7 @@ class SearchDeptStateImpl(
     override var profListLoading by mutableStateOf(true)
 
     override val url
-        get() = "searchdept?" +
+        get() = "searchdept?" + // note that lack of slash at the start means routePrefix is used
                 "school=${schoolState.selected}" +
                 "&dept=${deptState.selected}" +
                 courseState.selected.run{
@@ -87,8 +86,6 @@ class SearchDeptStateImpl(
         get() =
             if(schoolMap.isEmpty())
                 Status.InitialLoading
-            else if (deptEntries.isEmpty())
-                Status.Loading
             else if (!profState.selected.isBlankOrNone())
                 Status.Prof
             else if (!courseState.selected.isBlankOrNone())
