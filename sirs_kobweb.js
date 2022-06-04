@@ -1051,14 +1051,14 @@
   Success_0.prototype.constructor = Success_0;
   Error_1.prototype = Object.create(Resource.prototype);
   Error_1.prototype.constructor = Error_1;
-  _no_name_provided__680.prototype = Object.create(CoroutineImpl_0.prototype);
-  _no_name_provided__680.prototype.constructor = _no_name_provided__680;
+  _no_name_provided__678.prototype = Object.create(CoroutineImpl_0.prototype);
+  _no_name_provided__678.prototype.constructor = _no_name_provided__678;
   Status.prototype = Object.create(Enum.prototype);
   Status.prototype.constructor = Status;
-  _no_name_provided__698.prototype = Object.create(CoroutineImpl_0.prototype);
-  _no_name_provided__698.prototype.constructor = _no_name_provided__698;
-  _no_name_provided__699.prototype = Object.create(CoroutineImpl_0.prototype);
-  _no_name_provided__699.prototype.constructor = _no_name_provided__699;
+  _no_name_provided__696.prototype = Object.create(CoroutineImpl_0.prototype);
+  _no_name_provided__696.prototype.constructor = _no_name_provided__696;
+  _no_name_provided__697.prototype = Object.create(CoroutineImpl_0.prototype);
+  _no_name_provided__697.prototype.constructor = _no_name_provided__697;
   function indexOf(_this_, element) {
     if (element == null) {
       var inductionVariable = 0;
@@ -99637,12 +99637,55 @@
     kind: 'class',
     interfaces: []
   };
+  var urlEncodings;
   function isBlankOrNone(_this_) {
     return isBlank(_this_) ? true : equals_1(_this_, 'None');
   }
+  function encodeURLParam(_this_) {
+    var tmp$ret$1;
+    $l$block_0: {
+      var tmp0_fold_0 = urlEncodings;
+      var accumulator_1 = _this_;
+      var tmp0_iterator_2 = tmp0_fold_0.iterator_0_k$();
+      while (tmp0_iterator_2.hasNext_0_k$()) {
+        var element_3 = tmp0_iterator_2.next_0_k$();
+        var tmp$ret$0;
+        $l$block: {
+          var tmp1__anonymous__4 = accumulator_1;
+          var a_5 = element_3.component1_0_k$();
+          var b_6 = element_3.component2_0_k$();
+          tmp$ret$0 = replace$default_0(tmp1__anonymous__4, a_5, b_6, false, 4, null);
+          break $l$block;
+        }
+        accumulator_1 = tmp$ret$0;
+      }
+      tmp$ret$1 = accumulator_1;
+      break $l$block_0;
+    }
+    return tmp$ret$1;
+  }
   function decodeURLParam(_this_) {
-    var tmp = replace$default_0(_this_, '%2C', ',', false, 4, null);
-    return replace$default_0(tmp, '%20', ' ', false, 4, null);
+    var tmp$ret$1;
+    $l$block_0: {
+      var tmp0_fold_0 = urlEncodings;
+      var accumulator_1 = _this_;
+      var tmp0_iterator_2 = tmp0_fold_0.iterator_0_k$();
+      while (tmp0_iterator_2.hasNext_0_k$()) {
+        var element_3 = tmp0_iterator_2.next_0_k$();
+        var tmp$ret$0;
+        $l$block: {
+          var tmp1__anonymous__4 = accumulator_1;
+          var a_5 = element_3.component1_0_k$();
+          var b_6 = element_3.component2_0_k$();
+          tmp$ret$0 = replace$default_0(tmp1__anonymous__4, b_6, a_5, false, 4, null);
+          break $l$block;
+        }
+        accumulator_1 = tmp$ret$0;
+      }
+      tmp$ret$1 = accumulator_1;
+      break $l$block_0;
+    }
+    return tmp$ret$1;
   }
   function roundToDecimal(_this_, dec) {
     var tmp$ret$0;
@@ -100113,7 +100156,7 @@
   }
   function SearchDept$composable($composer, $changed) {
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-613364962);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-613364906);
     sourceInformation($composer_0, 'C(SearchDept$composable)');
     if (!($changed === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       var repository = new Repository(new Api());
@@ -100126,7 +100169,7 @@
       }
       var tmp_0 = backgroundColor_1(tmp, tmp$ret$0);
       var tmp_1 = $composer_0;
-      PageLayout$composable('Search', tmp_0, composableLambda(tmp_1, -819892229, true, _no_name_provided_$factory_591(repository)), $composer_0, 390, 0);
+      PageLayout$composable('Search', tmp_0, composableLambda(tmp_1, -819892445, true, _no_name_provided_$factory_591(repository)), $composer_0, 390, 0);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
     var tmp0_safe_receiver = $composer_0.endRestartGroup_0_k$();
@@ -100138,7 +100181,7 @@
   }
   function ProfSummary$composable(list, $composer, $changed) {
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-1621665034);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-1621664962);
     sourceInformation($composer_0, 'C(ProfSummary$composable)');
     var $dirty = $changed;
     if (($changed & 14) === 0)
@@ -100196,7 +100239,7 @@
   function ProfScoresList$composable(list, onLoad, $composer, $changed, $default) {
     var onLoad_0 = {_v: onLoad};
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-242067689);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-242067617);
     sourceInformation($composer_0, 'C(ProfScoresList$composable)');
     var $dirty = $changed;
     if (!(($default & 1) === 0))
@@ -100213,7 +100256,7 @@
       }var tmp = toModifier$composable(SimpleGridStyle, gridVariant12, $composer_0, 72, 0);
       var tmp_0 = asAttributesBuilder$default(tmp, null, 1, null);
       var tmp_1 = $composer_0;
-      Div$composable(tmp_0, composableLambda(tmp_1, -819891125, true, _no_name_provided_$factory_595(list, onLoad_0, $dirty)), $composer_0, 48, 0);
+      Div$composable(tmp_0, composableLambda(tmp_1, -819890813, true, _no_name_provided_$factory_595(list, onLoad_0, $dirty)), $composer_0, 48, 0);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
     var tmp0_safe_receiver = $composer_0.endRestartGroup_0_k$();
@@ -100225,7 +100268,7 @@
   }
   function SearchDeptFormContent$composable(state, $composer, $changed) {
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(1643261354);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(1643261426);
     sourceInformation($composer_0, 'C(SearchDeptFormContent$composable)');
     var $dirty = $changed;
     if (($changed & 14) === 0)
@@ -100237,7 +100280,7 @@
       var labelModifier = padding_0(fontWeight_0(Companion_getInstance_46(), Companion_getInstance_36()._get_Bold__0_k$()), _get_px_(2), _get_px_(0));
       var tmp_0 = Companion_getInstance_45()._CenterHorizontally;
       var tmp_1 = $composer_0;
-      Column$composable(null, null, tmp_0, null, composableLambda(tmp_1, -819888959, true, _no_name_provided_$factory_597(labelModifier, state, modifier1, modifier2)), $composer_0, 24576, 11);
+      Column$composable(null, null, tmp_0, null, composableLambda(tmp_1, -819889127, true, _no_name_provided_$factory_597(labelModifier, state, modifier1, modifier2)), $composer_0, 24576, 11);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
     var tmp0_safe_receiver = $composer_0.endRestartGroup_0_k$();
@@ -100253,7 +100296,7 @@
     var getText_0 = {_v: getText};
     var getValue_1 = {_v: getValue_0};
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-1330011469);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-1330011397);
     sourceInformation($composer_0, 'C(ReflectiveCustomDropDown$composable)P(3,4,2)');
     var $dirty = $changed;
     if (!(($default & 1) === 0))
@@ -100327,10 +100370,7 @@
     return ReflectiveCustomDropDown$composable($property, $selectModifier._v, $optionModifier._v, $getText._v, $getValue._v, $composer, $$changed | 1, $$default);
   }
   function invoke$lambda_4($state) {
-    return _no_name_provided_$factory_607($state);
-  }
-  function invoke$lambda_5($state) {
-    return _no_name_provided_$factory_608($state);
+    return _no_name_provided_$factory_606($state);
   }
   function _no_name_provided__664() {
   }
@@ -100348,11 +100388,10 @@
   _no_name_provided__665.prototype.invoke_5vwf3d_k$ = function ($composer, $changed) {
     var $composer_0 = $composer;
     if (!(($changed & 11 ^ 2) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
-      if (!this._$state._get_profListLoading__0_k$()) {
-        return Unit_getInstance();
-      }var tmp = size_0(Companion_getInstance_46(), _get_px_(75));
-      Image$composable('circle_loading.gif', 'Loading', tmp, false, null, $composer_0, 54, 24);
-    } else
+      if (this._$state._get_profListLoading__0_k$()) {
+        var tmp = size_0(Companion_getInstance_46(), _get_px_(75));
+        Image$composable('circle_loading.gif', 'Loading', tmp, false, null, $composer_0, 54, 24);
+      }} else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
   _no_name_provided__665.prototype.invoke_osx4an_k$ = function (p1, p2) {
@@ -100396,45 +100435,21 @@
   function _no_name_provided__668($state) {
     this._$state_2 = $state;
   }
+  _no_name_provided__668.prototype.invoke_sv8swh_k$ = function () {
+    this._$state_2._set_profListLoading__rpwsgn_k$(false);
+  };
   _no_name_provided__668.prototype.invoke_0_k$ = function () {
-    return invoke$lambda_5(this._$state_2);
+    this.invoke_sv8swh_k$();
+    return Unit_getInstance();
   };
   _no_name_provided__668.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__669($state) {
-    this._$state_3 = $state;
-  }
-  _no_name_provided__669.prototype.invoke_sv8swh_k$ = function () {
-    this._$state_3._set_profListLoading__rpwsgn_k$(false);
-  };
-  _no_name_provided__669.prototype.invoke_0_k$ = function () {
-    this.invoke_sv8swh_k$();
-    return Unit_getInstance();
-  };
-  _no_name_provided__669.$metadata$ = {
-    kind: 'class',
-    interfaces: []
-  };
-  function _no_name_provided__670($state) {
-    this._$state_4 = $state;
-  }
-  _no_name_provided__670.prototype.invoke_sv8swh_k$ = function () {
-    this._$state_4._set_profListLoading__rpwsgn_k$(false);
-  };
-  _no_name_provided__670.prototype.invoke_0_k$ = function () {
-    this.invoke_sv8swh_k$();
-    return Unit_getInstance();
-  };
-  _no_name_provided__670.$metadata$ = {
-    kind: 'class',
-    interfaces: []
-  };
-  function _no_name_provided__671($repository) {
+  function _no_name_provided__669($repository) {
     this._$repository = $repository;
   }
-  _no_name_provided__671.prototype.invoke_5vwf3d_k$ = function ($composer, $changed) {
+  _no_name_provided__669.prototype.invoke_5vwf3d_k$ = function ($composer, $changed) {
     var $composer_0 = $composer;
     if (!(($changed & 11 ^ 2) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       var ctx = rememberPageContext$composable($composer_0, 0);
@@ -100568,207 +100583,217 @@
         break $l$block_11;
       }
       var state = tmp$ret$12;
-      var status = state._get_status__0_k$();
-      if (status.equals(Status_InitialLoading_getInstance())) {
-        return Unit_getInstance();
-      }var tmp_7 = Companion_getInstance_46();
-      var tmp_8 = fillMaxWidth$default(tmp_7, null, 1, null);
       var tmp$ret$16;
       $l$block_15: {
-        var tmp3__get_Center__0 = Companion_getInstance_28();
+        var tmp3_remember$composable_0 = state._get_url__0_k$();
+        var tmp4_remember$composable_0 = $composer_0;
+        var $composer_1_0 = tmp4_remember$composable_0;
+        $composer_1_0.startReplaceableGroup_majfzk_k$(884179877);
+        sourceInformation($composer_1_0, 'C(remember$composable)P(1):Composables.kt#9igjgp');
         var tmp$ret$15;
         $l$block_14: {
+          var tmp1_cache_0_3_0 = $composer_1_0;
+          var tmp2_cache_0_4 = $composer_1_0.changed_wi7j7l_k$(tmp3_remember$composable_0);
           var tmp$ret$14;
           $l$block_13: {
+            var tmp0_let_0_5 = tmp1_cache_0_3_0.rememberedValue_0_k$();
+            {
+            }
             var tmp$ret$13;
             $l$block_12: {
-              tmp$ret$13 = 'center';
+              var tmp_7;
+              if (tmp2_cache_0_4 ? true : tmp0_let_0_5 === Companion_getInstance_14()._Empty) {
+                var tmp_8 = state._get_url__0_k$();
+                var tmp_9 = UpdateHistoryMode_REPLACE_getInstance();
+                var value_2_2_6 = ctx._router.navigateTo$default_gyury7_k$(tmp_8, tmp_9, null, null, 12, null);
+                tmp1_cache_0_3_0.updateRememberedValue_qi8yb4_k$(Unit_getInstance());
+                tmp_7 = Unit_getInstance();
+              } else {
+                tmp_7 = tmp0_let_0_5;
+              }
+              tmp$ret$13 = tmp_7;
               break $l$block_12;
             }
             tmp$ret$14 = tmp$ret$13;
             break $l$block_13;
           }
-          tmp$ret$15 = tmp$ret$14;
+          var tmp_10 = tmp$ret$14;
+          tmp$ret$15 = (tmp_10 == null ? true : isObject(tmp_10)) ? tmp_10 : THROW_CCE();
           break $l$block_14;
         }
-        tmp$ret$16 = tmp$ret$15;
+        var tmp0_2_0 = tmp$ret$15;
+        $composer_1_0.endReplaceableGroup_sv8swh_k$();
+        tmp$ret$16 = tmp0_2_0;
         break $l$block_15;
       }
-      var tmp_9 = alignItems_0(tmp_8, tmp$ret$16);
-      var tmp_10 = $composer_0;
-      var tmp_11 = composableLambda(tmp_10, -819893741, true, _no_name_provided_$factory_603(state));
-      var tmp_12 = $composer_0;
-      LeftRightCenterBox$composable(tmp_9, null, tmp_11, composableLambda(tmp_12, -819893470, true, _no_name_provided_$factory_604(state)), $composer_0, 3456, 2);
+      var tmp$ret$17;
+      $l$block_16: {
+        var tmp5_also_0 = state._get_status__0_k$();
+        {
+        }
+        {
+          if (tmp5_also_0.equals(Status_InitialLoading_getInstance())) {
+            return Unit_getInstance();
+          }}
+        tmp$ret$17 = tmp5_also_0;
+        break $l$block_16;
+      }
+      var status = tmp$ret$17;
+      var tmp_11 = Companion_getInstance_46();
+      var tmp_12 = fillMaxWidth$default(tmp_11, null, 1, null);
+      var tmp$ret$21;
+      $l$block_20: {
+        var tmp6__get_Center__0 = Companion_getInstance_28();
+        var tmp$ret$20;
+        $l$block_19: {
+          var tmp$ret$19;
+          $l$block_18: {
+            var tmp$ret$18;
+            $l$block_17: {
+              tmp$ret$18 = 'center';
+              break $l$block_17;
+            }
+            tmp$ret$19 = tmp$ret$18;
+            break $l$block_18;
+          }
+          tmp$ret$20 = tmp$ret$19;
+          break $l$block_19;
+        }
+        tmp$ret$21 = tmp$ret$20;
+        break $l$block_20;
+      }
+      var tmp_13 = alignItems_0(tmp_12, tmp$ret$21);
+      var tmp_14 = $composer_0;
+      var tmp_15 = composableLambda(tmp_14, -819893324, true, _no_name_provided_$factory_603(state));
+      var tmp_16 = $composer_0;
+      LeftRightCenterBox$composable(tmp_13, null, tmp_15, composableLambda(tmp_16, -819894092, true, _no_name_provided_$factory_604(state)), $composer_0, 3456, 2);
+      var tmp$ret$25;
+      $l$block_24: {
+        var tmp7_remember$composable_0 = _no_name_provided_$factory_605(state);
+        var tmp8_remember$composable_0 = $composer_0;
+        var $composer_1_1 = tmp8_remember$composable_0;
+        $composer_1_1.startReplaceableGroup_majfzk_k$(884179877);
+        sourceInformation($composer_1_1, 'C(remember$composable)P(1):Composables.kt#9igjgp');
+        var tmp$ret$24;
+        $l$block_23: {
+          var tmp1_cache_0_3_1 = $composer_1_1;
+          var tmp2_cache_0_4_0 = $composer_1_1.changed_wi7j7l_k$(state);
+          var tmp$ret$23;
+          $l$block_22: {
+            var tmp0_let_0_5_0 = tmp1_cache_0_3_1.rememberedValue_0_k$();
+            {
+            }
+            var tmp$ret$22;
+            $l$block_21: {
+              var tmp_17;
+              if (tmp2_cache_0_4_0 ? true : tmp0_let_0_5_0 === Companion_getInstance_14()._Empty) {
+                var value_2_2_6_0 = tmp7_remember$composable_0();
+                tmp1_cache_0_3_1.updateRememberedValue_qi8yb4_k$(value_2_2_6_0);
+                tmp_17 = value_2_2_6_0;
+              } else {
+                tmp_17 = tmp0_let_0_5_0;
+              }
+              tmp$ret$22 = tmp_17;
+              break $l$block_21;
+            }
+            tmp$ret$23 = tmp$ret$22;
+            break $l$block_22;
+          }
+          var tmp_18 = tmp$ret$23;
+          tmp$ret$24 = (tmp_18 == null ? true : isObject(tmp_18)) ? tmp_18 : THROW_CCE();
+          break $l$block_23;
+        }
+        var tmp0_2_1 = tmp$ret$24;
+        $composer_1_1.endReplaceableGroup_sv8swh_k$();
+        tmp$ret$25 = tmp0_2_1;
+        break $l$block_24;
+      }
+      var finishLoading = tmp$ret$25;
       var tmp0_subject = status;
       if (tmp0_subject.equals(Status_Prof_getInstance())) {
-        $composer_0.startReplaceableGroup_majfzk_k$(-1631073767);
-        var tmp_13 = state._get_profState__0_k$()._selected;
-        Text$composable_0(tmp_13, null, null, $composer_0, 0, 6);
+        $composer_0.startReplaceableGroup_majfzk_k$(-1631073563);
+        var tmp_19 = state._get_profState__0_k$()._selected;
+        Text$composable_0(tmp_19, null, null, $composer_0, 0, 6);
         ProfSummary$composable(state._get_profEntries__0_k$(), $composer_0, 0);
         $composer_0.endReplaceableGroup_sv8swh_k$();
       } else if (tmp0_subject.equals(Status_Course_getInstance())) {
-        $composer_0.startReplaceableGroup_majfzk_k$(-1631073628);
-        var tmp_14 = state._get_courseSpecificMap__0_k$();
-        var tmp$ret$20;
-        $l$block_19: {
-          var tmp4_remember$composable_0 = _no_name_provided_$factory_605(state);
-          var tmp5_remember$composable_0 = $composer_0;
-          var $composer_1_0 = tmp5_remember$composable_0;
-          $composer_1_0.startReplaceableGroup_majfzk_k$(884179877);
-          sourceInformation($composer_1_0, 'C(remember$composable)P(1):Composables.kt#9igjgp');
-          var tmp$ret$19;
-          $l$block_18: {
-            var tmp1_cache_0_3_0 = $composer_1_0;
-            var tmp2_cache_0_4 = $composer_1_0.changed_wi7j7l_k$(state);
-            var tmp$ret$18;
-            $l$block_17: {
-              var tmp0_let_0_5 = tmp1_cache_0_3_0.rememberedValue_0_k$();
-              {
-              }
-              var tmp$ret$17;
-              $l$block_16: {
-                var tmp_15;
-                if (tmp2_cache_0_4 ? true : tmp0_let_0_5 === Companion_getInstance_14()._Empty) {
-                  var value_2_2_6 = tmp4_remember$composable_0();
-                  tmp1_cache_0_3_0.updateRememberedValue_qi8yb4_k$(value_2_2_6);
-                  tmp_15 = value_2_2_6;
-                } else {
-                  tmp_15 = tmp0_let_0_5;
-                }
-                tmp$ret$17 = tmp_15;
-                break $l$block_16;
-              }
-              tmp$ret$18 = tmp$ret$17;
-              break $l$block_17;
-            }
-            var tmp_16 = tmp$ret$18;
-            tmp$ret$19 = (tmp_16 == null ? true : isObject(tmp_16)) ? tmp_16 : THROW_CCE();
-            break $l$block_18;
-          }
-          var tmp0_2_0 = tmp$ret$19;
-          $composer_1_0.endReplaceableGroup_sv8swh_k$();
-          tmp$ret$20 = tmp0_2_0;
-          break $l$block_19;
-        }
-        ProfScoresList$composable(tmp_14, tmp$ret$20, $composer_0, 0, 0);
+        $composer_0.startReplaceableGroup_majfzk_k$(-1631073424);
+        ProfScoresList$composable(state._get_courseSpecificMap__0_k$(), finishLoading, $composer_0, 0, 0);
         $composer_0.endReplaceableGroup_sv8swh_k$();
       } else if (tmp0_subject.equals(Status_Dept_getInstance())) {
-        $composer_0.startReplaceableGroup_majfzk_k$(-1631073459);
-        var tmp_17 = state._get_wholeDeptMap__0_k$();
-        var tmp$ret$24;
-        $l$block_23: {
-          var tmp6_remember$composable_0 = _no_name_provided_$factory_606(state);
-          var tmp7_remember$composable_0 = $composer_0;
-          var $composer_1_1 = tmp7_remember$composable_0;
-          $composer_1_1.startReplaceableGroup_majfzk_k$(884179877);
-          sourceInformation($composer_1_1, 'C(remember$composable)P(1):Composables.kt#9igjgp');
-          var tmp$ret$23;
-          $l$block_22: {
-            var tmp1_cache_0_3_1 = $composer_1_1;
-            var tmp2_cache_0_4_0 = $composer_1_1.changed_wi7j7l_k$(state);
-            var tmp$ret$22;
-            $l$block_21: {
-              var tmp0_let_0_5_0 = tmp1_cache_0_3_1.rememberedValue_0_k$();
-              {
-              }
-              var tmp$ret$21;
-              $l$block_20: {
-                var tmp_18;
-                if (tmp2_cache_0_4_0 ? true : tmp0_let_0_5_0 === Companion_getInstance_14()._Empty) {
-                  var value_2_2_6_0 = tmp6_remember$composable_0();
-                  tmp1_cache_0_3_1.updateRememberedValue_qi8yb4_k$(value_2_2_6_0);
-                  tmp_18 = value_2_2_6_0;
-                } else {
-                  tmp_18 = tmp0_let_0_5_0;
-                }
-                tmp$ret$21 = tmp_18;
-                break $l$block_20;
-              }
-              tmp$ret$22 = tmp$ret$21;
-              break $l$block_21;
-            }
-            var tmp_19 = tmp$ret$22;
-            tmp$ret$23 = (tmp_19 == null ? true : isObject(tmp_19)) ? tmp_19 : THROW_CCE();
-            break $l$block_22;
-          }
-          var tmp0_2_1 = tmp$ret$23;
-          $composer_1_1.endReplaceableGroup_sv8swh_k$();
-          tmp$ret$24 = tmp0_2_1;
-          break $l$block_23;
-        }
-        ProfScoresList$composable(tmp_17, tmp$ret$24, $composer_0, 0, 0);
+        $composer_0.startReplaceableGroup_majfzk_k$(-1631073342);
+        ProfScoresList$composable(state._get_wholeDeptMap__0_k$(), finishLoading, $composer_0, 0, 0);
         $composer_0.endReplaceableGroup_sv8swh_k$();
       } else {
-        $composer_0.startReplaceableGroup_majfzk_k$(-1631073302);
+        $composer_0.startReplaceableGroup_majfzk_k$(-1631073272);
         $composer_0.endReplaceableGroup_sv8swh_k$();
-        state._set_profListLoading__rpwsgn_k$(false);
       }
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
-  _no_name_provided__671.prototype.invoke_osx4an_k$ = function (p1, p2) {
+  _no_name_provided__669.prototype.invoke_osx4an_k$ = function (p1, p2) {
     var tmp = (p1 == null ? true : isInterface(p1, Composer)) ? p1 : THROW_CCE();
     this.invoke_5vwf3d_k$(tmp, (!(p2 == null) ? typeof p2 === 'number' : false) ? p2 : THROW_CCE());
+    return Unit_getInstance();
+  };
+  _no_name_provided__669.$metadata$ = {
+    kind: 'class',
+    interfaces: []
+  };
+  function _no_name_provided__670($$changed) {
+    this._$$changed_43 = $$changed;
+  }
+  _no_name_provided__670.prototype.invoke_xtxync_k$ = function (p0, p1) {
+    return SearchDept$composable$lambda(this._$$changed_43, p0, p1);
+  };
+  _no_name_provided__670.prototype.invoke_osx4an_k$ = function (p1, p2) {
+    var tmp = (!(p1 == null) ? isInterface(p1, Composer) : false) ? p1 : THROW_CCE();
+    this.invoke_xtxync_k$(tmp, (!(p2 == null) ? typeof p2 === 'number' : false) ? p2 : THROW_CCE());
+    return Unit_getInstance();
+  };
+  _no_name_provided__670.$metadata$ = {
+    kind: 'class',
+    interfaces: []
+  };
+  function _no_name_provided__671($list, $$changed) {
+    this._$list_2 = $list;
+    this._$$changed_44 = $$changed;
+  }
+  _no_name_provided__671.prototype.invoke_xtxync_k$ = function (p0, p1) {
+    return ProfSummary$composable$lambda(this._$list_2, this._$$changed_44, p0, p1);
+  };
+  _no_name_provided__671.prototype.invoke_osx4an_k$ = function (p1, p2) {
+    var tmp = (!(p1 == null) ? isInterface(p1, Composer) : false) ? p1 : THROW_CCE();
+    this.invoke_xtxync_k$(tmp, (!(p2 == null) ? typeof p2 === 'number' : false) ? p2 : THROW_CCE());
     return Unit_getInstance();
   };
   _no_name_provided__671.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__672($$changed) {
-    this._$$changed_43 = $$changed;
+  function _no_name_provided__672() {
   }
-  _no_name_provided__672.prototype.invoke_xtxync_k$ = function (p0, p1) {
-    return SearchDept$composable$lambda(this._$$changed_43, p0, p1);
+  _no_name_provided__672.prototype.invoke_sv8swh_k$ = function () {
+    return Unit_getInstance();
   };
-  _no_name_provided__672.prototype.invoke_osx4an_k$ = function (p1, p2) {
-    var tmp = (!(p1 == null) ? isInterface(p1, Composer) : false) ? p1 : THROW_CCE();
-    this.invoke_xtxync_k$(tmp, (!(p2 == null) ? typeof p2 === 'number' : false) ? p2 : THROW_CCE());
+  _no_name_provided__672.prototype.invoke_0_k$ = function () {
+    this.invoke_sv8swh_k$();
     return Unit_getInstance();
   };
   _no_name_provided__672.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__673($list, $$changed) {
-    this._$list_2 = $list;
-    this._$$changed_44 = $$changed;
+  function _no_name_provided__673() {
   }
-  _no_name_provided__673.prototype.invoke_xtxync_k$ = function (p0, p1) {
-    return ProfSummary$composable$lambda(this._$list_2, this._$$changed_44, p0, p1);
-  };
-  _no_name_provided__673.prototype.invoke_osx4an_k$ = function (p1, p2) {
-    var tmp = (!(p1 == null) ? isInterface(p1, Composer) : false) ? p1 : THROW_CCE();
-    this.invoke_xtxync_k$(tmp, (!(p2 == null) ? typeof p2 === 'number' : false) ? p2 : THROW_CCE());
-    return Unit_getInstance();
-  };
-  _no_name_provided__673.$metadata$ = {
-    kind: 'class',
-    interfaces: []
-  };
-  function _no_name_provided__674() {
-  }
-  _no_name_provided__674.prototype.invoke_sv8swh_k$ = function () {
-    return Unit_getInstance();
-  };
-  _no_name_provided__674.prototype.invoke_0_k$ = function () {
-    this.invoke_sv8swh_k$();
-    return Unit_getInstance();
-  };
-  _no_name_provided__674.$metadata$ = {
-    kind: 'class',
-    interfaces: []
-  };
-  function _no_name_provided__675() {
-  }
-  _no_name_provided__675.prototype.invoke_sksns0_k$ = function ($this$transform) {
+  _no_name_provided__673.prototype.invoke_sksns0_k$ = function ($this$transform) {
     $this$transform.rotate_y48ctd_k$(_get_deg_(-45));
   };
-  _no_name_provided__675.prototype.invoke_20e8_k$ = function (p1) {
+  _no_name_provided__673.prototype.invoke_20e8_k$ = function (p1) {
     this.invoke_sksns0_k$((!(p1 == null) ? isInterface(p1, TransformBuilder) : false) ? p1 : THROW_CCE());
     return Unit_getInstance();
   };
-  _no_name_provided__675.$metadata$ = {
+  _no_name_provided__673.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
@@ -100786,37 +100811,37 @@
     kind: 'class',
     interfaces: [Comparator]
   };
-  function invoke$lambda_6($onLoad) {
-    return _no_name_provided_$factory_613($onLoad, null);
+  function invoke$lambda_5($onLoad) {
+    return _no_name_provided_$factory_611($onLoad, null);
   }
-  function _no_name_provided__676($element_2, $fontSize) {
+  function _no_name_provided__674($element_2, $fontSize) {
     this._$element_2_0 = $element_2;
     this._$fontSize = $fontSize;
   }
-  _no_name_provided__676.prototype.invoke_jpel0v_k$ = function ($this$Box, $composer, $changed) {
+  _no_name_provided__674.prototype.invoke_jpel0v_k$ = function ($this$Box, $composer, $changed) {
     var $composer_5 = $composer;
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_5._get_skipping__0_k$()) {
       var tmp = Companion_getInstance_46();
       var tmp_0 = _get_px_(175);
       var tmp_1 = width$default(tmp, tmp_0, null, 2, null);
-      var tmp_2 = textDecorationLine_0(margin_1(fontSize_0(transform_0(tmp_1, _no_name_provided_$factory_614()), this._$fontSize), _get_px_(50), _get_px_(-18)), Companion_getInstance_39()._get_Underline__0_k$());
+      var tmp_2 = textDecorationLine_0(margin_1(fontSize_0(transform_0(tmp_1, _no_name_provided_$factory_612()), this._$fontSize), _get_px_(50), _get_px_(-18)), Companion_getInstance_39()._get_Underline__0_k$());
       Text$composable_0(this._$element_2_0, tmp_2, null, $composer_5, 0, 4);
     } else
       $composer_5.skipToGroupEnd_sv8swh_k$();
   };
-  _no_name_provided__676.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
+  _no_name_provided__674.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
     var tmp = p1 instanceof BoxScope ? p1 : THROW_CCE();
     var tmp_0 = (p2 == null ? true : isInterface(p2, Composer)) ? p2 : THROW_CCE();
     this.invoke_jpel0v_k$(tmp, tmp_0, (!(p3 == null) ? typeof p3 === 'number' : false) ? p3 : THROW_CCE());
     return Unit_getInstance();
   };
-  _no_name_provided__676.$metadata$ = {
+  _no_name_provided__674.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__677() {
+  function _no_name_provided__675() {
   }
-  _no_name_provided__677.prototype.invoke_9ct64g_k$ = function (a, b) {
+  _no_name_provided__675.prototype.invoke_9ct64g_k$ = function (a, b) {
     var tmp$ret$2;
     $l$block_1: {
       var tmp$ret$0;
@@ -100837,19 +100862,19 @@
     }
     return tmp$ret$2;
   };
-  _no_name_provided__677.prototype.invoke_osx4an_k$ = function (p1, p2) {
+  _no_name_provided__675.prototype.invoke_osx4an_k$ = function (p1, p2) {
     var tmp = (!(p1 == null) ? isInterface(p1, Entry) : false) ? p1 : THROW_CCE();
     return this.invoke_9ct64g_k$(tmp, (!(p2 == null) ? isInterface(p2, Entry) : false) ? p2 : THROW_CCE());
   };
-  _no_name_provided__677.$metadata$ = {
+  _no_name_provided__675.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__678($prof_4, $spacing) {
+  function _no_name_provided__676($prof_4, $spacing) {
     this._$prof_4 = $prof_4;
     this._$spacing = $spacing;
   }
-  _no_name_provided__678.prototype.invoke_jpel0v_k$ = function ($this$Box, $composer, $changed) {
+  _no_name_provided__676.prototype.invoke_jpel0v_k$ = function ($this$Box, $composer, $changed) {
     var $composer_7 = $composer;
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_7._get_skipping__0_k$()) {
       var offset_8 = _get_px_(40);
@@ -100861,41 +100886,41 @@
     } else
       $composer_7.skipToGroupEnd_sv8swh_k$();
   };
-  _no_name_provided__678.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
+  _no_name_provided__676.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
     var tmp = p1 instanceof BoxScope ? p1 : THROW_CCE();
     var tmp_0 = (p2 == null ? true : isInterface(p2, Composer)) ? p2 : THROW_CCE();
     this.invoke_jpel0v_k$(tmp, tmp_0, (!(p3 == null) ? typeof p3 === 'number' : false) ? p3 : THROW_CCE());
     return Unit_getInstance();
   };
-  _no_name_provided__678.$metadata$ = {
+  _no_name_provided__676.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__679($onLoad) {
+  function _no_name_provided__677($onLoad) {
     this._$onLoad = $onLoad;
   }
-  _no_name_provided__679.prototype.invoke_0_k$ = function () {
-    return invoke$lambda_6(this._$onLoad);
+  _no_name_provided__677.prototype.invoke_0_k$ = function () {
+    return invoke$lambda_5(this._$onLoad);
   };
-  _no_name_provided__679.$metadata$ = {
+  _no_name_provided__677.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__680($onLoad, resultContinuation) {
+  function _no_name_provided__678($onLoad, resultContinuation) {
     this._$onLoad_0 = $onLoad;
     CoroutineImpl_0.call(this, resultContinuation);
   }
-  _no_name_provided__680.prototype.invoke_2i3g7c_k$ = function ($this$LaunchedEffect, $cont) {
+  _no_name_provided__678.prototype.invoke_2i3g7c_k$ = function ($this$LaunchedEffect, $cont) {
     var tmp = this.create_y6imfn_k$($this$LaunchedEffect, $cont);
     tmp._result_1 = Unit_getInstance();
     tmp._exception_0 = null;
     return tmp.doResume_0_k$();
   };
-  _no_name_provided__680.prototype.invoke_20e8_k$ = function (p1, $cont) {
+  _no_name_provided__678.prototype.invoke_20e8_k$ = function (p1, $cont) {
     this.invoke_2i3g7c_k$((!(p1 == null) ? isInterface(p1, CoroutineScope) : false) ? p1 : THROW_CCE(), $cont);
     return Unit_getInstance();
   };
-  _no_name_provided__680.prototype.doResume_0_k$ = function () {
+  _no_name_provided__678.prototype.doResume_0_k$ = function () {
     var suspendResult = this._result_1;
     $sm: do
       try {
@@ -100911,27 +100936,27 @@
       }
      while (true);
   };
-  _no_name_provided__680.prototype.create_y6imfn_k$ = function ($this$LaunchedEffect, completion) {
-    var i = new _no_name_provided__680(this._$onLoad_0, completion);
+  _no_name_provided__678.prototype.create_y6imfn_k$ = function ($this$LaunchedEffect, completion) {
+    var i = new _no_name_provided__678(this._$onLoad_0, completion);
     i._$this$LaunchedEffect_1 = $this$LaunchedEffect;
     return i;
   };
-  _no_name_provided__680.$metadata$ = {
+  _no_name_provided__678.$metadata$ = {
     kind: 'class',
     interfaces: [],
     suspendArity: [1]
   };
-  function _no_name_provided__681($list, $onLoad, $$dirty) {
+  function _no_name_provided__679($list, $onLoad, $$dirty) {
     this._$list_3 = $list;
     this._$onLoad_1 = $onLoad;
     this._$$dirty_17 = $$dirty;
   }
-  _no_name_provided__681.prototype.invoke_ovmwdp_k$ = function ($this$Div, $composer, $changed) {
+  _no_name_provided__679.prototype.invoke_ovmwdp_k$ = function ($this$Div, $composer, $changed) {
     var $composer_0 = $composer;
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       var spacing = _get_px_(80);
       var fontSize_1 = _get_px_(15);
-      $composer_0.startReplaceableGroup_majfzk_k$(-681699059);
+      $composer_0.startReplaceableGroup_majfzk_k$(-681698987);
       {
         var tmp0_forEach_0 = plus_1(plus(listOf_0(''), TenQsShortened), 'Total # of Responses');
         var tmp0_iterator_1 = tmp0_forEach_0.iterator_0_k$();
@@ -100941,7 +100966,7 @@
             var tmp = Companion_getInstance_46();
             var tmp_0 = width$default(tmp, spacing, null, 2, null);
             var tmp_1 = $composer_0;
-            Box$composable(tmp_0, null, null, composableLambda(tmp_1, -819890942, true, _no_name_provided_$factory_609(element_2, fontSize_1)), $composer_0, 3072, 6);
+            Box$composable(tmp_0, null, null, composableLambda(tmp_1, -819890854, true, _no_name_provided_$factory_607(element_2, fontSize_1)), $composer_0, 3072, 6);
           }
         }
       }
@@ -100970,14 +100995,14 @@
         break $l$block_2;
       }
       var gridElementModifier = alignSelf_0(tmp_3, tmp$ret$3);
-      $composer_0.startReplaceableGroup_majfzk_k$(-681698229);
+      $composer_0.startReplaceableGroup_majfzk_k$(-681698157);
       {
         var tmp$ret$5;
         $l$block_4: {
           var tmp2_sortedBy_0 = this._$list_3._get_entries__0_k$();
           var tmp$ret$4;
           $l$block_3: {
-            var tmp_4 = _no_name_provided_$factory_610();
+            var tmp_4 = _no_name_provided_$factory_608();
             tmp$ret$4 = new sam$kotlin_Comparator$0_1(tmp_4);
             break $l$block_3;
           }
@@ -101002,8 +101027,8 @@
             }
             var nums_5 = tmp$ret$7;
             var tmp_5 = $composer_0;
-            Box$composable(gridElementModifier, null, null, composableLambda(tmp_5, -819892174, true, _no_name_provided_$factory_611(prof_4, spacing)), $composer_0, 3072, 6);
-            $composer_0.startReplaceableGroup_majfzk_k$(-681697848);
+            Box$composable(gridElementModifier, null, null, composableLambda(tmp_5, -819891830, true, _no_name_provided_$factory_609(prof_4, spacing)), $composer_0, 3072, 6);
+            $composer_0.startReplaceableGroup_majfzk_k$(-681697776);
             {
               var tmp0_forEach_0_9 = nums_5._second.subList_27zxwg_k$(0, 10);
               var tmp0_iterator_1_10 = tmp0_forEach_0_9.iterator_0_k$();
@@ -101025,7 +101050,7 @@
       var tmp$ret$11;
       $l$block_10: {
         var tmp4_remember$composable_0 = this._$onLoad_1._v;
-        var tmp5_remember$composable_0 = _no_name_provided_$factory_612(this._$onLoad_1);
+        var tmp5_remember$composable_0 = _no_name_provided_$factory_610(this._$onLoad_1);
         var tmp6_remember$composable_0 = $composer_0;
         var tmp7_remember$composable_0 = 14 & this._$$dirty_17 >> 3;
         var $composer_1 = tmp6_remember$composable_0;
@@ -101069,28 +101094,82 @@
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
-  _no_name_provided__681.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
+  _no_name_provided__679.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
     var tmp = (!(p1 == null) ? isInterface(p1, ElementScope) : false) ? p1 : THROW_CCE();
     var tmp_0 = (p2 == null ? true : isInterface(p2, Composer)) ? p2 : THROW_CCE();
     this.invoke_ovmwdp_k$(tmp, tmp_0, (!(p3 == null) ? typeof p3 === 'number' : false) ? p3 : THROW_CCE());
+    return Unit_getInstance();
+  };
+  _no_name_provided__679.$metadata$ = {
+    kind: 'class',
+    interfaces: []
+  };
+  function _no_name_provided__680($list, $onLoad, $$changed, $$default) {
+    this._$list_4 = $list;
+    this._$onLoad_2 = $onLoad;
+    this._$$changed_45 = $$changed;
+    this._$$default_28 = $$default;
+  }
+  _no_name_provided__680.prototype.invoke_xtxync_k$ = function (p0, p1) {
+    return ProfScoresList$composable$lambda(this._$list_4, this._$onLoad_2, this._$$changed_45, this._$$default_28, p0, p1);
+  };
+  _no_name_provided__680.prototype.invoke_osx4an_k$ = function (p1, p2) {
+    var tmp = (!(p1 == null) ? isInterface(p1, Composer) : false) ? p1 : THROW_CCE();
+    this.invoke_xtxync_k$(tmp, (!(p2 == null) ? typeof p2 === 'number' : false) ? p2 : THROW_CCE());
+    return Unit_getInstance();
+  };
+  _no_name_provided__680.$metadata$ = {
+    kind: 'class',
+    interfaces: []
+  };
+  function _no_name_provided__681($labelModifier, $state, $modifier1, $modifier2) {
+    this._$labelModifier = $labelModifier;
+    this._$state_3 = $state;
+    this._$modifier1 = $modifier1;
+    this._$modifier2 = $modifier2;
+  }
+  _no_name_provided__681.prototype.invoke_9s02y_k$ = function ($this$Column, $composer, $changed) {
+    var $composer_0 = $composer;
+    if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
+      Text$composable_0('Department', this._$labelModifier, null, $composer_0, 6, 4);
+      var tmp = deptState$factory(this._$state_3);
+      var tmp_0 = _get_px_(125);
+      var tmp_1 = width$default(this._$modifier1, tmp_0, null, 2, null);
+      ReflectiveCustomDropDown$composable(tmp, tmp_1, this._$modifier2, null, null, $composer_0, 0, 24);
+    } else
+      $composer_0.skipToGroupEnd_sv8swh_k$();
+  };
+  _no_name_provided__681.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
+    var tmp = p1 instanceof ColumnScope ? p1 : THROW_CCE();
+    var tmp_0 = (p2 == null ? true : isInterface(p2, Composer)) ? p2 : THROW_CCE();
+    this.invoke_9s02y_k$(tmp, tmp_0, (!(p3 == null) ? typeof p3 === 'number' : false) ? p3 : THROW_CCE());
     return Unit_getInstance();
   };
   _no_name_provided__681.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__682($list, $onLoad, $$changed, $$default) {
-    this._$list_4 = $list;
-    this._$onLoad_2 = $onLoad;
-    this._$$changed_45 = $$changed;
-    this._$$default_28 = $$default;
+  function _no_name_provided__682($labelModifier, $state, $modifier1, $modifier2) {
+    this._$labelModifier_0 = $labelModifier;
+    this._$state_4 = $state;
+    this._$modifier1_0 = $modifier1;
+    this._$modifier2_0 = $modifier2;
   }
-  _no_name_provided__682.prototype.invoke_xtxync_k$ = function (p0, p1) {
-    return ProfScoresList$composable$lambda(this._$list_4, this._$onLoad_2, this._$$changed_45, this._$$default_28, p0, p1);
+  _no_name_provided__682.prototype.invoke_9s02y_k$ = function ($this$Column, $composer, $changed) {
+    var $composer_0 = $composer;
+    if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
+      Text$composable_0('Course (Optional)', this._$labelModifier_0, null, $composer_0, 6, 4);
+      var tmp = courseState$factory(this._$state_4);
+      var tmp_0 = _get_px_(125);
+      var tmp_1 = width$default(this._$modifier1_0, tmp_0, null, 2, null);
+      ReflectiveCustomDropDown$composable(tmp, tmp_1, this._$modifier2_0, null, null, $composer_0, 0, 24);
+    } else
+      $composer_0.skipToGroupEnd_sv8swh_k$();
   };
-  _no_name_provided__682.prototype.invoke_osx4an_k$ = function (p1, p2) {
-    var tmp = (!(p1 == null) ? isInterface(p1, Composer) : false) ? p1 : THROW_CCE();
-    this.invoke_xtxync_k$(tmp, (!(p2 == null) ? typeof p2 === 'number' : false) ? p2 : THROW_CCE());
+  _no_name_provided__682.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
+    var tmp = p1 instanceof ColumnScope ? p1 : THROW_CCE();
+    var tmp_0 = (p2 == null ? true : isInterface(p2, Composer)) ? p2 : THROW_CCE();
+    this.invoke_9s02y_k$(tmp, tmp_0, (!(p3 == null) ? typeof p3 === 'number' : false) ? p3 : THROW_CCE());
     return Unit_getInstance();
   };
   _no_name_provided__682.$metadata$ = {
@@ -101098,19 +101177,19 @@
     interfaces: []
   };
   function _no_name_provided__683($labelModifier, $state, $modifier1, $modifier2) {
-    this._$labelModifier = $labelModifier;
+    this._$labelModifier_1 = $labelModifier;
     this._$state_5 = $state;
-    this._$modifier1 = $modifier1;
-    this._$modifier2 = $modifier2;
+    this._$modifier1_1 = $modifier1;
+    this._$modifier2_1 = $modifier2;
   }
   _no_name_provided__683.prototype.invoke_9s02y_k$ = function ($this$Column, $composer, $changed) {
     var $composer_0 = $composer;
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
-      Text$composable_0('Department', this._$labelModifier, null, $composer_0, 6, 4);
-      var tmp = deptState$factory(this._$state_5);
+      Text$composable_0('Prof (Optional)', this._$labelModifier_1, null, $composer_0, 6, 4);
+      var tmp = profState$factory(this._$state_5);
       var tmp_0 = _get_px_(125);
-      var tmp_1 = width$default(this._$modifier1, tmp_0, null, 2, null);
-      ReflectiveCustomDropDown$composable(tmp, tmp_1, this._$modifier2, null, null, $composer_0, 0, 24);
+      var tmp_1 = width$default(this._$modifier1_1, tmp_0, null, 2, null);
+      ReflectiveCustomDropDown$composable(tmp, tmp_1, this._$modifier2_1, null, null, $composer_0, 0, 24);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
@@ -101124,135 +101203,81 @@
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__684($labelModifier, $state, $modifier1, $modifier2) {
-    this._$labelModifier_0 = $labelModifier;
-    this._$state_6 = $state;
-    this._$modifier1_0 = $modifier1;
-    this._$modifier2_0 = $modifier2;
+  function _no_name_provided__684($tmp1_run_0) {
+    this._$tmp1_run_0 = $tmp1_run_0;
   }
-  _no_name_provided__684.prototype.invoke_9s02y_k$ = function ($this$Column, $composer, $changed) {
-    var $composer_0 = $composer;
-    if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
-      Text$composable_0('Course (Optional)', this._$labelModifier_0, null, $composer_0, 6, 4);
-      var tmp = courseState$factory(this._$state_6);
-      var tmp_0 = _get_px_(125);
-      var tmp_1 = width$default(this._$modifier1_0, tmp_0, null, 2, null);
-      ReflectiveCustomDropDown$composable(tmp, tmp_1, this._$modifier2_0, null, null, $composer_0, 0, 24);
-    } else
-      $composer_0.skipToGroupEnd_sv8swh_k$();
+  _no_name_provided__684.prototype.invoke_a4enbm_k$ = function (it) {
+    var tmp = this._$tmp1_run_0.get();
+    this._$tmp1_run_0.set(tmp.copy$default_mgdiqa_k$(null, it, 1, null));
   };
-  _no_name_provided__684.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
-    var tmp = p1 instanceof ColumnScope ? p1 : THROW_CCE();
-    var tmp_0 = (p2 == null ? true : isInterface(p2, Composer)) ? p2 : THROW_CCE();
-    this.invoke_9s02y_k$(tmp, tmp_0, (!(p3 == null) ? typeof p3 === 'number' : false) ? p3 : THROW_CCE());
+  _no_name_provided__684.prototype.invoke_20e8_k$ = function (p1) {
+    this.invoke_a4enbm_k$((!(p1 == null) ? typeof p1 === 'string' : false) ? p1 : THROW_CCE());
     return Unit_getInstance();
   };
   _no_name_provided__684.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__685($labelModifier, $state, $modifier1, $modifier2) {
-    this._$labelModifier_1 = $labelModifier;
-    this._$state_7 = $state;
-    this._$modifier1_1 = $modifier1;
-    this._$modifier2_1 = $modifier2;
+  function _no_name_provided__685() {
   }
-  _no_name_provided__685.prototype.invoke_9s02y_k$ = function ($this$Column, $composer, $changed) {
-    var $composer_0 = $composer;
-    if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
-      Text$composable_0('Prof (Optional)', this._$labelModifier_1, null, $composer_0, 6, 4);
-      var tmp = profState$factory(this._$state_7);
-      var tmp_0 = _get_px_(125);
-      var tmp_1 = width$default(this._$modifier1_1, tmp_0, null, 2, null);
-      ReflectiveCustomDropDown$composable(tmp, tmp_1, this._$modifier2_1, null, null, $composer_0, 0, 24);
-    } else
-      $composer_0.skipToGroupEnd_sv8swh_k$();
+  _no_name_provided__685.prototype.invoke_fbn4m9_k$ = function (it) {
+    return '' + it._code_3 + ' - ' + it._name_15;
   };
-  _no_name_provided__685.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
-    var tmp = p1 instanceof ColumnScope ? p1 : THROW_CCE();
-    var tmp_0 = (p2 == null ? true : isInterface(p2, Composer)) ? p2 : THROW_CCE();
-    this.invoke_9s02y_k$(tmp, tmp_0, (!(p3 == null) ? typeof p3 === 'number' : false) ? p3 : THROW_CCE());
-    return Unit_getInstance();
+  _no_name_provided__685.prototype.invoke_20e8_k$ = function (p1) {
+    return this.invoke_fbn4m9_k$(p1 instanceof School ? p1 : THROW_CCE());
   };
   _no_name_provided__685.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__686($tmp1_run_0) {
-    this._$tmp1_run_0 = $tmp1_run_0;
+  function _no_name_provided__686() {
   }
-  _no_name_provided__686.prototype.invoke_a4enbm_k$ = function (it) {
-    var tmp = this._$tmp1_run_0.get();
-    this._$tmp1_run_0.set(tmp.copy$default_mgdiqa_k$(null, it, 1, null));
+  _no_name_provided__686.prototype.invoke_fbn4m9_k$ = function (it) {
+    return it._code_3;
   };
   _no_name_provided__686.prototype.invoke_20e8_k$ = function (p1) {
-    this.invoke_a4enbm_k$((!(p1 == null) ? typeof p1 === 'string' : false) ? p1 : THROW_CCE());
-    return Unit_getInstance();
+    return this.invoke_fbn4m9_k$(p1 instanceof School ? p1 : THROW_CCE());
   };
   _no_name_provided__686.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__687() {
-  }
-  _no_name_provided__687.prototype.invoke_fbn4m9_k$ = function (it) {
-    return '' + it._code_3 + ' - ' + it._name_15;
-  };
-  _no_name_provided__687.prototype.invoke_20e8_k$ = function (p1) {
-    return this.invoke_fbn4m9_k$(p1 instanceof School ? p1 : THROW_CCE());
-  };
-  _no_name_provided__687.$metadata$ = {
-    kind: 'class',
-    interfaces: []
-  };
-  function _no_name_provided__688() {
-  }
-  _no_name_provided__688.prototype.invoke_fbn4m9_k$ = function (it) {
-    return it._code_3;
-  };
-  _no_name_provided__688.prototype.invoke_20e8_k$ = function (p1) {
-    return this.invoke_fbn4m9_k$(p1 instanceof School ? p1 : THROW_CCE());
-  };
-  _no_name_provided__688.$metadata$ = {
-    kind: 'class',
-    interfaces: []
-  };
-  function _no_name_provided__689($secondRowModifier, $labelModifier, $state, $modifier1, $modifier2) {
+  function _no_name_provided__687($secondRowModifier, $labelModifier, $state, $modifier1, $modifier2) {
     this._$secondRowModifier = $secondRowModifier;
     this._$labelModifier_2 = $labelModifier;
-    this._$state_8 = $state;
+    this._$state_6 = $state;
     this._$modifier1_2 = $modifier1;
     this._$modifier2_2 = $modifier2;
   }
-  _no_name_provided__689.prototype.invoke_fpi9a8_k$ = function ($this$Row, $composer, $changed) {
+  _no_name_provided__687.prototype.invoke_fpi9a8_k$ = function ($this$Row, $composer, $changed) {
     var $composer_0 = $composer;
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       var tmp = $composer_0;
-      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp, -819889369, true, _no_name_provided_$factory_619(this._$labelModifier_2, this._$state_8, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
+      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp, -819889281, true, _no_name_provided_$factory_617(this._$labelModifier_2, this._$state_6, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
       var tmp_0 = $composer_0;
-      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp_0, -819890080, true, _no_name_provided_$factory_620(this._$labelModifier_2, this._$state_8, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
+      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp_0, -819889736, true, _no_name_provided_$factory_618(this._$labelModifier_2, this._$state_6, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
       var tmp_1 = $composer_0;
-      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp_1, -819902798, true, _no_name_provided_$factory_621(this._$labelModifier_2, this._$state_8, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
+      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp_1, -819902966, true, _no_name_provided_$factory_619(this._$labelModifier_2, this._$state_6, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
-  _no_name_provided__689.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
+  _no_name_provided__687.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
     var tmp = p1 instanceof RowScope ? p1 : THROW_CCE();
     var tmp_0 = (p2 == null ? true : isInterface(p2, Composer)) ? p2 : THROW_CCE();
     this.invoke_fpi9a8_k$(tmp, tmp_0, (!(p3 == null) ? typeof p3 === 'number' : false) ? p3 : THROW_CCE());
     return Unit_getInstance();
   };
-  _no_name_provided__689.$metadata$ = {
+  _no_name_provided__687.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__690($labelModifier, $state, $modifier1, $modifier2) {
+  function _no_name_provided__688($labelModifier, $state, $modifier1, $modifier2) {
     this._$labelModifier_3 = $labelModifier;
-    this._$state_9 = $state;
+    this._$state_7 = $state;
     this._$modifier1_3 = $modifier1;
     this._$modifier2_3 = $modifier2;
   }
-  _no_name_provided__690.prototype.invoke_9s02y_k$ = function ($this$Column, $composer, $changed) {
+  _no_name_provided__688.prototype.invoke_9s02y_k$ = function ($this$Column, $composer, $changed) {
     var $composer_0 = $composer;
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       var tmp$ret$3;
@@ -101278,18 +101303,18 @@
       }
       var tmp = alignSelf_0(this._$labelModifier_3, tmp$ret$3);
       Text$composable_0('School', tmp, null, $composer_0, 6, 4);
-      $composer_0.startReplaceableGroup_majfzk_k$(-78158286);
+      $composer_0.startReplaceableGroup_majfzk_k$(-78158214);
       var tmp$ret$6;
       $l$block_5: {
-        var tmp1_run_0 = schoolState$factory(this._$state_9);
+        var tmp1_run_0 = schoolState$factory(this._$state_7);
         {
         }
         var tmp_0 = borderRadius_0(this._$modifier1_3, _get_px_(50));
         var tmp_1 = background_0(fillMaxWidth$default(tmp_0, null, 1, null), '#ddd');
         var tmp_2 = tmp1_run_0.get()._list_4;
-        var tmp_3 = _no_name_provided_$factory_615(tmp1_run_0);
-        var tmp_4 = _no_name_provided_$factory_616();
-        var tmp_5 = _no_name_provided_$factory_617();
+        var tmp_3 = _no_name_provided_$factory_613(tmp1_run_0);
+        var tmp_4 = _no_name_provided_$factory_614();
+        var tmp_5 = _no_name_provided_$factory_615();
         var tmp$ret$5;
         $l$block_4: {
           var tmp0_first_0_5 = tmp1_run_0.get()._list_4;
@@ -101339,64 +101364,64 @@
       }
       var tmp_7 = alignContent_0(tmp_6, tmp$ret$10);
       var tmp_8 = $composer_0;
-      Row$composable(tmp_7, null, null, null, composableLambda(tmp_8, -819889393, true, _no_name_provided_$factory_618(secondRowModifier, this._$labelModifier_3, this._$state_9, this._$modifier1_3, this._$modifier2_3)), $composer_0, 24576, 14);
+      Row$composable(tmp_7, null, null, null, composableLambda(tmp_8, -819889337, true, _no_name_provided_$factory_616(secondRowModifier, this._$labelModifier_3, this._$state_7, this._$modifier1_3, this._$modifier2_3)), $composer_0, 24576, 14);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
-  _no_name_provided__690.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
+  _no_name_provided__688.prototype.invoke_ifn5k1_k$ = function (p1, p2, p3) {
     var tmp = p1 instanceof ColumnScope ? p1 : THROW_CCE();
     var tmp_0 = (p2 == null ? true : isInterface(p2, Composer)) ? p2 : THROW_CCE();
     this.invoke_9s02y_k$(tmp, tmp_0, (!(p3 == null) ? typeof p3 === 'number' : false) ? p3 : THROW_CCE());
     return Unit_getInstance();
   };
+  _no_name_provided__688.$metadata$ = {
+    kind: 'class',
+    interfaces: []
+  };
+  function _no_name_provided__689($state, $$changed) {
+    this._$state_8 = $state;
+    this._$$changed_46 = $$changed;
+  }
+  _no_name_provided__689.prototype.invoke_xtxync_k$ = function (p0, p1) {
+    return SearchDeptFormContent$composable$lambda(this._$state_8, this._$$changed_46, p0, p1);
+  };
+  _no_name_provided__689.prototype.invoke_osx4an_k$ = function (p1, p2) {
+    var tmp = (!(p1 == null) ? isInterface(p1, Composer) : false) ? p1 : THROW_CCE();
+    this.invoke_xtxync_k$(tmp, (!(p2 == null) ? typeof p2 === 'number' : false) ? p2 : THROW_CCE());
+    return Unit_getInstance();
+  };
+  _no_name_provided__689.$metadata$ = {
+    kind: 'class',
+    interfaces: []
+  };
+  function _no_name_provided__690() {
+  }
+  _no_name_provided__690.prototype.invoke_6wfw3l_k$ = function (it) {
+    return it;
+  };
+  _no_name_provided__690.prototype.invoke_20e8_k$ = function (p1) {
+    return this.invoke_6wfw3l_k$((!(p1 == null) ? typeof p1 === 'string' : false) ? p1 : THROW_CCE());
+  };
   _no_name_provided__690.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__691($state, $$changed) {
-    this._$state_10 = $state;
-    this._$$changed_46 = $$changed;
+  function _no_name_provided__691($property) {
+    this._$property_0 = $property;
   }
-  _no_name_provided__691.prototype.invoke_xtxync_k$ = function (p0, p1) {
-    return SearchDeptFormContent$composable$lambda(this._$state_10, this._$$changed_46, p0, p1);
+  _no_name_provided__691.prototype.invoke_a4enbm_k$ = function (it) {
+    var tmp = this._$property_0.get();
+    this._$property_0.set(tmp.copy$default_mgdiqa_k$(null, it, 1, null));
   };
-  _no_name_provided__691.prototype.invoke_osx4an_k$ = function (p1, p2) {
-    var tmp = (!(p1 == null) ? isInterface(p1, Composer) : false) ? p1 : THROW_CCE();
-    this.invoke_xtxync_k$(tmp, (!(p2 == null) ? typeof p2 === 'number' : false) ? p2 : THROW_CCE());
+  _no_name_provided__691.prototype.invoke_20e8_k$ = function (p1) {
+    this.invoke_a4enbm_k$((!(p1 == null) ? typeof p1 === 'string' : false) ? p1 : THROW_CCE());
     return Unit_getInstance();
   };
   _no_name_provided__691.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__692() {
-  }
-  _no_name_provided__692.prototype.invoke_6wfw3l_k$ = function (it) {
-    return it;
-  };
-  _no_name_provided__692.prototype.invoke_20e8_k$ = function (p1) {
-    return this.invoke_6wfw3l_k$((!(p1 == null) ? typeof p1 === 'string' : false) ? p1 : THROW_CCE());
-  };
-  _no_name_provided__692.$metadata$ = {
-    kind: 'class',
-    interfaces: []
-  };
-  function _no_name_provided__693($property) {
-    this._$property_0 = $property;
-  }
-  _no_name_provided__693.prototype.invoke_a4enbm_k$ = function (it) {
-    var tmp = this._$property_0.get();
-    this._$property_0.set(tmp.copy$default_mgdiqa_k$(null, it, 1, null));
-  };
-  _no_name_provided__693.prototype.invoke_20e8_k$ = function (p1) {
-    this.invoke_a4enbm_k$((!(p1 == null) ? typeof p1 === 'string' : false) ? p1 : THROW_CCE());
-    return Unit_getInstance();
-  };
-  _no_name_provided__693.$metadata$ = {
-    kind: 'class',
-    interfaces: []
-  };
-  function _no_name_provided__694($property, $selectModifier, $optionModifier, $getText, $getValue, $$changed, $$default) {
+  function _no_name_provided__692($property, $selectModifier, $optionModifier, $getText, $getValue, $$changed, $$default) {
     this._$property_1 = $property;
     this._$selectModifier_0 = $selectModifier;
     this._$optionModifier_1 = $optionModifier;
@@ -101405,15 +101430,15 @@
     this._$$changed_47 = $$changed;
     this._$$default_29 = $$default;
   }
-  _no_name_provided__694.prototype.invoke_xtxync_k$ = function (p0, p1) {
+  _no_name_provided__692.prototype.invoke_xtxync_k$ = function (p0, p1) {
     return ReflectiveCustomDropDown$composable$lambda(this._$property_1, this._$selectModifier_0, this._$optionModifier_1, this._$getText_2, this._$getValue_1, this._$$changed_47, this._$$default_29, p0, p1);
   };
-  _no_name_provided__694.prototype.invoke_osx4an_k$ = function (p1, p2) {
+  _no_name_provided__692.prototype.invoke_osx4an_k$ = function (p1, p2) {
     var tmp = (!(p1 == null) ? isInterface(p1, Composer) : false) ? p1 : THROW_CCE();
     this.invoke_xtxync_k$(tmp, (!(p2 == null) ? typeof p2 === 'number' : false) ? p2 : THROW_CCE());
     return Unit_getInstance();
   };
-  _no_name_provided__694.$metadata$ = {
+  _no_name_provided__692.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
@@ -101446,76 +101471,76 @@
     });
   }
   function _no_name_provided_$factory_591($repository) {
-    var i = new _no_name_provided__671($repository);
+    var i = new _no_name_provided__669($repository);
     return function (p1, p2) {
       i.invoke_5vwf3d_k$(p1, p2);
       return Unit_getInstance();
     };
   }
   function _no_name_provided_$factory_592($$changed) {
-    var i = new _no_name_provided__672($$changed);
+    var i = new _no_name_provided__670($$changed);
     return function (p1, p2) {
       i.invoke_xtxync_k$(p1, p2);
       return Unit_getInstance();
     };
   }
   function _no_name_provided_$factory_593($list, $$changed) {
-    var i = new _no_name_provided__673($list, $$changed);
+    var i = new _no_name_provided__671($list, $$changed);
     return function (p1, p2) {
       i.invoke_xtxync_k$(p1, p2);
       return Unit_getInstance();
     };
   }
   function _no_name_provided_$factory_594() {
-    var i = new _no_name_provided__674();
+    var i = new _no_name_provided__672();
     return function () {
       i.invoke_sv8swh_k$();
       return Unit_getInstance();
     };
   }
   function _no_name_provided_$factory_595($list, $onLoad, $$dirty) {
-    var i = new _no_name_provided__681($list, $onLoad, $$dirty);
+    var i = new _no_name_provided__679($list, $onLoad, $$dirty);
     return function (p1, p2, p3) {
       i.invoke_ovmwdp_k$(p1, p2, p3);
       return Unit_getInstance();
     };
   }
   function _no_name_provided_$factory_596($list, $onLoad, $$changed, $$default) {
-    var i = new _no_name_provided__682($list, $onLoad, $$changed, $$default);
+    var i = new _no_name_provided__680($list, $onLoad, $$changed, $$default);
     return function (p1, p2) {
       i.invoke_xtxync_k$(p1, p2);
       return Unit_getInstance();
     };
   }
   function _no_name_provided_$factory_597($labelModifier, $state, $modifier1, $modifier2) {
-    var i = new _no_name_provided__690($labelModifier, $state, $modifier1, $modifier2);
+    var i = new _no_name_provided__688($labelModifier, $state, $modifier1, $modifier2);
     return function (p1, p2, p3) {
       i.invoke_9s02y_k$(p1, p2, p3);
       return Unit_getInstance();
     };
   }
   function _no_name_provided_$factory_598($state, $$changed) {
-    var i = new _no_name_provided__691($state, $$changed);
+    var i = new _no_name_provided__689($state, $$changed);
     return function (p1, p2) {
       i.invoke_xtxync_k$(p1, p2);
       return Unit_getInstance();
     };
   }
   function _no_name_provided_$factory_599() {
-    var i = new _no_name_provided__692();
+    var i = new _no_name_provided__690();
     return function (p1) {
       return i.invoke_6wfw3l_k$(p1);
     };
   }
   function _no_name_provided_$factory_600($property) {
-    var i = new _no_name_provided__693($property);
+    var i = new _no_name_provided__691($property);
     return function (p1) {
       i.invoke_a4enbm_k$(p1);
       return Unit_getInstance();
     };
   }
   function _no_name_provided_$factory_601($property, $selectModifier, $optionModifier, $getText, $getValue, $$changed, $$default) {
-    var i = new _no_name_provided__694($property, $selectModifier, $optionModifier, $getText, $getValue, $$changed, $$default);
+    var i = new _no_name_provided__692($property, $selectModifier, $optionModifier, $getText, $getValue, $$changed, $$default);
     return function (p1, p2) {
       i.invoke_xtxync_k$(p1, p2);
       return Unit_getInstance();
@@ -101550,106 +101575,93 @@
   function _no_name_provided_$factory_606($state) {
     var i = new _no_name_provided__668($state);
     return function () {
-      return i.invoke_0_k$();
-    };
-  }
-  function _no_name_provided_$factory_607($state) {
-    var i = new _no_name_provided__669($state);
-    return function () {
       i.invoke_sv8swh_k$();
       return Unit_getInstance();
     };
   }
-  function _no_name_provided_$factory_608($state) {
-    var i = new _no_name_provided__670($state);
-    return function () {
-      i.invoke_sv8swh_k$();
-      return Unit_getInstance();
-    };
-  }
-  function _no_name_provided_$factory_609($element_2, $fontSize) {
-    var i = new _no_name_provided__676($element_2, $fontSize);
+  function _no_name_provided_$factory_607($element_2, $fontSize) {
+    var i = new _no_name_provided__674($element_2, $fontSize);
     return function (p1, p2, p3) {
       i.invoke_jpel0v_k$(p1, p2, p3);
       return Unit_getInstance();
     };
   }
-  function _no_name_provided_$factory_610() {
-    var i = new _no_name_provided__677();
+  function _no_name_provided_$factory_608() {
+    var i = new _no_name_provided__675();
     return function (p1, p2) {
       return i.invoke_9ct64g_k$(p1, p2);
     };
   }
-  function _no_name_provided_$factory_611($prof_4, $spacing) {
-    var i = new _no_name_provided__678($prof_4, $spacing);
+  function _no_name_provided_$factory_609($prof_4, $spacing) {
+    var i = new _no_name_provided__676($prof_4, $spacing);
     return function (p1, p2, p3) {
       i.invoke_jpel0v_k$(p1, p2, p3);
       return Unit_getInstance();
     };
   }
-  function _no_name_provided_$factory_612($onLoad) {
-    var i = new _no_name_provided__679($onLoad);
+  function _no_name_provided_$factory_610($onLoad) {
+    var i = new _no_name_provided__677($onLoad);
     return function () {
       return i.invoke_0_k$();
     };
   }
-  function _no_name_provided_$factory_613($onLoad, resultContinuation) {
-    var i = new _no_name_provided__680($onLoad, resultContinuation);
+  function _no_name_provided_$factory_611($onLoad, resultContinuation) {
+    var i = new _no_name_provided__678($onLoad, resultContinuation);
     var l = function (p1, $cont) {
       return i.invoke_2i3g7c_k$(p1, $cont);
     };
     l.$arity = 1;
     return l;
   }
-  function _no_name_provided_$factory_614() {
-    var i = new _no_name_provided__675();
+  function _no_name_provided_$factory_612() {
+    var i = new _no_name_provided__673();
     return function (p1) {
       i.invoke_sksns0_k$(p1);
       return Unit_getInstance();
     };
   }
-  function _no_name_provided_$factory_615($tmp1_run_0) {
-    var i = new _no_name_provided__686($tmp1_run_0);
+  function _no_name_provided_$factory_613($tmp1_run_0) {
+    var i = new _no_name_provided__684($tmp1_run_0);
     return function (p1) {
       i.invoke_a4enbm_k$(p1);
       return Unit_getInstance();
     };
   }
-  function _no_name_provided_$factory_616() {
-    var i = new _no_name_provided__687();
+  function _no_name_provided_$factory_614() {
+    var i = new _no_name_provided__685();
     return function (p1) {
       return i.invoke_fbn4m9_k$(p1);
     };
   }
-  function _no_name_provided_$factory_617() {
-    var i = new _no_name_provided__688();
+  function _no_name_provided_$factory_615() {
+    var i = new _no_name_provided__686();
     return function (p1) {
       return i.invoke_fbn4m9_k$(p1);
     };
   }
-  function _no_name_provided_$factory_618($secondRowModifier, $labelModifier, $state, $modifier1, $modifier2) {
-    var i = new _no_name_provided__689($secondRowModifier, $labelModifier, $state, $modifier1, $modifier2);
+  function _no_name_provided_$factory_616($secondRowModifier, $labelModifier, $state, $modifier1, $modifier2) {
+    var i = new _no_name_provided__687($secondRowModifier, $labelModifier, $state, $modifier1, $modifier2);
     return function (p1, p2, p3) {
       i.invoke_fpi9a8_k$(p1, p2, p3);
       return Unit_getInstance();
     };
   }
+  function _no_name_provided_$factory_617($labelModifier, $state, $modifier1, $modifier2) {
+    var i = new _no_name_provided__681($labelModifier, $state, $modifier1, $modifier2);
+    return function (p1, p2, p3) {
+      i.invoke_9s02y_k$(p1, p2, p3);
+      return Unit_getInstance();
+    };
+  }
+  function _no_name_provided_$factory_618($labelModifier, $state, $modifier1, $modifier2) {
+    var i = new _no_name_provided__682($labelModifier, $state, $modifier1, $modifier2);
+    return function (p1, p2, p3) {
+      i.invoke_9s02y_k$(p1, p2, p3);
+      return Unit_getInstance();
+    };
+  }
   function _no_name_provided_$factory_619($labelModifier, $state, $modifier1, $modifier2) {
     var i = new _no_name_provided__683($labelModifier, $state, $modifier1, $modifier2);
-    return function (p1, p2, p3) {
-      i.invoke_9s02y_k$(p1, p2, p3);
-      return Unit_getInstance();
-    };
-  }
-  function _no_name_provided_$factory_620($labelModifier, $state, $modifier1, $modifier2) {
-    var i = new _no_name_provided__684($labelModifier, $state, $modifier1, $modifier2);
-    return function (p1, p2, p3) {
-      i.invoke_9s02y_k$(p1, p2, p3);
-      return Unit_getInstance();
-    };
-  }
-  function _no_name_provided_$factory_621($labelModifier, $state, $modifier1, $modifier2) {
-    var i = new _no_name_provided__685($labelModifier, $state, $modifier1, $modifier2);
     return function (p1, p2, p3) {
       i.invoke_9s02y_k$(p1, p2, p3);
       return Unit_getInstance();
@@ -101854,12 +101866,12 @@
     }
     return tmp$ret$0;
   }
-  function _no_name_provided__695($initialCourse, this$0, $initialProf) {
+  function _no_name_provided__693($initialCourse, this$0, $initialProf) {
     this._$initialCourse = $initialCourse;
     this._this$0_94 = this$0;
     this._$initialProf = $initialProf;
   }
-  _no_name_provided__695.prototype.invoke_sv8swh_k$ = function () {
+  _no_name_provided__693.prototype.invoke_sv8swh_k$ = function () {
     var tmp0_safe_receiver = this._$initialCourse;
     if (tmp0_safe_receiver == null)
       null;
@@ -101898,18 +101910,18 @@
     }
     Unit_getInstance();
   };
-  _no_name_provided__695.prototype.invoke_0_k$ = function () {
+  _no_name_provided__693.prototype.invoke_0_k$ = function () {
     this.invoke_sv8swh_k$();
     return Unit_getInstance();
   };
-  _no_name_provided__695.$metadata$ = {
+  _no_name_provided__693.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__696(this$0) {
+  function _no_name_provided__694(this$0) {
     this._this$0_95 = this$0;
   }
-  _no_name_provided__696.prototype.invoke_0_k$ = function () {
+  _no_name_provided__694.prototype.invoke_0_k$ = function () {
     var tmp$ret$4;
     $l$block_3: {
       var tmp0_mapValues_0 = toProfScores(_get_mapOfProfs_(this._this$0_95));
@@ -101947,14 +101959,14 @@
     }
     return tmp$ret$4;
   };
-  _no_name_provided__696.$metadata$ = {
+  _no_name_provided__694.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__697(this$0) {
+  function _no_name_provided__695(this$0) {
     this._this$0_96 = this$0;
   }
-  _no_name_provided__697.prototype.invoke_0_k$ = function () {
+  _no_name_provided__695.prototype.invoke_0_k$ = function () {
     var tmp0_safe_receiver = _get_mapOfCourses_(this._this$0_96).get_2bw_k$(this._this$0_96._get_courseState__0_k$()._selected);
     var tmp;
     if (tmp0_safe_receiver == null) {
@@ -102012,25 +102024,25 @@
     var tmp1_elvis_lhs = tmp;
     return tmp1_elvis_lhs == null ? emptyMap() : tmp1_elvis_lhs;
   };
-  _no_name_provided__697.$metadata$ = {
+  _no_name_provided__695.$metadata$ = {
     kind: 'class',
     interfaces: []
   };
-  function _no_name_provided__698(this$0, resultContinuation) {
+  function _no_name_provided__696(this$0, resultContinuation) {
     this._this$0_97 = this$0;
     CoroutineImpl_0.call(this, resultContinuation);
   }
-  _no_name_provided__698.prototype.invoke_2i3g7c_k$ = function ($this$launch, $cont) {
+  _no_name_provided__696.prototype.invoke_2i3g7c_k$ = function ($this$launch, $cont) {
     var tmp = this.create_y6imfn_k$($this$launch, $cont);
     tmp._result_1 = Unit_getInstance();
     tmp._exception_0 = null;
     return tmp.doResume_0_k$();
   };
-  _no_name_provided__698.prototype.invoke_20e8_k$ = function (p1, $cont) {
+  _no_name_provided__696.prototype.invoke_20e8_k$ = function (p1, $cont) {
     this.invoke_2i3g7c_k$((!(p1 == null) ? isInterface(p1, CoroutineScope) : false) ? p1 : THROW_CCE(), $cont);
     return Unit_getInstance();
   };
-  _no_name_provided__698.prototype.doResume_0_k$ = function () {
+  _no_name_provided__696.prototype.doResume_0_k$ = function () {
     var suspendResult = this._result_1;
     $sm: do
       try {
@@ -102099,32 +102111,32 @@
       }
      while (true);
   };
-  _no_name_provided__698.prototype.create_y6imfn_k$ = function ($this$launch, completion) {
-    var i = new _no_name_provided__698(this._this$0_97, completion);
+  _no_name_provided__696.prototype.create_y6imfn_k$ = function ($this$launch, completion) {
+    var i = new _no_name_provided__696(this._this$0_97, completion);
     i._$this$launch_6 = $this$launch;
     return i;
   };
-  _no_name_provided__698.$metadata$ = {
+  _no_name_provided__696.$metadata$ = {
     kind: 'class',
     interfaces: [],
     suspendArity: [1]
   };
-  function _no_name_provided__699(this$0, $initialDept, resultContinuation) {
+  function _no_name_provided__697(this$0, $initialDept, resultContinuation) {
     this._this$0_98 = this$0;
     this._$initialDept = $initialDept;
     CoroutineImpl_0.call(this, resultContinuation);
   }
-  _no_name_provided__699.prototype.invoke_2i3g7c_k$ = function ($this$launch, $cont) {
+  _no_name_provided__697.prototype.invoke_2i3g7c_k$ = function ($this$launch, $cont) {
     var tmp = this.create_y6imfn_k$($this$launch, $cont);
     tmp._result_1 = Unit_getInstance();
     tmp._exception_0 = null;
     return tmp.doResume_0_k$();
   };
-  _no_name_provided__699.prototype.invoke_20e8_k$ = function (p1, $cont) {
+  _no_name_provided__697.prototype.invoke_20e8_k$ = function (p1, $cont) {
     this.invoke_2i3g7c_k$((!(p1 == null) ? isInterface(p1, CoroutineScope) : false) ? p1 : THROW_CCE(), $cont);
     return Unit_getInstance();
   };
-  _no_name_provided__699.prototype.doResume_0_k$ = function () {
+  _no_name_provided__697.prototype.doResume_0_k$ = function () {
     var suspendResult = this._result_1;
     $sm: do
       try {
@@ -102198,12 +102210,12 @@
       }
      while (true);
   };
-  _no_name_provided__699.prototype.create_y6imfn_k$ = function ($this$launch, completion) {
-    var i = new _no_name_provided__699(this._this$0_98, this._$initialDept, completion);
+  _no_name_provided__697.prototype.create_y6imfn_k$ = function ($this$launch, completion) {
+    var i = new _no_name_provided__697(this._this$0_98, this._$initialDept, completion);
     i._$this$launch_7 = $this$launch;
     return i;
   };
-  _no_name_provided__699.$metadata$ = {
+  _no_name_provided__697.$metadata$ = {
     kind: 'class',
     interfaces: [],
     suspendArity: [1]
@@ -102224,15 +102236,15 @@
     var tmp_6 = emptyMap();
     tmp_5._mapOfCourses$delegate = mutableStateOf$default(tmp_6, null, 2, null);
     var tmp_7 = this;
-    tmp_7._initializeCourseProf = _no_name_provided_$factory_622(initialCourse, this, initialProf);
+    tmp_7._initializeCourseProf = _no_name_provided_$factory_620(initialCourse, this, initialProf);
     var tmp_8 = this;
     tmp_8._firstTime$delegate = mutableStateOf$default(true, null, 2, null);
     var tmp_9 = this;
-    tmp_9._profListLoading$delegate = mutableStateOf$default(false, null, 2, null);
+    tmp_9._profListLoading$delegate = mutableStateOf$default(true, null, 2, null);
     var tmp_10 = this;
-    tmp_10._wholeDeptMap$delegate = derivedStateOf(_no_name_provided_$factory_623(this));
+    tmp_10._wholeDeptMap$delegate = derivedStateOf(_no_name_provided_$factory_621(this));
     var tmp_11 = this;
-    tmp_11._courseSpecificMap$delegate = derivedStateOf(_no_name_provided_$factory_624(this));
+    tmp_11._courseSpecificMap$delegate = derivedStateOf(_no_name_provided_$factory_622(this));
     var tmp_12 = this;
     var tmp_13 = DropDownState_init_$Create$(initialSchool);
     tmp_12.__schoolState$delegate = mutableStateOf$default(tmp_13, null, 2, null);
@@ -102246,7 +102258,7 @@
     var tmp_19 = DropDownState_init_$Create$(initialProf);
     tmp_18.__profState$delegate = mutableStateOf$default(tmp_19, null, 2, null);
     var tmp_20 = this._coroutineScope_0;
-    launch$default(tmp_20, null, null, _no_name_provided_$factory_625(this, initialDept, null), 3, null);
+    launch$default(tmp_20, null, null, _no_name_provided_$factory_623(this, initialDept, null), 3, null);
     Unit_getInstance();
     this._$stable_139 = 0;
   }
@@ -102262,6 +102274,37 @@
       break $l$block;
     }
     return tmp$ret$0;
+  };
+  SearchDeptStateImpl.prototype._get_url__0_k$ = function () {
+    var tmp = 'searchdept?' + ('' + 'school=' + this._get_schoolState__0_k$()._selected) + ('' + '&dept=' + this._get_deptState__0_k$()._selected);
+    var tmp$ret$1;
+    $l$block_0: {
+      var tmp0_run_0 = this._get_courseState__0_k$()._selected;
+      {
+      }
+      var tmp$ret$0;
+      $l$block: {
+        tmp$ret$0 = isBlankOrNone(tmp0_run_0) ? '' : '' + '&course=' + tmp0_run_0;
+        break $l$block;
+      }
+      tmp$ret$1 = tmp$ret$0;
+      break $l$block_0;
+    }
+    var tmp_0 = tmp + tmp$ret$1;
+    var tmp$ret$3;
+    $l$block_2: {
+      var tmp1_run_0 = this._get_profState__0_k$()._selected;
+      {
+      }
+      var tmp$ret$2;
+      $l$block_1: {
+        tmp$ret$2 = isBlankOrNone(tmp1_run_0) ? '' : '' + '&prof=' + encodeURLParam(tmp1_run_0);
+        break $l$block_1;
+      }
+      tmp$ret$3 = tmp$ret$2;
+      break $l$block_2;
+    }
+    return tmp_0 + tmp$ret$3;
   };
   SearchDeptStateImpl.prototype._get_status__0_k$ = function () {
     return _get_schoolMap_(this).isEmpty_0_k$() ? Status_InitialLoading_getInstance() : _get_deptEntries_(this).isEmpty_0_k$() ? Status_Loading_getInstance() : !isBlankOrNone(this._get_profState__0_k$()._selected) ? Status_Prof_getInstance() : !isBlankOrNone(this._get_courseState__0_k$()._selected) ? Status_Course_getInstance() : Status_Dept_getInstance();
@@ -102313,10 +102356,9 @@
       break $l$block;
     }
     _set__deptState_(this, tmp$ret$0);
-    if (!_get_firstTime_(this))
-      this._set_profListLoading__rpwsgn_k$(true);
+    this._set_profListLoading__rpwsgn_k$(true);
     var tmp = this._coroutineScope_0;
-    launch$default(tmp, null, null, _no_name_provided_$factory_626(this, null), 3, null);
+    launch$default(tmp, null, null, _no_name_provided_$factory_624(this, null), 3, null);
     Unit_getInstance();
   };
   SearchDeptStateImpl.prototype._get_deptState__0_k$ = function () {
@@ -102519,35 +102561,35 @@
       return _set__profState_(receiver_0, value_0);
     });
   }
-  function _no_name_provided_$factory_622($initialCourse, this$0, $initialProf) {
-    var i = new _no_name_provided__695($initialCourse, this$0, $initialProf);
+  function _no_name_provided_$factory_620($initialCourse, this$0, $initialProf) {
+    var i = new _no_name_provided__693($initialCourse, this$0, $initialProf);
     return function () {
       i.invoke_sv8swh_k$();
       return Unit_getInstance();
     };
   }
-  function _no_name_provided_$factory_623(this$0) {
-    var i = new _no_name_provided__696(this$0);
+  function _no_name_provided_$factory_621(this$0) {
+    var i = new _no_name_provided__694(this$0);
     return function () {
       return i.invoke_0_k$();
     };
   }
-  function _no_name_provided_$factory_624(this$0) {
-    var i = new _no_name_provided__697(this$0);
+  function _no_name_provided_$factory_622(this$0) {
+    var i = new _no_name_provided__695(this$0);
     return function () {
       return i.invoke_0_k$();
     };
   }
-  function _no_name_provided_$factory_625(this$0, $initialDept, resultContinuation) {
-    var i = new _no_name_provided__699(this$0, $initialDept, resultContinuation);
+  function _no_name_provided_$factory_623(this$0, $initialDept, resultContinuation) {
+    var i = new _no_name_provided__697(this$0, $initialDept, resultContinuation);
     var l = function (p1, $cont) {
       return i.invoke_2i3g7c_k$(p1, $cont);
     };
     l.$arity = 1;
     return l;
   }
-  function _no_name_provided_$factory_626(this$0, resultContinuation) {
-    var i = new _no_name_provided__698(this$0, resultContinuation);
+  function _no_name_provided_$factory_624(this$0, resultContinuation) {
+    var i = new _no_name_provided__696(this$0, resultContinuation);
     var l = function (p1, $cont) {
       return i.invoke_2i3g7c_k$(p1, $cont);
     };
@@ -103097,6 +103139,7 @@
   TenQsShortened = listOf(['Prepared & Organized', 'Responded to Questions Effectively', 'Generated Interest in Material', 'Positive Attitude Towards Assisting Students', 'Graded Fairly', 'Effective Teaching Methods', 'Learned a Great Deal', 'Strong Prior Interest', 'Teaching Effectiveness', 'Overall Quality of Course']);
   gridVariant11 = gridVariant11$init$();
   gridVariant12 = gridVariant12$init$();
+  urlEncodings = listOf([to(',', '%2C'), to(' ', '%20')]);
   var $kotlinx = _.kotlinx || (_.kotlinx = {});
   var $kotlinx$atomicfu = $kotlinx.atomicfu || ($kotlinx.atomicfu = {});
   $kotlinx$atomicfu.atomic$ref$ = atomic_2;
