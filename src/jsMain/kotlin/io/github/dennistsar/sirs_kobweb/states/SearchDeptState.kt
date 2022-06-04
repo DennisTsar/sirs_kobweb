@@ -7,10 +7,7 @@ import io.github.dennistsar.sirs_kobweb.data.classes.School
 import io.github.dennistsar.sirs_kobweb.data.mapByCourses
 import io.github.dennistsar.sirs_kobweb.data.mapByProfs
 import io.github.dennistsar.sirs_kobweb.data.toProfScores
-import io.github.dennistsar.sirs_kobweb.misc.None
-import io.github.dennistsar.sirs_kobweb.misc.Resource
-import io.github.dennistsar.sirs_kobweb.misc.isBlankOrNone
-import io.github.dennistsar.sirs_kobweb.misc.toTotalAndAvesPair
+import io.github.dennistsar.sirs_kobweb.misc.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -39,6 +36,7 @@ interface SearchDeptState {
     val wholeDeptMap: Map<String, Pair<Int, List<Double>>>
     val courseSpecificMap: Map<String, Pair<Int, List<Double>>>
     val status: Status
+    val url: String
 }
 
 class SearchDeptStateImpl(
@@ -72,7 +70,18 @@ class SearchDeptStateImpl(
 
     private var firstTime by mutableStateOf(true)
 
-    override var profListLoading by mutableStateOf(false)
+    override var profListLoading by mutableStateOf(true)
+
+    override val url
+        get() = "searchdept?" +
+                "school=${schoolState.selected}" +
+                "&dept=${deptState.selected}" +
+                courseState.selected.run{
+                    if(isBlankOrNone()) "" else "&course=$this"
+                } +
+                profState.selected.run{
+                    if(isBlankOrNone()) "" else "&prof=${this.encodeURLParam()}"
+                }
 
     override val status
         get() =
@@ -117,7 +126,7 @@ class SearchDeptStateImpl(
             _deptState = value
                 .also { if (it.selected.isBlank()) return }
 
-            if(!firstTime)
+//            if(!firstTime)
                 profListLoading = true
 
             coroutineScope.launch {

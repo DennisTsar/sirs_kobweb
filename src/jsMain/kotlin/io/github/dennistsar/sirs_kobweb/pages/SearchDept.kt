@@ -15,6 +15,7 @@ import com.varabyte.kobweb.compose.ui.asAttributesBuilder
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.rememberPageContext
+import com.varabyte.kobweb.navigation.UpdateHistoryMode
 import com.varabyte.kobweb.silk.components.graphics.Image
 import com.varabyte.kobweb.silk.components.layout.SimpleGridStyle
 import com.varabyte.kobweb.silk.components.style.toModifier
@@ -60,45 +61,39 @@ fun SearchDept() {
             )
         }
 
-        val status = state.status
+        remember(state.url) {
+            ctx.router.navigateTo(state.url, UpdateHistoryMode.REPLACE)
+        }
 
-        if (status == Status.InitialLoading)
-            return@PageLayout
+        val status = state.status
+            .also { if(it == Status.InitialLoading) return@PageLayout }
 
         LeftRightCenterBox(
             Modifier
                 .fillMaxWidth()
                 .alignItems(AlignItems.Center),// vertical alignment
-            right = loading@{
-                if(!state.profListLoading)
-                    return@loading
-                Image(
-                    "circle_loading.gif",
-                    "Loading",
-                    Modifier.size(75.px)
-                )
+            right = {
+                if(state.profListLoading)
+                    Image(
+                        "circle_loading.gif",
+                        "Loading",
+                        Modifier.size(75.px),
+                    )
             },
             center = { SearchDeptFormContent(state) }
         )
 
         // This logic is kept here as opposed to in State class for performance reasons
         // Prevents having to reload HTML when status changes back to previously used one - it's already loaded
+        val finishLoading = { state.profListLoading = false }
         when(status) {
             Status.Prof -> {
                 Text(state.profState.selected)
                 ProfSummary(state.profEntries)
             }
-            Status.Course -> {
-                ProfScoresList(state.courseSpecificMap) {
-                    state.profListLoading = false
-                }
-            }
-            Status.Dept -> {
-                ProfScoresList(state.wholeDeptMap) {
-                    state.profListLoading = false
-                }
-            }
-            else -> { state.profListLoading = false }
+            Status.Course -> ProfScoresList(state.courseSpecificMap, finishLoading)
+            Status.Dept -> ProfScoresList(state.wholeDeptMap, finishLoading)
+            else -> {}//finishLoading() // this is only needed for a school that has no entries
         }
     }
 }

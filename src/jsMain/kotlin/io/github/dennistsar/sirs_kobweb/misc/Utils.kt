@@ -13,8 +13,11 @@ fun String.substringAfterBefore(after: String, before: String): String =
 
 fun String.isBlankOrNone() = isBlank() || equals(None)
 
-fun String.decodeURLParam() =
-    replace("%2C",",").replace("%20"," ")
+val urlEncodings = listOf("," to "%2C", " " to "%20")
+fun String.encodeURLParam() =
+    urlEncodings.fold(this) { acc, (a,b) -> acc.replace(a,b) }
+fun String.decodeURLParam(): String =
+    urlEncodings.fold(this) { acc, (a,b) -> acc.replace(b,a) }
 
 fun Double.roundToDecimal(dec : Int): Double =
     (this * 10.0.pow(dec)).roundToInt()/10.0.pow(dec)
