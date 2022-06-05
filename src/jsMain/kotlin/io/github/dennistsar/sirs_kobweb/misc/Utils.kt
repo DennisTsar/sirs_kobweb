@@ -11,10 +11,10 @@ typealias ProfScores = Map<String,List<List<Int>>>
 fun String.substringAfterBefore(after: String, before: String): String =
     substringAfter(after).substringBefore(before)
 
-fun String.isBlankOrNone() = isBlank() || equals(None)
+fun String.isBlankOrNone(): Boolean = isBlank() || equals(None)
 
 val urlEncodings = listOf("," to "%2C", " " to "%20")
-fun String.encodeURLParam() =
+fun String.encodeURLParam(): String =
     urlEncodings.fold(this) { acc, (a,b) -> acc.replace(a,b) }
 fun String.decodeURLParam(): String =
     urlEncodings.fold(this) { acc, (a,b) -> acc.replace(b,a) }

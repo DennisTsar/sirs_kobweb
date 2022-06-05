@@ -53,20 +53,6 @@ class SearchDeptStateImpl(
     private var mapOfProfs: Map<String,List<Entry>> by mutableStateOf(emptyMap())
     private var mapOfCourses: Map<String,List<Entry>> by mutableStateOf(emptyMap())
 
-    // this has to be a separate val so that initial parameters can be accessed
-    private val initializeCourseProf = fun() {
-        initialCourse?.let {
-            if(courseState.list.contains(it)) {
-                courseState = courseState.copy(selected = it)
-                return // will ignore initialProf if initialCourse is valid
-            }
-        }
-        initialProf?.let {
-            if(profState.list.contains(it))
-                profState = profState.copy(selected = it)
-        }
-    }
-
     private var firstTime by mutableStateOf(true)
 
     override var profListLoading by mutableStateOf(true)
@@ -84,7 +70,7 @@ class SearchDeptStateImpl(
 
     override val status
         get() =
-            if(schoolMap.isEmpty())
+            if(firstTime)
                 Status.InitialLoading
             else if (!profState.selected.isBlankOrNone())
                 Status.Prof
@@ -117,6 +103,7 @@ class SearchDeptStateImpl(
         }
 
     private var _deptState by mutableStateOf(DropDownState<String>(initialDept))
+    @Suppress("GrazieInspection")
     override var deptState
         get() = _deptState
         set(value) {
@@ -134,13 +121,22 @@ class SearchDeptStateImpl(
                 mapOfProfs = deptEntries.mapByProfs()
                 mapOfCourses = deptEntries.mapByCourses()
 
-                courseState = DropDownState(listOf(None) + mapOfCourses.keys.sorted(),None)
-                profState = DropDownState(listOf(None) + mapOfProfs.keys.sorted(),None)
+                // using _ to avoid default behavior which would lose initial values
+                _courseState = courseState.copy(listOf(None) + mapOfCourses.keys.sorted())
+                _profState = profState.copy(listOf(None) + mapOfProfs.keys.sorted())
 
-                if (firstTime) {
-                    initializeCourseProf()
-                    firstTime = false
+                // this keeps ignores prof value if course is valid
+                // otherwise does exactly what you'd expect
+                if (!firstTime || !courseState.list.contains(courseState.selected)) {
+                    _courseState = courseState.copy(selected = None)
+                    if (!firstTime || !profState.list.contains(profState.selected))
+                        profState = profState.copy(selected = None)
                 }
+                else
+                    profState = profState.copy(selected = None)
+
+                if (firstTime)
+                    firstTime = false
             }
         }
 
@@ -149,7 +145,7 @@ class SearchDeptStateImpl(
         get() = _courseState
         set(value) {
             _courseState = value
-            if(value.selected!=None)
+            if(!value.selected.isBlankOrNone())
                 profState = profState.copy(selected = None)
         }
 
@@ -175,11 +171,10 @@ class SearchDeptStateImpl(
 
             selectedSchool.depts.let { depts ->
                 deptState =
-                    DropDownState(
-                        depts,
-                        initialDept?.takeIf { depts.contains(it) }
-                        ?: depts.firstOrNull() ?: "",
-                    )
+                    if(depts.contains(deptState.selected))
+                        deptState.copy(list = depts)
+                    else
+                        deptState.copy(list = depts, selected = depts.firstOrNull() ?: "")
             }
         }
     }

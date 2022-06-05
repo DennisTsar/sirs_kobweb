@@ -7,11 +7,12 @@ import io.github.dennistsar.sirs_kobweb.misc.ProfScores
 fun List<Entry>.mapByCourses(): Map<String, List<Entry>> {
     // Currently, a not-ideal approach to try to only show profs and not TAs - probably should be a boolean or just marked somehow
     return groupBy {
-            it.code.split(":")
+            it.code.split(':')
                 .getOrElse(2) { "" }
         }.mapValues { (_,v) ->
-            v.filter { it.courseName.contains("Lecture") || it.note!=null }
-                .ifEmpty { v }
+            v.filter {
+                it.courseName.contains("Lecture") || it.note!=null
+            }.ifEmpty { v }
         }
 }
 
@@ -36,7 +37,10 @@ fun Map<String, List<Entry>>.toProfScores(): ProfScores {
     val profRatings = filter { it.value.isNotEmpty() }
         .mapValues { (_, v) ->
             v.aveScores()
-        }.ifEmpty { return emptyMap() }
+        }
+
+    if (profRatings.size<=1)
+        return profRatings
 
     val aves = (0..9).map { i ->
         profRatings.values.filter { it.size>=10 }.map { it[i] }.flatten()
@@ -45,15 +49,16 @@ fun Map<String, List<Entry>>.toProfScores(): ProfScores {
 }
 
 fun List<Entry>.mapByProfs(): Map<String, List<Entry>> {
-    val names = map { formatName(it.instructor) }
-    return groupBy { parseName(it.instructor, names) }
+    val usefulNames = map { formatName(it.instructor) }.filter { it.contains(",") }
+    return groupBy { formatName(it.instructor).findMatchingName(usefulNames) }
         .filterKeys { it.isNotEmpty() && it != "TA" }
 }
 
 //fun List<Entry>.toProfScores(): ProfScores = toMapOfProfs().toProfScores()
 
 fun formatName(name: String): String {
-    return name.replace(Regex(" \\(.*\\)|,"),"")// removes stuff in parentheses & removes commas
+    return name
+        .replace(" \\(.*\\)|,".toRegex(),"")// removes stuff in parentheses & removes commas
         .split(" ")
         .run {
             get(0) + (getOrNull(1)?.let { ", ${it.first()}" } ?: "")// Adds first initial if present
@@ -61,16 +66,13 @@ fun formatName(name: String): String {
 }
 
 // This exists so that "Smith" and "Smith, John" are grouped together IFF John is the only Smith in the department
-fun parseName(name: String, names: List<String>): String {
-    with(formatName(name)) {
-        if (contains(','))
-            return this
+fun String.findMatchingName(names: List<String>): String {
+    if (contains(','))
+        return this
 
-        val filtered = names.filter {
-            val split = it.split(',')
-            split[0]==this && split.size>1
-        }.toSet()
-
-        return if (filtered.size==1) filtered.first() else this
-    }
+    return names
+        .filter { this == it.substringBefore(',') }
+        .toSet()
+        .takeIf { it.size==1 }
+        ?.first() ?: this
 }

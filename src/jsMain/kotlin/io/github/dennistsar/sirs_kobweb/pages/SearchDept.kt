@@ -65,21 +65,20 @@ fun SearchDept() {
         }
 
         val status = state.status
-            .also { if(it == Status.InitialLoading) return@PageLayout }
 
         LeftRightCenterBox(
             Modifier
                 .fillMaxWidth()
                 .alignItems(AlignItems.Center),// vertical alignment
             right = {
-                if(state.profListLoading)
+                if(state.profListLoading || status == Status.InitialLoading)
                     Image(
                         "circle_loading.gif",
                         "Loading",
                         Modifier.size(75.px),
                     )
             },
-            center = { SearchDeptFormContent(state) }
+            center = { if(status != Status.InitialLoading) SearchDeptFormContent(state) }
         )
 
         // This logic is kept here as opposed to in State class for performance reasons
@@ -88,22 +87,25 @@ fun SearchDept() {
         when(status) {
             Status.Prof -> {
                 Text(state.profState.selected)
-                ProfSummary(state.profEntries)
+                ProfSummary(state.profEntries,finishLoading)
             }
             Status.Course -> ProfScoresList(state.courseSpecificMap, finishLoading)
             Status.Dept -> ProfScoresList(state.wholeDeptMap, finishLoading)
-            else -> throw IllegalStateException("State became Loading")
+            else -> {}
         }
     }
 }
 
 @Composable
-fun ProfSummary(list: List<Entry>) {
+fun ProfSummary(
+    list: List<Entry>,
+    onLoad: () -> Unit = {},
+) {
     val a = list.mapByCourses()
     val b = a.toProfScores()
     val allScores = list.aveScores()
 
-    ProfScoresList(b.mapValues { it.value.toTotalAndAvesPair() })
+    ProfScoresList(b.mapValues { it.value.toTotalAndAvesPair() },onLoad)
 }
 
 @OptIn(ExperimentalComposeWebApi::class)
