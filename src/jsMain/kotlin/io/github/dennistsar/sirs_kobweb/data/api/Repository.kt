@@ -10,17 +10,17 @@ class Repository(private val api: Api) {
 //        suspend fun getSchoolsMapFromGit(): Map<String, School> =
 //            Json.decodeFromString(api.getSchoolDeptsMapFromGit())
     suspend fun getSchoolMap(): Resource<Map<String, School>> =
-        api.getSchoolDeptsMapFromGit().getResource()
+        api.getSchoolDeptsMapFromGit().toResource()
 
     suspend fun getEntries(school: String, dept: String): Resource<List<Entry>> =
-        api.getEntriesFromGit(school,dept).getResource()
+        api.getEntriesFromGit(school,dept).toResource()
 
-    private inline fun<reified T> String.getResource(): Resource<T> {
+    private inline fun<reified T> String.toResource(): Resource<T> {
         return try {
             Resource.Success(Json.decodeFromString<T>(this))
-        } catch (e: Exception) {
+        } catch(e: Exception) {
             console.log(e,e.message)
-            Resource.Error(e.message?:"?")
+            Resource.Error(e.message ?: "Error decoding JSON")
         }
     }
 }

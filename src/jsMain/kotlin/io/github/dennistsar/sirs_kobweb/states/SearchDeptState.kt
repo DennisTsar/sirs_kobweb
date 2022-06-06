@@ -65,7 +65,7 @@ class SearchDeptStateImpl(
                     if(isBlankOrNone()) "" else "&course=$this"
                 } +
                 profState.selected.run{
-                    if(isBlankOrNone()) "" else "&prof=${this.encodeURLParam()}"
+                    if(isBlankOrNone()) "" else "&prof=${encodeURLParam()}"
                 }
 
     override val status
@@ -103,21 +103,23 @@ class SearchDeptStateImpl(
         }
 
     private var _deptState by mutableStateOf(DropDownState<String>(initialDept))
-    @Suppress("GrazieInspection")
     override var deptState
         get() = _deptState
         set(value) {
             _deptState = value
                 .also { if (it.selected.isBlank()) return }
 
-//            if(!firstTime)
-                profListLoading = true
+            profListLoading = true
 
             coroutineScope.launch {
-                deptEntries = repository.getEntries(schoolState.selected, deptState.selected)
-                    .takeIf { it is Resource.Success }
-                    ?.data
-                    ?.filter { it.scores.size >= 100 } ?: emptyList()
+                val response = repository.getEntries(schoolState.selected, deptState.selected)
+                deptEntries =
+                    if(response is Resource.Success && response.data!=null){
+                        response.data.filter { it.scores.size >= 100 }
+                    } else {
+                        console.log("Error: ${response.message}")
+                        emptyList()
+                    }
                 mapOfProfs = deptEntries.mapByProfs()
                 mapOfCourses = deptEntries.mapByCourses()
 
@@ -125,7 +127,7 @@ class SearchDeptStateImpl(
                 _courseState = courseState.copy(listOf(None) + mapOfCourses.keys.sorted())
                 _profState = profState.copy(listOf(None) + mapOfProfs.keys.sorted())
 
-                // this keeps ignores prof value if course is valid
+                // this keeps ignores prof value if the course is valid
                 // otherwise does exactly what you'd expect
                 if (!firstTime || !courseState.list.contains(courseState.selected)) {
                     _courseState = courseState.copy(selected = None)
@@ -169,12 +171,12 @@ class SearchDeptStateImpl(
             // doesn't seem ideal, but I don't want permanent boolean check
             _schoolState = DropDownState(schoolMap.values,selectedSchool.code)
 
-            selectedSchool.depts.let { depts ->
+            selectedSchool.depts.let {
                 deptState =
-                    if(depts.contains(deptState.selected))
-                        deptState.copy(list = depts)
+                    if(it.contains(deptState.selected))
+                        deptState.copy(list = it)
                     else
-                        deptState.copy(list = depts, selected = depts.firstOrNull() ?: "")
+                        deptState.copy(list = it, selected = it.firstOrNull() ?: "")
             }
         }
     }
@@ -182,6 +184,5 @@ class SearchDeptStateImpl(
     // temp as I figure out what data the prof composable needs
     // eventually that logic will be in this (or a different?) State object
     // and it will be part of interface
-    val profEntries
-        get() = mapOfProfs[profState.selected] ?: emptyList()
+    val profEntries get() = mapOfProfs[profState.selected] ?: emptyList()
 }
