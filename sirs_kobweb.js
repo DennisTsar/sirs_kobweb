@@ -98381,28 +98381,29 @@
                   tmp$ret$13 = tmp$ret$12;
                   break $l$block_12;
                 }
-                var tmp1_map_0_5 = tmp$ret$13;
+                var tmp1_flatMap_0_5 = tmp$ret$13;
                 var tmp$ret$15;
                 $l$block_14: {
-                  var tmp0_mapTo_0_1_10 = ArrayList_init_$Create$_0(collectionSizeOrDefault(tmp1_map_0_5, 10));
-                  var tmp0_iterator_1_2_11 = tmp1_map_0_5.iterator_0_k$();
+                  var tmp0_flatMapTo_0_1_10 = ArrayList_init_$Create$();
+                  var tmp0_iterator_1_2_11 = tmp1_flatMap_0_5.iterator_0_k$();
                   while (tmp0_iterator_1_2_11.hasNext_0_k$()) {
-                    var item_2_3_12 = tmp0_iterator_1_2_11.next_0_k$();
+                    var element_2_3_12 = tmp0_iterator_1_2_11.next_0_k$();
                     var tmp$ret$14;
                     $l$block_13: {
-                      tmp$ret$14 = item_2_3_12.get_ha5a7z_k$(item_2_3);
+                      tmp$ret$14 = element_2_3_12.get_ha5a7z_k$(item_2_3);
                       break $l$block_13;
                     }
-                    tmp0_mapTo_0_1_10.add_2bq_k$(tmp$ret$14);
+                    var list_3_4_13 = tmp$ret$14;
+                    addAll(tmp0_flatMapTo_0_1_10, list_3_4_13);
                     Unit_getInstance();
                   }
-                  tmp$ret$15 = tmp0_mapTo_0_1_10;
+                  tmp$ret$15 = tmp0_flatMapTo_0_1_10;
                   break $l$block_14;
                 }
                 tmp$ret$16 = tmp$ret$15;
                 break $l$block_15;
               }
-              tmp$ret$17 = flatten(tmp$ret$16);
+              tmp$ret$17 = tmp$ret$16;
               break $l$block_16;
             }
             tmp0_mapTo_0_1.add_2bq_k$(tmp$ret$17);
@@ -98633,7 +98634,7 @@
             var tmp$ret$0;
             $l$block: {
               var tmp_0 = new Char(44);
-              tmp$ret$0 = _this_ === substringBefore$default(element_2_3, tmp_0, null, 2, null);
+              tmp$ret$0 = equals_1(_this_, substringBefore$default(element_2_3, tmp_0, null, 2, null));
               break $l$block;
             }
             if (tmp$ret$0) {
@@ -98958,13 +98959,13 @@
             }
             continue $sm;
           case 1:
-            var tmp1_getResource_0 = suspendResult;
+            var tmp1_toResource_0 = suspendResult;
             var TRY_RESULT;
             this._exceptionState = 2;
             var tmp0_decodeFromString_0 = Default_getInstance();
             var tmp1_serializer_0_1 = tmp0_decodeFromString_0._get_serializersModule__0_k$();
             var tmp0_cast_0_2 = serializer(tmp1_serializer_0_1, createKType_0(getKClass_0(Map_0), [createInvariantKTypeProjection_0(createKType_0(PrimitiveClasses_getInstance()._get_stringClass__0_k$(), [], false)), createInvariantKTypeProjection_0(createKType_0(getKClass_0(School), [], false))], false));
-            TRY_RESULT = new Success_0(tmp0_decodeFromString_0.decodeFromString_ed5pl9_k$(isInterface(tmp0_cast_0_2, KSerializer) ? tmp0_cast_0_2 : THROW_CCE(), tmp1_getResource_0));
+            TRY_RESULT = new Success_0(tmp0_decodeFromString_0.decodeFromString_ed5pl9_k$(isInterface(tmp0_cast_0_2, KSerializer) ? tmp0_cast_0_2 : THROW_CCE(), tmp1_toResource_0));
             this._exceptionState = 4;
             this._state_2 = 3;
             continue $sm;
@@ -98975,7 +98976,7 @@
               var e_1 = this._exception_0;
               console.log(e_1, e_1.message);
               var tmp0_elvis_lhs_2 = e_1.message;
-              var tmp_1 = tmp0_elvis_lhs_2 == null ? '?' : tmp0_elvis_lhs_2;
+              var tmp_1 = tmp0_elvis_lhs_2 == null ? 'Error decoding JSON' : tmp0_elvis_lhs_2;
               TRY_RESULT = Error_init_$Create$_1(tmp_1, null, 2, null);
               this._state_2 = 3;
               continue $sm;
@@ -99028,13 +99029,13 @@
             }
             continue $sm;
           case 1:
-            var tmp1_getResource_0 = suspendResult;
+            var tmp1_toResource_0 = suspendResult;
             var TRY_RESULT;
             this._exceptionState = 2;
             var tmp0_decodeFromString_0 = Default_getInstance();
             var tmp1_serializer_0_1 = tmp0_decodeFromString_0._get_serializersModule__0_k$();
             var tmp0_cast_0_2 = serializer(tmp1_serializer_0_1, createKType_0(getKClass_0(List), [createInvariantKTypeProjection_0(createKType_0(getKClass_0(Entry_1), [], false))], false));
-            TRY_RESULT = new Success_0(tmp0_decodeFromString_0.decodeFromString_ed5pl9_k$(isInterface(tmp0_cast_0_2, KSerializer) ? tmp0_cast_0_2 : THROW_CCE(), tmp1_getResource_0));
+            TRY_RESULT = new Success_0(tmp0_decodeFromString_0.decodeFromString_ed5pl9_k$(isInterface(tmp0_cast_0_2, KSerializer) ? tmp0_cast_0_2 : THROW_CCE(), tmp1_toResource_0));
             this._exceptionState = 4;
             this._state_2 = 3;
             continue $sm;
@@ -99045,7 +99046,7 @@
               var e_1 = this._exception_0;
               console.log(e_1, e_1.message);
               var tmp0_elvis_lhs_2 = e_1.message;
-              var tmp_1 = tmp0_elvis_lhs_2 == null ? '?' : tmp0_elvis_lhs_2;
+              var tmp_1 = tmp0_elvis_lhs_2 == null ? 'Error decoding JSON' : tmp0_elvis_lhs_2;
               TRY_RESULT = Error_init_$Create$_1(tmp_1, null, 2, null);
               this._state_2 = 3;
               continue $sm;
@@ -101955,24 +101956,21 @@
             }
             continue $sm;
           case 1:
-            var tmp0_takeIf_0 = suspendResult;
+            var response = suspendResult;
             var tmp_0;
-            if (tmp0_takeIf_0 instanceof Success_0) {
-              tmp_0 = tmp0_takeIf_0;
+            var tmp_1;
+            if (response instanceof Success_0) {
+              tmp_1 = !(response._data_3 == null);
             } else {
               {
-                tmp_0 = null;
+                tmp_1 = false;
               }
             }
 
-            var tmp0_safe_receiver = tmp_0;
-            var tmp1_safe_receiver = tmp0_safe_receiver == null ? null : tmp0_safe_receiver._data_3;
-            var tmp_1;
-            if (tmp1_safe_receiver == null) {
-              tmp_1 = null;
-            } else {
+            if (tmp_1) {
+              var tmp0_filter_0 = response._data_3;
               var tmp0_filterTo_0_1 = ArrayList_init_$Create$();
-              var tmp0_iterator_1_2 = tmp1_safe_receiver.iterator_0_k$();
+              var tmp0_iterator_1_2 = tmp0_filter_0.iterator_0_k$();
               while (tmp0_iterator_1_2.hasNext_0_k$()) {
                 var element_2_3 = tmp0_iterator_1_2.next_0_k$();
                 if (element_2_3._scores._get_size__0_k$() >= 100) {
@@ -101981,12 +101979,15 @@
                 } else {
                 }
               }
-              tmp_1 = tmp0_filterTo_0_1;
+              tmp_0 = tmp0_filterTo_0_1;
+            } else {
+              {
+                console.log('' + 'Error: ' + response._message_5);
+                tmp_0 = emptyList();
+              }
             }
 
-            var tmp2_elvis_lhs = tmp_1;
-            var ARGUMENT = tmp2_elvis_lhs == null ? emptyList() : tmp2_elvis_lhs;
-            _set_deptEntries_(this._this$0_96, ARGUMENT);
+            _set_deptEntries_(this._this$0_96, tmp_0);
             _set_mapOfProfs_(this._this$0_96, mapByProfs(_get_deptEntries_(this._this$0_96)));
             _set_mapOfCourses_(this._this$0_96, mapByCourses(_get_deptEntries_(this._this$0_96)));
             var tmp_2 = this._this$0_96._get_courseState__0_k$();
