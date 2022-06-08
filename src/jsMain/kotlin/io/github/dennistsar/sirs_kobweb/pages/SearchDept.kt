@@ -71,14 +71,15 @@ fun SearchDept() {
                 .fillMaxWidth()
                 .alignItems(AlignItems.Center),// vertical alignment
             right = {
-                if(state.profListLoading || status == Status.InitialLoading)
-                    Image(
-                        "circle_loading.gif",
-                        "Loading",
-                        Modifier.size(75.px),
-                    )
+                if(state.profListLoading && status != Status.InitialLoading)
+                    LoadingSpinner()
             },
-            center = { if(status != Status.InitialLoading) SearchDeptFormContent(state) }
+            center = {
+                if(status != Status.InitialLoading)
+                    SearchDeptFormContent(state)
+                else
+                    LoadingSpinner()
+            }
         )
 
         // This logic is kept here as opposed to in State class for performance reasons
@@ -107,6 +108,14 @@ fun ProfSummary(
 
     ProfScoresList(b.mapValues { it.value.toTotalAndAvesPair() },onLoad)
 }
+
+@Composable
+fun LoadingSpinner() =
+    Image(
+        "circle_loading.gif",
+        "Loading",
+        Modifier.size(75.px),
+    )
 
 @OptIn(ExperimentalComposeWebApi::class)
 @Composable
