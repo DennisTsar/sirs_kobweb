@@ -6,7 +6,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
-
+// where the value is a list of every individual rating 1-5 given (inner list) for each question in the survey (outer list)
 typealias ProfScores = Map<String,List<List<Int>>>
 fun String.substringAfterBefore(after: String, before: String): String =
     substringAfter(after).substringBefore(before)

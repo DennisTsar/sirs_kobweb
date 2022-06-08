@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import com.varabyte.kobweb.compose.css.FontWeight
+import com.varabyte.kobweb.compose.css.TextAlign
 import com.varabyte.kobweb.compose.css.TextDecorationLine
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -105,6 +106,59 @@ fun ProfSummary(
     val a = list.mapByCourses()
     val b = a.toProfScores()
     val allScores = list.aveScores()
+
+    // for each question, list of length 5 corresponding to number of rating 1-5
+    val d = b
+        .map{ (name,scores) ->
+            val p = scores[8].groupingBy { it }.eachCount()
+            name to (1..5).map { p[it] ?: 0 }
+        }
+
+    d.forEach { (name,ratings) ->
+        Row(
+            Modifier
+                .height(175.px)
+                .margin(topBottom = 30.px, leftRight = 0.px),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(name)
+            val max = ratings.sum()//ratings.maxOrNull() ?: 1
+
+            ratings.forEachIndexed { index, num ->
+                val width = 36.px
+                Column(Modifier.fillMaxHeight().backgroundColor(Color.tomato).width(width)) {
+                        Box(
+                            Modifier.fillMaxSize().backgroundColor(Color.gray)
+                            .position(Position.Relative)
+                        ) {
+                            Text(
+                                num.toString(),
+                                Modifier
+                                    .position(Position.Absolute)
+                                    .bottom(num.px * 100.0 / max)
+                                    .fillMaxWidth()
+                                    .textAlign(TextAlign.Center)
+                            )
+                            val width2 = 28.px
+                            Box(
+                                Modifier
+                                    .position(Position.Absolute)
+                                    .bottom(0.px)
+                                    .left((width-width2)/2)
+                                    .width(width2)
+                                    .height(num.px * 100.0 / max)
+                                    .backgroundColor(Color.purple)
+                            )
+                        }
+                    Text(
+                        (index+1).toString(),
+                        Modifier.align(Alignment.CenterHorizontally)
+                    )
+                }
+            }
+        }
+    }
+
 
     ProfScoresList(b.mapValues { it.value.toTotalAndAvesPair() },onLoad)
 }
