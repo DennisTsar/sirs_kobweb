@@ -1,12 +1,13 @@
 package io.github.dennistsar.sirs_kobweb.misc
 
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.modifiers.margin
-import com.varabyte.kobweb.compose.ui.modifiers.padding
+import com.varabyte.kobweb.compose.ui.styleModifier
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import org.jetbrains.compose.web.css.CSSNumeric
+import org.jetbrains.compose.web.css.margin
+import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.px
 import kotlin.math.pow
 import kotlin.math.roundToInt
@@ -41,9 +42,11 @@ fun List<List<Int>>.toTotalAndAvesPair(): Pair<Int,List<Double>> {
         }
 }
 
-fun Modifier.margin(leftRight: CSSNumeric = 0.px, topBottom: CSSNumeric = 0.px): Modifier =
-    margin(left = leftRight, right = leftRight, top = topBottom, bottom = topBottom)
+fun Modifier.margin(topBottom: CSSNumeric = 0.px, leftRight: CSSNumeric = 0.px): Modifier = styleModifier {
+    margin(topBottom, leftRight)
+}
 
-fun Modifier.padding(leftRight: CSSNumeric = 0.px, topBottom: CSSNumeric = 0.px): Modifier =
-    padding(left = leftRight, right = leftRight, top = topBottom, bottom = topBottom)
+fun Modifier.padding(topBottom: CSSNumeric = 0.px, leftRight: CSSNumeric = 0.px): Modifier = styleModifier {
+    padding(topBottom, leftRight)
+}
 
