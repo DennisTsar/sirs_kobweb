@@ -20,6 +20,7 @@ import com.varabyte.kobweb.silk.theme.colors.rememberColorMode
 import com.varabyte.kobweb.silk.theme.shapes.Circle
 import com.varabyte.kobweb.silk.theme.shapes.clip
 import com.varabyte.kobweb.silk.theme.toSilkPalette
+import io.github.dennistsar.sirs_kobweb.misc.margin
 import org.jetbrains.compose.web.css.px
 
 val NavHeaderStyle = ComponentStyle.base("nav-header") {
@@ -34,7 +35,7 @@ val NavItemStyle = ComponentStyle("nav-item") {
     // Intentionally invert the header colors from the rest of the page
     val linkColor = colorMode.toSilkPalette().background
 
-    base { Modifier.margin(topBottom = 0.px, leftRight = 15.px) }
+    base { Modifier.margin(leftRight = 15.px) }
 
     link { Modifier.color(linkColor) }
     visited { Modifier.color(linkColor) }

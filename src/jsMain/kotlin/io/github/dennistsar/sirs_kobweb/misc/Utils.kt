@@ -1,8 +1,13 @@
 package io.github.dennistsar.sirs_kobweb.misc
 
+import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.modifiers.margin
+import com.varabyte.kobweb.compose.ui.modifiers.padding
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import org.jetbrains.compose.web.css.CSSNumeric
+import org.jetbrains.compose.web.css.px
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
@@ -35,4 +40,10 @@ fun List<List<Int>>.toTotalAndAvesPair(): Pair<Int,List<Double>> {
                     map { it.average().roundToDecimal(2) }
         }
 }
+
+fun Modifier.margin(leftRight: CSSNumeric = 0.px, topBottom: CSSNumeric = 0.px): Modifier =
+    margin(left = leftRight, right = leftRight, top = topBottom, bottom = topBottom)
+
+fun Modifier.padding(leftRight: CSSNumeric = 0.px, topBottom: CSSNumeric = 0.px): Modifier =
+    padding(left = leftRight, right = leftRight, top = topBottom, bottom = topBottom)
 

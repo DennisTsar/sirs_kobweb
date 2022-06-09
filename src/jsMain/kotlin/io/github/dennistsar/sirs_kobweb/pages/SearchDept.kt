@@ -12,6 +12,7 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.asAttributesBuilder
 import com.varabyte.kobweb.compose.ui.modifiers.*
+import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.navigation.UpdateHistoryMode
@@ -28,10 +29,7 @@ import io.github.dennistsar.sirs_kobweb.data.aveScores
 import io.github.dennistsar.sirs_kobweb.data.classes.Entry
 import io.github.dennistsar.sirs_kobweb.data.mapByCourses
 import io.github.dennistsar.sirs_kobweb.data.toProfScores
-import io.github.dennistsar.sirs_kobweb.misc.TenQsShortened
-import io.github.dennistsar.sirs_kobweb.misc.decodeURLParam
-import io.github.dennistsar.sirs_kobweb.misc.gridVariant12
-import io.github.dennistsar.sirs_kobweb.misc.toTotalAndAvesPair
+import io.github.dennistsar.sirs_kobweb.misc.*
 import io.github.dennistsar.sirs_kobweb.states.DropDownState
 import io.github.dennistsar.sirs_kobweb.states.SearchDeptState
 import io.github.dennistsar.sirs_kobweb.states.SearchDeptStateImpl
@@ -103,50 +101,66 @@ fun ProfSummary(
     onLoad: () -> Unit = {},
 ) {
     val a = list.mapByCourses()
-    val b = a.toProfScores()
+    val b = a.toProfScores("Overall")
     val allScores = list.aveScores()
 
-    // for each question, list of length 5 corresponding to number of rating 1-5
-    b.forEach { (name, scores) ->
-        val scoresCount = scores[8].groupingBy { it }.eachCount()
-        val ratings = (1..5).map { scoresCount[it] ?: 0 }
+    Row(
+        Modifier.height(175.px).margin(topBottom = 30.px),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {// for future reference: "?school=01&dept=640&prof=BEALS%2C%20R" has a lot of graphs
+        b.entries
+            .sortedBy { it.key }
+            .forEach { (name, scores) ->
+                // for each question, list of length 5 corresponding to number of rating 1-5
+                val scoresCount = scores[8].groupingBy { it }.eachCount()
+                val ratings = (1..5).map { scoresCount[it] ?: 0 }
 
-        Row(
-            Modifier.height(175.px).margin(topBottom = 30.px, leftRight = 0.px),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(name)
-            BarGraph(ratings)
-        }
+                Column(
+                    Modifier
+                        .margin(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(name)
+                    BarGraph(ratings)
+                }
+            }
     }
 
     ProfScoresList(b.mapValues { it.value.toTotalAndAvesPair() },onLoad)
 }
 
 @Composable
-fun BarGraph(ratings: List<Int>, max: Int = ratings.maxOrNull() ?: 0){
-    ratings.forEachIndexed { index, num ->
-        Column(
-            Modifier
-                .fillMaxHeight()
-                .width(36.px),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            // pushes everything down
-            Box(Modifier.flex(1))
-            Text(num.toString())
-            Box(
+fun BarGraph(ratings: List<Int>, max: Int = ratings.maxOrNull() ?: 0, height: Double = 175.0) {
+    val colWidth = 36.px
+    Row(
+        Modifier
+            .height(height.px)
+            .padding(leftRight = 15.px)// don't really like this but idk how else to extend bounds to end of "Excellent"
+    ) {
+        ratings.forEachIndexed { index, num ->
+            Column(
                 Modifier
-                    .width(28.px)
-                    .height(num.px * 100.0 / max)
-                    .backgroundColor(Color.purple)
-            )
-            // possibly add rotation to this
-            val textModifier = Modifier.height(25.px)
-            when (index) {
-                0 -> Text("Poor", textModifier)
-                4 -> Text("Excellent", textModifier)
-                else -> Box(textModifier)
+                    .fillMaxHeight()
+                    .width(colWidth),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                val textHeight = 25
+                // pushes everything down
+                Box(Modifier.flex(1))
+                Text(num.toString(),Modifier)
+                Box(
+                    Modifier
+                        .width(28.px)
+                        .height(num.px * (height-2.5*textHeight) / max)
+                        .backgroundColor(Color.purple)
+                )
+                // possibly add rotation to this
+                val textModifier = Modifier.height(textHeight.px)
+                when (index) {
+                    0 -> Text("Poor", textModifier)
+                    4 -> Text("Excellent", textModifier)
+                    else -> Box(textModifier)
+                }
             }
         }
     }
@@ -192,7 +206,7 @@ fun ProfScoresList(
         val gridElementModifier =
             Modifier.width(spacing)
                 .fontSize(fontSize)
-                .margin(topBottom = 7.5.px, leftRight = 0.px)
+                .margin(topBottom = 7.5.px)
                 .alignSelf(AlignSelf.Center)
 
         list.entries
@@ -222,7 +236,7 @@ fun SearchDeptFormContent(state: SearchDeptState) {
     val modifier2 = Modifier.fillMaxSize()
 //            .backgroundColor(Color.chocolate)
     val modifier1 = Modifier//.backgroundColor(Color.palevioletred)
-    val labelModifier = Modifier.fontWeight(FontWeight.Bold).padding(2.px,0.px)
+    val labelModifier = Modifier.fontWeight(FontWeight.Bold).padding(leftRight = 2.px)
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,

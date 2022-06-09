@@ -35,7 +35,7 @@ fun List<Entry>.aveScores(): List<List<Int>> {
         .map { it.flatten() }
 }
 
-fun Map<String, List<Entry>>.toProfScores(): ProfScores {
+fun Map<String, List<Entry>>.toProfScores(extraName: String = "Average"): ProfScores {
     val profRatings = filter { it.value.isNotEmpty() }
         .mapValues { (_, v) -> v.aveScores() }
 
@@ -47,7 +47,7 @@ fun Map<String, List<Entry>>.toProfScores(): ProfScores {
             .filter { it.size>=10 }
             .flatMap { it[i] }
     }
-    return profRatings+Pair("Average",aves)
+    return profRatings+Pair(extraName,aves)
 }
 
 fun List<Entry>.mapByProfs(): Map<String, List<Entry>> {
