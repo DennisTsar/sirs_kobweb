@@ -52,7 +52,8 @@ val gridVariant12 = run {
         base { gridModifier }
     }
 }
-//    (0 until 12)
+
+//val variants = (0 until 12)
 //        .associate { i ->
 //            val numColumns = i + 1
 //            val gridModifier = Modifier.styleModifier {
@@ -61,7 +62,7 @@ val gridVariant12 = run {
 //            numColumns to SimpleGridStyle.addVariant("base-$numColumns") {
 //                base { gridModifier }
 //            }
-//        }[11]
+//        }
 
 //val a = SimpleGridStyle.addVariant("$name-$numColumns") {
 //    base {

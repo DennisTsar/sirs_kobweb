@@ -105,7 +105,9 @@ fun ProfSummary(
     val allScores = list.aveScores()
 
     Row(
-        Modifier.height(175.px).margin(topBottom = 30.px),
+        Modifier
+            .margin(topBottom = 30.px)
+            .justifyContent(JustifyContent.Center),
         verticalAlignment = Alignment.CenterVertically,
     ) {// for future reference: "?school=01&dept=640&prof=BEALS%2C%20R" has a lot of graphs
         b.entries
@@ -116,8 +118,7 @@ fun ProfSummary(
                 val ratings = (1..5).map { scoresCount[it] ?: 0 }
 
                 Column(
-                    Modifier
-                        .margin(),
+                    Modifier.margin(topBottom = 10.px, leftRight = 15.px),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(name)
