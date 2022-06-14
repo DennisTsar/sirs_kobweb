@@ -100389,7 +100389,7 @@
   }
   function SearchDept$composable($composer, $changed) {
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-613364939);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-613365094);
     sourceInformation($composer_0, 'C(SearchDept$composable)');
     if (!($changed === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       var repository = new Repository(new Api());
@@ -100402,7 +100402,7 @@
       }
       var tmp_0 = backgroundColor_1(tmp, tmp$ret$0);
       var tmp_1 = $composer_0;
-      PageLayout$composable('Search', tmp_0, composableLambda(tmp_1, -819892478, true, _no_name_provided_$factory_593(repository)), $composer_0, 390, 0);
+      PageLayout$composable('Search', tmp_0, composableLambda(tmp_1, -819892609, true, _no_name_provided_$factory_593(repository)), $composer_0, 390, 0);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
     var tmp0_safe_receiver = $composer_0.endRestartGroup_0_k$();
@@ -100415,7 +100415,7 @@
   function ProfSummary$composable(list, onLoad, $composer, $changed, $default) {
     var onLoad_0 = {_v: onLoad};
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-1621665088);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-1621665243);
     sourceInformation($composer_0, 'C(ProfSummary$composable)');
     var $dirty = $changed;
     if (!(($default & 1) === 0))
@@ -100459,7 +100459,7 @@
       var tmp_2 = justifyContent_0(tmp_1, tmp$ret$3);
       var tmp_3 = Companion_getInstance_45()._CenterVertically;
       var tmp_4 = $composer_0;
-      Row$composable(tmp_2, null, tmp_3, null, composableLambda(tmp_4, -819891048, true, _no_name_provided_$factory_596(b)), $composer_0, 24576, 10);
+      Row$composable(tmp_2, null, tmp_3, null, composableLambda(tmp_4, -819890187, true, _no_name_provided_$factory_596(b)), $composer_0, 24576, 10);
       var tmp$ret$8;
       $l$block_7: {
         var tmp$ret$7;
@@ -100509,7 +100509,7 @@
     var max_0 = {_v: max};
     var height_2 = {_v: height_1};
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-660543032);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-660543187);
     sourceInformation($composer_0, 'C(BarGraph$composable)P(2,1)');
     var $dirty = $changed;
     if (!(($default & 1) === 0))
@@ -100543,7 +100543,7 @@
       var tmp_1 = height$default(tmp, tmp_0, null, 2, null);
       var tmp_2 = padding$default(tmp_1, null, _get_px_(15), 1, null);
       var tmp_3 = $composer_0;
-      Row$composable(tmp_2, null, null, null, composableLambda(tmp_3, -819891989, true, _no_name_provided_$factory_598(ratings, colWidth, height_2, max_0)), $composer_0, 24576, 14);
+      Row$composable(tmp_2, null, null, null, composableLambda(tmp_3, -819891388, true, _no_name_provided_$factory_598(ratings, colWidth, height_2, max_0)), $composer_0, 24576, 14);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
     var tmp0_safe_receiver = $composer_0.endRestartGroup_0_k$();
@@ -100555,7 +100555,7 @@
   }
   function LoadingSpinner$composable($composer, $changed) {
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-1046038354);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-1046038509);
     sourceInformation($composer_0, 'C(LoadingSpinner$composable)');
     if (!($changed === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       var tmp = size_0(Companion_getInstance_46(), _get_px_(75));
@@ -100572,7 +100572,7 @@
   function ProfScoresList$composable(list, onLoad, $composer, $changed, $default) {
     var onLoad_0 = {_v: onLoad};
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-242065354);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-242065509);
     sourceInformation($composer_0, 'C(ProfScoresList$composable)');
     var $dirty = $changed;
     if (!(($default & 1) === 0))
@@ -100589,7 +100589,7 @@
       }var tmp = toModifier$composable(SimpleGridStyle, gridVariant12, $composer_0, 72, 0);
       var tmp_0 = asAttributesBuilder$default(tmp, null, 1, null);
       var tmp_1 = $composer_0;
-      Div$composable(tmp_0, composableLambda(tmp_1, -819888790, true, _no_name_provided_$factory_602(list, $dirty, onLoad_0)), $composer_0, 48, 0);
+      Div$composable(tmp_0, composableLambda(tmp_1, -819888697, true, _no_name_provided_$factory_602(list, $dirty, onLoad_0)), $composer_0, 48, 0);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
     var tmp0_safe_receiver = $composer_0.endRestartGroup_0_k$();
@@ -100601,7 +100601,7 @@
   }
   function SearchDeptFormContent$composable(state, $composer, $changed) {
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(1643263782);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(1643263627);
     sourceInformation($composer_0, 'C(SearchDeptFormContent$composable)');
     var $dirty = $changed;
     if (($changed & 14) === 0)
@@ -100614,7 +100614,7 @@
       var labelModifier = padding$default(tmp_0, null, _get_px_(2), 1, null);
       var tmp_1 = Companion_getInstance_45()._CenterHorizontally;
       var tmp_2 = $composer_0;
-      Column$composable(null, null, tmp_1, null, composableLambda(tmp_2, -819903140, true, _no_name_provided_$factory_604(labelModifier, state, modifier1, modifier2)), $composer_0, 24576, 11);
+      Column$composable(null, null, tmp_1, null, composableLambda(tmp_2, -819903047, true, _no_name_provided_$factory_604(labelModifier, state, modifier1, modifier2)), $composer_0, 24576, 11);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
     var tmp0_safe_receiver = $composer_0.endRestartGroup_0_k$();
@@ -100630,7 +100630,7 @@
     var getText_0 = {_v: getText};
     var getValue_1 = {_v: getValue_0};
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-1330009034);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-1330009189);
     sourceInformation($composer_0, 'C(ReflectiveCustomDropDown$composable)P(3,4,2)');
     var $dirty = $changed;
     if (!(($default & 1) === 0))
@@ -100751,11 +100751,11 @@
     var $composer_0 = $composer;
     if (!(($changed & 11 ^ 2) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       if (!this._$status_0.equals(Status_InitialLoading_getInstance())) {
-        $composer_0.startReplaceableGroup_majfzk_k$(1096095899);
+        $composer_0.startReplaceableGroup_majfzk_k$(1096095744);
         SearchDeptFormContent$composable(this._$state_0, $composer_0, 0);
         $composer_0.endReplaceableGroup_sv8swh_k$();
       } else {
-        $composer_0.startReplaceableGroup_majfzk_k$(1096095969);
+        $composer_0.startReplaceableGroup_majfzk_k$(1096095814);
         LoadingSpinner$composable($composer_0, 0);
         $composer_0.endReplaceableGroup_sv8swh_k$();
       }
@@ -101001,9 +101001,9 @@
       }
       var tmp_13 = alignItems_0(tmp_12, tmp$ret$20);
       var tmp_14 = $composer_0;
-      var tmp_15 = composableLambda(tmp_14, -819893665, true, _no_name_provided_$factory_610(state, status));
+      var tmp_15 = composableLambda(tmp_14, -819893576, true, _no_name_provided_$factory_610(state, status));
       var tmp_16 = $composer_0;
-      LeftRightCenterBox$composable(tmp_13, null, tmp_15, composableLambda(tmp_16, -819893273, true, _no_name_provided_$factory_611(status, state)), $composer_0, 3456, 2);
+      LeftRightCenterBox$composable(tmp_13, null, tmp_15, composableLambda(tmp_16, -819893696, true, _no_name_provided_$factory_611(status, state)), $composer_0, 3456, 2);
       var tmp$ret$24;
       $l$block_23: {
         var tmp6_remember$composable_0 = _no_name_provided_$factory_612(state);
@@ -101048,21 +101048,21 @@
       var finishLoading = tmp$ret$24;
       var tmp0_subject = status;
       if (tmp0_subject.equals(Status_Prof_getInstance())) {
-        $composer_0.startReplaceableGroup_majfzk_k$(-1631073630);
+        $composer_0.startReplaceableGroup_majfzk_k$(-1631073785);
         var tmp_19 = state._get_profState__0_k$()._selected;
         Text$composable_0(tmp_19, null, null, $composer_0, 0, 6);
         ProfSummary$composable(state._get_profEntries__0_k$(), finishLoading, $composer_0, 0, 0);
         $composer_0.endReplaceableGroup_sv8swh_k$();
       } else if (tmp0_subject.equals(Status_Course_getInstance())) {
-        $composer_0.startReplaceableGroup_majfzk_k$(-1631073477);
+        $composer_0.startReplaceableGroup_majfzk_k$(-1631073632);
         ProfScoresList$composable(state._get_courseSpecificMap__0_k$(), finishLoading, $composer_0, 0, 0);
         $composer_0.endReplaceableGroup_sv8swh_k$();
       } else if (tmp0_subject.equals(Status_Dept_getInstance())) {
-        $composer_0.startReplaceableGroup_majfzk_k$(-1631073395);
+        $composer_0.startReplaceableGroup_majfzk_k$(-1631073550);
         ProfScoresList$composable(state._get_wholeDeptMap__0_k$(), finishLoading, $composer_0, 0, 0);
         $composer_0.endReplaceableGroup_sv8swh_k$();
       } else {
-        $composer_0.startReplaceableGroup_majfzk_k$(-1631073325);
+        $composer_0.startReplaceableGroup_majfzk_k$(-1631073480);
         $composer_0.endReplaceableGroup_sv8swh_k$();
       }
     } else
@@ -101274,7 +101274,7 @@
             var tmp_0 = margin_1(Companion_getInstance_46(), _get_px_(10), _get_px_(15));
             var tmp_1 = Companion_getInstance_45()._CenterHorizontally;
             var tmp_2 = $composer_0;
-            Column$composable(tmp_0, null, tmp_1, null, composableLambda(tmp_2, -819891488, true, _no_name_provided_$factory_615(name_4, ratings_15)), $composer_0, 24576, 10);
+            Column$composable(tmp_0, null, tmp_1, null, composableLambda(tmp_2, -819890851, true, _no_name_provided_$factory_615(name_4, ratings_15)), $composer_0, 24576, 10);
           }
         }
       }
@@ -101343,16 +101343,16 @@
       var tmp0_subject_11 = this._$tmp0__anonymous__5;
       switch (tmp0_subject_11) {
         case 0:
-          $composer_7.startReplaceableGroup_majfzk_k$(1274478094);
+          $composer_7.startReplaceableGroup_majfzk_k$(1274477939);
           Text$composable_0('Poor', textModifier_10, null, $composer_7, 6, 4);
           $composer_7.endReplaceableGroup_sv8swh_k$();
           break;
         case 4:
-          $composer_7.startReplaceableGroup_majfzk_k$(1274478146);
+          $composer_7.startReplaceableGroup_majfzk_k$(1274477991);
           Text$composable_0('Excellent', textModifier_10, null, $composer_7, 6, 4);
           $composer_7.endReplaceableGroup_sv8swh_k$();
           break;
-        default:$composer_7.startReplaceableGroup_majfzk_k$(1274478206);
+        default:$composer_7.startReplaceableGroup_majfzk_k$(1274478051);
           Box$composable(textModifier_10, null, null, null, $composer_7, 0, 14);
           $composer_7.endReplaceableGroup_sv8swh_k$();
           break;
@@ -101393,7 +101393,7 @@
             var tmp_1 = width$default(tmp_0, this._$colWidth, null, 2, null);
             var tmp_2 = Companion_getInstance_45()._CenterHorizontally;
             var tmp_3 = $composer_0;
-            Column$composable(tmp_1, null, tmp_2, null, composableLambda(tmp_3, -819891759, true, _no_name_provided_$factory_616(item_3, this._$height_0, this._$max_0, tmp0__anonymous__5)), $composer_0, 24576, 10);
+            Column$composable(tmp_1, null, tmp_2, null, composableLambda(tmp_3, -819892150, true, _no_name_provided_$factory_616(item_3, this._$height_0, this._$max_0, tmp0__anonymous__5)), $composer_0, 24576, 10);
           }
         }
       }
@@ -101645,7 +101645,7 @@
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       var spacing = _get_px_(80);
       var fontSize_1 = _get_px_(15);
-      $composer_0.startReplaceableGroup_majfzk_k$(-681696724);
+      $composer_0.startReplaceableGroup_majfzk_k$(-681696879);
       {
         var tmp0_forEachIndexed_0 = plus_1(plus(listOf_0(''), TenQsShortened), 'Total # of Responses');
         var index_1 = 0;
@@ -101659,7 +101659,7 @@
             var tmp = Companion_getInstance_46();
             var tmp_0 = width$default(tmp, spacing, null, 2, null);
             var tmp_1 = $composer_0;
-            Box$composable(tmp_0, null, null, composableLambda(tmp_1, -819889585, true, _no_name_provided_$factory_617(item_3, fontSize_1, tmp1__anonymous__5)), $composer_0, 3072, 6);
+            Box$composable(tmp_0, null, null, composableLambda(tmp_1, -819889496, true, _no_name_provided_$factory_617(item_3, fontSize_1, tmp1__anonymous__5)), $composer_0, 3072, 6);
           }
         }
       }
@@ -101690,7 +101690,7 @@
         break $l$block_2;
       }
       var gridElementModifier = alignSelf_0(tmp_5, tmp$ret$3);
-      $composer_0.startReplaceableGroup_majfzk_k$(-681695795);
+      $composer_0.startReplaceableGroup_majfzk_k$(-681695950);
       {
         var tmp$ret$5;
         $l$block_4: {
@@ -101722,8 +101722,8 @@
             }
             var nums_5 = tmp$ret$7;
             var tmp_7 = $composer_0;
-            Box$composable(gridElementModifier, null, null, composableLambda(tmp_7, -819902800, true, _no_name_provided_$factory_619(prof_4, spacing)), $composer_0, 3072, 6);
-            $composer_0.startReplaceableGroup_majfzk_k$(-681695414);
+            Box$composable(gridElementModifier, null, null, composableLambda(tmp_7, -819889875, true, _no_name_provided_$factory_619(prof_4, spacing)), $composer_0, 3072, 6);
+            $composer_0.startReplaceableGroup_majfzk_k$(-681695569);
             {
               var tmp0_forEach_0_9 = nums_5._second.subList_27zxwg_k$(0, 10);
               var tmp0_iterator_1_10 = tmp0_forEach_0_9.iterator_0_k$();
@@ -101945,11 +101945,11 @@
     var $composer_0 = $composer;
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       var tmp = $composer_0;
-      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp, -819904094, true, _no_name_provided_$factory_627(this._$labelModifier_2, this._$state_6, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
+      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp, -819904481, true, _no_name_provided_$factory_627(this._$labelModifier_2, this._$state_6, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
       var tmp_0 = $composer_0;
-      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp_0, -819900673, true, _no_name_provided_$factory_628(this._$labelModifier_2, this._$state_6, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
+      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp_0, -819904168, true, _no_name_provided_$factory_628(this._$labelModifier_2, this._$state_6, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
       var tmp_1 = $composer_0;
-      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp_1, -819900623, true, _no_name_provided_$factory_629(this._$labelModifier_2, this._$state_6, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
+      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp_1, -819900502, true, _no_name_provided_$factory_629(this._$labelModifier_2, this._$state_6, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
@@ -101995,7 +101995,7 @@
       }
       var tmp = alignSelf_0(this._$labelModifier_3, tmp$ret$3);
       Text$composable_0('School', tmp, null, $composer_0, 6, 4);
-      $composer_0.startReplaceableGroup_majfzk_k$(-78155851);
+      $composer_0.startReplaceableGroup_majfzk_k$(-78156006);
       var tmp$ret$6;
       $l$block_5: {
         var tmp1_run_0 = schoolState$factory(this._$state_7);
@@ -102056,7 +102056,7 @@
       }
       var tmp_7 = alignContent_0(tmp_6, tmp$ret$10);
       var tmp_8 = $composer_0;
-      Row$composable(tmp_7, null, null, null, composableLambda(tmp_8, -819904118, true, _no_name_provided_$factory_626(secondRowModifier, this._$labelModifier_3, this._$state_7, this._$modifier1_3, this._$modifier2_3)), $composer_0, 24576, 14);
+      Row$composable(tmp_7, null, null, null, composableLambda(tmp_8, -819904281, true, _no_name_provided_$factory_626(secondRowModifier, this._$labelModifier_3, this._$state_7, this._$modifier1_3, this._$modifier2_3)), $composer_0, 24576, 14);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
