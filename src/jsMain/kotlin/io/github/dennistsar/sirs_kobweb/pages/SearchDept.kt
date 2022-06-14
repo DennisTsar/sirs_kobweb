@@ -37,15 +37,7 @@ import io.github.dennistsar.sirs_kobweb.states.Status
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
-import kotlin.Double
-import kotlin.Int
-import kotlin.OptIn
-import kotlin.Pair
-import kotlin.String
-import kotlin.Unit
 import kotlin.reflect.KMutableProperty0
-import kotlin.run
-import kotlin.with
 
 @Page
 @Composable
