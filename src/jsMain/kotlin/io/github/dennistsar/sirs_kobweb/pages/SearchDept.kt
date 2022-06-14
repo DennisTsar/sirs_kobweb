@@ -37,7 +37,15 @@ import io.github.dennistsar.sirs_kobweb.states.Status
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
+import kotlin.Double
+import kotlin.Int
+import kotlin.OptIn
+import kotlin.Pair
+import kotlin.String
+import kotlin.Unit
 import kotlin.reflect.KMutableProperty0
+import kotlin.run
+import kotlin.with
 
 @Page
 @Composable
@@ -188,18 +196,19 @@ fun ProfScoresList(
     ) {
         val spacing = 80.px
         val fontSize = 15.px
-        (listOf("")+TenQsShortened+"Total # of Responses").forEach {
+        (listOf("")+TenQsShortened+"Total # of Responses").forEachIndexed { index, text ->
             Box(
                 Modifier.width(spacing)
             ) {
                 Text(
-                    it,
+                    text,
                     Modifier
                         .width(175.px)
                         .transform { rotate((-45).deg) }
                         .fontSize(fontSize)
                         .margin(topBottom = 50.px, leftRight = (-18).px)
                         .textDecorationLine(TextDecorationLine.Underline)
+                        .thenIf(index-1 in TenQs.indices) { Modifier.title(TenQs[index-1]) }
                 )
             }
         }

@@ -42,11 +42,19 @@ fun List<List<Int>>.toTotalAndAvesPair(): Pair<Int,List<Double>> {
         }
 }
 
+// all below to be updated in kobweb soon
 fun Modifier.margin(topBottom: CSSNumeric = 0.px, leftRight: CSSNumeric = 0.px): Modifier = styleModifier {
     margin(topBottom, leftRight)
 }
 
 fun Modifier.padding(topBottom: CSSNumeric = 0.px, leftRight: CSSNumeric = 0.px): Modifier = styleModifier {
     padding(topBottom, leftRight)
+}
+
+fun Modifier.thenIf(condition: Boolean, other: Modifier): Modifier {
+    return thenIf(condition) { other }
+}
+fun Modifier.thenIf(condition: Boolean, lazyProduce: () -> Modifier): Modifier {
+    return this.then(if (condition) lazyProduce() else Modifier)
 }
 
