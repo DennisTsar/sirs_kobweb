@@ -3,6 +3,7 @@ package io.github.dennistsar.sirs_kobweb.misc
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.layout.SimpleGridStyle
+import com.varabyte.kobweb.silk.components.style.SimpleComponentVariant
 import org.jetbrains.compose.web.css.gridTemplateColumns
 
 const val None = "None" // to avoid accidental typos
@@ -33,22 +34,16 @@ val TenQsShortened = listOf(
     "Overall Quality of Course",
 )
 
-val gridVariant11 = run {
-    val numColumns = 11
-    val gridModifier = Modifier.styleModifier {
-        gridTemplateColumns("repeat($numColumns, 1fr)")
-    }
-    SimpleGridStyle.addVariant("base-$numColumns") {
-        base { gridModifier }
-    }
-}
+//val gridVariant11 = generateGridVariant(11)
 
-val gridVariant12 = run {
-    val numColumns = 12
+val gridVariant12 = generateGridVariant(12)
+
+
+fun generateGridVariant(numColumns: Int): SimpleComponentVariant {
     val gridModifier = Modifier.styleModifier {
         gridTemplateColumns("repeat($numColumns, 1fr)")
     }
-    SimpleGridStyle.addVariant("base-$numColumns") {
+    return SimpleGridStyle.addVariant("base-$numColumns") {
         base { gridModifier }
     }
 }

@@ -20,7 +20,6 @@ import com.varabyte.kobweb.silk.theme.colors.rememberColorMode
 import com.varabyte.kobweb.silk.theme.shapes.Circle
 import com.varabyte.kobweb.silk.theme.shapes.clip
 import com.varabyte.kobweb.silk.theme.toSilkPalette
-import io.github.dennistsar.sirs_kobweb.misc.margin
 import org.jetbrains.compose.web.css.px
 
 val NavHeaderStyle = ComponentStyle.base("nav-header") {
