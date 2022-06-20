@@ -25,24 +25,26 @@ val ktorVersion = "1.6.8"//Should upgrade to 2.0.0 but that requies Kotlin 1.6.2
 
 kobweb {
     index {
-        description.set("Powered by Kobweb 4.0")
-        this.head.add {
-            consumer.onTagComment("For gh-pages 404 redirects. Credit: https://github.com/rafgraph/spa-github-pages")
-            this.script(type="text/javascript"){
+        description.set("Powered by Kobweb")
+        head.add {
+            script(type="text/javascript"){
                 consumer.onTagContent(
-                    content=
-                    "\n    (function(l) {\n" +
-                            "      if (l.search[1] === '/' ) {\n" +
-                            "        var decoded = l.search.slice(1).split('&').map(function(s) { \n" +
-                            "          return s.replace(/~and~/g, '&')\n" +
-                            "        }).join('?');\n" +
-                            "        window.history.replaceState(null, null,\n" +
-                            "            l.pathname.slice(0, -1) + decoded + l.hash\n" +
-                            "        );\n" +
-                            "      }\n" +
-                            "    }(window.location))\n    "
+                    """
+                    |
+                    |      (function(l) {
+                    |        if (l.search[1] === '/' ) {
+                    |          var decoded = l.search.slice(1).split('&').map(function(s) { 
+                    |            return s.replace(/~and~/g, '&')
+                    |          }).join('?');
+                    |          window.history.replaceState(null, null,
+                    |              l.pathname.slice(0, -1) + decoded + l.hash
+                    |          );
+                    |        }
+                    |      }(window.location))
+                    |  """.trimMargin()
                 )
             }
+            comment("For gh-pages 404 redirects. Credit: https://github.com/rafgraph/spa-github-pages")
         }
     }
 }
