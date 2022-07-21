@@ -1,8 +1,6 @@
 package io.github.dennistsar.sirs_kobweb.pages
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.TextDecorationLine
 import com.varabyte.kobweb.compose.foundation.layout.Box
@@ -110,6 +108,14 @@ fun ProfSummary(
     val b = a.toProfScores("Overall")
     val allScores = entries.aveScores()
 
+    // this will obviously have to be moved to state object eventually
+    var selectedQ by remember{ mutableStateOf(8) }
+    CustomDropDown(
+        list = TenQsShortened,
+        onSelect = { selectedQ = TenQsShortened.indexOf(it) },
+        selected = TenQsShortened[selectedQ]
+    )
+
     Row(
         Modifier
             .margin(topBottom = 30.px)
@@ -120,37 +126,37 @@ fun ProfSummary(
             .sortedBy { it.key }
             .forEach { (courseName, scores) ->
                 // for each question, list of length 5 corresponding to number of rating 1-5
-                val scoresCount = scores[8].groupingBy { it }.eachCount()
+                val scoresCount = scores[selectedQ].groupingBy { it }.eachCount()
                 val ratings = (1..5).map { scoresCount[it] ?: 0 }
 
                 Column(
                     Modifier.margin(topBottom = 10.px, leftRight = 15.px),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    val selectedScore = scores[selectedQ].average()
+                    val courseAve = applicableCourseAves[courseName]?.get(selectedQ)
+
                     Text(courseName)
-                    val selectedScore = scores[8]
-                    val courseAve = applicableCourseAves[courseName]
                     BarGraph(ratings)
-                    Text("Prof Average", courseAve?.run {
-                        Modifier.color(
-                        if (selectedScore.average()>get(8))
-                            Color.green
-                        else
-                            Color.red
-                        )
-                    } ?: Modifier)
+                    Text(
+                        "Prof Average",
+                        courseAve?.let {
+                            Modifier.color(
+                                if (selectedScore>=it) Color.green else Color.red
+                            )
+                        } ?: Modifier
+                    )
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        StarRating(selectedScore.average())
-                        Text(selectedScore.average().roundToDecimal(2).toString(), Modifier.margin(left = 5.px))
+                        StarRating(selectedScore)
+                        Text(selectedScore.roundToDecimal(2).toString(), Modifier.margin(left = 5.px))
                     }
-                    courseAve?.run{
+                    courseAve?.let{
                         Text("Course Average")
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            StarRating(get(8))
-                            Text(get(8).toString(), Modifier.margin(left = 5.px))
+                            StarRating(it)
+                            Text(it.roundToDecimal(2).toString(), Modifier.margin(left = 5.px))
                         }
                     }
-
                 }
             }
     }
@@ -315,13 +321,13 @@ fun SearchDeptFormContent(state: SearchDeptState) {
 
         state::schoolState.run {
             CustomDropDown(
+                list = get().list,
+                onSelect = { set(get().copy(selected = it)) },
                 selectModifier = modifier1
                     .borderRadius(50.px)
                     .fillMaxWidth()
                     .background("#ddd"),
                 optionModifier = modifier2,
-                list = get().list,
-                onSelect = { set(get().copy(selected = it)) },
                 getText = { "${it.code} - ${it.name}" },
                 getValue = { it.code },
                 selected = get().list.first { it.code==get().selected },
@@ -375,10 +381,10 @@ fun ReflectiveCustomDropDown(
 ) {
     with(property) {
         CustomDropDown(
-            selectModifier = selectModifier,
-            optionModifier = optionModifier,
             list = get().list,
             onSelect = { set(get().copy(selected = it)) },
+            selectModifier = selectModifier,
+            optionModifier = optionModifier,
             getText = getText,
             getValue = getValue,
             selected = get().selected,

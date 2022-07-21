@@ -5,7 +5,10 @@ import io.github.dennistsar.sirs_kobweb.data.*
 import io.github.dennistsar.sirs_kobweb.data.api.Repository
 import io.github.dennistsar.sirs_kobweb.data.classes.Entry
 import io.github.dennistsar.sirs_kobweb.data.classes.School
-import io.github.dennistsar.sirs_kobweb.misc.*
+import io.github.dennistsar.sirs_kobweb.misc.None
+import io.github.dennistsar.sirs_kobweb.misc.Resource
+import io.github.dennistsar.sirs_kobweb.misc.encodeURLParam
+import io.github.dennistsar.sirs_kobweb.misc.isBlankOrNone
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -122,8 +125,8 @@ class SearchDeptStateImpl(
                 entriesByCourse = deptEntries.mapByCourses()
 
                 // using backing var (with _) to avoid default behavior which would lose initial values
-                _courseState = courseState.copy(list = entriesByCourse.keys.sorted())
-                _profState = profState.copy(list = entriesByProf.keys.sorted())
+                _courseState = courseState.copy(listOf(None) + entriesByCourse.keys.sorted())
+                _profState = profState.copy(listOf(None) + entriesByProf.keys.sorted())
 
                 // this keeps course value and ignores prof value if the course is valid
                 // otherwise does exactly what you'd expect
@@ -201,7 +204,7 @@ class SearchDeptStateImpl(
             profEntries.aveScores().toTotalAndAvesPair().second
         }
         (0..9).map{ i -> // corresponding to each question
-            aves.map { it[i] }.average().roundToDecimal(2)
+            aves.map { it[i] }.average()
         }
     }
 }
