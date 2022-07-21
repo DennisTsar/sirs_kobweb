@@ -27,11 +27,3 @@ suspend fun <A, B> Iterable<A>.pmap(f: suspend (A) -> B): List<B> =
     coroutineScope {
         map { async { f(it) } }.awaitAll()
     }
-
-fun List<List<Int>>.toTotalAndAvesPair(): Pair<Int,List<Double>> {
-    return filter { it.isNotEmpty() }
-        .run {
-            map { it.size }.average().toInt() to
-                    map { it.average().roundToDecimal(2) }
-        }
-}

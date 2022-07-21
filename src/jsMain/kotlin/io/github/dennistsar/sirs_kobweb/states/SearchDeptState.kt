@@ -1,12 +1,10 @@
 package io.github.dennistsar.sirs_kobweb.states
 
 import androidx.compose.runtime.*
+import io.github.dennistsar.sirs_kobweb.data.*
 import io.github.dennistsar.sirs_kobweb.data.api.Repository
 import io.github.dennistsar.sirs_kobweb.data.classes.Entry
 import io.github.dennistsar.sirs_kobweb.data.classes.School
-import io.github.dennistsar.sirs_kobweb.data.mapByCourses
-import io.github.dennistsar.sirs_kobweb.data.mapByProfs
-import io.github.dennistsar.sirs_kobweb.data.toProfScores
 import io.github.dennistsar.sirs_kobweb.misc.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -185,4 +183,25 @@ class SearchDeptStateImpl(
     // eventually that logic will be in this (or a different?) State object
     // and it will be part of interface
     val selectedProfEntries get() = entriesByProf[profState.selected] ?: emptyList()
+    // key: each course for which selected prof has data
+    // value: list of average scores for each question (for whole course)
+    val applicableCourseAves get() = entriesByCourse.filterKeys { name ->
+        name in selectedProfEntries.map{ it.code.getCourseFromFullCode() }.toSet() // does toSet() matter here?
+    }.mapValues {(_,courseEntries) ->
+        // both of these methods do the same thing, second is clearer but is first more efficient? maybe not tbh
+        // also, I think first will more easily expand to extra (post 10) questions
+//        courseEntries.mapByProfs().map {(_,profEntries) ->
+//            profEntries.aveScores().toTotalAndAvesPair().second
+//        }
+//            .flatMap { it.withIndex() }
+//            .groupBy({ it.index }, { it.value })
+//            .values
+//            .map { it.average().roundToDecimal(2) }
+        val aves = courseEntries.mapByProfs().map {(_,profEntries) ->
+            profEntries.aveScores().toTotalAndAvesPair().second
+        }
+        (0..9).map{ i -> // corresponding to each question
+            aves.map { it[i] }.average().roundToDecimal(2)
+        }
+    }
 }

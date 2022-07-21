@@ -32,6 +32,7 @@ import io.github.dennistsar.sirs_kobweb.data.aveScores
 import io.github.dennistsar.sirs_kobweb.data.classes.Entry
 import io.github.dennistsar.sirs_kobweb.data.mapByCourses
 import io.github.dennistsar.sirs_kobweb.data.toProfScores
+import io.github.dennistsar.sirs_kobweb.data.toTotalAndAvesPair
 import io.github.dennistsar.sirs_kobweb.misc.*
 import io.github.dennistsar.sirs_kobweb.states.DropDownState
 import io.github.dennistsar.sirs_kobweb.states.SearchDeptState
@@ -90,7 +91,7 @@ fun SearchDept() {
         when(status) {
             Status.Prof -> {
                 Text(state.profState.selected)
-                ProfSummary(state.selectedProfEntries, finishLoading)
+                ProfSummary(state.selectedProfEntries, state.applicableCourseAves, finishLoading)
             }
             Status.Course -> ProfScoresList(state.scoresByProfForCourse, finishLoading)
             Status.Dept -> ProfScoresList(state.scoresByProf, finishLoading)
@@ -101,22 +102,23 @@ fun SearchDept() {
 
 @Composable
 fun ProfSummary(
-    list: List<Entry>,
+    entries: List<Entry>,
+    applicableCourseAves: Map<String, List<Double>>,
     onLoad: () -> Unit = {},
 ) {
-    val a = list.mapByCourses()
+    val a = entries.mapByCourses()
     val b = a.toProfScores("Overall")
-    val allScores = list.aveScores()
+    val allScores = entries.aveScores()
 
     Row(
         Modifier
             .margin(topBottom = 30.px)
             .justifyContent(JustifyContent.Center),
         verticalAlignment = Alignment.CenterVertically,
-    ) {// for future reference: "?school=01&dept=640&prof=BEALS%2C%20R" has a lot of graphs
+    ) {// for future reference: "?school=01&dept=640&prof=TUNNELL%2C%20J" has a lot of graphs
         b.entries
             .sortedBy { it.key }
-            .forEach { (name, scores) ->
+            .forEach { (courseName, scores) ->
                 // for each question, list of length 5 corresponding to number of rating 1-5
                 val scoresCount = scores[8].groupingBy { it }.eachCount()
                 val ratings = (1..5).map { scoresCount[it] ?: 0 }
@@ -125,12 +127,28 @@ fun ProfSummary(
                     Modifier.margin(topBottom = 10.px, leftRight = 15.px),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(name)
+                    Text(courseName)
                     val selectedScore = scores[8]
+                    val courseAve = applicableCourseAves[courseName]
                     BarGraph(ratings)
+                    Text("Prof Average", courseAve?.run {
+                        Modifier.color(
+                        if (selectedScore.average()>get(8))
+                            Color.green
+                        else
+                            Color.red
+                        )
+                    } ?: Modifier)
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         StarRating(selectedScore.average())
                         Text(selectedScore.average().roundToDecimal(2).toString(), Modifier.margin(left = 5.px))
+                    }
+                    courseAve?.run{
+                        Text("Course Average")
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            StarRating(get(8))
+                            Text(get(8).toString(), Modifier.margin(left = 5.px))
+                        }
                     }
 
                 }
