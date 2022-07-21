@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import com.varabyte.kobweb.compose.css.FontWeight
-import com.varabyte.kobweb.compose.css.TextAlign
 import com.varabyte.kobweb.compose.css.TextDecorationLine
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -128,7 +127,7 @@ fun ProfSummary(
                 ) {
                     Text(name)
                     val selectedScore = scores[8]
-                    BarGraph(ratings,selectedScore.average().roundToDecimal(2))
+                    BarGraph(ratings)
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         StarRating(selectedScore.average())
                         Text(selectedScore.average().roundToDecimal(2).toString(), Modifier.margin(left = 5.px))
@@ -176,27 +175,12 @@ fun HalfStarColored(yellowModifier: Modifier, grayModifier: Modifier, style: Ico
 @Composable
 fun BarGraph(
     ratings: List<Int>,
-    ave: Double,
     max: Int = ratings.maxOrNull() ?: 0,
     height: Double = 175.0,
     colWidth: Double = 36.0,
     textHeight: Double = 25.0,
 ) {
     Box {
-        // this doesn't work because of ?school=01&dept=640&prof=LI%2C%20L
-        Box(Modifier.borderRadius(90.px)
-            .backgroundColor(Color.tomato)
-            .size(60.px)
-            .margin(leftRight = 15.px)
-            .zIndex(2)) {
-            Text(
-                ave.toString(),
-                Modifier.textAlign(TextAlign.Center)
-                    .align(Alignment.Center)
-                    .fontSize(26.px)
-                    .fontWeight(FontWeight.Bold)
-            )
-        }
         Row(
             Modifier
                 .height(height.px)
