@@ -90,10 +90,10 @@ fun SearchDept() {
         when(status) {
             Status.Prof -> {
                 Text(state.profState.selected)
-                ProfSummary(state.profEntries,finishLoading)
+                ProfSummary(state.selectedProfEntries, finishLoading)
             }
-            Status.Course -> ProfScoresList(state.courseSpecificMap, finishLoading)
-            Status.Dept -> ProfScoresList(state.wholeDeptMap, finishLoading)
+            Status.Course -> ProfScoresList(state.scoresByProfForCourse, finishLoading)
+            Status.Dept -> ProfScoresList(state.scoresByProf, finishLoading)
             else -> {}
         }
     }

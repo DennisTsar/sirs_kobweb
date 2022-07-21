@@ -32,8 +32,8 @@ interface SearchDeptState {
     var courseState: DropDownState<String>
     var profState: DropDownState<String>
     var profListLoading: Boolean
-    val wholeDeptMap: Map<String, Pair<Int, List<Double>>>
-    val courseSpecificMap: Map<String, Pair<Int, List<Double>>>
+    val scoresByProf: Map<String, Pair<Int, List<Double>>>
+    val scoresByProfForCourse: Map<String, Pair<Int, List<Double>>>
     val status: Status
     val url: String
 }
@@ -50,8 +50,8 @@ class SearchDeptStateImpl(
     private var schoolMap: Map<String,School> by mutableStateOf(emptyMap())
 
     private var deptEntries: List<Entry> by mutableStateOf(emptyList())
-    private var mapOfProfs: Map<String,List<Entry>> by mutableStateOf(emptyMap())
-    private var mapOfCourses: Map<String,List<Entry>> by mutableStateOf(emptyMap())
+    private var entriesByProf: Map<String,List<Entry>> by mutableStateOf(emptyMap())
+    private var entriesByCourse: Map<String,List<Entry>> by mutableStateOf(emptyMap())
 
     private var firstTime by mutableStateOf(true)
 
@@ -79,14 +79,14 @@ class SearchDeptStateImpl(
             else
                 Status.Dept
 
-    override val wholeDeptMap by derivedStateOf {
-        mapOfProfs
+    override val scoresByProf by derivedStateOf {
+        entriesByProf
             .toProfScores()
             .mapValues { it.value.toTotalAndAvesPair() }
     }
 
-    override val courseSpecificMap by derivedStateOf {
-        mapOfCourses[courseState.selected]?.run {
+    override val scoresByProfForCourse by derivedStateOf {
+        entriesByCourse[courseState.selected]?.run {
             mapByProfs()
             .toProfScores()
             .mapValues { it.value.toTotalAndAvesPair() }
@@ -120,14 +120,14 @@ class SearchDeptStateImpl(
                         console.log("Error: ${response.message}")
                         emptyList()
                     }
-                mapOfProfs = deptEntries.mapByProfs()
-                mapOfCourses = deptEntries.mapByCourses()
+                entriesByProf = deptEntries.mapByProfs()
+                entriesByCourse = deptEntries.mapByCourses()
 
-                // using _ to avoid default behavior which would lose initial values
-                _courseState = courseState.copy(listOf(None) + mapOfCourses.keys.sorted())
-                _profState = profState.copy(listOf(None) + mapOfProfs.keys.sorted())
+                // using backing var (with _) to avoid default behavior which would lose initial values
+                _courseState = courseState.copy(list = entriesByCourse.keys.sorted())
+                _profState = profState.copy(list = entriesByProf.keys.sorted())
 
-                // this keeps ignores prof value if the course is valid
+                // this keeps course value and ignores prof value if the course is valid
                 // otherwise does exactly what you'd expect
                 if (!firstTime || !courseState.list.contains(courseState.selected)) {
                     _courseState = courseState.copy(selected = None)
@@ -184,5 +184,5 @@ class SearchDeptStateImpl(
     // temp as I figure out what data the prof composable needs
     // eventually that logic will be in this (or a different?) State object
     // and it will be part of interface
-    val profEntries get() = mapOfProfs[profState.selected] ?: emptyList()
+    val selectedProfEntries get() = entriesByProf[profState.selected] ?: emptyList()
 }
