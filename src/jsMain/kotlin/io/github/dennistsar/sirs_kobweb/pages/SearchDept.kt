@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import com.varabyte.kobweb.compose.css.FontWeight
+import com.varabyte.kobweb.compose.css.TextAlign
 import com.varabyte.kobweb.compose.css.TextDecorationLine
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -17,6 +18,9 @@ import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.navigation.UpdateHistoryMode
 import com.varabyte.kobweb.silk.components.graphics.Image
+import com.varabyte.kobweb.silk.components.icons.fa.FaStar
+import com.varabyte.kobweb.silk.components.icons.fa.FaStarHalf
+import com.varabyte.kobweb.silk.components.icons.fa.IconStyle
 import com.varabyte.kobweb.silk.components.layout.SimpleGridStyle
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.Text
@@ -37,6 +41,7 @@ import io.github.dennistsar.sirs_kobweb.states.Status
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
+import kotlin.math.roundToInt
 import kotlin.reflect.KMutableProperty0
 
 @Page
@@ -122,7 +127,13 @@ fun ProfSummary(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(name)
-                    BarGraph(ratings)
+                    val selectedScore = scores[8]
+                    BarGraph(ratings,selectedScore.average().roundToDecimal(2))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        StarRating(selectedScore.average())
+                        Text(selectedScore.average().roundToDecimal(2).toString(), Modifier.margin(left = 5.px))
+                    }
+
                 }
             }
     }
@@ -131,36 +142,89 @@ fun ProfSummary(
 }
 
 @Composable
-fun BarGraph(ratings: List<Int>, max: Int = ratings.maxOrNull() ?: 0, height: Double = 175.0) {
-    val colWidth = 36.px
-    Row(
-        Modifier
-            .height(height.px)
-            .padding(leftRight = 15.px)// don't really like this but idk how else to extend bounds to end of "Excellent"
-    ) {
-        ratings.forEachIndexed { index, num ->
-            Column(
-                Modifier
-                    .fillMaxHeight()
-                    .width(colWidth),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                val textHeight = 25
-                // pushes everything down
-                Box(Modifier.flex(1))
-                Text(num.toString(),Modifier)
-                Box(
+fun StarRating(
+    rating: Double,
+    yellow: CSSColorValue = Color("#FDCC0D"),
+    gray: CSSColorValue = Color("#dbdbdf"),
+    style: IconStyle = IconStyle.FILLED
+){
+    val yellowModifier = Modifier.color(yellow)
+    val grayModifier = Modifier.color(gray)
+
+    val a = (rating*2).roundToInt()/2.0
+    Row {
+        for (i in 1..5) {
+            when {
+                (i <= a) -> FaStar(yellowModifier, style)
+                (i - .5 == a) -> HalfStarColored(yellowModifier, grayModifier, style)
+                else -> FaStar(grayModifier, style)
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalComposeWebApi::class)
+@Composable
+fun HalfStarColored(yellowModifier: Modifier, grayModifier: Modifier, style: IconStyle = IconStyle.FILLED){
+    val len = (-1.0/16).px
+    Box {
+        FaStarHalf(Modifier.margin(right = len).then(yellowModifier), style)
+        FaStarHalf(Modifier.margin(left = len).transform { scaleX(-1) }.then(grayModifier), style)
+    }
+}
+
+@Composable
+fun BarGraph(
+    ratings: List<Int>,
+    ave: Double,
+    max: Int = ratings.maxOrNull() ?: 0,
+    height: Double = 175.0,
+    colWidth: Double = 36.0,
+    textHeight: Double = 25.0,
+) {
+    Box {
+        // this doesn't work because of ?school=01&dept=640&prof=LI%2C%20L
+        Box(Modifier.borderRadius(90.px)
+            .backgroundColor(Color.tomato)
+            .size(60.px)
+            .margin(leftRight = 15.px)
+            .zIndex(2)) {
+            Text(
+                ave.toString(),
+                Modifier.textAlign(TextAlign.Center)
+                    .align(Alignment.Center)
+                    .fontSize(26.px)
+                    .fontWeight(FontWeight.Bold)
+            )
+        }
+        Row(
+            Modifier
+                .height(height.px)
+                .padding(leftRight = 15.px) // don't really like this but idk how else to extend bounds to end of "Excellent"
+        ) {
+            ratings.forEachIndexed { index, num ->
+                Column(
                     Modifier
-                        .width(28.px)
-                        .height(num.px * (height-2.5*textHeight) / max)
-                        .backgroundColor(Color.purple)
-                )
-                // possibly add rotation to this
-                val textModifier = Modifier.height(textHeight.px)
-                when (index) {
-                    0 -> Text("Poor", textModifier)
-                    4 -> Text("Excellent", textModifier)
-                    else -> Box(textModifier)
+                        .fillMaxHeight()
+                        .width(colWidth.px),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    val bottomLabel = when (index) {
+                        0 -> "Poor"
+                        4 -> "Excellent"
+                        else -> null
+                    }
+                    Box(Modifier.flex(1)) // pushes everything down
+                    Text(num.toString())
+                    Box(
+                        Modifier
+                            .width(28.px)
+                            .height(num.px * (height - 2.5 * textHeight) / max)
+                            .backgroundColor(Color.purple)
+                            .thenIf(bottomLabel == null, Modifier.margin(bottom = textHeight.px))
+                    )
+                    // possibly add rotation to this
+                    bottomLabel?.let { Text(it, Modifier.height(textHeight.px)) }
                 }
             }
         }
@@ -229,7 +293,7 @@ fun ProfScoresList(
                 }
                 Text(nums.first.toString(), gridElementModifier)
             }
-        remember(list) { onLoad() }
+        remember(list) { onLoad() } // since loading only happens when list is changed
     }
 }
 
