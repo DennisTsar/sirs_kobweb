@@ -8,7 +8,7 @@ import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
-import com.varabyte.kobweb.silk.components.text.Text
+import com.varabyte.kobweb.silk.components.text.SpanText
 import io.github.dennistsar.sirs_kobweb.components.sections.Footer
 import io.github.dennistsar.sirs_kobweb.components.sections.NavHeader
 import kotlinx.browser.document
@@ -35,7 +35,7 @@ fun PageLayout(title: String, modifier: Modifier = Modifier, content: @Composabl
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             NavHeader()
-            H1 { Text(title) }
+            H1 { SpanText(title) }
             content()
         }
         // Associate the footer with the row that will get pushed off the bottom of the page if it can't fit.
