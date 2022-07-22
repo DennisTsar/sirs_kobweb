@@ -27,7 +27,7 @@ jobs:
 
       # Clean Gradle
       - name: Clean Gradle
-        run: .\gradlew clean
+        run: ./gradlew clean
 
       # Build application
       - name: Build
