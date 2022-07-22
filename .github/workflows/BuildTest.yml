@@ -25,6 +25,10 @@ jobs:
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1.0.3
 
+      # Clean Gradle
+      - name: Clean Gradle
+        run: .\gradlew clean
+
       # Build application
       - name: Build
         run: kobweb export --layout static --mode dumb # "dumb" prevents java awt display error
