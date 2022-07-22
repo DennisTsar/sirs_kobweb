@@ -83,6 +83,7 @@ fun SearchDept() {
             }
         )
 
+        // dummy change
         // This logic is kept here as opposed to in State class for performance reasons
         // Prevents having to reload HTML when status changes back to previously used one - it's already loaded
         val finishLoading = { state.profListLoading = false }
