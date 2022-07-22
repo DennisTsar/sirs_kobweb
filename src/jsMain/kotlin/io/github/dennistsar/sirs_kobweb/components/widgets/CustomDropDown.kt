@@ -1,6 +1,7 @@
 package io.github.dennistsar.sirs_kobweb.components.widgets
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.asAttributesBuilder
 import com.varabyte.kobweb.silk.components.text.Text
@@ -26,11 +27,11 @@ fun<T> CustomDropDown(
             }
         }
     ) {
-       DomSideEffect {
-           val index = list.indexOf(selected)
-           it.selectedIndex = if (index>=0) index else 0
-           it.options[it.selectedIndex]
+       DisposableEffect(selected) {
+           scopeElement.selectedIndex = list.indexOf(selected).takeIf { it >= 0 } ?: 0
+           scopeElement.options[scopeElement.selectedIndex]
                .unsafeCast<HTMLOptionElement?>()?.selected = true
+           onDispose {  }
        }
         list.forEach {
             Option(
