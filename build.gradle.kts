@@ -3,10 +3,10 @@ import kotlinx.html.script
 
 @Suppress("DSL_SCOPE_VIOLATION") // just to avoid "libs" red underline
 plugins {
-    alias(libs.plugins.kotlin.multiplatform.get().pluginId)
-    alias(libs.plugins.jetbrains.compose.get().pluginId)
-    alias(libs.plugins.kobweb.application.get().pluginId)
-    alias(libs.plugins.kobwebx.markdown.get().pluginId)
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.kobweb.application)
+    alias(libs.plugins.kobwebx.markdown)
 
     kotlin("plugin.serialization") version "1.6.21"
 }
