@@ -3,7 +3,7 @@ on: [ push, pull_request ]
 jobs:
   build:
     name: Test and Build
-    runs-on: macos-latest
+    runs-on: windows-latest
     steps:
 
       # Check out current repository
@@ -19,7 +19,12 @@ jobs:
 
       # Installing Kobweb with brew
       - name: Install Kobweb
-        run: brew install varabyte/tap/kobweb
+#         run: brew install varabyte/tap/kobweb
+        uses: sdkman/sdkman-action@master
+        id: sdkman
+        with:
+          candidate: kobweb
+          version: 0.9.9
 
       # Validate wrapper
       - name: Validate Gradle Wrapper
@@ -27,7 +32,7 @@ jobs:
 
       # Clean Gradle
       - name: Clean Gradle
-        run: ./gradlew clean --scan
+        run: .\gradlew clean --scan
 
       # Build application
       - name: Build
