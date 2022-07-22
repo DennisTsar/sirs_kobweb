@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.asAttributesBuilder
-import com.varabyte.kobweb.silk.components.text.SpanText
+import com.varabyte.kobweb.silk.components.text.Text
 import org.jetbrains.compose.web.dom.Option
 import org.jetbrains.compose.web.dom.Select
 import org.w3c.dom.HTMLOptionElement
@@ -38,7 +38,7 @@ fun<T> CustomDropDown(
                 getValue(it),
                 optionModifier.asAttributesBuilder(),
             ) {
-                SpanText(getText(it))
+                Text(getText(it))
             }
         }
     }

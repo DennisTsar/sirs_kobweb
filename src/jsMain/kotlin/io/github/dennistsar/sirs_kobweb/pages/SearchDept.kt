@@ -20,7 +20,7 @@ import com.varabyte.kobweb.silk.components.icons.fa.FaStarHalf
 import com.varabyte.kobweb.silk.components.icons.fa.IconStyle
 import com.varabyte.kobweb.silk.components.layout.SimpleGridStyle
 import com.varabyte.kobweb.silk.components.style.toModifier
-import com.varabyte.kobweb.silk.components.text.SpanText
+import com.varabyte.kobweb.silk.components.text.Text
 import io.github.dennistsar.sirs_kobweb.components.layouts.PageLayout
 import io.github.dennistsar.sirs_kobweb.components.widgets.CustomDropDown
 import io.github.dennistsar.sirs_kobweb.components.widgets.LeftRightCenterBox
@@ -88,7 +88,7 @@ fun SearchDept() {
         val finishLoading = { state.profListLoading = false }
         when(status) {
             Status.Prof -> {
-                SpanText(state.profState.selected)
+                Text(state.profState.selected)
                 ProfSummary(state.selectedProfEntries, state.applicableCourseAves, finishLoading)
             }
             Status.Course -> ProfScoresList(state.scoresByProfForCourse, finishLoading)
@@ -136,9 +136,9 @@ fun ProfSummary(
                     val selectedScore = scores[selectedQ].average()
                     val courseAve = applicableCourseAves[courseName]?.get(selectedQ)
 
-                    SpanText(courseName)
+                    Text(courseName)
                     BarGraph(ratings)
-                    SpanText(
+                    Text(
                         "Prof Average",
                         courseAve?.let {
                             Modifier.color(
@@ -148,13 +148,13 @@ fun ProfSummary(
                     )
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         StarRating(selectedScore)
-                        SpanText(selectedScore.roundToDecimal(2).toString(), Modifier.margin(left = 5.px))
+                        Text(selectedScore.roundToDecimal(2).toString(), Modifier.margin(left = 5.px))
                     }
                     courseAve?.let{
-                        SpanText("Course Average")
+                        Text("Course Average")
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             StarRating(it)
-                            SpanText(it.roundToDecimal(2).toString(), Modifier.margin(left = 5.px))
+                            Text(it.roundToDecimal(2).toString(), Modifier.margin(left = 5.px))
                         }
                     }
                 }
@@ -223,7 +223,7 @@ fun BarGraph(
                         else -> null
                     }
                     Box(Modifier.flex(1)) // pushes everything down
-                    SpanText(num.toString())
+                    Text(num.toString())
                     Box(
                         Modifier
                             .width(28.px)
@@ -232,7 +232,7 @@ fun BarGraph(
                             .thenIf(bottomLabel == null, Modifier.margin(bottom = textHeight.px))
                     )
                     // possibly add rotation to this
-                    bottomLabel?.let { SpanText(it, Modifier.height(textHeight.px)) }
+                    bottomLabel?.let { Text(it, Modifier.height(textHeight.px)) }
                 }
             }
         }
@@ -264,7 +264,7 @@ fun ProfScoresList(
             Box(
                 Modifier.width(spacing)
             ) {
-                SpanText(
+                Text(
                     text,
                     Modifier
                         .width(175.px)
@@ -289,7 +289,7 @@ fun ProfScoresList(
             .forEach { (prof, nums) ->
                 Box(gridElementModifier) {
                     val offset = 40.px
-                    SpanText(
+                    Text(
                         prof,
                         Modifier
                             .margin(left=-offset)
@@ -297,9 +297,9 @@ fun ProfScoresList(
                     )
                 }
                 nums.second.subList(0, 10).forEach {
-                    SpanText(it.toString(), gridElementModifier)
+                    Text(it.toString(), gridElementModifier)
                 }
-                SpanText(nums.first.toString(), gridElementModifier)
+                Text(nums.first.toString(), gridElementModifier)
             }
         remember(list) { onLoad() } // since loading only happens when list is changed
     }
@@ -315,7 +315,7 @@ fun SearchDeptFormContent(state: SearchDeptState) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        SpanText("School",
+        Text("School",
             labelModifier.alignSelf(AlignSelf.Start),
         )
 
@@ -340,7 +340,7 @@ fun SearchDeptFormContent(state: SearchDeptState) {
             Modifier.alignContent(AlignContent.SpaceEvenly)
         ) {
             Column(secondRowModifier) {
-                SpanText("Department", labelModifier)
+                Text("Department", labelModifier)
 
                 ReflectiveCustomDropDown(
                     property = state::deptState,
@@ -350,7 +350,7 @@ fun SearchDeptFormContent(state: SearchDeptState) {
             }
 
             Column(secondRowModifier) {
-                SpanText("Course (Optional)", labelModifier)
+                Text("Course (Optional)", labelModifier)
 
                 ReflectiveCustomDropDown(
                     property = state::courseState,
@@ -360,7 +360,7 @@ fun SearchDeptFormContent(state: SearchDeptState) {
             }
 
             Column(secondRowModifier) {
-                SpanText("Prof (Optional)", labelModifier)
+                Text("Prof (Optional)", labelModifier)
 
                 ReflectiveCustomDropDown(
                     property = state::profState,
