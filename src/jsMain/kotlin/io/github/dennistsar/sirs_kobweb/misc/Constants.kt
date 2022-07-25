@@ -235,9 +235,7 @@ val otherQs = listOf(
 val QsMap = (TenQs + otherQs).withIndex().associateBy({ it.index.toString() }, { it.value })
 
 //val gridVariant11 = generateGridVariant(11)
-
 val gridVariant12 = generateGridVariant(12)
-
 
 fun generateGridVariant(numColumns: Int): SimpleComponentVariant {
     val gridModifier = Modifier.styleModifier {
@@ -247,46 +245,3 @@ fun generateGridVariant(numColumns: Int): SimpleComponentVariant {
         base { gridModifier }
     }
 }
-
-//val variants = (0 until 12)
-//        .associate { i ->
-//            val numColumns = i + 1
-//            val gridModifier = Modifier.styleModifier {
-//                gridTemplateColumns("repeat($numColumns, 1fr)")
-//            }
-//            numColumns to SimpleGridStyle.addVariant("base-$numColumns") {
-//                base { gridModifier }
-//            }
-//        }
-
-//val a = SimpleGridStyle.addVariant("$name-$numColumns") {
-//    base {
-//        val gridModifier = Modifier.styleModifier {
-//            gridTemplateColumns("repeat($numColumns, 1fr)")
-//        }
-//    }
-//}
-
-//val SimpleGridColumnVariants: Map<Breakpoint?, Map<Int, ComponentVariant>> = run {
-//    (listOf(null) + Breakpoint.values())
-//        .associateWith { breakpoint ->
-//            val name = breakpoint?.toString()?.lowercase() ?: "base"
-//            val variants = (0 until MAX_COLUMN_COUNT)
-//                .associate { i ->
-//                    val numColumns = i + 1
-//                    val gridModifier = Modifier.styleModifier {
-//                        gridTemplateColumns("repeat($numColumns, 1fr)")
-//                    }
-//                    println("ADDING $name-$numColumns")
-//                    numColumns to SimpleGridStyle.addVariant("$name-$numColumns") {
-//                        if (breakpoint == null) {
-//                            base = gridModifier
-//                        } else {
-//                            breakpoints[breakpoint] = gridModifier
-//                        }
-//                    }
-//                }
-//
-//            variants
-//        }
-//}
