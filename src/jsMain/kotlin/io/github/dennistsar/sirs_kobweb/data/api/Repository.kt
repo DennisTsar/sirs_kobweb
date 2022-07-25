@@ -7,8 +7,6 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 class Repository(private val api: Api) {
-//        suspend fun getSchoolsMapFromGit(): Map<String, School> =
-//            Json.decodeFromString(api.getSchoolDeptsMapFromGit())
     suspend fun getSchoolMap(): Resource<Map<String, School>> =
         api.getSchoolDeptsMapFromGit().toResource()
 
@@ -18,7 +16,7 @@ class Repository(private val api: Api) {
     private inline fun<reified T> String.toResource(): Resource<T> {
         return try {
             Resource.Success(Json.decodeFromString<T>(this))
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             console.log(e,e.message)
             Resource.Error(e.message ?: "Error decoding JSON")
         }

@@ -1,6 +1,5 @@
 package io.github.dennistsar.sirs_kobweb.data.classes
 
-import io.github.dennistsar.sirs_kobweb.misc.substringAfterBefore
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -14,29 +13,5 @@ class Entry(
     val enrolled: Int,
     val responses: Int,
     val scores: List<Double>,
-    val extraQs: List<String>,
-) {
-    constructor(s: String) : this(
-        instructor = s.substringBefore("  "),
-        term = s.substringAfterBefore("<br> ","\n"),
-        code = s.substringAfterBefore("<br>  "," "),
-        courseName = s.substringAfterBefore("<q>","<").replace("&amp;","&"),
-        // not always present - generally, but not always, corresponds to class name containing "(Lecture)"
-        indexNum = s.substringAfter("index #","").substringBefore(")").ifBlank { null },
-        note = s.substringAfterBefore("<q>","<br><a")
-            .substringAfter("index #")
-            .substringAfter("<br>")
-            .substringAfter("(")
-            .substringBefore(")","").ifBlank { null },
-        enrolled = s.substringAfterBefore("Enrollment=  ",",").toInt(),
-        responses = s.substringAfterBefore("Responses= "," ").toInt(),
-        scores = s.split("<td  class=\"mono").drop(1)
-            .map {
-                it.substringAfterBefore(">","<").toDouble()
-            },// indices 0-99 are all the numbers for one entry, row by row
-        extraQs = s.split("<td  class='qText' >").drop(10).map {
-            it.substringAfterBefore(". ","</td>")
-        }
-    )
-//    val shortTerm = term.first()+term.takeLast(2)
-}
+    val questions: List<String>?, // null = standard - not using empty cuz could be actually empty
+)
