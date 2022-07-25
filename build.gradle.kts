@@ -1,7 +1,7 @@
 import kotlinx.html.script
 
 
-//@Suppress("DSL_SCOPE_VIOLATION") // just to avoid "libs" red underline
+@Suppress("DSL_SCOPE_VIOLATION") // just to avoid "libs" red underline
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.jetbrains.compose)
