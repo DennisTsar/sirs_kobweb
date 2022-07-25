@@ -7,7 +7,6 @@ import com.varabyte.kobweb.compose.ui.modifiers.display
 import com.varabyte.kobweb.compose.ui.modifiers.flex
 import org.jetbrains.compose.web.css.DisplayStyle
 
-
 @Composable
 fun LeftRightCenterBox(
     modifier: Modifier = Modifier,

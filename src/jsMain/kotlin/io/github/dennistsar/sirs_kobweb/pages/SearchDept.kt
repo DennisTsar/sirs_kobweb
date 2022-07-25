@@ -376,7 +376,7 @@ fun ReflectiveCustomDropDown(
     property: KMutableProperty0<DropDownState<String>>,
     selectModifier: Modifier = Modifier,
     optionModifier: Modifier = Modifier,
-    getText: (String) -> String = {it},
+    getText: (String) -> String = { it },
     getValue: (String) -> String = getText,
 ) {
     with(property) {

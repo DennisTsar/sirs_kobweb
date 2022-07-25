@@ -66,7 +66,7 @@ class SearchDeptStateImpl(
                     if (isBlankOrNone()) "" else "&course=$this"
                 } +
                 profState.selected.run{
-                    if (isBlankOrNone()) "" else "&prof=${encodeURLParam()}"
+                    if (isBlankOrNone()) "" else "&prof=${ encodeURLParam() }"
                 }
 
     override val status

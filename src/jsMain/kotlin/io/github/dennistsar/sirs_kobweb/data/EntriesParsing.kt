@@ -4,7 +4,6 @@ import io.github.dennistsar.sirs_kobweb.data.classes.Entry
 import io.github.dennistsar.sirs_kobweb.misc.ProfScores
 import io.github.dennistsar.sirs_kobweb.misc.roundToDecimal
 
-
 fun List<Entry>.mapByCourses(): Map<String, List<Entry>> {
     // Currently, a not-ideal approach to try to only show profs and not TAs - probably should be a boolean or just marked somehow
     return groupBy { it.code.getCourseFromFullCode() }
@@ -69,7 +68,7 @@ fun formatName(name: String): String {
         .replace(" \\(.*\\)|,".toRegex(),"")// removes stuff in parentheses & removes commas
         .split(" ")
         .run {
-            get(0) + (getOrNull(1)?.let { ", ${it.first()}" } ?: "")// Adds first initial if present
+            get(0) + (getOrNull(1)?.let { ", ${it[0]}" } ?: "")// Adds first initial if present
         }.uppercase()
 }
 
