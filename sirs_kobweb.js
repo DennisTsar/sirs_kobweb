@@ -1037,14 +1037,14 @@
   StringJsonLexer.prototype.constructor = StringJsonLexer;
   _no_name_provided__620.prototype = Object.create(CoroutineImpl_0.prototype);
   _no_name_provided__620.prototype.constructor = _no_name_provided__620;
-  $getEntriesFromGitCOROUTINE$4.prototype = Object.create(CoroutineImpl_0.prototype);
-  $getEntriesFromGitCOROUTINE$4.prototype.constructor = $getEntriesFromGitCOROUTINE$4;
-  $getSchoolDeptsMapFromGitCOROUTINE$5.prototype = Object.create(CoroutineImpl_0.prototype);
-  $getSchoolDeptsMapFromGitCOROUTINE$5.prototype.constructor = $getSchoolDeptsMapFromGitCOROUTINE$5;
-  $getSchoolMapCOROUTINE$7.prototype = Object.create(CoroutineImpl_0.prototype);
-  $getSchoolMapCOROUTINE$7.prototype.constructor = $getSchoolMapCOROUTINE$7;
-  $getEntriesCOROUTINE$8.prototype = Object.create(CoroutineImpl_0.prototype);
-  $getEntriesCOROUTINE$8.prototype.constructor = $getEntriesCOROUTINE$8;
+  $getEntriesFromGitCOROUTINE$0.prototype = Object.create(CoroutineImpl_0.prototype);
+  $getEntriesFromGitCOROUTINE$0.prototype.constructor = $getEntriesFromGitCOROUTINE$0;
+  $getSchoolDeptsMapFromGitCOROUTINE$1.prototype = Object.create(CoroutineImpl_0.prototype);
+  $getSchoolDeptsMapFromGitCOROUTINE$1.prototype.constructor = $getSchoolDeptsMapFromGitCOROUTINE$1;
+  $getSchoolMapCOROUTINE$2.prototype = Object.create(CoroutineImpl_0.prototype);
+  $getSchoolMapCOROUTINE$2.prototype.constructor = $getSchoolMapCOROUTINE$2;
+  $getEntriesCOROUTINE$3.prototype = Object.create(CoroutineImpl_0.prototype);
+  $getEntriesCOROUTINE$3.prototype.constructor = $getEntriesCOROUTINE$3;
   Success_0.prototype = Object.create(Resource.prototype);
   Success_0.prototype.constructor = Success_0;
   Error_1.prototype = Object.create(Resource.prototype);
@@ -1545,6 +1545,44 @@
     }
     return tmp;
   }
+  function sorted(_this_) {
+    if (isInterface(_this_, Collection)) {
+      if (_this_._get_size__0_k$() <= 1)
+        return toList_0(_this_);
+      var tmp$ret$1;
+      $l$block_0: {
+        var tmp$ret$0;
+        $l$block: {
+          var tmp0_toTypedArray_0 = _this_;
+          tmp$ret$0 = copyToArray_0(tmp0_toTypedArray_0);
+          break $l$block;
+        }
+        var tmp = tmp$ret$0;
+        var tmp1_apply_0 = isArray(tmp) ? tmp : THROW_CCE();
+        {
+        }
+        {
+          sort_0(tmp1_apply_0);
+        }
+        tmp$ret$1 = tmp1_apply_0;
+        break $l$block_0;
+      }
+      return asList(tmp$ret$1);
+    } else {
+    }
+    var tmp$ret$2;
+    $l$block_1: {
+      var tmp2_apply_0 = toMutableList_1(_this_);
+      {
+      }
+      {
+        sort(tmp2_apply_0);
+      }
+      tmp$ret$2 = tmp2_apply_0;
+      break $l$block_1;
+    }
+    return tmp$ret$2;
+  }
   function maxOrNull(_this_) {
     var iterator_0 = _this_.iterator_0_k$();
     if (!iterator_0.hasNext_0_k$())
@@ -1594,44 +1632,6 @@
       }
     }
     return optimizeReadOnlyList(list);
-  }
-  function sorted(_this_) {
-    if (isInterface(_this_, Collection)) {
-      if (_this_._get_size__0_k$() <= 1)
-        return toList_0(_this_);
-      var tmp$ret$1;
-      $l$block_0: {
-        var tmp$ret$0;
-        $l$block: {
-          var tmp0_toTypedArray_0 = _this_;
-          tmp$ret$0 = copyToArray_0(tmp0_toTypedArray_0);
-          break $l$block;
-        }
-        var tmp = tmp$ret$0;
-        var tmp1_apply_0 = isArray(tmp) ? tmp : THROW_CCE();
-        {
-        }
-        {
-          sort_0(tmp1_apply_0);
-        }
-        tmp$ret$1 = tmp1_apply_0;
-        break $l$block_0;
-      }
-      return asList(tmp$ret$1);
-    } else {
-    }
-    var tmp$ret$2;
-    $l$block_1: {
-      var tmp2_apply_0 = toMutableList_1(_this_);
-      {
-      }
-      {
-        sort(tmp2_apply_0);
-      }
-      tmp$ret$2 = tmp2_apply_0;
-      break $l$block_1;
-    }
-    return tmp$ret$2;
   }
   function average_0(_this_) {
     var sum = 0.0;
@@ -1828,11 +1828,6 @@
       throw NoSuchElementException_init_$Create$_0('List is empty.');
     return _this_.get_ha5a7z_k$(0);
   }
-  function last(_this_) {
-    if (_this_.isEmpty_0_k$())
-      throw NoSuchElementException_init_$Create$_0('List is empty.');
-    return _this_.get_ha5a7z_k$(_get_lastIndex__2(_this_));
-  }
   function single_1(_this_) {
     var tmp0_subject = _this_;
     if (isInterface(tmp0_subject, List))
@@ -1860,6 +1855,11 @@
         min = e;
     }
     return min;
+  }
+  function last(_this_) {
+    if (_this_.isEmpty_0_k$())
+      throw NoSuchElementException_init_$Create$_0('List is empty.');
+    return _this_.get_ha5a7z_k$(_get_lastIndex__2(_this_));
   }
   function lastOrNull(_this_) {
     return _this_.isEmpty_0_k$() ? null : _this_.get_ha5a7z_k$(_this_._get_size__0_k$() - 1 | 0);
@@ -12044,6 +12044,22 @@
     }
     return tmp;
   }
+  function digitOf(char, radix) {
+    var tmp$ret$1;
+    $l$block_0: {
+      var tmp0_let_0 = (char.compareTo_wi8o78_k$(new Char(48)) >= 0 ? char.compareTo_wi8o78_k$(new Char(57)) <= 0 : false) ? char.minus_wi8o78_k$(new Char(48)) : (char.compareTo_wi8o78_k$(new Char(65)) >= 0 ? char.compareTo_wi8o78_k$(new Char(90)) <= 0 : false) ? char.minus_wi8o78_k$(new Char(65)) + 10 | 0 : (char.compareTo_wi8o78_k$(new Char(97)) >= 0 ? char.compareTo_wi8o78_k$(new Char(122)) <= 0 : false) ? char.minus_wi8o78_k$(new Char(97)) + 10 | 0 : char.compareTo_wi8o78_k$(new Char(128)) < 0 ? -1 : (char.compareTo_wi8o78_k$(new Char(65313)) >= 0 ? char.compareTo_wi8o78_k$(new Char(65338)) <= 0 : false) ? char.minus_wi8o78_k$(new Char(65313)) + 10 | 0 : (char.compareTo_wi8o78_k$(new Char(65345)) >= 0 ? char.compareTo_wi8o78_k$(new Char(65370)) <= 0 : false) ? char.minus_wi8o78_k$(new Char(65345)) + 10 | 0 : digitToIntImpl(char);
+      {
+      }
+      var tmp$ret$0;
+      $l$block: {
+        tmp$ret$0 = tmp0_let_0 >= radix ? -1 : tmp0_let_0;
+        break $l$block;
+      }
+      tmp$ret$1 = tmp$ret$0;
+      break $l$block_0;
+    }
+    return tmp$ret$1;
+  }
   function toDouble(_this_) {
     var tmp$ret$2;
     $l$block_1: {
@@ -12069,22 +12085,6 @@
       break $l$block_1;
     }
     return tmp$ret$2;
-  }
-  function digitOf(char, radix) {
-    var tmp$ret$1;
-    $l$block_0: {
-      var tmp0_let_0 = (char.compareTo_wi8o78_k$(new Char(48)) >= 0 ? char.compareTo_wi8o78_k$(new Char(57)) <= 0 : false) ? char.minus_wi8o78_k$(new Char(48)) : (char.compareTo_wi8o78_k$(new Char(65)) >= 0 ? char.compareTo_wi8o78_k$(new Char(90)) <= 0 : false) ? char.minus_wi8o78_k$(new Char(65)) + 10 | 0 : (char.compareTo_wi8o78_k$(new Char(97)) >= 0 ? char.compareTo_wi8o78_k$(new Char(122)) <= 0 : false) ? char.minus_wi8o78_k$(new Char(97)) + 10 | 0 : char.compareTo_wi8o78_k$(new Char(128)) < 0 ? -1 : (char.compareTo_wi8o78_k$(new Char(65313)) >= 0 ? char.compareTo_wi8o78_k$(new Char(65338)) <= 0 : false) ? char.minus_wi8o78_k$(new Char(65313)) + 10 | 0 : (char.compareTo_wi8o78_k$(new Char(65345)) >= 0 ? char.compareTo_wi8o78_k$(new Char(65370)) <= 0 : false) ? char.minus_wi8o78_k$(new Char(65345)) + 10 | 0 : digitToIntImpl(char);
-      {
-      }
-      var tmp$ret$0;
-      $l$block: {
-        tmp$ret$0 = tmp0_let_0 >= radix ? -1 : tmp0_let_0;
-        break $l$block;
-      }
-      tmp$ret$1 = tmp$ret$0;
-      break $l$block_0;
-    }
-    return tmp$ret$1;
   }
   function isNaN_2(_this_) {
     var tmp$ret$1;
@@ -101247,11 +101247,11 @@
   function ComposableSingletons$LeftRightCenterBoxKt() {
     ComposableSingletons$LeftRightCenterBoxKt_instance = this;
     var tmp = this;
-    tmp._lambda_1_6 = composableLambdaInstance(-985534312, false, _no_name_provided_$factory_572());
+    tmp._lambda_1_6 = composableLambdaInstance(-985534311, false, _no_name_provided_$factory_572());
     var tmp_0 = this;
-    tmp_0._lambda_2_2 = composableLambdaInstance(-985533632, false, _no_name_provided_$factory_573());
+    tmp_0._lambda_2_2 = composableLambdaInstance(-985533631, false, _no_name_provided_$factory_573());
     var tmp_1 = this;
-    tmp_1._lambda_3_1 = composableLambdaInstance(-985533585, false, _no_name_provided_$factory_574());
+    tmp_1._lambda_3_1 = composableLambdaInstance(-985533592, false, _no_name_provided_$factory_574());
   }
   ComposableSingletons$LeftRightCenterBoxKt.$metadata$ = {
     simpleName: 'ComposableSingletons$LeftRightCenterBoxKt',
@@ -101270,7 +101270,7 @@
     var right_0 = {_v: right};
     var center_0 = {_v: center};
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-1492848828);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-1492848829);
     sourceInformation($composer_0, 'C(LeftRightCenterBox$composable)P(2,1,3)');
     var $dirty = $changed;
     if (!(($default & 1) === 0))
@@ -101322,7 +101322,7 @@
       }
       var tmp_0 = display_0(tmp, tmp$ret$3);
       var tmp_1 = $composer_0;
-      Box$composable(tmp_0, null, null, composableLambda(tmp_1, -819895057, true, _no_name_provided_$factory_575(left_0, $dirty, center_0, right_0)), $composer_0, 3072, 6);
+      Box$composable(tmp_0, null, null, composableLambda(tmp_1, -819895058, true, _no_name_provided_$factory_575(left_0, $dirty, center_0, right_0)), $composer_0, 3072, 6);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
     var tmp0_safe_receiver = $composer_0.endRestartGroup_0_k$();
@@ -101424,12 +101424,12 @@
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       var tmp = flex_0(Companion_getInstance_46(), 1);
       var tmp_0 = $composer_0;
-      Box$composable(tmp, null, null, composableLambda(tmp_0, -819895281, true, _no_name_provided_$factory_577(this._$left_1, this._$$dirty_17)), $composer_0, 3072, 6);
+      Box$composable(tmp, null, null, composableLambda(tmp_0, -819895282, true, _no_name_provided_$factory_577(this._$left_1, this._$$dirty_17)), $composer_0, 3072, 6);
       var tmp_1 = $composer_0;
-      Box$composable(null, null, null, composableLambda(tmp_1, -819895262, true, _no_name_provided_$factory_578(this._$center_0, this._$$dirty_17)), $composer_0, 3072, 7);
+      Box$composable(null, null, null, composableLambda(tmp_1, -819895259, true, _no_name_provided_$factory_578(this._$center_0, this._$$dirty_17)), $composer_0, 3072, 7);
       var tmp_2 = flex_0(Companion_getInstance_46(), 1);
       var tmp_3 = $composer_0;
-      Box$composable(tmp_2, null, null, composableLambda(tmp_3, -819895195, true, _no_name_provided_$factory_579(this._$right_1, this._$$dirty_17)), $composer_0, 3072, 6);
+      Box$composable(tmp_2, null, null, composableLambda(tmp_3, -819895196, true, _no_name_provided_$factory_579(this._$right_1, this._$$dirty_17)), $composer_0, 3072, 6);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
@@ -102198,7 +102198,7 @@
               }
               var tmp$ret$2;
               $l$block_1: {
-                tmp$ret$2 = '' + ', ' + first_1(tmp0_safe_receiver_3);
+                tmp$ret$2 = '' + ', ' + charSequenceGet(tmp0_safe_receiver_3, 0);
                 break $l$block_1;
               }
               tmp$ret$3 = tmp$ret$2;
@@ -102376,13 +102376,13 @@
     var tmp = charArrayOf([new Char(58)]);
     return split$default(_this_, tmp, false, 0, 6, null).get_ha5a7z_k$(2);
   }
-  function $getEntriesFromGitCOROUTINE$4(_this_, school, dept, resultContinuation) {
+  function $getEntriesFromGitCOROUTINE$0(_this_, school, dept, resultContinuation) {
     CoroutineImpl_0.call(this, resultContinuation);
     this.__this__37 = _this_;
     this._school = school;
     this._dept = dept;
   }
-  $getEntriesFromGitCOROUTINE$4.prototype.doResume_0_k$ = function () {
+  $getEntriesFromGitCOROUTINE$0.prototype.doResume_0_k$ = function () {
     var suspendResult = this._result_1;
     $sm: do
       try {
@@ -102393,7 +102393,7 @@
             var tmp_0 = this;
             tmp_0._tmp0_get_00 = this.__this__37._client_1;
             var tmp_1 = this;
-            tmp_1._tmp1_get_01 = '' + 'https://raw.githubusercontent.com/DennisTsar/Rutgers-SIRS/master/json-data-4/' + this._school + '/' + this._dept + '.txt';
+            tmp_1._tmp1_get_01 = '' + 'https://raw.githubusercontent.com/DennisTsar/Rutgers-SIRS/master/json-data-6/' + this._school + '/' + this._dept + '.txt';
             var tmp_2 = this;
             tmp_2._tmp3_get_0_22 = 0;
             var tmp_3 = this;
@@ -102496,16 +102496,16 @@
       }
      while (true);
   };
-  $getEntriesFromGitCOROUTINE$4.$metadata$ = {
-    simpleName: '$getEntriesFromGitCOROUTINE$4',
+  $getEntriesFromGitCOROUTINE$0.$metadata$ = {
+    simpleName: '$getEntriesFromGitCOROUTINE$0',
     kind: 'class',
     interfaces: []
   };
-  function $getSchoolDeptsMapFromGitCOROUTINE$5(_this_, resultContinuation) {
+  function $getSchoolDeptsMapFromGitCOROUTINE$1(_this_, resultContinuation) {
     CoroutineImpl_0.call(this, resultContinuation);
     this.__this__38 = _this_;
   }
-  $getSchoolDeptsMapFromGitCOROUTINE$5.prototype.doResume_0_k$ = function () {
+  $getSchoolDeptsMapFromGitCOROUTINE$1.prototype.doResume_0_k$ = function () {
     var suspendResult = this._result_1;
     $sm: do
       try {
@@ -102516,38 +102516,40 @@
             var tmp_0 = this;
             tmp_0._tmp0_get_00_0 = this.__this__38._client_1;
             var tmp_1 = this;
-            tmp_1._tmp3_get_0_21 = 0;
+            tmp_1._tmp1_get_01_0 = 'https://raw.githubusercontent.com/DennisTsar/Rutgers-SIRS/master/json-data/schoolDeptsMap.json';
             var tmp_2 = this;
-            tmp_2._tmp4_get_0_32 = EmptyContent_getInstance();
+            tmp_2._tmp3_get_0_22_0 = 0;
             var tmp_3 = this;
-            var tmp0_apply_0_5 = new HttpRequestBuilder();
-            url$default(tmp0_apply_0_5, 'http', 'localhost', this._tmp3_get_0_21, '/', null, 16, null);
-            tmp0_apply_0_5._method_1 = Companion_getInstance_72()._Get;
-            tmp0_apply_0_5._body_0 = this._tmp4_get_0_32;
-            takeFrom(tmp0_apply_0_5._url_1, 'https://raw.githubusercontent.com/DennisTsar/Rutgers-SIRS/master/json-data/schoolDeptsMap.json');
-            Unit_getInstance();
-            Unit_getInstance();
-            Unit_getInstance();
-            tmp_3._tmp2_request_0_43 = tmp0_apply_0_5;
+            tmp_3._tmp4_get_0_33_0 = EmptyContent_getInstance();
             var tmp_4 = this;
-            tmp_4._tmp1_receive_0_64 = new HttpStatement(this._tmp2_request_0_43, this._tmp0_get_00_0);
-            this._tmp0_subject_1_75 = PrimitiveClasses_getInstance()._get_stringClass__0_k$();
-            if (this._tmp0_subject_1_75.equals(getKClass_0(HttpStatement))) {
-              var tmp_5 = this;
-              var tmp_6 = this._tmp1_receive_0_64;
-              tmp_5._WHEN_RESULT6 = typeof tmp_6 === 'string' ? tmp_6 : THROW_CCE();
+            var tmp0_apply_0_5 = new HttpRequestBuilder();
+            url$default(tmp0_apply_0_5, 'http', 'localhost', this._tmp3_get_0_22_0, '/', null, 16, null);
+            tmp0_apply_0_5._method_1 = Companion_getInstance_72()._Get;
+            tmp0_apply_0_5._body_0 = this._tmp4_get_0_33_0;
+            takeFrom(tmp0_apply_0_5._url_1, this._tmp1_get_01_0);
+            Unit_getInstance();
+            Unit_getInstance();
+            Unit_getInstance();
+            tmp_4._tmp2_request_0_44_0 = tmp0_apply_0_5;
+            var tmp_5 = this;
+            tmp_5._tmp1_receive_0_65_0 = new HttpStatement(this._tmp2_request_0_44_0, this._tmp0_get_00_0);
+            this._tmp0_subject_1_76_0 = PrimitiveClasses_getInstance()._get_stringClass__0_k$();
+            if (this._tmp0_subject_1_76_0.equals(getKClass_0(HttpStatement))) {
+              var tmp_6 = this;
+              var tmp_7 = this._tmp1_receive_0_65_0;
+              tmp_6._WHEN_RESULT7_0 = typeof tmp_7 === 'string' ? tmp_7 : THROW_CCE();
               this._state_2 = 7;
               continue $sm;
             } else {
-              if (this._tmp0_subject_1_75.equals(getKClass_0(HttpResponse))) {
+              if (this._tmp0_subject_1_76_0.equals(getKClass_0(HttpResponse))) {
                 this._state_2 = 6;
-                suspendResult = this._tmp1_receive_0_64.execute_0_k$(this);
+                suspendResult = this._tmp1_receive_0_65_0.execute_0_k$(this);
                 if (suspendResult === _get_COROUTINE_SUSPENDED_()) {
                   return suspendResult;
                 }continue $sm;
               } else {
                 this._state_2 = 1;
-                suspendResult = this._tmp1_receive_0_64.executeUnsafe_0_k$(this);
+                suspendResult = this._tmp1_receive_0_65_0.executeUnsafe_0_k$(this);
                 if (suspendResult === _get_COROUTINE_SUSPENDED_()) {
                   return suspendResult;
                 }continue $sm;
@@ -102557,53 +102559,53 @@
 
             break;
           case 1:
-            this._response_2_87 = suspendResult;
+            this._response_2_88_0 = suspendResult;
             this._state_2 = 2;
             continue $sm;
           case 2:
             this._exceptionState = 5;
             this._state_2 = 3;
-            var tmp_7 = this._response_2_87._get_call__0_k$();
-            var tmp_8;
+            var tmp_8 = this._response_2_88_0._get_call__0_k$();
+            var tmp_9;
             try {
-              tmp_8 = typeInfoImpl(JsType_getInstance(), PrimitiveClasses_getInstance()._get_stringClass__0_k$(), createKType_0(PrimitiveClasses_getInstance()._get_stringClass__0_k$(), [], false));
+              tmp_9 = typeInfoImpl(JsType_getInstance(), PrimitiveClasses_getInstance()._get_stringClass__0_k$(), createKType_0(PrimitiveClasses_getInstance()._get_stringClass__0_k$(), [], false));
             } catch ($p) {
-              var tmp_9;
+              var tmp_10;
               {
-                tmp_9 = typeInfoImpl(JsType_getInstance(), PrimitiveClasses_getInstance()._get_stringClass__0_k$(), null);
+                tmp_10 = typeInfoImpl(JsType_getInstance(), PrimitiveClasses_getInstance()._get_stringClass__0_k$(), null);
               }
-              tmp_8 = tmp_9;
+              tmp_9 = tmp_10;
             }
 
-            suspendResult = tmp_7.receive_8q86pg_k$(tmp_8, this);
+            suspendResult = tmp_8.receive_8q86pg_k$(tmp_9, this);
             if (suspendResult === _get_COROUTINE_SUSPENDED_()) {
               return suspendResult;
             }
             continue $sm;
           case 3:
-            var tmp_10 = this;
-            tmp_10._tmp$ret$08 = typeof suspendResult === 'string' ? suspendResult : THROW_CCE();
+            var tmp_11 = this;
+            tmp_11._tmp$ret$09_0 = typeof suspendResult === 'string' ? suspendResult : THROW_CCE();
             this._exceptionState = 8;
             this._state_2 = 4;
             continue $sm;
           case 4:
-            var tmp_11 = this._tmp$ret$08;
-            complete(this._response_2_87);
-            this._WHEN_RESULT6 = tmp_11;
+            var tmp_12 = this._tmp$ret$09_0;
+            complete(this._response_2_88_0);
+            this._WHEN_RESULT7_0 = tmp_12;
             this._state_2 = 7;
             continue $sm;
           case 5:
             this._exceptionState = 8;
             var t = this._exception_0;
-            complete(this._response_2_87);
+            complete(this._response_2_88_0);
             throw t;
           case 6:
-            var tmp_12 = this;
-            tmp_12._WHEN_RESULT6 = typeof suspendResult === 'string' ? suspendResult : THROW_CCE();
+            var tmp_13 = this;
+            tmp_13._WHEN_RESULT7_0 = typeof suspendResult === 'string' ? suspendResult : THROW_CCE();
             this._state_2 = 7;
             continue $sm;
           case 7:
-            return this._WHEN_RESULT6;
+            return this._WHEN_RESULT7_0;
           case 8:
             throw this._exception_0;
         }
@@ -102617,8 +102619,8 @@
       }
      while (true);
   };
-  $getSchoolDeptsMapFromGitCOROUTINE$5.$metadata$ = {
-    simpleName: '$getSchoolDeptsMapFromGitCOROUTINE$5',
+  $getSchoolDeptsMapFromGitCOROUTINE$1.$metadata$ = {
+    simpleName: '$getSchoolDeptsMapFromGitCOROUTINE$1',
     kind: 'class',
     interfaces: []
   };
@@ -102628,13 +102630,13 @@
     this._$stable_128 = 8;
   }
   Api.prototype.getEntriesFromGit_jg38oy_k$ = function (school, dept, $cont) {
-    var tmp = new $getEntriesFromGitCOROUTINE$4(this, school, dept, $cont);
+    var tmp = new $getEntriesFromGitCOROUTINE$0(this, school, dept, $cont);
     tmp._result_1 = Unit_getInstance();
     tmp._exception_0 = null;
     return tmp.doResume_0_k$();
   };
   Api.prototype.getSchoolDeptsMapFromGit_0_k$ = function ($cont) {
-    var tmp = new $getSchoolDeptsMapFromGitCOROUTINE$5(this, $cont);
+    var tmp = new $getSchoolDeptsMapFromGitCOROUTINE$1(this, $cont);
     tmp._result_1 = Unit_getInstance();
     tmp._exception_0 = null;
     return tmp.doResume_0_k$();
@@ -102644,11 +102646,11 @@
     kind: 'class',
     interfaces: []
   };
-  function $getSchoolMapCOROUTINE$7(_this_, resultContinuation) {
+  function $getSchoolMapCOROUTINE$2(_this_, resultContinuation) {
     CoroutineImpl_0.call(this, resultContinuation);
     this.__this__39 = _this_;
   }
-  $getSchoolMapCOROUTINE$7.prototype.doResume_0_k$ = function () {
+  $getSchoolMapCOROUTINE$2.prototype.doResume_0_k$ = function () {
     var suspendResult = this._result_1;
     $sm: do
       try {
@@ -102707,18 +102709,18 @@
       }
      while (true);
   };
-  $getSchoolMapCOROUTINE$7.$metadata$ = {
-    simpleName: '$getSchoolMapCOROUTINE$7',
+  $getSchoolMapCOROUTINE$2.$metadata$ = {
+    simpleName: '$getSchoolMapCOROUTINE$2',
     kind: 'class',
     interfaces: []
   };
-  function $getEntriesCOROUTINE$8(_this_, school, dept, resultContinuation) {
+  function $getEntriesCOROUTINE$3(_this_, school, dept, resultContinuation) {
     CoroutineImpl_0.call(this, resultContinuation);
     this.__this__40 = _this_;
     this._school_0 = school;
     this._dept_0 = dept;
   }
-  $getEntriesCOROUTINE$8.prototype.doResume_0_k$ = function () {
+  $getEntriesCOROUTINE$3.prototype.doResume_0_k$ = function () {
     var suspendResult = this._result_1;
     $sm: do
       try {
@@ -102777,8 +102779,8 @@
       }
      while (true);
   };
-  $getEntriesCOROUTINE$8.$metadata$ = {
-    simpleName: '$getEntriesCOROUTINE$8',
+  $getEntriesCOROUTINE$3.$metadata$ = {
+    simpleName: '$getEntriesCOROUTINE$3',
     kind: 'class',
     interfaces: []
   };
@@ -102787,13 +102789,13 @@
     this._$stable_129 = 8;
   }
   Repository.prototype.getSchoolMap_0_k$ = function ($cont) {
-    var tmp = new $getSchoolMapCOROUTINE$7(this, $cont);
+    var tmp = new $getSchoolMapCOROUTINE$2(this, $cont);
     tmp._result_1 = Unit_getInstance();
     tmp._exception_0 = null;
     return tmp.doResume_0_k$();
   };
   Repository.prototype.getEntries_jg38oy_k$ = function (school, dept, $cont) {
-    var tmp = new $getEntriesCOROUTINE$8(this, school, dept, $cont);
+    var tmp = new $getEntriesCOROUTINE$3(this, school, dept, $cont);
     tmp._result_1 = Unit_getInstance();
     tmp._exception_0 = null;
     return tmp.doResume_0_k$();
@@ -102829,7 +102831,7 @@
     tmp0_serialDesc.addElement_5xhc52_k$('enrolled', false);
     tmp0_serialDesc.addElement_5xhc52_k$('responses', false);
     tmp0_serialDesc.addElement_5xhc52_k$('scores', false);
-    tmp0_serialDesc.addElement_5xhc52_k$('extraQs', false);
+    tmp0_serialDesc.addElement_5xhc52_k$('questions', false);
     this._descriptor_26 = tmp0_serialDesc;
     this._$stable_130 = 8;
   }
@@ -102839,7 +102841,7 @@
   $serializer.prototype.childSerializers_0_k$ = function () {
     var tmp$ret$2;
     $l$block_1: {
-      var tmp0_arrayOf_0 = [StringSerializer_getInstance(), StringSerializer_getInstance(), StringSerializer_getInstance(), StringSerializer_getInstance(), _get_nullable_(StringSerializer_getInstance()), _get_nullable_(StringSerializer_getInstance()), IntSerializer_getInstance(), IntSerializer_getInstance(), new ArrayListSerializer(DoubleSerializer_getInstance()), new ArrayListSerializer(StringSerializer_getInstance())];
+      var tmp0_arrayOf_0 = [StringSerializer_getInstance(), StringSerializer_getInstance(), StringSerializer_getInstance(), StringSerializer_getInstance(), _get_nullable_(StringSerializer_getInstance()), _get_nullable_(StringSerializer_getInstance()), IntSerializer_getInstance(), IntSerializer_getInstance(), new ArrayListSerializer(DoubleSerializer_getInstance()), _get_nullable_(new ArrayListSerializer(StringSerializer_getInstance()))];
       var tmp$ret$1;
       $l$block_0: {
         var tmp$ret$0;
@@ -102890,7 +102892,7 @@
       tmp3_bitMask0 = tmp3_bitMask0 | 128;
       tmp12_local8 = tmp14_input.decodeSerializableElement_fgxyly_k$(tmp0_desc, 8, new ArrayListSerializer(DoubleSerializer_getInstance()), tmp12_local8);
       tmp3_bitMask0 = tmp3_bitMask0 | 256;
-      tmp13_local9 = tmp14_input.decodeSerializableElement_fgxyly_k$(tmp0_desc, 9, new ArrayListSerializer(StringSerializer_getInstance()), tmp13_local9);
+      tmp13_local9 = tmp14_input.decodeNullableSerializableElement_hmkm73_k$(tmp0_desc, 9, new ArrayListSerializer(StringSerializer_getInstance()), tmp13_local9);
       tmp3_bitMask0 = tmp3_bitMask0 | 512;
     } else
       while (tmp1_flag) {
@@ -102936,7 +102938,7 @@
             tmp3_bitMask0 = tmp3_bitMask0 | 256;
             break;
           case 9:
-            tmp13_local9 = tmp14_input.decodeSerializableElement_fgxyly_k$(tmp0_desc, 9, new ArrayListSerializer(StringSerializer_getInstance()), tmp13_local9);
+            tmp13_local9 = tmp14_input.decodeNullableSerializableElement_hmkm73_k$(tmp0_desc, 9, new ArrayListSerializer(StringSerializer_getInstance()), tmp13_local9);
             tmp3_bitMask0 = tmp3_bitMask0 | 512;
             break;
           default:throw UnknownFieldException_init_$Create$(tmp2_index);
@@ -102956,7 +102958,7 @@
       new $serializer();
     return $serializer_instance;
   }
-  function Entry_init_$Init$(seen1, instructor, term, code, courseName, indexNum, note, enrolled, responses, scores, extraQs, serializationConstructorMarker, $this) {
+  function Entry_init_$Init$(seen1, instructor, term, code, courseName, indexNum, note, enrolled, responses, scores, questions, serializationConstructorMarker, $this) {
     if (!(1023 === (1023 & seen1)))
       throwMissingFieldException(seen1, 1023, $serializer_getInstance()._descriptor_26);
     $this._instructor = instructor;
@@ -102968,13 +102970,13 @@
     $this._enrolled = enrolled;
     $this._responses = responses;
     $this._scores = scores;
-    $this._extraQs = extraQs;
+    $this._questions = questions;
     return $this;
   }
-  function Entry_init_$Create$(seen1, instructor, term, code, courseName, indexNum, note, enrolled, responses, scores, extraQs, serializationConstructorMarker) {
-    return Entry_init_$Init$(seen1, instructor, term, code, courseName, indexNum, note, enrolled, responses, scores, extraQs, serializationConstructorMarker, Object.create(Entry_1.prototype));
+  function Entry_init_$Create$(seen1, instructor, term, code, courseName, indexNum, note, enrolled, responses, scores, questions, serializationConstructorMarker) {
+    return Entry_init_$Init$(seen1, instructor, term, code, courseName, indexNum, note, enrolled, responses, scores, questions, serializationConstructorMarker, Object.create(Entry_1.prototype));
   }
-  function Entry_1(instructor, term, code, courseName, indexNum, note, enrolled, responses, scores, extraQs) {
+  function Entry_1(instructor, term, code, courseName, indexNum, note, enrolled, responses, scores, questions) {
     Companion_getInstance_93();
     this._instructor = instructor;
     this._term = term;
@@ -102985,7 +102987,7 @@
     this._enrolled = enrolled;
     this._responses = responses;
     this._scores = scores;
-    this._extraQs = extraQs;
+    this._questions = questions;
     this._$stable_131 = 0;
   }
   Entry_1.$metadata$ = {
@@ -103142,6 +103144,8 @@
   };
   var TenQs;
   var TenQsShortened;
+  var otherQs;
+  var QsMap;
   var gridVariant12;
   function generateGridVariant(numColumns) {
     var tmp = Companion_getInstance_46();
@@ -103206,6 +103210,39 @@
     return function () {
       return i.invoke_0_k$();
     };
+  }
+  function QsMap$init$() {
+    var tmp$ret$3;
+    $l$block_2: {
+      var tmp0_associateBy_0 = withIndex_0(plus(TenQs, otherQs));
+      var capacity_1 = coerceAtLeast(mapCapacity(collectionSizeOrDefault(tmp0_associateBy_0, 10)), 16);
+      var tmp$ret$2;
+      $l$block_1: {
+        var tmp0_associateByTo_0_2 = LinkedHashMap_init_$Create$_1(capacity_1);
+        var tmp0_iterator_1_3 = tmp0_associateBy_0.iterator_0_k$();
+        while (tmp0_iterator_1_3.hasNext_0_k$()) {
+          var element_2_4 = tmp0_iterator_1_3.next_0_k$();
+          var tmp$ret$0;
+          $l$block: {
+            tmp$ret$0 = element_2_4._index_0.toString();
+            break $l$block;
+          }
+          var tmp = tmp$ret$0;
+          var tmp$ret$1;
+          $l$block_0: {
+            tmp$ret$1 = element_2_4._value;
+            break $l$block_0;
+          }
+          tmp0_associateByTo_0_2.put_1q9pf_k$(tmp, tmp$ret$1);
+          Unit_getInstance();
+        }
+        tmp$ret$2 = tmp0_associateByTo_0_2;
+        break $l$block_1;
+      }
+      tmp$ret$3 = tmp$ret$2;
+      break $l$block_2;
+    }
+    return tmp$ret$3;
   }
   function Error_init_$Init$_1(message, data, $mask0, $marker, $this) {
     if (!(($mask0 & 2) === 0))
@@ -103706,7 +103743,7 @@
   function ProfSummary$composable(entries, applicableCourseAves, onLoad, $composer, $changed, $default) {
     var onLoad_0 = {_v: onLoad};
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-1621665031);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-1621665029);
     sourceInformation($composer_0, 'C(ProfSummary$composable)P(1)');
     var $dirty = $changed;
     if (!(($default & 1) === 0))
@@ -103843,7 +103880,7 @@
       var tmp_7 = justifyContent_0(tmp_6, tmp$ret$12);
       var tmp_8 = Companion_getInstance_45()._CenterVertically;
       var tmp_9 = $composer_0;
-      Row$composable(tmp_7, null, tmp_8, null, composableLambda(tmp_9, -819890909, true, _no_name_provided_$factory_594(b, selectedQ$delegate, applicableCourseAves)), $composer_0, 24576, 10);
+      Row$composable(tmp_7, null, tmp_8, null, composableLambda(tmp_9, -819890911, true, _no_name_provided_$factory_594(b, selectedQ$delegate, applicableCourseAves)), $composer_0, 24576, 10);
       var tmp$ret$17;
       $l$block_16: {
         var tmp$ret$16;
@@ -103894,7 +103931,7 @@
     var gray_0 = {_v: gray};
     var style_1 = {_v: style_0};
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(678855887);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(678855889);
     sourceInformation($composer_0, 'C(StarRating$composable)P(1,3)');
     var $dirty = $changed;
     if (!(($default & 1) === 0))
@@ -103932,7 +103969,7 @@
       var grayModifier = color_2(Companion_getInstance_46(), gray_0._v);
       var a = roundToInt(rating * 2) / 2.0;
       var tmp = $composer_0;
-      Row$composable(null, null, null, null, composableLambda(tmp, -819889453, true, _no_name_provided_$factory_596(a, yellowModifier, style_1, $dirty, grayModifier)), $composer_0, 24576, 15);
+      Row$composable(null, null, null, null, composableLambda(tmp, -819889455, true, _no_name_provided_$factory_596(a, yellowModifier, style_1, $dirty, grayModifier)), $composer_0, 24576, 15);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
     var tmp0_safe_receiver = $composer_0.endRestartGroup_0_k$();
@@ -103945,7 +103982,7 @@
   function HalfStarColored$composable(yellowModifier, grayModifier, style_0, $composer, $changed, $default) {
     var style_1 = {_v: style_0};
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(245029128);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(245029130);
     sourceInformation($composer_0, 'C(HalfStarColored$composable)P(2)');
     var $dirty = $changed;
     if (!(($default & 1) === 0))
@@ -103965,7 +104002,7 @@
         style_1._v = IconStyle_FILLED_getInstance();
       var len = _get_px_(-0.0625);
       var tmp = $composer_0;
-      Box$composable(null, null, null, composableLambda(tmp, -819889989, true, _no_name_provided_$factory_598(len, yellowModifier, style_1, $dirty, grayModifier)), $composer_0, 3072, 7);
+      Box$composable(null, null, null, composableLambda(tmp, -819889991, true, _no_name_provided_$factory_598(len, yellowModifier, style_1, $dirty, grayModifier)), $composer_0, 3072, 7);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
     var tmp0_safe_receiver = $composer_0.endRestartGroup_0_k$();
@@ -103981,7 +104018,7 @@
     var colWidth_0 = {_v: colWidth};
     var textHeight_0 = {_v: textHeight};
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-660540528);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-660540526);
     sourceInformation($composer_0, 'C(BarGraph$composable)P(3,2,1)');
     var $dirty = $changed;
     if (!(($default & 1) === 0))
@@ -104022,7 +104059,7 @@
       }
       $composer_0.endDefaults_sv8swh_k$();
       var tmp = $composer_0;
-      Box$composable(null, null, null, composableLambda(tmp, -819889887, true, _no_name_provided_$factory_600(height_2, ratings, colWidth_0, textHeight_0, max_0)), $composer_0, 3072, 7);
+      Box$composable(null, null, null, composableLambda(tmp, -819889857, true, _no_name_provided_$factory_600(height_2, ratings, colWidth_0, textHeight_0, max_0)), $composer_0, 3072, 7);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
     var tmp0_safe_receiver = $composer_0.endRestartGroup_0_k$();
@@ -104034,7 +104071,7 @@
   }
   function LoadingSpinner$composable($composer, $changed) {
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-1046035634);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-1046035632);
     sourceInformation($composer_0, 'C(LoadingSpinner$composable)');
     if (!($changed === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       var tmp = size_0(Companion_getInstance_46(), _get_px_(75));
@@ -104051,7 +104088,7 @@
   function ProfScoresList$composable(list, onLoad, $composer, $changed, $default) {
     var onLoad_0 = {_v: onLoad};
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-242062634);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-242062632);
     sourceInformation($composer_0, 'C(ProfScoresList$composable)');
     var $dirty = $changed;
     if (!(($default & 1) === 0))
@@ -104068,7 +104105,7 @@
       }var tmp = toModifier$composable(SimpleGridStyle, gridVariant12, $composer_0, 72, 0);
       var tmp_0 = asAttributesBuilder$default(tmp, null, 1, null);
       var tmp_1 = $composer_0;
-      Div$composable(tmp_0, composableLambda(tmp_1, -819904502, true, _no_name_provided_$factory_604(list, $dirty, onLoad_0)), $composer_0, 48, 0);
+      Div$composable(tmp_0, composableLambda(tmp_1, -819904504, true, _no_name_provided_$factory_604(list, $dirty, onLoad_0)), $composer_0, 48, 0);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
     var tmp0_safe_receiver = $composer_0.endRestartGroup_0_k$();
@@ -104080,7 +104117,7 @@
   }
   function SearchDeptFormContent$composable(state, $composer, $changed) {
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(1643266569);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(1643266571);
     sourceInformation($composer_0, 'C(SearchDeptFormContent$composable)');
     var $dirty = $changed;
     if (($changed & 14) === 0)
@@ -104093,7 +104130,7 @@
       var labelModifier = padding$default(tmp_0, null, _get_px_(2), 1, null);
       var tmp_1 = Companion_getInstance_45()._CenterHorizontally;
       var tmp_2 = $composer_0;
-      Column$composable(null, null, tmp_1, null, composableLambda(tmp_2, -819902405, true, _no_name_provided_$factory_606(labelModifier, state, modifier1, modifier2)), $composer_0, 24576, 11);
+      Column$composable(null, null, tmp_1, null, composableLambda(tmp_2, -819902407, true, _no_name_provided_$factory_606(labelModifier, state, modifier1, modifier2)), $composer_0, 24576, 11);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
     var tmp0_safe_receiver = $composer_0.endRestartGroup_0_k$();
@@ -104109,7 +104146,7 @@
     var getText_0 = {_v: getText};
     var getValue_1 = {_v: getValue_0};
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-1330006231);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-1330006229);
     sourceInformation($composer_0, 'C(ReflectiveCustomDropDown$composable)P(3,4,2)');
     var $dirty = $changed;
     if (!(($default & 1) === 0))
@@ -104254,11 +104291,11 @@
     var $composer_0 = $composer;
     if (!(($changed & 11 ^ 2) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       if (!this._$status_0.equals(Status_InitialLoading_getInstance())) {
-        $composer_0.startReplaceableGroup_majfzk_k$(1096095911);
+        $composer_0.startReplaceableGroup_majfzk_k$(1096095913);
         SearchDeptFormContent$composable(this._$state_0, $composer_0, 0);
         $composer_0.endReplaceableGroup_sv8swh_k$();
       } else {
-        $composer_0.startReplaceableGroup_majfzk_k$(1096095981);
+        $composer_0.startReplaceableGroup_majfzk_k$(1096095983);
         LoadingSpinner$composable($composer_0, 0);
         $composer_0.endReplaceableGroup_sv8swh_k$();
       }
@@ -104506,7 +104543,7 @@
       var tmp_14 = $composer_0;
       var tmp_15 = composableLambda(tmp_14, -819893677, true, _no_name_provided_$factory_613(state, status));
       var tmp_16 = $composer_0;
-      LeftRightCenterBox$composable(tmp_13, null, tmp_15, composableLambda(tmp_16, -819893253, true, _no_name_provided_$factory_614(status, state)), $composer_0, 3456, 2);
+      LeftRightCenterBox$composable(tmp_13, null, tmp_15, composableLambda(tmp_16, -819893256, true, _no_name_provided_$factory_614(status, state)), $composer_0, 3456, 2);
       var tmp$ret$24;
       $l$block_23: {
         var tmp6_remember$composable_0 = _no_name_provided_$factory_615(state);
@@ -104551,21 +104588,21 @@
       var finishLoading = tmp$ret$24;
       var tmp0_subject = status;
       if (tmp0_subject.equals(Status_Prof_getInstance())) {
-        $composer_0.startReplaceableGroup_majfzk_k$(-1631073618);
+        $composer_0.startReplaceableGroup_majfzk_k$(-1631073616);
         var tmp_19 = state._get_profState__0_k$()._selected;
         SpanText$composable(tmp_19, null, null, $composer_0, 0, 6);
         ProfSummary$composable(state._get_selectedProfEntries__0_k$(), state._get_applicableCourseAves__0_k$(), finishLoading, $composer_0, 0, 0);
         $composer_0.endReplaceableGroup_sv8swh_k$();
       } else if (tmp0_subject.equals(Status_Course_getInstance())) {
-        $composer_0.startReplaceableGroup_majfzk_k$(-1631073424);
+        $composer_0.startReplaceableGroup_majfzk_k$(-1631073422);
         ProfScoresList$composable(state._get_scoresByProfForCourse__0_k$(), finishLoading, $composer_0, 0, 0);
         $composer_0.endReplaceableGroup_sv8swh_k$();
       } else if (tmp0_subject.equals(Status_Dept_getInstance())) {
-        $composer_0.startReplaceableGroup_majfzk_k$(-1631073338);
+        $composer_0.startReplaceableGroup_majfzk_k$(-1631073336);
         ProfScoresList$composable(state._get_scoresByProf__0_k$(), finishLoading, $composer_0, 0, 0);
         $composer_0.endReplaceableGroup_sv8swh_k$();
       } else {
-        $composer_0.startReplaceableGroup_majfzk_k$(-1631073268);
+        $composer_0.startReplaceableGroup_majfzk_k$(-1631073266);
         $composer_0.endReplaceableGroup_sv8swh_k$();
       }
     } else
@@ -104796,7 +104833,7 @@
       SpanText$composable('Prof Average', tmp_2, null, $composer_23, 6, 4);
       var tmp_3 = Companion_getInstance_45()._CenterVertically;
       var tmp_4 = $composer_23;
-      Row$composable(null, null, tmp_3, null, composableLambda(tmp_4, -819888639, true, _no_name_provided_$factory_619(selectedScore_24)), $composer_23, 24576, 11);
+      Row$composable(null, null, tmp_3, null, composableLambda(tmp_4, -819888609, true, _no_name_provided_$factory_619(selectedScore_24)), $composer_23, 24576, 11);
       var tmp3_safe_receiver_34 = courseAve_25;
       if (tmp3_safe_receiver_34 == null)
         null;
@@ -104808,7 +104845,7 @@
           SpanText$composable('Course Average', null, null, $composer_23, 6, 6);
           var tmp_5 = Companion_getInstance_45()._CenterVertically;
           var tmp_6 = $composer_23;
-          tmp$ret$4 = Row$composable(null, null, tmp_5, null, composableLambda(tmp_6, -819888279, true, _no_name_provided_$factory_620(tmp3_safe_receiver_34)), $composer_23, 24576, 11);
+          tmp$ret$4 = Row$composable(null, null, tmp_5, null, composableLambda(tmp_6, -819888281, true, _no_name_provided_$factory_620(tmp3_safe_receiver_34)), $composer_23, 24576, 11);
           break $l$block_3;
         }
         Unit_getInstance();
@@ -104906,7 +104943,7 @@
             var tmp_0 = margin_1(Companion_getInstance_46(), _get_px_(10), _get_px_(15));
             var tmp_1 = Companion_getInstance_45()._CenterHorizontally;
             var tmp_2 = $composer_0;
-            Column$composable(tmp_0, null, tmp_1, null, composableLambda(tmp_2, -819892069, true, _no_name_provided_$factory_618(scores_5, this._$applicableCourseAves_0, courseName_4, ratings_15, this._$selectedQ$delegate_1)), $composer_0, 24576, 10);
+            Column$composable(tmp_0, null, tmp_1, null, composableLambda(tmp_2, -819892071, true, _no_name_provided_$factory_618(scores_5, this._$applicableCourseAves_0, courseName_4, ratings_15, this._$selectedQ$delegate_1)), $composer_0, 24576, 10);
           }
         }
       }
@@ -104958,15 +104995,15 @@
           var i = inductionVariable;
           inductionVariable = inductionVariable + 1 | 0;
           if (i <= this._$a_0) {
-            $composer_0.startReplaceableGroup_majfzk_k$(605310065);
+            $composer_0.startReplaceableGroup_majfzk_k$(605310067);
             FaStar$composable(this._$yellowModifier, this._$style_8._v, $composer_0, 112 & this._$$dirty_18 >> 6, 0);
             $composer_0.endReplaceableGroup_sv8swh_k$();
           } else if (i - 0.5 === this._$a_0) {
-            $composer_0.startReplaceableGroup_majfzk_k$(605310128);
+            $composer_0.startReplaceableGroup_majfzk_k$(605310130);
             HalfStarColored$composable(this._$yellowModifier, this._$grayModifier, this._$style_8._v, $composer_0, 896 & this._$$dirty_18 >> 3, 0);
             $composer_0.endReplaceableGroup_sv8swh_k$();
           } else {
-            $composer_0.startReplaceableGroup_majfzk_k$(605310205);
+            $composer_0.startReplaceableGroup_majfzk_k$(605310207);
             FaStar$composable(this._$grayModifier, this._$style_8._v, $composer_0, 112 & this._$$dirty_18 >> 6, 0);
             $composer_0.endReplaceableGroup_sv8swh_k$();
           }
@@ -105166,7 +105203,7 @@
             var tmp_2 = width$default(tmp_0, tmp_1, null, 2, null);
             var tmp_3 = Companion_getInstance_45()._CenterHorizontally;
             var tmp_4 = $composer_0;
-            Column$composable(tmp_2, null, tmp_3, null, composableLambda(tmp_4, -819902695, true, _no_name_provided_$factory_623(tmp0__anonymous__5, item_3, this._$height_0, this._$textHeight_0, this._$max_0)), $composer_0, 24576, 10);
+            Column$composable(tmp_2, null, tmp_3, null, composableLambda(tmp_4, -819902697, true, _no_name_provided_$factory_623(tmp0__anonymous__5, item_3, this._$height_0, this._$textHeight_0, this._$max_0)), $composer_0, 24576, 10);
           }
         }
       }
@@ -105198,7 +105235,7 @@
       var tmp_1 = height$default(tmp, tmp_0, null, 2, null);
       var tmp_2 = padding$default(tmp_1, null, _get_px_(15), 1, null);
       var tmp_3 = $composer_0;
-      Row$composable(tmp_2, null, null, null, composableLambda(tmp_3, -819902736, true, _no_name_provided_$factory_622(this._$ratings_0, this._$colWidth_0, this._$height_1, this._$textHeight_1, this._$max_1)), $composer_0, 24576, 14);
+      Row$composable(tmp_2, null, null, null, composableLambda(tmp_3, -819902962, true, _no_name_provided_$factory_622(this._$ratings_0, this._$colWidth_0, this._$height_1, this._$textHeight_1, this._$max_1)), $composer_0, 24576, 14);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
@@ -105449,7 +105486,7 @@
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       var spacing = _get_px_(80);
       var fontSize_1 = _get_px_(15);
-      $composer_0.startReplaceableGroup_majfzk_k$(-681694004);
+      $composer_0.startReplaceableGroup_majfzk_k$(-681694002);
       {
         var tmp0_forEachIndexed_0 = plus_0(plus(listOf_0(''), TenQsShortened), 'Total # of Responses');
         var index_1 = 0;
@@ -105463,7 +105500,7 @@
             var tmp = Companion_getInstance_46();
             var tmp_0 = width$default(tmp, spacing, null, 2, null);
             var tmp_1 = $composer_0;
-            Box$composable(tmp_0, null, null, composableLambda(tmp_1, -819904017, true, _no_name_provided_$factory_624(item_3, fontSize_1, tmp1__anonymous__5)), $composer_0, 3072, 6);
+            Box$composable(tmp_0, null, null, composableLambda(tmp_1, -819904019, true, _no_name_provided_$factory_624(item_3, fontSize_1, tmp1__anonymous__5)), $composer_0, 3072, 6);
           }
         }
       }
@@ -105494,7 +105531,7 @@
         break $l$block_2;
       }
       var gridElementModifier = alignSelf_0(tmp_5, tmp$ret$3);
-      $composer_0.startReplaceableGroup_majfzk_k$(-681693071);
+      $composer_0.startReplaceableGroup_majfzk_k$(-681693069);
       {
         var tmp$ret$5;
         $l$block_4: {
@@ -105526,8 +105563,8 @@
             }
             var nums_5 = tmp$ret$7;
             var tmp_7 = $composer_0;
-            Box$composable(gridElementModifier, null, null, composableLambda(tmp_7, -819901332, true, _no_name_provided_$factory_626(prof_4, spacing)), $composer_0, 3072, 6);
-            $composer_0.startReplaceableGroup_majfzk_k$(-681692686);
+            Box$composable(gridElementModifier, null, null, composableLambda(tmp_7, -819901334, true, _no_name_provided_$factory_626(prof_4, spacing)), $composer_0, 3072, 6);
+            $composer_0.startReplaceableGroup_majfzk_k$(-681692684);
             {
               var tmp0_forEach_0_9 = nums_5._second.subList_27zxwg_k$(0, 10);
               var tmp0_iterator_1_10 = tmp0_forEach_0_9.iterator_0_k$();
@@ -105749,11 +105786,11 @@
     var $composer_0 = $composer;
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       var tmp = $composer_0;
-      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp, -819899235, true, _no_name_provided_$factory_634(this._$labelModifier_2, this._$state_6, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
+      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp, -819899237, true, _no_name_provided_$factory_634(this._$labelModifier_2, this._$state_6, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
       var tmp_0 = $composer_0;
-      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp_0, -819898926, true, _no_name_provided_$factory_635(this._$labelModifier_2, this._$state_6, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
+      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp_0, -819898928, true, _no_name_provided_$factory_635(this._$labelModifier_2, this._$state_6, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
       var tmp_1 = $composer_0;
-      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp_1, -819899872, true, _no_name_provided_$factory_636(this._$labelModifier_2, this._$state_6, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
+      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp_1, -819899842, true, _no_name_provided_$factory_636(this._$labelModifier_2, this._$state_6, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
@@ -105799,7 +105836,7 @@
       }
       var tmp = alignSelf_0(this._$labelModifier_3, tmp$ret$3);
       SpanText$composable('School', tmp, null, $composer_0, 6, 4);
-      $composer_0.startReplaceableGroup_majfzk_k$(-78153060);
+      $composer_0.startReplaceableGroup_majfzk_k$(-78153058);
       var tmp$ret$6;
       $l$block_5: {
         var tmp1_run_0 = schoolState$factory(this._$state_7);
@@ -105860,7 +105897,7 @@
       }
       var tmp_7 = alignContent_0(tmp_6, tmp$ret$10);
       var tmp_8 = $composer_0;
-      Row$composable(tmp_7, null, null, null, composableLambda(tmp_8, -819898523, true, _no_name_provided_$factory_633(secondRowModifier, this._$labelModifier_3, this._$state_7, this._$modifier1_3, this._$modifier2_3)), $composer_0, 24576, 14);
+      Row$composable(tmp_7, null, null, null, composableLambda(tmp_8, -819898525, true, _no_name_provided_$factory_633(secondRowModifier, this._$labelModifier_3, this._$state_7, this._$modifier1_3, this._$modifier2_3)), $composer_0, 24576, 14);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
@@ -107890,6 +107927,8 @@
   NavButtonVariant = NavItemStyle.addVariant_ft6p7_k$('button', _no_name_provided_$factory_551());
   TenQs = listOf(['The instructor was prepared for class and presented the material in an organized manner', 'The instructor responded effectively to student comments and questions', 'The instructor generated interest in the course material', 'The instructor had a positive attitude toward assisting all students in understanding course material', 'The instructor assigned grades fairly', 'The instructional methods encouraged student learning', 'I learned a great deal in this course', 'I had a strong prior interest in the subject matter and wanted to take this course', 'I rate the teaching effectiveness of the instructor as', 'I rate the overall quality of the course as']);
   TenQsShortened = listOf(['Prepared & Organized', 'Responded to Questions Effectively', 'Generated Interest in Material', 'Positive Attitude Towards Assisting Students', 'Graded Fairly', 'Effective Teaching Methods', 'Learned a Great Deal', 'Strong Prior Interest', 'Teaching Effectiveness', 'Overall Quality of Course']);
+  otherQs = sorted(listOf(['I would recommend this course to other students', 'I actively contributed to our class discussions', 'Enrichment activities (i.e. field trips, meals, guest speakers, etc.) were valuable (if applicable)', 'The activities in class helped us develop relationships with our peers', 'Byrne Seminars helped me to see myself as part of the larger Rutgers community', 'I now have a basic understanding of what scholarly inquiry or primary research is', 'I may choose to participate in a faculty member&amp;rsquo;s research while at Rutgers', 'I have a better sense of the academic and/or research opportunities Rutgers offers me', 'I realize I can approach this professor and/or other professors to discuss ideas and plans', 'I would recommend to other Rutgers students that they take a Byrne Seminar', 'I registered for this course because I wanted to learn more about a specific area of interest (i.e. psychology, law, health &amp; medicine, etc).', 'I registered for this course because I thought it would help me transition to Rutgers and learn about the resources available.', 'This course helped me to explore and learn more about different career opportunities within the topical area of my FIGS (i.e. health &amp; medicine, veterinary medicine, business, psychology, etc.).', 'This course eased my transition to Rutgers', 'The FIGS course encouraged relationships with faculty at Rutgers', 'Because of this course, I feel knowledgeable about how to access the services and resources available at Rutgers (i.e. libraries, health services, learning centers, academic advising, etc.)', 'This course helped me explore and learn more about the topical area of my FIGS course (i.e. health &amp; medicine, veterinary medicine, business, psychology, etc.)', 'I would recommend this course to other new students', 'This course helped me succeed in my first semester at Rutgers University.', 'This course helped me transition from high school to college.', 'The class discussions were good', 'We did worthwhile assignments', 'I found the readings to be useful', 'I worked with other students on class assignments or projects', 'Inspired me to think in new ways', 'Helped me see multiple sides of an issue', 'Encouraged me to ask questions and to express my ideas', "Gave me the opportunity to learn about different people's perspectives, coming from different backgrounds", 'Made me feel engaged in the learning, rather than disconnected', 'Was available, helpful and sympathetic', 'Encouraged us to speak in class', 'Made this a positive learning experience', 'Engaged us with intellectual ideas', 'Explored new knowledge with us in the seminar', 'The out-of-classroom activities (field trips, meals, etc.) were valuable', 'The guest speakers, if any, were worthwhile', 'We did activities that helped us develop friendships within the class', 'We discussed important national or international issues', 'I socialized with another student from the seminar at least once', 'I studied with another student from the seminar at least once', 'I discussed ideas from this seminar with others (family members, co-workers, other students)', "My knowledge of the professor's field of research has increased", 'My own ability to conduct research is stronger', 'I have a better understanding of how and why research is conducted at Rutgers', 'I am considering a new major (field of study)  or career', 'I am more open to new intellectual experiences', "I may choose to participate in a faculty member's research while at Rutgers", 'I have a better sense of the many resources that Rutgers offers me', 'I feel I can approach this professor in the future for advice about my education', 'I realize I can approach other professors to discuss ideas and plans', 'I see myself as part of the Rutgers community', 'Unknown', 'The instructor commented carefully and usefully on my papers', 'I sought extra help from my instructor', 'The instructor was helpful during office hours', 'My literary background prepared me for this course', 'My preparation for each class was', 'My attendance record for this course was', 'The instructor explained objectives and  requirements of the course clearly', 'The assignments for this course explained the reading and writing tasks in a helpful way', 'The instructor returned written work promptly and made helpful written comments on papers', 'The instructor was respectful of all students regardless of their race, gender, age, etc', 'The group work in the course improved my performance', "How would you rate instructor's ability and willingness to help students outside of class", "How would you rate your instructor's enthusiasm for the subject of the course", 'How would you rate the difficulty of the assignments', "How would you rate the instructor's ability to involve all students in classroom discussions", 'Course quizzes, tests and other assignments accurately reflected material taught', 'Assignments were graded and returned promptly', 'I had a strong prior interest in studying German beyond this course level', 'My experience in this class has encouraged me to continue taking German courses', 'The instructor was articulate and spoke English clearly', 'The textbook was helpful and appropriate', 'The homework assignments aided my understanding of the subject', 'Homework solutions were helpful and made available quickly', 'Lecture demonstrations using equipment aided my understanding of the subject', 'Rate the pace of the course', 'The mini-labs were a worthwhile component of the course', 'The lab experiments were instructive', 'The lab equipment was usually functioning', 'The lab manual was clear', 'I had to spend too much time preparing for the lab', 'Rate the difficulty of the experiments', 'Rate the usefulness of the feedback provided by the graded lab reports', 'The instructor provided a clear, detailed syllabus for the course', 'The instructor demonstrated a knowledge of the subject matter', 'My language skills have improved as a result of this course', 'My grammar and writing skills have improved as a result of this course', 'My linguistic skills have improved as a result of this course', 'Improvement in textual analysis &amp; knowledge of target culture has been', 'Overall, I have a better understanding of the theory that explains public speaking techniques and outcomes achieved by speakers as a result of taking this course.', 'Overall, I have a better understanding of the techniques involved in audience analysis, speech preparation, and delivery of public presentations as a result of taking this course.', 'I enjoyed the mediated component of the course (interview assignment, mediated speeches).', 'I found the main textbook (Speak Up) used in the course useful and effective in terms of meeting the learning objectives of the course.', 'What letter grade do you expect in the course?', 'This course has increased my ability to think and act creatively in this discipline', 'The instructor answered questions and facilitated participation in group discussions', 'This course was intellectually and creatively stimulating', 'My techniques of observation and inquiry in this field improved as a result of this course', 'Readings and/or gallery visits were useful as a supplementary resource', 'The instructor helps me establish a positive rapport with the class', 'The instructor encourages independent thought and individual questions', 'Reading and/or listening assignments are relevant', 'The instructor communicates both interest and knowledge in area of study', 'Class time does not merely duplicate assigned readings', 'The instructor is available to students outside of class', 'Written assignments, quizzes and exams are appropriately designed and instructive', 'Assignments and exams are returned promptly', 'There is an appropriate balance between theoretical concepts and concrete example or illustrations', 'The director/coach selects appropriately challenging repertoire', 'The director/coach uses rehearsal time efficiently', 'The director/coach is able to diagnose and correct performance problems', 'The director/coach communicates instructions and interpretive ideas clearly', 'The director/coach promotes a sense of cohesion as an ensemble', 'The director/coach demonstrates technical understanding of voices or instruments in the ensemble', 'The director/coach demonstrates thorough knowledge of the music being performed', 'The director/coach demonstrates clear conducting technique', 'The director/coach treats rehearsal as a learning experience as well as preparation for public performance', 'The instructor helps me establish good practice/work habits', 'The instructor is able to diagnose and correct technical and artistic problems', 'The instructor provides the full measure of lesson time over the semester', 'Generally, an appropriate balance of technical and artistic training is present in lessons', 'The instructor challenges me to learn and perform at an appropriate level for my ability', 'The instructor has high standards of performance for the student', 'The instructor is encouraging, gives constructive criticism, and achieves results without using sarcasm or ridicule', 'The instructor stimulates artistic growth, independent thinking, and self-reliance', 'The instructor gives freely of his/her time outside of lessons while maintaining a professional/personal balance with the student', 'The instructor helps me focus ideas towards the goal of the study project', 'The instructor helps me develop good work habits', "The instructor's ideas do not supersede the student's", 'The instructor encourages independent thought and self-reliance', 'The instructor treats me as an individual, and shows awareness of my strengths and weaknesses', 'The instructor offers constructive criticism, is neither patronizing nor sarcastic', 'The instructor keeps appointments and reschedules those he/she misses', 'The instructor gives full attention during meeting times', 'The instructor provides appropriate balance between practical and theoretical assistance', 'Instructor encouraged student participation in class by questions and discussions', 'Lectures/seminars covered material at an appropriate intellectual level', 'Lectures/seminars stimulated intellectual curiosity', 'Readings were the right level of difficulty', 'Course dealt appropriately with role of group differences (gender, ethnicity, race, etc.)', 'Course contributed to your capacity for critical evaluation of subject matter', 'Course maintained or increased your interest in the field', 'Rate the workload of this course', 'Rate the readings', 'I was satisfied with the degree of utilization and the quality of the WebCT or course web page in this course', 'The computer resources were adequate and sufficiently available for the needs of this course', 'If a lab course: the necessary equipment to do the work assigned were adequate and sufficiently available', 'If a lab course: the experiments were relevant and the laboratory manual was helpful', 'If software was used: I was well prepared to complete the assignments using the required software', 'Rate the relative difficulty of this course compared with other engineering courses of similar level', 'Indicate the degree of your satisfaction with the MODE of presentation of the material', 'If a design course: rate the percentage of the content of this course occupied by the design component', 'If the course had prerequisites: rate the degree of preparation these prerequisites gave you for this course', 'The instructor spoke English clearly', 'The homework assignments were of an appropriate level of difficulty', 'The instructor was available outside of class', 'The instructor treated students with respect', 'The class regularly began and ended on time', 'There was a sufficient amount of hands-on experience in a computer lab setting', 'The course would be more effective with the aid of a large screen in the classroom', 'Is this course required?', 'What grade do you expect to receive in this class?', 'How many other Economics courses have you taken prior to this semester?', 'What was your GPA for previous Economics courses?', 'The instructor returned written work promptly and made helpful comments on the papers', 'The instructor treated students in the course with respect', "How would you rate instructor's availability and willingness to help students outside of class", 'Compared to other instructors I have had, I would rate this instructor as', 'The instructor treated the students w/ respect', 'My previous math classes prepared me well for this course', 'Technology was used appropriately in this course', 'For courses using WebAssign, on-line material was helpful', "If you sought the instructor's assistance outside of class, the instructor was helpful. (leave blank if not applicable)", 'The instructor treated students in this course with respect', 'The instructor strived to create an environment that promoted academic integrity', 'Since the beginning of this course how many hours a week, on average, have you spent on this course in addition to class time?', 'In this course I learned to draw conclusions, hypothesize, consider alternatives or decide a course of action', 'In this course I learned to evaluate conclusions and solutions based on appropriate criteria and to revise as necessary', 'In this course I learned to provide support for arguments, solutions, and results', 'In this course I learned the habits, attitudes and values of critical thinking', 'Recitation sections helped me reinforce the content learned in lecture classes', '(For course 158:315) Because of this course I appreciate the role of pharmacists in advancing medical sciences in such fields as stem cells and recombinant DNA applications', '(For course 158:315) Through this course I learned modern technological advances in drug development and delivery', '(For course 158:420) In this course I learned the relevance of immunization in the community', '(For course 158:420) In this course I learned to evaluate the relationships between infectious agents and drug treatments', 'The instructor successfully encouraged students to take part in discussions', 'The instructor encouraged students to share their personal experiences in class', "The instructor encouraged students to express disagreement with the instructor's position or comments", 'The instructor cares whether or not the students learn', 'The average time spent studying outside of class each week was in hours', 'I learned to think more critically', 'I learned to read and interpret complex and significant texts', 'I learned to write more clearly and effectively', 'I learned how to make convincing arguments', 'I learned oral communication skills']));
+  QsMap = QsMap$init$();
   gridVariant12 = generateGridVariant(12);
   urlEncodings = listOf([to(',', '%2C'), to(' ', '%20')]);
   var $kotlinx = _.kotlinx || (_.kotlinx = {});
