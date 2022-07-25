@@ -72,11 +72,11 @@ fun SearchDept() {
                 .fillMaxWidth()
                 .alignItems(AlignItems.Center),// vertical alignment
             right = {
-                if(state.profListLoading && status != Status.InitialLoading)
+                if (state.profListLoading && status != Status.InitialLoading)
                     LoadingSpinner()
             },
             center = {
-                if(status != Status.InitialLoading)
+                if (status != Status.InitialLoading)
                     SearchDeptFormContent(state)
                 else
                     LoadingSpinner()

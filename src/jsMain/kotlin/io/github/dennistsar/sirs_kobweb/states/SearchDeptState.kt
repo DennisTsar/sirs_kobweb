@@ -63,15 +63,15 @@ class SearchDeptStateImpl(
                 "school=${schoolState.selected}" +
                 "&dept=${deptState.selected}" +
                 courseState.selected.run{
-                    if(isBlankOrNone()) "" else "&course=$this"
+                    if (isBlankOrNone()) "" else "&course=$this"
                 } +
                 profState.selected.run{
-                    if(isBlankOrNone()) "" else "&prof=${encodeURLParam()}"
+                    if (isBlankOrNone()) "" else "&prof=${encodeURLParam()}"
                 }
 
     override val status
         get() =
-            if(firstTime)
+            if (firstTime)
                 Status.InitialLoading
             else if (!profState.selected.isBlankOrNone())
                 Status.Prof
@@ -115,7 +115,7 @@ class SearchDeptStateImpl(
             coroutineScope.launch {
                 val response = repository.getEntries(schoolState.selected, deptState.selected)
                 deptEntries =
-                    if(response is Resource.Success && response.data!=null){
+                    if (response is Resource.Success && response.data!=null){
                         response.data.filter { it.scores.size >= 100 }
                     } else {
                         console.log("Error: ${response.message}")
@@ -148,7 +148,7 @@ class SearchDeptStateImpl(
         get() = _courseState
         set(value) {
             _courseState = value
-            if(!value.selected.isBlankOrNone())
+            if (!value.selected.isBlankOrNone())
                 profState = profState.copy(selected = None)
         }
 
@@ -174,7 +174,7 @@ class SearchDeptStateImpl(
 
             selectedSchool.depts.let {
                 deptState =
-                    if(it.contains(deptState.selected))
+                    if (it.contains(deptState.selected))
                         deptState.copy(list = it)
                     else
                         deptState.copy(list = it, selected = it.firstOrNull() ?: "")
