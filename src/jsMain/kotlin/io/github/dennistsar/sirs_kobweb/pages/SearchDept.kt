@@ -137,7 +137,13 @@ fun ProfSummary(
                     val courseAve = applicableCourseAves[courseName]?.get(selectedQ)
 
                     SpanText(courseName)
-                    BarGraph(ratings)
+                    BarGraph(
+                        ratings,
+                        if (selectedQ<8)
+                            Pair("Strongly Agree", "Strongly Disagree")
+                        else
+                            Pair("Poor", "Excellent")
+                    )
                     SpanText(
                         "Prof Average",
                         courseAve?.let {
@@ -199,40 +205,39 @@ fun HalfStarColored(yellowModifier: Modifier, grayModifier: Modifier, style: Ico
 @Composable
 fun BarGraph(
     ratings: List<Int>,
+    labels: Pair<String,String>,
     max: Int = ratings.maxOrNull() ?: 0,
-    height: Double = 175.0,
+    height: Double = 130.0,
     colWidth: Double = 36.0,
-    textHeight: Double = 25.0,
 ) {
     Box {
         Row(
             Modifier
-                .height(height.px)
                 .padding(leftRight = 15.px) // don't really like this but idk how else to extend bounds to end of "Excellent"
         ) {
             ratings.forEachIndexed { index, num ->
                 Column(
-                    Modifier
-                        .fillMaxHeight()
-                        .width(colWidth.px),
+                    Modifier.width(colWidth.px),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    val bottomLabel = when (index) {
-                        0 -> "Poor"
-                        4 -> "Excellent"
-                        else -> null
+                    Column(
+                        Modifier.height(height.px),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Box(Modifier.flex(1)) // pushes everything down
+                        SpanText(num.toString())
+                        Box(
+                            Modifier
+                                .width(28.px)
+                                .height(num.px * (height ) / max)
+                                .backgroundColor(Color.purple)
+                        )
                     }
-                    Box(Modifier.flex(1)) // pushes everything down
-                    SpanText(num.toString())
-                    Box(
-                        Modifier
-                            .width(28.px)
-                            .height(num.px * (height - 2.5 * textHeight) / max)
-                            .backgroundColor(Color.purple)
-                            .thenIf(bottomLabel == null, Modifier.margin(bottom = textHeight.px))
-                    )
-                    // possibly add rotation to this
-                    bottomLabel?.let { SpanText(it, Modifier.height(textHeight.px)) }
+                    when (index) {
+                        0 -> labels.first
+                        4 -> labels.second
+                        else -> null
+                    }?.let { SpanText(it) } // possibly add rotation to this
                 }
             }
         }
@@ -319,7 +324,7 @@ fun SearchDeptFormContent(state: SearchDeptState) {
             labelModifier.alignSelf(AlignSelf.Start),
         )
 
-        state::schoolState.run {
+        with(state::schoolState) {
             CustomDropDown(
                 list = get().list,
                 onSelect = { set(get().copy(selected = it)) },
@@ -341,27 +346,22 @@ fun SearchDeptFormContent(state: SearchDeptState) {
         ) {
             Column(secondRowModifier) {
                 SpanText("Department", labelModifier)
-
                 ReflectiveCustomDropDown(
                     property = state::deptState,
                     selectModifier = modifier1.width(125.px),
                     optionModifier = modifier2,
                 )
             }
-
             Column(secondRowModifier) {
                 SpanText("Course (Optional)", labelModifier)
-
                 ReflectiveCustomDropDown(
                     property = state::courseState,
                     selectModifier = modifier1.width(125.px),
                     optionModifier = modifier2,
                 )
             }
-
             Column(secondRowModifier) {
                 SpanText("Prof (Optional)", labelModifier)
-
                 ReflectiveCustomDropDown(
                     property = state::profState,
                     selectModifier = modifier1.width(125.px),
