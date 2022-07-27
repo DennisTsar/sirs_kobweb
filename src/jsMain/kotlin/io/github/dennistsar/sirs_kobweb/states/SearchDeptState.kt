@@ -17,7 +17,7 @@ data class DropDownState<T>(
     val list: Collection<T>,
     val selected: String,
 ) {
-    constructor(selected: String?) : this(emptyList(),selected ?: "")
+    constructor(selected: String?) : this(emptyList(), selected ?: "")
 }
 
 fun<T> setPropIfDifferent(property: KMutableProperty0<DropDownState<T>>, newVal: String?){
@@ -211,14 +211,14 @@ class SearchDeptStateImpl(
     }.mapValues {(_,courseEntries) ->
         // both of these methods do the same thing, second is clearer but is first more efficient? maybe not tbh
         // also, I think first will more easily expand to extra (post 10) questions
-//        courseEntries.mapByProfs().map {(_,profEntries) ->
+//        courseEntries.mapByProfs().map { (_, profEntries) ->
 //            profEntries.aveScores().toTotalAndAvesPair().second
 //        }
 //            .flatMap { it.withIndex() }
 //            .groupBy({ it.index }, { it.value })
 //            .values
 //            .map { it.average().roundToDecimal(2) }
-        val aves = courseEntries.mapByProfs().map {(_,profEntries) ->
+        val aves = courseEntries.mapByProfs().map { (_ ,profEntries) ->
             profEntries.aveScores().toTotalAndAvesPair().second
         }
         (0..9).map{ i -> // corresponding to each question

@@ -11,13 +11,13 @@ class Repository(private val api: Api) {
         api.getSchoolDeptsMapFromGit().toResource()
 
     suspend fun getEntries(school: String, dept: String): Resource<List<Entry>> =
-        api.getEntriesFromGit(school,dept).toResource()
+        api.getEntriesFromGit(school, dept).toResource()
 
     private inline fun<reified T> String.toResource(): Resource<T> {
         return try {
             Resource.Success(Json.decodeFromString<T>(this))
         } catch (e: Exception) {
-            console.log(e,e.message)
+            console.log(e, e.message)
             Resource.Error(e.message ?: "Error decoding JSON")
         }
     }
