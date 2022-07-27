@@ -1,9 +1,15 @@
 package io.github.dennistsar.sirs_kobweb.misc
 
+import com.varabyte.kobweb.compose.css.Cursor
+import com.varabyte.kobweb.compose.css.TextDecorationLine
 import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.modifiers.cursor
+import com.varabyte.kobweb.compose.ui.modifiers.textDecorationLine
 import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.layout.SimpleGridStyle
+import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.SimpleComponentVariant
+import com.varabyte.kobweb.silk.components.style.hover
 import org.jetbrains.compose.web.css.gridTemplateColumns
 
 const val None = "None" // to avoid accidental typos
@@ -243,5 +249,13 @@ fun generateGridVariant(numColumns: Int): SimpleComponentVariant {
     }
     return SimpleGridStyle.addVariant("base-$numColumns") {
         base { gridModifier }
+    }
+}
+
+val underlineOnHoverStyle = ComponentStyle("underline-on-hover"){
+    hover {
+        Modifier
+            .textDecorationLine(TextDecorationLine.Underline)
+            .cursor(Cursor.Pointer)
     }
 }

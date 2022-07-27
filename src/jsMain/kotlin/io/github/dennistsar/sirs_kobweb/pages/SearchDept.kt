@@ -13,17 +13,11 @@ import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.rememberPageContext
-import com.varabyte.kobweb.navigation.UpdateHistoryMode
-import com.varabyte.kobweb.silk.components.graphics.Image
-import com.varabyte.kobweb.silk.components.icons.fa.FaStar
-import com.varabyte.kobweb.silk.components.icons.fa.FaStarHalf
-import com.varabyte.kobweb.silk.components.icons.fa.IconStyle
 import com.varabyte.kobweb.silk.components.layout.SimpleGridStyle
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import io.github.dennistsar.sirs_kobweb.components.layouts.PageLayout
-import io.github.dennistsar.sirs_kobweb.components.widgets.CustomDropDown
-import io.github.dennistsar.sirs_kobweb.components.widgets.LeftRightCenterBox
+import io.github.dennistsar.sirs_kobweb.components.widgets.*
 import io.github.dennistsar.sirs_kobweb.data.api.Api
 import io.github.dennistsar.sirs_kobweb.data.api.Repository
 import io.github.dennistsar.sirs_kobweb.data.aveScores
@@ -32,21 +26,21 @@ import io.github.dennistsar.sirs_kobweb.data.mapByCourses
 import io.github.dennistsar.sirs_kobweb.data.toProfScores
 import io.github.dennistsar.sirs_kobweb.data.toTotalAndAvesPair
 import io.github.dennistsar.sirs_kobweb.misc.*
-import io.github.dennistsar.sirs_kobweb.states.DropDownState
 import io.github.dennistsar.sirs_kobweb.states.SearchDeptState
 import io.github.dennistsar.sirs_kobweb.states.SearchDeptStateImpl
 import io.github.dennistsar.sirs_kobweb.states.Status
+import io.github.dennistsar.sirs_kobweb.states.setPropIfDifferent
+import kotlinx.browser.window
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
-import kotlin.math.roundToInt
-import kotlin.reflect.KMutableProperty0
 
 @Page
 @Composable
 fun SearchDept() {
     val repository = Repository(Api())
     PageLayout("Search",Modifier.backgroundColor(Color.lightcyan)) {
+        //region non-UI setuo
         val ctx = rememberPageContext()
         val myCoroutineScope = rememberCoroutineScope()
 
@@ -61,11 +55,26 @@ fun SearchDept() {
             )
         }
 
+        window.onpopstate = onPop@{
+            state.noDeptReset = true
+            window.location.search.drop(1).split('&').associate {
+                it.split('=', limit = 2).zipWithNext().getOrNull(0) ?: return@onPop null
+            }.let {
+                with(state) {
+                    setPropIfDifferent(::schoolState, it["school"]?.ifBlank { null } ?: return@onPop null)
+                    setPropIfDifferent(::deptState, it["dept"])
+                    setPropIfDifferent(::courseState, it["course"] ?: None)
+                    setPropIfDifferent(::profState, it["prof"]?.decodeURLParam() ?: None)
+                }
+            }
+            null
+        }
         remember(state.url) {
-            ctx.router.navigateTo(state.url, UpdateHistoryMode.REPLACE)
+            state.url?.let { ctx.router.routeTo(it) }
         }
 
         val status = state.status
+        // endregion
 
         LeftRightCenterBox(
             Modifier
@@ -89,10 +98,25 @@ fun SearchDept() {
         when(status) {
             Status.Prof -> {
                 SpanText(state.profState.selected)
-                ProfSummary(state.selectedProfEntries, state.applicableCourseAves, finishLoading)
+                ProfSummary(
+                    state.selectedProfEntries,
+                    state.applicableCourseAves,
+                    { state.courseState = state.courseState.copy(selected = it) },
+                    finishLoading,
+                )
             }
-            Status.Course -> ProfScoresList(state.scoresByProfForCourse, finishLoading)
-            Status.Dept -> ProfScoresList(state.scoresByProf, finishLoading)
+            Status.Course ->
+                ProfScoresList(
+                    state.scoresByProfForCourse,
+                    { state.profState = state.profState.copy(selected = it) },
+                    finishLoading,
+                )
+            Status.Dept ->
+                ProfScoresList(
+                    state.scoresByProf,
+                    { state.profState = state.profState.copy(selected = it) },
+                    finishLoading,
+                )
             else -> {}
         }
     }
@@ -102,6 +126,7 @@ fun SearchDept() {
 fun ProfSummary(
     entries: List<Entry>,
     applicableCourseAves: Map<String, List<Double>>,
+    onNameClick: (String) -> Unit = {},
     onLoad: () -> Unit = {},
 ) {
     val a = entries.mapByCourses()
@@ -167,95 +192,18 @@ fun ProfSummary(
             }
     }
 
-    ProfScoresList(b.mapValues { it.value.toTotalAndAvesPair() },onLoad)
-}
-
-@Composable
-fun StarRating(
-    rating: Double,
-    yellow: CSSColorValue = Color("#FDCC0D"),
-    gray: CSSColorValue = Color("#dbdbdf"),
-    style: IconStyle = IconStyle.FILLED
-){
-    val yellowModifier = Modifier.color(yellow)
-    val grayModifier = Modifier.color(gray)
-
-    val a = (rating*2).roundToInt()/2.0
-    Row {
-        for (i in 1..5) {
-            when {
-                (i <= a) -> FaStar(yellowModifier, style)
-                (i - .5 == a) -> HalfStarColored(yellowModifier, grayModifier, style)
-                else -> FaStar(grayModifier, style)
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalComposeWebApi::class)
-@Composable
-fun HalfStarColored(yellowModifier: Modifier, grayModifier: Modifier, style: IconStyle = IconStyle.FILLED){
-    val len = (-1.0/16).px
-    Box {
-        FaStarHalf(Modifier.margin(right = len).then(yellowModifier), style)
-        FaStarHalf(Modifier.margin(left = len).transform { scaleX(-1) }.then(grayModifier), style)
-    }
-}
-
-@Composable
-fun BarGraph(
-    ratings: List<Int>,
-    labels: Pair<String,String>,
-    max: Int = ratings.maxOrNull() ?: 0,
-    height: Double = 130.0,
-    colWidth: Double = 36.0,
-) {
-    Box {
-        Row(
-            Modifier
-                .padding(leftRight = 15.px) // don't really like this but idk how else to extend bounds to end of "Excellent"
-        ) {
-            ratings.forEachIndexed { index, num ->
-                Column(
-                    Modifier.width(colWidth.px),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Column(
-                        Modifier.height(height.px),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Box(Modifier.flex(1)) // pushes everything down
-                        SpanText(num.toString())
-                        Box(
-                            Modifier
-                                .width(28.px)
-                                .height(num.px * (height ) / max)
-                                .backgroundColor(Color.purple)
-                        )
-                    }
-                    when (index) {
-                        0 -> labels.first
-                        4 -> labels.second
-                        else -> null
-                    }?.let { SpanText(it) } // possibly add rotation to this
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun LoadingSpinner() =
-    Image(
-        "circle_loading.gif",
-        "Loading",
-        Modifier.size(75.px),
+    ProfScoresList(
+        b.mapValues { it.value.toTotalAndAvesPair() },
+        onNameClick,
+        onLoad,
     )
+}
 
 @OptIn(ExperimentalComposeWebApi::class)
 @Composable
 fun ProfScoresList(
     list:  Map<String, Pair<Int, List<Double>>>,
+    onNameClick: (String) -> Unit = {},
     onLoad: () -> Unit = {},
 ) {
     Div(
@@ -294,11 +242,20 @@ fun ProfScoresList(
             .forEach { (prof, nums) ->
                 Box(gridElementModifier) {
                     val offset = 40.px
+                    val extraModifier =
+                        if (!listOf("Average","Overall").contains(prof))
+                            Modifier
+                                .onClick { onNameClick(prof) }
+                                .then(underlineOnHoverStyle.toModifier())
+                        else
+                            Modifier
+                                .fontWeight(FontWeight.Bold)
                     SpanText(
                         prof,
                         Modifier
                             .margin(left=-offset)
-                            .width(spacing+offset)
+                            .width(spacing + offset)
+                            .then(extraModifier)
                     )
                 }
                 nums.second.subList(0, 10).forEach {
@@ -369,25 +326,5 @@ fun SearchDeptFormContent(state: SearchDeptState) {
                 )
             }
         }
-    }
-}
-@Composable
-fun ReflectiveCustomDropDown(
-    property: KMutableProperty0<DropDownState<String>>,
-    selectModifier: Modifier = Modifier,
-    optionModifier: Modifier = Modifier,
-    getText: (String) -> String = { it },
-    getValue: (String) -> String = getText,
-) {
-    with(property) {
-        CustomDropDown(
-            list = get().list,
-            onSelect = { set(get().copy(selected = it)) },
-            selectModifier = selectModifier,
-            optionModifier = optionModifier,
-            getText = getText,
-            getValue = getValue,
-            selected = get().selected,
-        )
     }
 }

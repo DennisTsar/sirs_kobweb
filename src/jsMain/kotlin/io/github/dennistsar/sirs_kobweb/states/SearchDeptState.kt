@@ -11,12 +11,21 @@ import io.github.dennistsar.sirs_kobweb.misc.encodeURLParam
 import io.github.dennistsar.sirs_kobweb.misc.isBlankOrNone
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlin.reflect.KMutableProperty0
 
 data class DropDownState<T>(
     val list: Collection<T>,
     val selected: String,
 ) {
     constructor(selected: String?) : this(emptyList(),selected ?: "")
+}
+
+fun<T> setPropIfDifferent(property: KMutableProperty0<DropDownState<T>>, newVal: String?){
+    newVal ?: return
+    with(property) {
+        if (get().selected != newVal)
+            set(get().copy(selected = newVal))
+    }
 }
 
 enum class Status {
@@ -33,10 +42,11 @@ interface SearchDeptState {
     var courseState: DropDownState<String>
     var profState: DropDownState<String>
     var profListLoading: Boolean
+    var noDeptReset: Boolean
     val scoresByProf: Map<String, Pair<Int, List<Double>>>
     val scoresByProfForCourse: Map<String, Pair<Int, List<Double>>>
     val status: Status
-    val url: String
+    val url: String?
 }
 
 class SearchDeptStateImpl(
@@ -54,31 +64,34 @@ class SearchDeptStateImpl(
     private var entriesByProf: Map<String,List<Entry>> by mutableStateOf(emptyMap())
     private var entriesByCourse: Map<String,List<Entry>> by mutableStateOf(emptyMap())
 
-    private var firstTime by mutableStateOf(true)
+    private var urlReady by mutableStateOf(false)
+    private var initialLoading by mutableStateOf(true)
 
-    override var profListLoading by mutableStateOf(true)
+    // used for first time and for pop events (forward/back press)
+    override var noDeptReset by mutableStateOf(true)
 
-    override val url
-        get() = "searchdept?" + // note that lack of slash at the start means routePrefix is used
-                "school=${schoolState.selected}" +
-                "&dept=${deptState.selected}" +
-                courseState.selected.run{
-                    if (isBlankOrNone()) "" else "&course=$this"
-                } +
-                profState.selected.run{
-                    if (isBlankOrNone()) "" else "&prof=${ encodeURLParam() }"
-                }
+    override var profListLoading by mutableStateOf(false)
+
+    override val url: String?
+        get() {
+            return if (urlReady) {
+                "searchdept?" + // note that lack of slash at the start means routePrefix is used
+                        "school=${schoolState.selected}" +
+                        "&dept=${deptState.selected}" +
+                        with(courseState.selected) { if (isBlankOrNone()) "" else "&course=$this" } +
+                        with(profState.selected) { if (isBlankOrNone()) "" else "&prof=${encodeURLParam()}" }
+            } else null
+        }
 
     override val status
         get() =
-            if (firstTime)
-                Status.InitialLoading
-            else if (!profState.selected.isBlankOrNone())
-                Status.Prof
-            else if (!courseState.selected.isBlankOrNone())
-                Status.Course
-            else
-                Status.Dept
+            when{
+                // schoolMap.isEmpty() can work for initialLoading but doesn't account for dept/prof loading
+                initialLoading -> Status.InitialLoading
+                !profState.selected.isBlankOrNone() -> Status.Prof
+                !courseState.selected.isBlankOrNone() -> Status.Course
+                else -> Status.Dept
+            }
 
     override val scoresByProf by derivedStateOf {
         entriesByProf
@@ -98,9 +111,11 @@ class SearchDeptStateImpl(
     override var schoolState
         get() = _schoolState
         set(value) {
+            urlReady = false
             _schoolState = value
-            val temp = schoolMap[value.selected] ?: throw IllegalStateException("Invalid School Key")
-            deptState = DropDownState(temp.depts,temp.depts.firstOrNull() ?: "")
+            with(schoolMap[value.selected] ?: throw IllegalStateException("Invalid School Key")) {
+                deptState = DropDownState(depts, depts.firstOrNull() ?: "")
+            }
         }
 
     private var _deptState by mutableStateOf(DropDownState<String>(initialDept))
@@ -128,18 +143,21 @@ class SearchDeptStateImpl(
                 _courseState = courseState.copy(listOf(None) + entriesByCourse.keys.sorted())
                 _profState = profState.copy(listOf(None) + entriesByProf.keys.sorted())
 
+                urlReady = true
+
                 // this keeps course value and ignores prof value if the course is valid
                 // otherwise does exactly what you'd expect
-                if (!firstTime || !courseState.list.contains(courseState.selected)) {
+                // note all of these don't have to use backing vars, but might as well ig? - or not?
+                if (!noDeptReset || !(courseState.list-None).contains(courseState.selected)) {
                     _courseState = courseState.copy(selected = None)
-                    if (!firstTime || !profState.list.contains(profState.selected))
-                        profState = profState.copy(selected = None)
+                    if (!noDeptReset || !profState.list.contains(profState.selected))
+                        _profState = profState.copy(selected = None)
                 }
                 else
-                    profState = profState.copy(selected = None)
+                    _profState = profState.copy(selected = None)
 
-                if (firstTime)
-                    firstTime = false
+                noDeptReset = false
+                initialLoading = false
             }
         }
 
@@ -170,7 +188,7 @@ class SearchDeptStateImpl(
                 ?: throw IllegalStateException("01 School Not Present")
             // using private var to not cause default behavior of resetting dept
             // doesn't seem ideal, but I don't want permanent boolean check
-            _schoolState = DropDownState(schoolMap.values,selectedSchool.code)
+            _schoolState = DropDownState(schoolMap.values, selectedSchool.code)
 
             selectedSchool.depts.let {
                 deptState =
