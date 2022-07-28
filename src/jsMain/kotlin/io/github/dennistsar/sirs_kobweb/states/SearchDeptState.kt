@@ -5,10 +5,7 @@ import io.github.dennistsar.sirs_kobweb.data.*
 import io.github.dennistsar.sirs_kobweb.data.api.Repository
 import io.github.dennistsar.sirs_kobweb.data.classes.Entry
 import io.github.dennistsar.sirs_kobweb.data.classes.School
-import io.github.dennistsar.sirs_kobweb.misc.None
-import io.github.dennistsar.sirs_kobweb.misc.Resource
-import io.github.dennistsar.sirs_kobweb.misc.encodeURLParam
-import io.github.dennistsar.sirs_kobweb.misc.isBlankOrNone
+import io.github.dennistsar.sirs_kobweb.misc.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.reflect.KMutableProperty0
@@ -20,11 +17,12 @@ data class DropDownState<T>(
     constructor(selected: String?) : this(emptyList(), selected ?: "")
 }
 
-fun<T> setPropIfDifferent(property: KMutableProperty0<DropDownState<T>>, newVal: String?){
-    newVal ?: return
+private fun<T> setPropIfDifferent(property: KMutableProperty0<DropDownState<T>>, newVal: String?){
     with(property) {
-        if (get().selected != newVal)
-            set(get().copy(selected = newVal))
+        newVal?.let {
+            if (get().selected != it)
+                set(get().copy(selected = it))
+        }
     }
 }
 
@@ -122,6 +120,7 @@ class SearchDeptStateImpl(
     override var deptState
         get() = _deptState
         set(value) {
+            urlReady = false
             _deptState = value
                 .also { if (it.selected.isBlank()) return }
 
@@ -143,8 +142,6 @@ class SearchDeptStateImpl(
                 _courseState = courseState.copy(listOf(None) + entriesByCourse.keys.sorted())
                 _profState = profState.copy(listOf(None) + entriesByProf.keys.sorted())
 
-                urlReady = true
-
                 // this keeps course value and ignores prof value if the course is valid
                 // otherwise does exactly what you'd expect
                 // note all of these don't have to use backing vars, but might as well ig? - or not?
@@ -156,7 +153,9 @@ class SearchDeptStateImpl(
                 else
                     _profState = profState.copy(selected = None)
 
-                noDeptReset = false
+                if (urlReady)
+                    noDeptReset = false
+                urlReady = true
                 initialLoading = false
             }
         }
@@ -223,6 +222,18 @@ class SearchDeptStateImpl(
         }
         (0..9).map{ i -> // corresponding to each question
             aves.map { it[i] }.average()
+        }
+    }
+
+    fun onPopState(s: String){
+        s.drop(1).split('&').associate {
+            it.split('=', limit = 2).zipWithNext().getOrNull(0) ?: return
+        }.let {
+            noDeptReset = true
+            setPropIfDifferent(::schoolState, it["school"])
+            setPropIfDifferent(::deptState, it["dept"])
+            setPropIfDifferent(::courseState, it["course"] ?: None)
+            setPropIfDifferent(::profState, it["prof"]?.decodeURLParam() ?: None)
         }
     }
 }

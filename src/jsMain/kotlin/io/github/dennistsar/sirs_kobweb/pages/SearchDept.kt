@@ -29,7 +29,6 @@ import io.github.dennistsar.sirs_kobweb.misc.*
 import io.github.dennistsar.sirs_kobweb.states.SearchDeptState
 import io.github.dennistsar.sirs_kobweb.states.SearchDeptStateImpl
 import io.github.dennistsar.sirs_kobweb.states.Status
-import io.github.dennistsar.sirs_kobweb.states.setPropIfDifferent
 import kotlinx.browser.window
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
@@ -38,16 +37,17 @@ import org.jetbrains.compose.web.dom.Div
 @Page
 @Composable
 fun SearchDept() {
-    val repository = Repository(Api())
     PageLayout("Search",Modifier.backgroundColor(Color.lightcyan)) {
         //region non-UI setuo
         val ctx = rememberPageContext()
-        val myCoroutineScope = rememberCoroutineScope()
+        val coroutineScope = rememberCoroutineScope()
+        val originalOnPopState = remember { window.onpopstate } // need to use this to avoid recursion
+        val repository = remember { Repository(Api()) }
 
         val state = remember {
             SearchDeptStateImpl(
                 repository = repository,
-                coroutineScope = myCoroutineScope,
+                coroutineScope = coroutineScope,
                 initialSchool = ctx.params["school"],
                 initialDept = ctx.params["dept"],
                 initialCourse = ctx.params["course"],
@@ -55,20 +55,16 @@ fun SearchDept() {
             )
         }
 
-        window.onpopstate = onPop@{
-            state.noDeptReset = true
-            window.location.search.drop(1).split('&').associate {
-                it.split('=', limit = 2).zipWithNext().getOrNull(0) ?: return@onPop null
-            }.let {
-                with(state) {
-                    setPropIfDifferent(::schoolState, it["school"]?.ifBlank { null } ?: return@onPop null)
-                    setPropIfDifferent(::deptState, it["dept"])
-                    setPropIfDifferent(::courseState, it["course"] ?: None)
-                    setPropIfDifferent(::profState, it["prof"]?.decodeURLParam() ?: None)
-                }
+        DisposableEffect(true){
+            window.onpopstate = {
+                originalOnPopState?.run { invoke(it) } // keeps default behavior when going back to other page
+                state.onPopState(window.location.search)
             }
-            null
+            onDispose {
+                window.onpopstate = originalOnPopState
+            }
         }
+
         remember(state.url) {
             state.url?.let { ctx.router.routeTo(it) }
         }
