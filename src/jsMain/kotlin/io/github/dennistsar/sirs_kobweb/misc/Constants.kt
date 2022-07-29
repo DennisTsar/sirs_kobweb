@@ -31,7 +31,7 @@ val TenQsShortened = listOf(
     "Prepared & Organized",
     "Responded to Questions Effectively",
     "Generated Interest in Material",
-    "Positive Attitude Towards Assisting Students",
+    "Good Attitude Towards Assisting Students",
     "Graded Fairly",
     "Effective Teaching Methods",
     "Learned a Great Deal",

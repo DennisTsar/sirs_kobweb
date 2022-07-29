@@ -1,6 +1,7 @@
 package io.github.dennistsar.sirs_kobweb.pages
 
 import androidx.compose.runtime.*
+import com.varabyte.kobweb.compose.css.Cursor
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.TextDecorationLine
 import com.varabyte.kobweb.compose.foundation.layout.Box
@@ -16,6 +17,7 @@ import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.layout.SimpleGridStyle
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
+//import com.varabyte.kobweb.silk.ui.thenIf
 import io.github.dennistsar.sirs_kobweb.components.layouts.PageLayout
 import io.github.dennistsar.sirs_kobweb.components.widgets.*
 import io.github.dennistsar.sirs_kobweb.data.api.Api
@@ -202,6 +204,7 @@ fun ProfScoresList(
     onNameClick: (String) -> Unit = {},
     onLoad: () -> Unit = {},
 ) {
+    var z by remember{ mutableStateOf(8) }
     Div(
         attrs = SimpleGridStyle
             .toModifier(gridVariant12)
@@ -209,7 +212,9 @@ fun ProfScoresList(
     ) {
         val spacing = 80.px
         val fontSize = 15.px
-        (listOf("")+TenQsShortened+"Total # of Responses").forEachIndexed { index, text ->
+
+        val underlineTextModifier = underlineOnHoverStyle.toModifier()
+        (listOf("") + TenQsShortened + "Total # of Responses").forEachIndexed { index, text ->
             Box(
                 Modifier.width(spacing)
             ) {
@@ -221,7 +226,14 @@ fun ProfScoresList(
                         .fontSize(fontSize)
                         .margin(topBottom = 50.px, leftRight = (-18).px)
                         .textDecorationLine(TextDecorationLine.Underline)
-                        .thenIf(index-1 in TenQs.indices) { Modifier.title(TenQs[index-1]) }
+                        .thenIf(index - 1 == z, Modifier.fontWeight(FontWeight.Bold))
+                        .thenIf(index != 0 ) {
+                            Modifier
+                                .thenIf(index - 1 in TenQs.indices) { Modifier.title(TenQs[index - 1]) }
+                                .onClick { z = index - 1 }
+                                .cursor(Cursor.Pointer)
+//                                .then(underlineTextModifier)
+                        }
                 )
             }
         }
@@ -233,7 +245,7 @@ fun ProfScoresList(
                 .alignSelf(AlignSelf.Center)
 
         list.entries
-            .sortedBy { -it.value.second[8] }
+            .sortedBy { if (z<10) -it.value.second[z] else -it.value.first.toDouble()  }
             .take(300)//for performance reasons
             .forEach { (prof, nums) ->
                 Box(gridElementModifier) {
@@ -242,10 +254,9 @@ fun ProfScoresList(
                         if (!listOf("Average","Overall").contains(prof))
                             Modifier
                                 .onClick { onNameClick(prof) }
-                                .then(underlineOnHoverStyle.toModifier())
+                                .then(underlineTextModifier)
                         else
-                            Modifier
-                                .fontWeight(FontWeight.Bold)
+                            Modifier.fontWeight(FontWeight.Bold)
                     SpanText(
                         prof,
                         Modifier
