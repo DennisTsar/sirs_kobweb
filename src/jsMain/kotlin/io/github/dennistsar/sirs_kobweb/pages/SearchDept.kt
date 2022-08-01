@@ -56,7 +56,7 @@ fun SearchDept() {
             )
         }
 
-        DisposableEffect(true){
+        DisposableEffect(true) {
             window.onpopstate = {
                 originalOnPopState?.run { invoke(it) } // keeps default behavior when going back to other page
                 viewModel.onPopState(window.location.search)
@@ -132,7 +132,7 @@ fun ProfSummary(
     val allScores = entries.aveScores()
 
     // this will obviously have to be moved to state object eventually
-    var selectedQ by remember{ mutableStateOf(8) }
+    var selectedQ by remember { mutableStateOf(8) }
     CustomDropDown(
         list = TenQsShortened,
         onSelect = { selectedQ = TenQsShortened.indexOf(it) },
@@ -204,7 +204,7 @@ fun ProfScoresList(
     onNameClick: (String) -> Unit = {},
     onLoad: () -> Unit = {},
 ) {
-    var z by remember{ mutableStateOf(8) }
+    var selectedQ by remember { mutableStateOf(8) }
     Div(
         attrs = SimpleGridStyle
             .toModifier(gridVariant12)
@@ -226,11 +226,11 @@ fun ProfScoresList(
                         .fontSize(fontSize)
                         .margin(topBottom = 50.px, leftRight = (-18).px)
                         .textDecorationLine(TextDecorationLine.Underline)
-                        .thenIf(index - 1 == z, Modifier.fontWeight(FontWeight.Bold))
+                        .thenIf(index - 1 == selectedQ, Modifier.fontWeight(FontWeight.Bold))
                         .thenIf(index != 0 ) {
                             Modifier
                                 .thenIf(index - 1 in TenQs.indices) { Modifier.title(TenQs[index - 1]) }
-                                .onClick { z = index - 1 }
+                                .onClick { selectedQ = index - 1 }
                                 .cursor(Cursor.Pointer)
 //                                .then(underlineTextModifier)
                         }
@@ -245,7 +245,7 @@ fun ProfScoresList(
                 .alignSelf(AlignSelf.Center)
 
         list.entries
-            .sortedBy { if (z<10) -it.value.second[z] else -it.value.first.toDouble()  }
+            .sortedBy { if (selectedQ<10) -it.value.second[selectedQ] else -it.value.first.toDouble()  }
             .take(300)//for performance reasons
             .forEach { (prof, nums) ->
                 Box(gridElementModifier) {

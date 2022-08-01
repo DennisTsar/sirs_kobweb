@@ -40,7 +40,7 @@ fun StarRating(
 
 @OptIn(ExperimentalComposeWebApi::class)
 @Composable
-fun HalfStarColored(yellowModifier: Modifier, grayModifier: Modifier, style: IconStyle = IconStyle.FILLED){
+fun HalfStarColored(yellowModifier: Modifier, grayModifier: Modifier, style: IconStyle = IconStyle.FILLED) {
     val len = (-1.0/16).px
     Box {
         FaStarHalf(Modifier.margin(right = len).then(yellowModifier), style)

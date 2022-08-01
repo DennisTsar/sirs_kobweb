@@ -252,7 +252,7 @@ fun generateGridVariant(numColumns: Int): SimpleComponentVariant {
     }
 }
 
-val underlineOnHoverStyle = ComponentStyle("underline-on-hover"){
+val underlineOnHoverStyle = ComponentStyle("underline-on-hover") {
     hover {
         Modifier
             .textDecorationLine(TextDecorationLine.Underline)
