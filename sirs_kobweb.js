@@ -1557,6 +1557,26 @@
     }
     return tmp;
   }
+  function average_0(_this_) {
+    var sum = 0.0;
+    var count_0 = 0;
+    var tmp0_iterator = _this_.iterator_0_k$();
+    while (tmp0_iterator.hasNext_0_k$()) {
+      var element = tmp0_iterator.next_0_k$();
+      sum = sum + element;
+      count_0 = count_0 + 1 | 0;
+      checkCountOverflow(count_0);
+      Unit_getInstance();
+    }
+    var tmp;
+    if (count_0 === 0) {
+      DoubleCompanionObject_getInstance();
+      tmp = NaN;
+    } else {
+      tmp = sum / count_0;
+    }
+    return tmp;
+  }
   function sorted(_this_) {
     if (isInterface(_this_, Collection)) {
       if (_this_._get_size__0_k$() <= 1)
@@ -1632,26 +1652,6 @@
       }
     }
     return optimizeReadOnlyList(list);
-  }
-  function average_0(_this_) {
-    var sum = 0.0;
-    var count_0 = 0;
-    var tmp0_iterator = _this_.iterator_0_k$();
-    while (tmp0_iterator.hasNext_0_k$()) {
-      var element = tmp0_iterator.next_0_k$();
-      sum = sum + element;
-      count_0 = count_0 + 1 | 0;
-      checkCountOverflow(count_0);
-      Unit_getInstance();
-    }
-    var tmp;
-    if (count_0 === 0) {
-      DoubleCompanionObject_getInstance();
-      tmp = NaN;
-    } else {
-      tmp = sum / count_0;
-    }
-    return tmp;
   }
   function zipWithNext(_this_) {
     var tmp$ret$0;
@@ -102350,7 +102350,7 @@
     }
     return tmp$ret$15;
   }
-  function aveScores(_this_) {
+  function allScoresPerQ(_this_) {
     var tmp$ret$23;
     $l$block_22: {
       var tmp$ret$20;
@@ -102555,7 +102555,7 @@
     }
     return tmp$ret$23;
   }
-  function toProfScores(_this_, extraName) {
+  function toProfScores(_this_) {
     var tmp$ret$10;
     $l$block_9: {
       var tmp$ret$4;
@@ -102618,7 +102618,7 @@
                 break $l$block_5;
               }
               var v_6 = tmp$ret$6;
-              tmp$ret$7 = aveScores(v_6);
+              tmp$ret$7 = allScoresPerQ(v_6);
               break $l$block_6;
             }
             tmp1_mapValuesTo_0_1.put_1q9pf_k$(tmp, tmp$ret$7);
@@ -102633,93 +102633,7 @@
       tmp$ret$10 = tmp$ret$9;
       break $l$block_9;
     }
-    var profRatings = tmp$ret$10;
-    if (profRatings._get_size__0_k$() <= 1)
-      return profRatings;
-    var tmp$ret$19;
-    $l$block_18: {
-      var tmp1_map_0 = numberRangeToNumber(0, 9);
-      var tmp$ret$18;
-      $l$block_17: {
-        var tmp0_mapTo_0_1 = ArrayList_init_$Create$_0(collectionSizeOrDefault(tmp1_map_0, 10));
-        var inductionVariable = tmp1_map_0._get_first__0_k$();
-        var last_1 = tmp1_map_0._get_last__0_k$();
-        if (inductionVariable <= last_1)
-          do {
-            var item_2_3 = inductionVariable;
-            inductionVariable = inductionVariable + 1 | 0;
-            var tmp$ret$17;
-            $l$block_16: {
-              var tmp$ret$16;
-              $l$block_15: {
-                var tmp$ret$13;
-                $l$block_12: {
-                  var tmp0_filter_0_6 = profRatings._get_values__0_k$();
-                  var tmp$ret$12;
-                  $l$block_11: {
-                    var tmp0_filterTo_0_1_7 = ArrayList_init_$Create$();
-                    var tmp0_iterator_1_2_8 = tmp0_filter_0_6.iterator_0_k$();
-                    while (tmp0_iterator_1_2_8.hasNext_0_k$()) {
-                      var element_2_3_9 = tmp0_iterator_1_2_8.next_0_k$();
-                      var tmp$ret$11;
-                      $l$block_10: {
-                        tmp$ret$11 = element_2_3_9._get_size__0_k$() >= 10;
-                        break $l$block_10;
-                      }
-                      if (tmp$ret$11) {
-                        tmp0_filterTo_0_1_7.add_2bq_k$(element_2_3_9);
-                        Unit_getInstance();
-                      } else {
-                      }
-                    }
-                    tmp$ret$12 = tmp0_filterTo_0_1_7;
-                    break $l$block_11;
-                  }
-                  tmp$ret$13 = tmp$ret$12;
-                  break $l$block_12;
-                }
-                var tmp1_flatMap_0_5 = tmp$ret$13;
-                var tmp$ret$15;
-                $l$block_14: {
-                  var tmp0_flatMapTo_0_1_10 = ArrayList_init_$Create$();
-                  var tmp0_iterator_1_2_11 = tmp1_flatMap_0_5.iterator_0_k$();
-                  while (tmp0_iterator_1_2_11.hasNext_0_k$()) {
-                    var element_2_3_12 = tmp0_iterator_1_2_11.next_0_k$();
-                    var tmp$ret$14;
-                    $l$block_13: {
-                      tmp$ret$14 = element_2_3_12.get_ha5a7z_k$(item_2_3);
-                      break $l$block_13;
-                    }
-                    var list_3_4_13 = tmp$ret$14;
-                    addAll(tmp0_flatMapTo_0_1_10, list_3_4_13);
-                    Unit_getInstance();
-                  }
-                  tmp$ret$15 = tmp0_flatMapTo_0_1_10;
-                  break $l$block_14;
-                }
-                tmp$ret$16 = tmp$ret$15;
-                break $l$block_15;
-              }
-              tmp$ret$17 = tmp$ret$16;
-              break $l$block_16;
-            }
-            tmp0_mapTo_0_1.add_2bq_k$(tmp$ret$17);
-            Unit_getInstance();
-          }
-           while (!(item_2_3 === last_1));
-        tmp$ret$18 = tmp0_mapTo_0_1;
-        break $l$block_17;
-      }
-      tmp$ret$19 = tmp$ret$18;
-      break $l$block_18;
-    }
-    var aves = tmp$ret$19;
-    return plus_3(profRatings, new Pair(extraName, aves));
-  }
-  function toProfScores$default(_this_, extraName, $mask0, $handler) {
-    if (!(($mask0 & 1) === 0))
-      extraName = 'Average';
-    return toProfScores(_this_, extraName);
+    return tmp$ret$10;
   }
   function mapByProfs(_this_) {
     var tmp$ret$5;
@@ -103064,6 +102978,246 @@
       break $l$block_10;
     }
     return tmp$ret$11;
+  }
+  function addAveElement(_this_, key_0, ignoreKey) {
+    if (_this_._get_size__0_k$() === 1)
+      return _this_;
+    var tmp$ret$5;
+    $l$block_4: {
+      var tmp$ret$2;
+      $l$block_1: {
+        var result_1 = LinkedHashMap_init_$Create$();
+        var tmp$ret$0;
+        $l$block: {
+          tmp$ret$0 = _this_._get_entries__0_k$().iterator_0_k$();
+          break $l$block;
+        }
+        var tmp0_iterator_2 = tmp$ret$0;
+        while (tmp0_iterator_2.hasNext_0_k$()) {
+          var entry_3 = tmp0_iterator_2.next_0_k$();
+          var tmp$ret$1;
+          $l$block_0: {
+            var tmp0__anonymous__4 = entry_3._get_key__0_k$();
+            tmp$ret$1 = !(tmp0__anonymous__4 === ignoreKey);
+            break $l$block_0;
+          }
+          if (tmp$ret$1) {
+            result_1.put_1q9pf_k$(entry_3._get_key__0_k$(), entry_3._get_value__0_k$());
+            Unit_getInstance();
+          } else {
+          }
+        }
+        tmp$ret$2 = result_1;
+        break $l$block_1;
+      }
+      var tmp1_map_0 = tmp$ret$2._get_values__0_k$();
+      var tmp$ret$4;
+      $l$block_3: {
+        var tmp0_mapTo_0_1 = ArrayList_init_$Create$_0(collectionSizeOrDefault(tmp1_map_0, 10));
+        var tmp0_iterator_1_2 = tmp1_map_0.iterator_0_k$();
+        while (tmp0_iterator_1_2.hasNext_0_k$()) {
+          var item_2_3 = tmp0_iterator_1_2.next_0_k$();
+          var tmp$ret$3;
+          $l$block_2: {
+            tmp$ret$3 = item_2_3._second;
+            break $l$block_2;
+          }
+          tmp0_mapTo_0_1.add_2bq_k$(tmp$ret$3);
+          Unit_getInstance();
+        }
+        tmp$ret$4 = tmp0_mapTo_0_1;
+        break $l$block_3;
+      }
+      tmp$ret$5 = tmp$ret$4;
+      break $l$block_4;
+    }
+    var aves = tmp$ret$5;
+    var tmp$ret$11;
+    $l$block_10: {
+      var tmp2_map_0 = numberRangeToNumber(0, 9);
+      var tmp$ret$10;
+      $l$block_9: {
+        var tmp0_mapTo_0_1_0 = ArrayList_init_$Create$_0(collectionSizeOrDefault(tmp2_map_0, 10));
+        var inductionVariable = tmp2_map_0._get_first__0_k$();
+        var last_1 = tmp2_map_0._get_last__0_k$();
+        if (inductionVariable <= last_1)
+          do {
+            var item_2_3_0 = inductionVariable;
+            inductionVariable = inductionVariable + 1 | 0;
+            var tmp$ret$9;
+            $l$block_8: {
+              var tmp$ret$8;
+              $l$block_7: {
+                var tmp$ret$7;
+                $l$block_6: {
+                  var tmp0_mapTo_0_1_5 = ArrayList_init_$Create$_0(collectionSizeOrDefault(aves, 10));
+                  var tmp0_iterator_1_2_6 = aves.iterator_0_k$();
+                  while (tmp0_iterator_1_2_6.hasNext_0_k$()) {
+                    var item_2_3_7 = tmp0_iterator_1_2_6.next_0_k$();
+                    var tmp$ret$6;
+                    $l$block_5: {
+                      tmp$ret$6 = item_2_3_7.get_ha5a7z_k$(item_2_3_0);
+                      break $l$block_5;
+                    }
+                    tmp0_mapTo_0_1_5.add_2bq_k$(tmp$ret$6);
+                    Unit_getInstance();
+                  }
+                  tmp$ret$7 = tmp0_mapTo_0_1_5;
+                  break $l$block_6;
+                }
+                tmp$ret$8 = tmp$ret$7;
+                break $l$block_7;
+              }
+              tmp$ret$9 = roundToDecimal(average_0(tmp$ret$8), 2);
+              break $l$block_8;
+            }
+            tmp0_mapTo_0_1_0.add_2bq_k$(tmp$ret$9);
+            Unit_getInstance();
+          }
+           while (!(item_2_3_0 === last_1));
+        tmp$ret$10 = tmp0_mapTo_0_1_0;
+        break $l$block_9;
+      }
+      tmp$ret$11 = tmp$ret$10;
+      break $l$block_10;
+    }
+    var ave = tmp$ret$11;
+    return plus_3(_this_, to(key_0, to(0, ave)));
+  }
+  function addAveElement$default(_this_, key_0, ignoreKey, $mask0, $handler) {
+    if (!(($mask0 & 1) === 0))
+      key_0 = 'Average';
+    if (!(($mask0 & 2) === 0))
+      ignoreKey = 'Overall';
+    return addAveElement(_this_, key_0, ignoreKey);
+  }
+  function addOverallElement(_this_, key_0) {
+    if (_this_._get_size__0_k$() === 1)
+      return _this_;
+    var tmp$ret$8;
+    $l$block_7: {
+      var tmp0_map_0 = numberRangeToNumber(0, 9);
+      var tmp$ret$7;
+      $l$block_6: {
+        var tmp0_mapTo_0_1 = ArrayList_init_$Create$_0(collectionSizeOrDefault(tmp0_map_0, 10));
+        var inductionVariable = tmp0_map_0._get_first__0_k$();
+        var last_1 = tmp0_map_0._get_last__0_k$();
+        if (inductionVariable <= last_1)
+          do {
+            var item_2_3 = inductionVariable;
+            inductionVariable = inductionVariable + 1 | 0;
+            var tmp$ret$6;
+            $l$block_5: {
+              var tmp$ret$5;
+              $l$block_4: {
+                var tmp$ret$2;
+                $l$block_1: {
+                  var tmp0_filter_0_6 = _this_._get_values__0_k$();
+                  var tmp$ret$1;
+                  $l$block_0: {
+                    var tmp0_filterTo_0_1_7 = ArrayList_init_$Create$();
+                    var tmp0_iterator_1_2_8 = tmp0_filter_0_6.iterator_0_k$();
+                    while (tmp0_iterator_1_2_8.hasNext_0_k$()) {
+                      var element_2_3_9 = tmp0_iterator_1_2_8.next_0_k$();
+                      var tmp$ret$0;
+                      $l$block: {
+                        tmp$ret$0 = element_2_3_9._get_size__0_k$() >= 10;
+                        break $l$block;
+                      }
+                      if (tmp$ret$0) {
+                        tmp0_filterTo_0_1_7.add_2bq_k$(element_2_3_9);
+                        Unit_getInstance();
+                      } else {
+                      }
+                    }
+                    tmp$ret$1 = tmp0_filterTo_0_1_7;
+                    break $l$block_0;
+                  }
+                  tmp$ret$2 = tmp$ret$1;
+                  break $l$block_1;
+                }
+                var tmp1_flatMap_0_5 = tmp$ret$2;
+                var tmp$ret$4;
+                $l$block_3: {
+                  var tmp0_flatMapTo_0_1_10 = ArrayList_init_$Create$();
+                  var tmp0_iterator_1_2_11 = tmp1_flatMap_0_5.iterator_0_k$();
+                  while (tmp0_iterator_1_2_11.hasNext_0_k$()) {
+                    var element_2_3_12 = tmp0_iterator_1_2_11.next_0_k$();
+                    var tmp$ret$3;
+                    $l$block_2: {
+                      tmp$ret$3 = element_2_3_12.get_ha5a7z_k$(item_2_3);
+                      break $l$block_2;
+                    }
+                    var list_3_4_13 = tmp$ret$3;
+                    addAll(tmp0_flatMapTo_0_1_10, list_3_4_13);
+                    Unit_getInstance();
+                  }
+                  tmp$ret$4 = tmp0_flatMapTo_0_1_10;
+                  break $l$block_3;
+                }
+                tmp$ret$5 = tmp$ret$4;
+                break $l$block_4;
+              }
+              tmp$ret$6 = tmp$ret$5;
+              break $l$block_5;
+            }
+            tmp0_mapTo_0_1.add_2bq_k$(tmp$ret$6);
+            Unit_getInstance();
+          }
+           while (!(item_2_3 === last_1));
+        tmp$ret$7 = tmp0_mapTo_0_1;
+        break $l$block_6;
+      }
+      tmp$ret$8 = tmp$ret$7;
+      break $l$block_7;
+    }
+    var aves = tmp$ret$8;
+    return plus_3(_this_, to(key_0, aves));
+  }
+  function addOverallElement$default(_this_, key_0, $mask0, $handler) {
+    if (!(($mask0 & 1) === 0))
+      key_0 = 'Overall';
+    return addOverallElement(_this_, key_0);
+  }
+  function toDisplayMap(_this_) {
+    var tmp$ret$4;
+    $l$block_3: {
+      var tmp = toProfScores(_this_);
+      var tmp0_mapValues_0 = addOverallElement$default(tmp, null, 1, null);
+      var tmp$ret$3;
+      $l$block_2: {
+        var tmp1_mapValuesTo_0_1 = LinkedHashMap_init_$Create$_1(mapCapacity(tmp0_mapValues_0._get_size__0_k$()));
+        var tmp$ret$2;
+        $l$block_1: {
+          var tmp0_associateByTo_0_2 = tmp0_mapValues_0._get_entries__0_k$();
+          var tmp0_iterator_1_3 = tmp0_associateByTo_0_2.iterator_0_k$();
+          while (tmp0_iterator_1_3.hasNext_0_k$()) {
+            var element_2_4 = tmp0_iterator_1_3.next_0_k$();
+            var tmp$ret$0;
+            $l$block: {
+              tmp$ret$0 = element_2_4._get_key__0_k$();
+              break $l$block;
+            }
+            var tmp_0 = tmp$ret$0;
+            var tmp$ret$1;
+            $l$block_0: {
+              tmp$ret$1 = toTotalAndAvesPair(element_2_4._get_value__0_k$());
+              break $l$block_0;
+            }
+            tmp1_mapValuesTo_0_1.put_1q9pf_k$(tmp_0, tmp$ret$1);
+            Unit_getInstance();
+          }
+          tmp$ret$2 = tmp1_mapValuesTo_0_1;
+          break $l$block_1;
+        }
+        tmp$ret$3 = tmp$ret$2;
+        break $l$block_2;
+      }
+      tmp$ret$4 = tmp$ret$3;
+      break $l$block_3;
+    }
+    var tmp_1 = tmp$ret$4;
+    return addAveElement$default(tmp_1, null, null, 3, null);
   }
   function getCourseFromFullCode(_this_) {
     var tmp = charArrayOf([new Char(58)]);
@@ -104556,11 +104710,11 @@
     var $composer_0 = $composer;
     if (!(($changed & 11 ^ 2) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       if (!this._$status_0.equals(Status_InitialLoading_getInstance())) {
-        $composer_0.startReplaceableGroup_majfzk_k$(-1448194922);
+        $composer_0.startReplaceableGroup_majfzk_k$(-1448195154);
         SearchDeptFormContent$composable(this._$viewModel_2, $composer_0, 8);
         $composer_0.endReplaceableGroup_sv8swh_k$();
       } else {
-        $composer_0.startReplaceableGroup_majfzk_k$(-1448194848);
+        $composer_0.startReplaceableGroup_majfzk_k$(-1448195080);
         LoadingSpinner$composable($composer_0, 0);
         $composer_0.endReplaceableGroup_sv8swh_k$();
       }
@@ -104933,13 +105087,13 @@
       }
       var tmp_17 = alignItems_0(tmp_16, tmp$ret$30);
       var tmp_18 = $composer_0;
-      var tmp_19 = composableLambda(tmp_18, -819893308, true, _no_name_provided_$factory_607(viewModel, status));
+      var tmp_19 = composableLambda(tmp_18, -819893524, true, _no_name_provided_$factory_607(viewModel, status));
       var tmp_20 = $composer_0;
-      LeftRightCenterBox$composable(tmp_17, null, tmp_19, composableLambda(tmp_20, -819893399, true, _no_name_provided_$factory_608(status, viewModel)), $composer_0, 3456, 2);
+      LeftRightCenterBox$composable(tmp_17, null, tmp_19, composableLambda(tmp_20, -819893647, true, _no_name_provided_$factory_608(status, viewModel)), $composer_0, 3456, 2);
       var finishLoading = _no_name_provided_$factory_609(viewModel);
       var tmp0_subject = status;
       if (tmp0_subject.equals(Status_Prof_getInstance())) {
-        $composer_0.startReplaceableGroup_majfzk_k$(-1600825179);
+        $composer_0.startReplaceableGroup_majfzk_k$(-1600825411);
         var tmp_21 = viewModel._get_state__0_k$()._profState._selected;
         SpanText$composable(tmp_21, null, null, $composer_0, 0, 6);
         var tmp_22 = viewModel._get_selectedProfEntries__0_k$();
@@ -104947,17 +105101,17 @@
         ProfSummary$composable(tmp_22, tmp_23, _no_name_provided_$factory_610(viewModel), finishLoading, $composer_0, 0, 0);
         $composer_0.endReplaceableGroup_sv8swh_k$();
       } else if (tmp0_subject.equals(Status_Course_getInstance())) {
-        $composer_0.startReplaceableGroup_majfzk_k$(-1600824818);
+        $composer_0.startReplaceableGroup_majfzk_k$(-1600825050);
         var tmp_24 = viewModel._get_scoresByProfForCourse__0_k$();
         ProfScoresList$composable(tmp_24, _no_name_provided_$factory_611(viewModel), finishLoading, $composer_0, 0, 0);
         $composer_0.endReplaceableGroup_sv8swh_k$();
       } else if (tmp0_subject.equals(Status_Dept_getInstance())) {
-        $composer_0.startReplaceableGroup_majfzk_k$(-1600824601);
+        $composer_0.startReplaceableGroup_majfzk_k$(-1600824833);
         var tmp_25 = viewModel._get_scoresByProf__0_k$();
         ProfScoresList$composable(tmp_25, _no_name_provided_$factory_612(viewModel), finishLoading, $composer_0, 0, 0);
         $composer_0.endReplaceableGroup_sv8swh_k$();
       } else {
-        $composer_0.startReplaceableGroup_majfzk_k$(-1600824416);
+        $composer_0.startReplaceableGroup_majfzk_k$(-1600824648);
         $composer_0.endReplaceableGroup_sv8swh_k$();
       }
     } else
@@ -104975,7 +105129,7 @@
   function ComposableSingletons$SearchDeptKt() {
     ComposableSingletons$SearchDeptKt_instance = this;
     var tmp = this;
-    tmp._lambda_1_9 = composableLambdaInstance(-985532703, false, _no_name_provided_$factory_604());
+    tmp._lambda_1_9 = composableLambdaInstance(-985532423, false, _no_name_provided_$factory_604());
   }
   ComposableSingletons$SearchDeptKt.$metadata$ = {
     simpleName: 'ComposableSingletons$SearchDeptKt',
@@ -104990,7 +105144,7 @@
   }
   function SearchDept$composable($composer, $changed) {
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-613365390);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-613365622);
     sourceInformation($composer_0, 'C(SearchDept$composable)');
     if (!($changed === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       var tmp = Companion_getInstance_46();
@@ -105014,7 +105168,7 @@
     var onNameClick_0 = {_v: onNameClick};
     var onLoad_0 = {_v: onLoad};
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-1621664495);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-1621664727);
     sourceInformation($composer_0, 'C(ProfSummary$composable)P(1!1,3)');
     var $dirty = $changed;
     if (!(($default & 1) === 0))
@@ -105039,8 +105193,9 @@
       }if (!(($default & 8) === 0)) {
         onLoad_0._v = _no_name_provided_$factory_616();
       }var a = mapByCourses(entries);
-      var b = toProfScores(a, 'Overall');
-      var allScores = aveScores(entries);
+      var tmp = toProfScores(a);
+      var b = addOverallElement$default(tmp, null, 1, null);
+      var allScores = allScoresPerQ(entries);
       var tmp$ret$4;
       $l$block_3: {
         var tmp0_remember$composable_0 = $composer_0;
@@ -105057,7 +105212,7 @@
             }
             var tmp$ret$1;
             $l$block_0: {
-              var tmp;
+              var tmp_0;
               if (false ? true : tmp0_let_0_4 === Companion_getInstance_14()._Empty) {
                 var tmp$ret$0;
                 $l$block: {
@@ -105067,18 +105222,18 @@
                 }
                 var value_2_2_5 = tmp$ret$0;
                 tmp1_cache_0_3.updateRememberedValue_qi8yb4_k$(value_2_2_5);
-                tmp = value_2_2_5;
+                tmp_0 = value_2_2_5;
               } else {
-                tmp = tmp0_let_0_4;
+                tmp_0 = tmp0_let_0_4;
               }
-              tmp$ret$1 = tmp;
+              tmp$ret$1 = tmp_0;
               break $l$block_0;
             }
             tmp$ret$2 = tmp$ret$1;
             break $l$block_1;
           }
-          var tmp_0 = tmp$ret$2;
-          tmp$ret$3 = (tmp_0 == null ? true : isObject(tmp_0)) ? tmp_0 : THROW_CCE();
+          var tmp_1 = tmp$ret$2;
+          tmp$ret$3 = (tmp_1 == null ? true : isObject(tmp_1)) ? tmp_1 : THROW_CCE();
           break $l$block_2;
         }
         var tmp0_2 = tmp$ret$3;
@@ -105105,22 +105260,22 @@
             }
             var tmp$ret$5;
             $l$block_4: {
-              var tmp_1;
+              var tmp_2;
               if (tmp2_cache_0_4 ? true : tmp0_let_0_5 === Companion_getInstance_14()._Empty) {
                 var value_2_2_6 = tmp1_remember$composable_0();
                 tmp1_cache_0_3_0.updateRememberedValue_qi8yb4_k$(value_2_2_6);
-                tmp_1 = value_2_2_6;
+                tmp_2 = value_2_2_6;
               } else {
-                tmp_1 = tmp0_let_0_5;
+                tmp_2 = tmp0_let_0_5;
               }
-              tmp$ret$5 = tmp_1;
+              tmp$ret$5 = tmp_2;
               break $l$block_4;
             }
             tmp$ret$6 = tmp$ret$5;
             break $l$block_5;
           }
-          var tmp_2 = tmp$ret$6;
-          tmp$ret$7 = (tmp_2 == null ? true : isObject(tmp_2)) ? tmp_2 : THROW_CCE();
+          var tmp_3 = tmp$ret$6;
+          tmp$ret$7 = (tmp_3 == null ? true : isObject(tmp_3)) ? tmp_3 : THROW_CCE();
           break $l$block_6;
         }
         var tmp0_2_0 = tmp$ret$7;
@@ -105128,11 +105283,11 @@
         tmp$ret$8 = tmp0_2_0;
         break $l$block_7;
       }
-      var tmp_3 = tmp$ret$8;
-      CustomDropDown$composable(TenQsShortened, tmp_3, null, null, null, null, TenQsShortened.get_ha5a7z_k$(ProfSummary$composable$lambda(selectedQ$delegate)), $composer_0, 0, 60);
-      var tmp_4 = Companion_getInstance_46();
-      var tmp_5 = _get_px_(30);
-      var tmp_6 = margin$default_0(tmp_4, tmp_5, null, 2, null);
+      var tmp_4 = tmp$ret$8;
+      CustomDropDown$composable(TenQsShortened, tmp_4, null, null, null, null, TenQsShortened.get_ha5a7z_k$(ProfSummary$composable$lambda(selectedQ$delegate)), $composer_0, 0, 60);
+      var tmp_5 = Companion_getInstance_46();
+      var tmp_6 = _get_px_(30);
+      var tmp_7 = margin$default_0(tmp_5, tmp_6, null, 2, null);
       var tmp$ret$12;
       $l$block_11: {
         var tmp3__get_Center__0 = Companion_getInstance_29();
@@ -105154,10 +105309,10 @@
         tmp$ret$12 = tmp$ret$11;
         break $l$block_11;
       }
-      var tmp_7 = justifyContent_0(tmp_6, tmp$ret$12);
-      var tmp_8 = Companion_getInstance_45()._CenterVertically;
-      var tmp_9 = $composer_0;
-      Row$composable(tmp_7, null, tmp_8, null, composableLambda(tmp_9, -819891360, true, _no_name_provided_$factory_618(b, selectedQ$delegate, applicableCourseAves)), $composer_0, 24576, 10);
+      var tmp_8 = justifyContent_0(tmp_7, tmp$ret$12);
+      var tmp_9 = Companion_getInstance_45()._CenterVertically;
+      var tmp_10 = $composer_0;
+      Row$composable(tmp_8, null, tmp_9, null, composableLambda(tmp_10, -819891301, true, _no_name_provided_$factory_618(b, selectedQ$delegate, applicableCourseAves)), $composer_0, 24576, 10);
       var tmp$ret$17;
       $l$block_16: {
         var tmp$ret$16;
@@ -105174,14 +105329,14 @@
                 tmp$ret$13 = element_2_4._get_key__0_k$();
                 break $l$block_12;
               }
-              var tmp_10 = tmp$ret$13;
+              var tmp_11 = tmp$ret$13;
               var tmp$ret$14;
               $l$block_13: {
                 var tmp0_return_6 = toTotalAndAvesPair(element_2_4._get_value__0_k$());
                 tmp$ret$14 = tmp0_return_6;
                 break $l$block_13;
               }
-              tmp1_mapValuesTo_0_1.put_1q9pf_k$(tmp_10, tmp$ret$14);
+              tmp1_mapValuesTo_0_1.put_1q9pf_k$(tmp_11, tmp$ret$14);
               Unit_getInstance();
             }
             tmp$ret$15 = tmp1_mapValuesTo_0_1;
@@ -105193,7 +105348,8 @@
         tmp$ret$17 = tmp$ret$16;
         break $l$block_16;
       }
-      ProfScoresList$composable(tmp$ret$17, onNameClick_0._v, onLoad_0._v, $composer_0, 112 & $dirty >> 3 | 896 & $dirty >> 3, 0);
+      var tmp_12 = tmp$ret$17;
+      ProfScoresList$composable(addAveElement$default(tmp_12, null, null, 3, null), onNameClick_0._v, onLoad_0._v, $composer_0, 112 & $dirty >> 3 | 896 & $dirty >> 3, 0);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
     var tmp0_safe_receiver = $composer_0.endRestartGroup_0_k$();
@@ -105207,7 +105363,7 @@
     var onNameClick_0 = {_v: onNameClick};
     var onLoad_0 = {_v: onLoad};
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-242064414);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(-242064602);
     sourceInformation($composer_0, 'C(ProfScoresList$composable)P(!1,2)');
     var $dirty = $changed;
     if (!(($default & 1) === 0))
@@ -105276,7 +105432,7 @@
       var tmp_1 = toModifier$composable(SimpleGridStyle, gridVariant12, $composer_0, 72, 0);
       var tmp_2 = asAttributesBuilder$default(tmp_1, null, 1, null);
       var tmp_3 = $composer_0;
-      Div$composable(tmp_2, composableLambda(tmp_3, -819889822, true, _no_name_provided_$factory_622(list, $dirty, onLoad_0, selectedQ$delegate, onNameClick_0)), $composer_0, 48, 0);
+      Div$composable(tmp_2, composableLambda(tmp_3, -819889730, true, _no_name_provided_$factory_622(list, $dirty, onLoad_0, selectedQ$delegate, onNameClick_0)), $composer_0, 48, 0);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
     var tmp0_safe_receiver = $composer_0.endRestartGroup_0_k$();
@@ -105288,7 +105444,7 @@
   }
   function SearchDeptFormContent$composable(viewModel, $composer, $changed) {
     var $composer_0 = $composer;
-    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(1643265847);
+    $composer_0 = $composer_0.startRestartGroup_ha5a7z_k$(1643265659);
     sourceInformation($composer_0, 'C(SearchDeptFormContent$composable)');
     var tmp = Companion_getInstance_46();
     var modifier2 = fillMaxSize$default(tmp, null, 1, null);
@@ -105297,7 +105453,7 @@
     var labelModifier = padding$default(tmp_0, null, _get_px_(2), 1, null);
     var tmp_1 = Companion_getInstance_45()._CenterHorizontally;
     var tmp_2 = $composer_0;
-    Column$composable(null, null, tmp_1, null, composableLambda(tmp_2, -819901083, true, _no_name_provided_$factory_624(labelModifier, viewModel, modifier1, modifier2)), $composer_0, 24576, 11);
+    Column$composable(null, null, tmp_1, null, composableLambda(tmp_2, -819901023, true, _no_name_provided_$factory_624(labelModifier, viewModel, modifier1, modifier2)), $composer_0, 24576, 11);
     var tmp0_safe_receiver = $composer_0.endRestartGroup_0_k$();
     if (tmp0_safe_receiver === null)
       null;
@@ -105584,7 +105740,7 @@
       SpanText$composable('Prof Average', tmp_3, null, $composer_23, 6, 4);
       var tmp_4 = Companion_getInstance_45()._CenterVertically;
       var tmp_5 = $composer_23;
-      Row$composable(null, null, tmp_4, null, composableLambda(tmp_5, -819888819, true, _no_name_provided_$factory_629(selectedScore_24)), $composer_23, 24576, 11);
+      Row$composable(null, null, tmp_4, null, composableLambda(tmp_5, -819889052, true, _no_name_provided_$factory_629(selectedScore_24)), $composer_23, 24576, 11);
       var tmp3_safe_receiver_34 = courseAve_25;
       if (tmp3_safe_receiver_34 == null)
         null;
@@ -105596,7 +105752,7 @@
           SpanText$composable('Course Average', null, null, $composer_23, 6, 6);
           var tmp_6 = Companion_getInstance_45()._CenterVertically;
           var tmp_7 = $composer_23;
-          tmp$ret$4 = Row$composable(null, null, tmp_6, null, composableLambda(tmp_7, -819889259, true, _no_name_provided_$factory_630(tmp3_safe_receiver_34)), $composer_23, 24576, 11);
+          tmp$ret$4 = Row$composable(null, null, tmp_6, null, composableLambda(tmp_7, -819889460, true, _no_name_provided_$factory_630(tmp3_safe_receiver_34)), $composer_23, 24576, 11);
           break $l$block_3;
         }
         Unit_getInstance();
@@ -105694,7 +105850,7 @@
             var tmp_0 = margin_1(Companion_getInstance_46(), _get_px_(10), _get_px_(15));
             var tmp_1 = Companion_getInstance_45()._CenterHorizontally;
             var tmp_2 = $composer_0;
-            Column$composable(tmp_0, null, tmp_1, null, composableLambda(tmp_2, -819888424, true, _no_name_provided_$factory_628(scores_5, this._$applicableCourseAves_0, courseName_4, ratings_15, this._$selectedQ$delegate_1)), $composer_0, 24576, 10);
+            Column$composable(tmp_0, null, tmp_1, null, composableLambda(tmp_2, -819891725, true, _no_name_provided_$factory_628(scores_5, this._$applicableCourseAves_0, courseName_4, ratings_15, this._$selectedQ$delegate_1)), $composer_0, 24576, 10);
           }
         }
       }
@@ -105981,7 +106137,7 @@
     var $composer_7 = $composer;
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_7._get_skipping__0_k$()) {
       var offset_8 = _get_px_(40);
-      $composer_7.startReplaceableGroup_majfzk_k$(-86167190);
+      $composer_7.startReplaceableGroup_majfzk_k$(-86167378);
       var tmp;
       if (!listOf(['Average', 'Overall']).contains_2bq_k$(this._$prof_4_1)) {
         var tmp_0 = Companion_getInstance_46();
@@ -106066,7 +106222,7 @@
       var spacing = _get_px_(80);
       var fontSize_1 = _get_px_(15);
       var underlineTextModifier = toModifier$composable(underlineOnHoverStyle, null, $composer_0, 8, 1);
-      $composer_0.startReplaceableGroup_majfzk_k$(-681695606);
+      $composer_0.startReplaceableGroup_majfzk_k$(-681695794);
       {
         var tmp0_forEachIndexed_0 = plus_0(plusElementAtStart(TenQsShortened, ''), 'Total # of Responses');
         var index_1 = 0;
@@ -106080,7 +106236,7 @@
             var tmp = Companion_getInstance_46();
             var tmp_0 = width$default(tmp, spacing, null, 2, null);
             var tmp_1 = $composer_0;
-            Box$composable(tmp_0, null, null, composableLambda(tmp_1, -819902575, true, _no_name_provided_$factory_631(item_3, fontSize_1, tmp1__anonymous__5, this._$selectedQ$delegate_7)), $composer_0, 3072, 6);
+            Box$composable(tmp_0, null, null, composableLambda(tmp_1, -819902739, true, _no_name_provided_$factory_631(item_3, fontSize_1, tmp1__anonymous__5, this._$selectedQ$delegate_7)), $composer_0, 3072, 6);
           }
         }
       }
@@ -106111,7 +106267,7 @@
         break $l$block_2;
       }
       var gridElementModifier = alignSelf_0(tmp_5, tmp$ret$3);
-      $composer_0.startReplaceableGroup_majfzk_k$(-681694212);
+      $composer_0.startReplaceableGroup_majfzk_k$(-681694400);
       {
         var tmp$ret$5;
         $l$block_4: {
@@ -106143,8 +106299,8 @@
             }
             var nums_5 = tmp$ret$7;
             var tmp_7 = $composer_0;
-            Box$composable(gridElementModifier, null, null, composableLambda(tmp_7, -819904285, true, _no_name_provided_$factory_633(prof_4, this._$onNameClick_3, this._$$dirty_21, underlineTextModifier, spacing)), $composer_0, 3072, 6);
-            $composer_0.startReplaceableGroup_majfzk_k$(-681693408);
+            Box$composable(gridElementModifier, null, null, composableLambda(tmp_7, -819903681, true, _no_name_provided_$factory_633(prof_4, this._$onNameClick_3, this._$$dirty_21, underlineTextModifier, spacing)), $composer_0, 3072, 6);
+            $composer_0.startReplaceableGroup_majfzk_k$(-681693596);
             {
               var tmp0_forEach_0_23 = nums_5._second.subList_27zxwg_k$(0, 10);
               var tmp0_iterator_1_24 = tmp0_forEach_0_23.iterator_0_k$();
@@ -106423,11 +106579,11 @@
     var $composer_0 = $composer;
     if (!(($changed & 81 ^ 16) === 0) ? true : !$composer_0._get_skipping__0_k$()) {
       var tmp = $composer_0;
-      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp, -819902025, true, _no_name_provided_$factory_645(this._$labelModifier_2, this._$viewModel_10, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
+      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp, -819902221, true, _no_name_provided_$factory_645(this._$labelModifier_2, this._$viewModel_10, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
       var tmp_0 = $composer_0;
-      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp_0, -819898804, true, _no_name_provided_$factory_646(this._$labelModifier_2, this._$viewModel_10, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
+      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp_0, -819898744, true, _no_name_provided_$factory_646(this._$labelModifier_2, this._$viewModel_10, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
       var tmp_1 = $composer_0;
-      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp_1, -819899176, true, _no_name_provided_$factory_647(this._$labelModifier_2, this._$viewModel_10, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
+      Column$composable(this._$secondRowModifier, null, null, null, composableLambda(tmp_1, -819898604, true, _no_name_provided_$factory_647(this._$labelModifier_2, this._$viewModel_10, this._$modifier1_2, this._$modifier2_2)), $composer_0, 24576, 14);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
@@ -106473,7 +106629,7 @@
       }
       var tmp = alignSelf_0(this._$labelModifier_3, tmp$ret$3);
       SpanText$composable('School', tmp, null, $composer_0, 6, 4);
-      $composer_0.startReplaceableGroup_majfzk_k$(-78153793);
+      $composer_0.startReplaceableGroup_majfzk_k$(-78153981);
       var tmp$ret$6;
       $l$block_5: {
         var tmp1_with_0 = this._$viewModel_11._get_state__0_k$()._schoolState;
@@ -106533,7 +106689,7 @@
       }
       var tmp_6 = alignContent_0(tmp_5, tmp$ret$10);
       var tmp_7 = $composer_0;
-      Row$composable(tmp_6, null, null, null, composableLambda(tmp_7, -819902049, true, _no_name_provided_$factory_644(secondRowModifier, this._$labelModifier_3, this._$viewModel_11, this._$modifier1_3, this._$modifier2_3)), $composer_0, 24576, 14);
+      Row$composable(tmp_6, null, null, null, composableLambda(tmp_7, -819902245, true, _no_name_provided_$factory_644(secondRowModifier, this._$labelModifier_3, this._$viewModel_11, this._$modifier1_3, this._$modifier2_3)), $composer_0, 24576, 14);
     } else
       $composer_0.skipToGroupEnd_sv8swh_k$();
   };
@@ -107101,43 +107257,7 @@
     this._this$0_93 = this$0;
   }
   _no_name_provided__726.prototype.invoke_0_k$ = function () {
-    var tmp$ret$4;
-    $l$block_3: {
-      var tmp = this._this$0_93._get_state__0_k$()._entriesByProf;
-      var tmp0_mapValues_0 = toProfScores$default(tmp, null, 1, null);
-      var tmp$ret$3;
-      $l$block_2: {
-        var tmp1_mapValuesTo_0_1 = LinkedHashMap_init_$Create$_1(mapCapacity(tmp0_mapValues_0._get_size__0_k$()));
-        var tmp$ret$2;
-        $l$block_1: {
-          var tmp0_associateByTo_0_2 = tmp0_mapValues_0._get_entries__0_k$();
-          var tmp0_iterator_1_3 = tmp0_associateByTo_0_2.iterator_0_k$();
-          while (tmp0_iterator_1_3.hasNext_0_k$()) {
-            var element_2_4 = tmp0_iterator_1_3.next_0_k$();
-            var tmp$ret$0;
-            $l$block: {
-              tmp$ret$0 = element_2_4._get_key__0_k$();
-              break $l$block;
-            }
-            var tmp_0 = tmp$ret$0;
-            var tmp$ret$1;
-            $l$block_0: {
-              tmp$ret$1 = toTotalAndAvesPair(element_2_4._get_value__0_k$());
-              break $l$block_0;
-            }
-            tmp1_mapValuesTo_0_1.put_1q9pf_k$(tmp_0, tmp$ret$1);
-            Unit_getInstance();
-          }
-          tmp$ret$2 = tmp1_mapValuesTo_0_1;
-          break $l$block_1;
-        }
-        tmp$ret$3 = tmp$ret$2;
-        break $l$block_2;
-      }
-      tmp$ret$4 = tmp$ret$3;
-      break $l$block_3;
-    }
-    return tmp$ret$4;
+    return toDisplayMap(this._this$0_93._get_state__0_k$()._entriesByProf);
   };
   _no_name_provided__726.$metadata$ = {
     kind: 'class',
@@ -107152,55 +107272,19 @@
     if (tmp0_safe_receiver == null) {
       tmp = null;
     } else {
-      var tmp$ret$6;
-      $l$block_5: {
+      var tmp$ret$1;
+      $l$block_0: {
         {
         }
-        var tmp$ret$5;
-        $l$block_4: {
-          var tmp$ret$4;
-          $l$block_3: {
-            var tmp_0 = mapByProfs(tmp0_safe_receiver);
-            var tmp0_mapValues_0_2 = toProfScores$default(tmp_0, null, 1, null);
-            var tmp$ret$3;
-            $l$block_2: {
-              var tmp1_mapValuesTo_0_1_3 = LinkedHashMap_init_$Create$_1(mapCapacity(tmp0_mapValues_0_2._get_size__0_k$()));
-              var tmp$ret$2;
-              $l$block_1: {
-                var tmp0_associateByTo_0_2_4 = tmp0_mapValues_0_2._get_entries__0_k$();
-                var tmp0_iterator_1_3_5 = tmp0_associateByTo_0_2_4.iterator_0_k$();
-                while (tmp0_iterator_1_3_5.hasNext_0_k$()) {
-                  var element_2_4_6 = tmp0_iterator_1_3_5.next_0_k$();
-                  var tmp$ret$0;
-                  $l$block: {
-                    tmp$ret$0 = element_2_4_6._get_key__0_k$();
-                    break $l$block;
-                  }
-                  var tmp_1 = tmp$ret$0;
-                  var tmp$ret$1;
-                  $l$block_0: {
-                    tmp$ret$1 = toTotalAndAvesPair(element_2_4_6._get_value__0_k$());
-                    break $l$block_0;
-                  }
-                  tmp1_mapValuesTo_0_1_3.put_1q9pf_k$(tmp_1, tmp$ret$1);
-                  Unit_getInstance();
-                }
-                tmp$ret$2 = tmp1_mapValuesTo_0_1_3;
-                break $l$block_1;
-              }
-              tmp$ret$3 = tmp$ret$2;
-              break $l$block_2;
-            }
-            tmp$ret$4 = tmp$ret$3;
-            break $l$block_3;
-          }
-          tmp$ret$5 = tmp$ret$4;
-          break $l$block_4;
+        var tmp$ret$0;
+        $l$block: {
+          tmp$ret$0 = toDisplayMap(mapByProfs(tmp0_safe_receiver));
+          break $l$block;
         }
-        tmp$ret$6 = tmp$ret$5;
-        break $l$block_5;
+        tmp$ret$1 = tmp$ret$0;
+        break $l$block_0;
       }
-      tmp = tmp$ret$6;
+      tmp = tmp$ret$1;
     }
     var tmp1_elvis_lhs = tmp;
     return tmp1_elvis_lhs == null ? emptyMap() : tmp1_elvis_lhs;
@@ -107702,7 +107786,7 @@
                         break $l$block_8;
                       }
                       var profEntries_5_12 = tmp$ret$9;
-                      tmp$ret$10 = toTotalAndAvesPair(aveScores(profEntries_5_12))._second;
+                      tmp$ret$10 = toTotalAndAvesPair(allScoresPerQ(profEntries_5_12))._second;
                       break $l$block_9;
                     }
                     tmp0_mapTo_0_1_9.add_2bq_k$(tmp$ret$10);
