@@ -14,7 +14,7 @@ fun List<Entry>.mapByCourses(): Map<String, List<Entry>> {
         }
 }
 
-fun List<Entry>.aveScores(): List<List<Int>> {
+fun List<Entry>.allScoresPerQ(): List<List<Int>> {
     return map { entry ->
         // maps to all answers as list
         // ex. 2 5s and 3 4s gives [5,5,4,4,4]
@@ -33,24 +33,9 @@ fun List<Entry>.aveScores(): List<List<Int>> {
         .map { it.flatten() }
 }
 
-fun Map<String, List<Entry>>.toProfScores(extraName: String = "Average"): ProfScores {
-    val profRatings = filter { it.value.isNotEmpty() }
-        .mapValues { (_, v) -> v.aveScores() }
-
-    if (profRatings.size<=1)
-        return profRatings
-
-    // this currently ends up giving the ave of all responses, as opposed to an ave of all profs
-    // seems unideal, as prof with lots of responses weighs more
-    // but the way I'm doing things it's currently not feasible to do with all profs weighing equally
-    // since currently relying on toTotalAndAvesPair() to get ave
-    // anyway, note that I'm currently doing "applicableCourseAves" var in the way I want this to work
-    val aves = (0..9).map { i ->
-        profRatings.values
-            .filter { it.size>=10 }
-            .flatMap { it[i] }
-    }
-    return profRatings+Pair(extraName,aves)
+fun Map<String, List<Entry>>.toProfScores(): ProfScores {
+    return filter { it.value.isNotEmpty() }
+        .mapValues { (_, v) -> v.allScoresPerQ() }
 }
 
 fun List<Entry>.mapByProfs(): Map<String, List<Entry>> {
@@ -89,6 +74,37 @@ fun List<List<Int>>.toTotalAndAvesPair(): Pair<Int,List<Double>> {
             map { it.size }.average().toInt() to
                     map { it.average().roundToDecimal(2) }
         }
+}
+
+fun  Map<String, Pair<Int, List<Double>>>.addAveElement(
+    key: String = "Average",
+    ignoreKey: String? = "Overall",
+): Map<String, Pair<Int, List<Double>>> {
+    if (size == 1)
+        return this
+    val aves = filterKeys { it != ignoreKey }.values.map { it.second }
+    val ave = (0..9).map { i -> // corresponding to each question
+        aves.map { it[i] }.average().roundToDecimal(2)
+    }
+    return plus(key to (0 to ave))
+}
+
+fun ProfScores.addOverallElement(key: String = "Overall"): ProfScores {
+    if (size == 1)
+        return this
+    val aves = (0..9).map { i ->
+        values
+            .filter { it.size >= 10 }
+            .flatMap { it[i] }
+    }
+    return plus(key to aves)
+}
+
+fun Map<String,List<Entry>>.toDisplayMap(): Map<String, Pair<Int, List<Double>>> {
+    return toProfScores()
+        .addOverallElement()
+        .mapValues { it.value.toTotalAndAvesPair() }
+        .addAveElement()
 }
 
 fun String.getCourseFromFullCode(): String = split(':')[2]

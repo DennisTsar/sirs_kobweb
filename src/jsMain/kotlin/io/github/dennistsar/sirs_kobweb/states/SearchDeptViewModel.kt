@@ -53,16 +53,12 @@ class SearchDeptViewModel(
             }
 
     val scoresByProf by derivedStateOf {
-        state.entriesByProf
-            .toProfScores()
-            .mapValues { it.value.toTotalAndAvesPair() }
+        state.entriesByProf.toDisplayMap()
     }
 
     val scoresByProfForCourse by derivedStateOf {
         state.entriesByCourse[state.courseState.selected]?.run {
-            mapByProfs()
-            .toProfScores()
-            .mapValues { it.value.toTotalAndAvesPair() }
+            mapByProfs().toDisplayMap()
         } ?: emptyMap()
     }
 
@@ -106,7 +102,7 @@ class SearchDeptViewModel(
             val courseValid = courseList.contains(course)
             state = with(state) {
                 copy(
-                    schoolState = schoolState.copy(schoolMap.values, school.code,),
+                    schoolState = schoolState.copy(schoolMap.values, school.code),
                     deptState = deptState.copy(school.depts, dept),
                     courseState = courseState.copy(
                         courseList.plusElementAtStart(None),
@@ -158,8 +154,9 @@ class SearchDeptViewModel(
     // key: each course for which selected prof has data
     // value: list of average scores for each question (for whole course)
     val applicableCourseAves get() = state.entriesByCourse.filterKeys { name ->
-        name in selectedProfEntries.map{ it.code.getCourseFromFullCode() }.toSet() // does toSet() matter here?
-    }.mapValues {(_,courseEntries) ->
+        name in selectedProfEntries.map { it.code.getCourseFromFullCode() }.toSet() // does toSet() matter here?
+    }
+        .mapValues { (_, courseEntries) ->
         // both of these methods do the same thing, second is clearer but is first more efficient? maybe not tbh
         // also, I think first will more easily expand to extra (post 10) questions
 //        courseEntries.mapByProfs().map { (_, profEntries) ->
@@ -170,9 +167,9 @@ class SearchDeptViewModel(
 //            .values
 //            .map { it.average().roundToDecimal(2) }
         val aves = courseEntries.mapByProfs().map { (_ ,profEntries) ->
-            profEntries.aveScores().toTotalAndAvesPair().second
+            profEntries.allScoresPerQ().toTotalAndAvesPair().second
         }
-        (0..9).map{ i -> // corresponding to each question
+        (0..9).map { i -> // corresponding to each question
             aves.map { it[i] }.average()
         }
     }

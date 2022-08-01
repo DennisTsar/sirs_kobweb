@@ -17,16 +17,12 @@ import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.layout.SimpleGridStyle
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
-//import com.varabyte.kobweb.silk.ui.thenIf
 import io.github.dennistsar.sirs_kobweb.components.layouts.PageLayout
 import io.github.dennistsar.sirs_kobweb.components.widgets.*
+import io.github.dennistsar.sirs_kobweb.data.*
 import io.github.dennistsar.sirs_kobweb.data.api.Api
 import io.github.dennistsar.sirs_kobweb.data.api.Repository
-import io.github.dennistsar.sirs_kobweb.data.aveScores
 import io.github.dennistsar.sirs_kobweb.data.classes.Entry
-import io.github.dennistsar.sirs_kobweb.data.mapByCourses
-import io.github.dennistsar.sirs_kobweb.data.toProfScores
-import io.github.dennistsar.sirs_kobweb.data.toTotalAndAvesPair
 import io.github.dennistsar.sirs_kobweb.misc.*
 import io.github.dennistsar.sirs_kobweb.states.SearchDeptViewModel
 import io.github.dennistsar.sirs_kobweb.states.Status
@@ -128,8 +124,8 @@ fun ProfSummary(
     onLoad: () -> Unit = {},
 ) {
     val a = entries.mapByCourses()
-    val b = a.toProfScores("Overall")
-    val allScores = entries.aveScores()
+    val b = a.toProfScores().addOverallElement()
+    val allScores = entries.allScoresPerQ()
 
     // this will obviously have to be moved to state object eventually
     var selectedQ by remember { mutableStateOf(8) }
@@ -191,7 +187,8 @@ fun ProfSummary(
     }
 
     ProfScoresList(
-        b.mapValues { it.value.toTotalAndAvesPair() },
+        b.mapValues { it.value.toTotalAndAvesPair() }
+            .addAveElement(),
         onNameClick,
         onLoad,
     )
