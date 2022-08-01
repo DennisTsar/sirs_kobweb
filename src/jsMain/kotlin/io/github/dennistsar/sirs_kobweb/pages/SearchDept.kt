@@ -275,7 +275,7 @@ fun ProfScoresList(
 }
 
 @Composable
-fun SearchDeptFormContent(state: SearchDeptViewModel) {
+fun SearchDeptFormContent(viewModel: SearchDeptViewModel) {
     val modifier2 = Modifier.fillMaxSize()
 //            .backgroundColor(Color.chocolate)
     val modifier1 = Modifier//.backgroundColor(Color.palevioletred)
@@ -288,10 +288,10 @@ fun SearchDeptFormContent(state: SearchDeptViewModel) {
             labelModifier.alignSelf(AlignSelf.Start),
         )
 
-        with(state.state.schoolState) {
+        with(viewModel.state.schoolState) {
             CustomDropDown(
                 list = list,
-                onSelect = state::onSelectSchool,
+                onSelect = viewModel::onSelectSchool,
                 selectModifier = modifier1
                     .borderRadius(50.px)
                     .fillMaxWidth()
@@ -311,8 +311,8 @@ fun SearchDeptFormContent(state: SearchDeptViewModel) {
             Column(secondRowModifier) {
                 SpanText("Department", labelModifier)
                 DDSCustomDropDown(
-                    property = state.state.deptState,
-                    onPropertyChange = state::onSelectDept,
+                    property = viewModel.state.deptState,
+                    onPropertyChange = viewModel::onSelectDept,
                     selectModifier = modifier1.width(125.px),
                     optionModifier = modifier2,
                 )
@@ -320,8 +320,8 @@ fun SearchDeptFormContent(state: SearchDeptViewModel) {
             Column(secondRowModifier) {
                 SpanText("Course (Optional)", labelModifier)
                 DDSCustomDropDown(
-                    property = state.state.courseState,
-                    onPropertyChange = state::onSelectCourse,
+                    property = viewModel.state.courseState,
+                    onPropertyChange = viewModel::onSelectCourse,
                     selectModifier = modifier1.width(125.px),
                     optionModifier = modifier2,
                 )
@@ -329,8 +329,8 @@ fun SearchDeptFormContent(state: SearchDeptViewModel) {
             Column(secondRowModifier) {
                 SpanText("Prof (Optional)", labelModifier)
                 DDSCustomDropDown(
-                    property = state.state.profState,
-                    onPropertyChange = state::onSelectProf,
+                    property = viewModel.state.profState,
+                    onPropertyChange = viewModel::onSelectProf,
                     selectModifier = modifier1.width(125.px),
                     optionModifier = modifier2,
                 )
