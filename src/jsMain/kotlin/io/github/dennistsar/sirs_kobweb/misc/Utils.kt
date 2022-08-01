@@ -27,3 +27,7 @@ suspend fun <A, B> Iterable<A>.pmap(f: suspend (A) -> B): List<B> =
     coroutineScope {
         map { async { f(it) } }.awaitAll()
     }
+
+fun <T> Collection<T>.plusElementAtStart(element: T): List<T> {
+    return listOf(element) + this
+}

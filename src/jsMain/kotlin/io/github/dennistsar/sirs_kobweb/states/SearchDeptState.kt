@@ -1,30 +1,20 @@
 package io.github.dennistsar.sirs_kobweb.states
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import io.github.dennistsar.sirs_kobweb.data.*
 import io.github.dennistsar.sirs_kobweb.data.api.Repository
-import io.github.dennistsar.sirs_kobweb.data.classes.Entry
 import io.github.dennistsar.sirs_kobweb.data.classes.School
 import io.github.dennistsar.sirs_kobweb.misc.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlin.reflect.KMutableProperty0
 
 data class DropDownState<T>(
-    val list: Collection<T>,
-    val selected: String,
-) {
-    constructor(selected: String?) : this(emptyList(), selected ?: "")
-}
-
-private fun<T> setPropIfDifferent(property: KMutableProperty0<DropDownState<T>>, newVal: String?){
-    with(property) {
-        newVal?.let {
-            if (get().selected != it)
-                set(get().copy(selected = it))
-        }
-    }
-}
+    val list: Collection<T> = emptyList(),
+    val selected: String = "",
+)
 
 enum class Status {
     InitialLoading,
@@ -33,179 +23,147 @@ enum class Status {
     Prof,
 }
 
-@Stable
-interface SearchDeptState {
-    var schoolState: DropDownState<School>
-    var deptState: DropDownState<String>
-    var courseState: DropDownState<String>
-    var profState: DropDownState<String>
-    var profListLoading: Boolean
-    var noDeptReset: Boolean
-    val scoresByProf: Map<String, Pair<Int, List<Double>>>
-    val scoresByProfForCourse: Map<String, Pair<Int, List<Double>>>
-    val status: Status
-    val url: String?
-}
-
-class SearchDeptStateImpl(
+class SearchDeptViewModel(
     private var repository: Repository,
     private var coroutineScope: CoroutineScope,
     initialSchool: String?,
     initialDept: String?,
     initialCourse: String?,
     initialProf: String?,
-) : SearchDeptState {
+) {
+    var state: SearchDeptState by mutableStateOf(SearchDeptState())
+        private set
 
     private var schoolMap: Map<String,School> by mutableStateOf(emptyMap())
 
-    private var deptEntries: List<Entry> by mutableStateOf(emptyList())
-    private var entriesByProf: Map<String,List<Entry>> by mutableStateOf(emptyMap())
-    private var entriesByCourse: Map<String,List<Entry>> by mutableStateOf(emptyMap())
-
-    private var urlReady by mutableStateOf(false)
     private var initialLoading by mutableStateOf(true)
 
-    // used for first time and for pop events (forward/back press)
-    override var noDeptReset by mutableStateOf(true)
 
-    override var profListLoading by mutableStateOf(false)
+    var profListLoading by mutableStateOf(false)
 
-    override val url: String?
-        get() {
-            return if (urlReady) {
-                "searchdept?" + // note that lack of slash at the start means routePrefix is used
-                        "school=${schoolState.selected}" +
-                        "&dept=${deptState.selected}" +
-                        with(courseState.selected) { if (isBlankOrNone()) "" else "&course=$this" } +
-                        with(profState.selected) { if (isBlankOrNone()) "" else "&prof=${encodeURLParam()}" }
-            } else null
-        }
+    val url: String
+        get() = "searchdept?"+
+                "school=${state.schoolState.selected}" +
+                "&dept=${state.deptState.selected}" +
+                with(state.courseState.selected) { if (isBlankOrNone()) "" else "&course=$this" } +
+                with(state.profState.selected) { if (isBlankOrNone()) "" else "&prof=${encodeURLParam()}" }
 
-    override val status
+    val status
         get() =
             when{
                 // schoolMap.isEmpty() can work for initialLoading but doesn't account for dept/prof loading
                 initialLoading -> Status.InitialLoading
-                !profState.selected.isBlankOrNone() -> Status.Prof
-                !courseState.selected.isBlankOrNone() -> Status.Course
+                !state.profState.selected.isBlankOrNone() -> Status.Prof
+                !state.courseState.selected.isBlankOrNone() -> Status.Course
                 else -> Status.Dept
             }
 
-    override val scoresByProf by derivedStateOf {
-        entriesByProf
+    val scoresByProf by derivedStateOf {
+        state.entriesByProf
             .toProfScores()
             .mapValues { it.value.toTotalAndAvesPair() }
     }
 
-    override val scoresByProfForCourse by derivedStateOf {
-        entriesByCourse[courseState.selected]?.run {
+    val scoresByProfForCourse by derivedStateOf {
+        state.entriesByCourse[state.courseState.selected]?.run {
             mapByProfs()
             .toProfScores()
             .mapValues { it.value.toTotalAndAvesPair() }
         } ?: emptyMap()
     }
 
-    private var _schoolState by mutableStateOf(DropDownState<School>(initialSchool))
-    override var schoolState
-        get() = _schoolState
-        set(value) {
-            urlReady = false
-            _schoolState = value
-            with(schoolMap[value.selected] ?: throw IllegalStateException("Invalid School Key")) {
-                deptState = DropDownState(depts, depts.firstOrNull() ?: "")
-            }
-        }
+    fun onSelectSchool(
+        school: String?,
+        dept: String? = null,
+        course: String? = null,
+        prof: String? = null,
+    ) {
+        (schoolMap[school] ?: schoolMap["01"])?.let {
+            // need to handle this case (if there are no depts)
+            val newDept = dept ?: it.depts.firstOrNull() ?: ""
+            onSelectDept(dept = newDept, school = it, course = course, prof = prof)
+        } ?: throw IllegalStateException("01 School Not Found")
+    }
 
-    private var _deptState by mutableStateOf(DropDownState<String>(initialDept))
-    override var deptState
-        get() = _deptState
-        set(value) {
-            urlReady = false
-            _deptState = value
-                .also { if (it.selected.isBlank()) return }
-
-            profListLoading = true
-
-            coroutineScope.launch {
-                val response = repository.getEntries(schoolState.selected, deptState.selected)
-                deptEntries =
-                    if (response is Resource.Success && response.data!=null){
-                        response.data.filter { it.scores.size >= 100 }
-                    } else {
-                        console.log("Error: ${response.message}")
-                        emptyList()
-                    }
-                entriesByProf = deptEntries.mapByProfs()
-                entriesByCourse = deptEntries.mapByCourses()
-
-                // using backing var (with _) to avoid default behavior which would lose initial values
-                _courseState = courseState.copy(listOf(None) + entriesByCourse.keys.sorted())
-                _profState = profState.copy(listOf(None) + entriesByProf.keys.sorted())
-
-                // this keeps course value and ignores prof value if the course is valid
-                // otherwise does exactly what you'd expect
-                // note all of these don't have to use backing vars, but might as well ig? - or not?
-                if (!noDeptReset || !(courseState.list-None).contains(courseState.selected)) {
-                    _courseState = courseState.copy(selected = None)
-                    if (!noDeptReset || !profState.list.contains(profState.selected))
-                        _profState = profState.copy(selected = None)
+    fun onSelectDept(
+        dept: String,
+        school: School = schoolMap[state.schoolState.selected]
+            ?: throw IllegalStateException("Selected School Not Found"),
+        course: String? = null,
+        prof: String? = null,
+    ) {
+        profListLoading = true
+        coroutineScope.launch {
+            val response = repository.getEntries(school.code, dept)
+            val deptEntries =
+                if (response is Resource.Success && response.data!=null) {
+                    response.data.filter { it.scores.size >= 100 }
+                } else {
+                    console.log("Error: ${response.message}")
+                    emptyList()
                 }
-                else
-                    _profState = profState.copy(selected = None)
 
-                if (urlReady)
-                    noDeptReset = false
-                urlReady = true
-                initialLoading = false
+            val entriesByProf = deptEntries.mapByProfs()
+            val entriesByCourse = deptEntries.mapByCourses()
+
+            val profList = entriesByProf.keys.sorted()
+            val courseList = entriesByCourse.keys.sorted()
+
+            val courseValid = courseList.contains(course)
+            state = with(state) {
+                copy(
+                    schoolState = schoolState.copy(schoolMap.values, school.code,),
+                    deptState = deptState.copy(school.depts, dept),
+                    courseState = courseState.copy(
+                        courseList.plusElementAtStart(None),
+                        course.takeIf { courseValid } ?: None,
+                    ),
+                    profState = profState.copy(
+                        profList.plusElementAtStart(None),
+                        prof.takeIf { !courseValid && profList.contains(it) } ?: None,
+                    ),
+                    entriesByCourse = entriesByCourse,
+                    entriesByProf = entriesByProf,
+                    deptEntries = deptEntries,
+                )
             }
+            initialLoading = false
         }
+    }
 
-    private var _courseState by mutableStateOf(DropDownState<String>(initialCourse))
-    override var courseState
-        get() = _courseState
-        set(value) {
-            _courseState = value
-            if (!value.selected.isBlankOrNone())
-                profState = profState.copy(selected = None)
+    fun onSelectCourse(course: String) {
+        state = with(state) {
+            copy(
+                courseState = courseState.copy(selected = course),
+                profState = profState.copy(selected = if (!course.isBlankOrNone()) None else profState.selected)
+            )
         }
+    }
 
-    private var _profState by mutableStateOf(DropDownState<String>(initialProf))
-    override var profState
-        get() = _profState
-        set(value) {
-            _profState = value
-            if (!value.selected.isBlankOrNone())
-                courseState = courseState.copy(selected = None)
+    fun onSelectProf(prof: String) {
+        state = with(state) {
+            copy(
+                profState = profState.copy(selected = prof),
+                courseState = courseState.copy(selected = if (!prof.isBlankOrNone()) None else courseState.selected)
+            )
         }
+    }
 
     init {
         coroutineScope.launch {
             schoolMap = repository.getSchoolMap()
                 .takeIf { it is Resource.Success }?.data ?: emptyMap()
-            val selectedSchool = schoolMap[schoolState.selected]
-                ?: schoolMap["01"]
-                ?: throw IllegalStateException("01 School Not Present")
-            // using private var to not cause default behavior of resetting dept
-            // doesn't seem ideal, but I don't want permanent boolean check
-            _schoolState = DropDownState(schoolMap.values, selectedSchool.code)
-
-            selectedSchool.depts.let {
-                deptState =
-                    if (it.contains(deptState.selected))
-                        deptState.copy(list = it)
-                    else
-                        deptState.copy(list = it, selected = it.firstOrNull() ?: "")
-            }
+            onSelectSchool(school = initialSchool, dept = initialDept, course = initialCourse, prof = initialProf)
         }
     }
 
     // temp as I figure out what data the prof composable needs
     // eventually that logic will be in this (or a different?) State object
     // and it will be part of interface
-    val selectedProfEntries get() = entriesByProf[profState.selected] ?: emptyList()
+    val selectedProfEntries get() = state.entriesByProf[state.profState.selected] ?: emptyList()
     // key: each course for which selected prof has data
     // value: list of average scores for each question (for whole course)
-    val applicableCourseAves get() = entriesByCourse.filterKeys { name ->
+    val applicableCourseAves get() = state.entriesByCourse.filterKeys { name ->
         name in selectedProfEntries.map{ it.code.getCourseFromFullCode() }.toSet() // does toSet() matter here?
     }.mapValues {(_,courseEntries) ->
         // both of these methods do the same thing, second is clearer but is first more efficient? maybe not tbh
@@ -225,15 +183,28 @@ class SearchDeptStateImpl(
         }
     }
 
-    fun onPopState(s: String){
-        s.drop(1).split('&').associate {
+    fun onPopState(params: String) {
+        params.drop(1).split('&').associate {
             it.split('=', limit = 2).zipWithNext().getOrNull(0) ?: return
         }.let {
-            noDeptReset = true
-            setPropIfDifferent(::schoolState, it["school"])
-            setPropIfDifferent(::deptState, it["dept"])
-            setPropIfDifferent(::courseState, it["course"] ?: None)
-            setPropIfDifferent(::profState, it["prof"]?.decodeURLParam() ?: None)
+            val school = it["school"].takeIf { i -> i != "" } ?: return
+            val dept = it["dept"].takeIf { i -> i != "" } ?: return
+            val course = it["course"]
+            val prof = it["prof"]?.decodeURLParam()
+
+            // need to figure out how to deal wih invalid course/prof on pop -maybe?
+            when {
+                school != state.schoolState.selected ->
+                    onSelectSchool(school = school, dept = dept, course = course, prof = prof)
+                dept != state.deptState.selected ->
+                    onSelectDept(dept = dept, course = course, prof = prof)
+                course != null -> onSelectCourse(course)
+                prof != null -> onSelectProf(prof)
+                else -> {
+                    if (state.courseState.selected != None) onSelectCourse(None)
+                    else if (state.profState.selected != None) onSelectProf(None)
+                }
+            }
         }
     }
 }

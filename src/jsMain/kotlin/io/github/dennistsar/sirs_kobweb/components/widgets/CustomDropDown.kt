@@ -10,7 +10,6 @@ import org.jetbrains.compose.web.dom.Option
 import org.jetbrains.compose.web.dom.Select
 import org.w3c.dom.HTMLOptionElement
 import org.w3c.dom.get
-import kotlin.reflect.KMutableProperty0
 
 @Composable
 fun<T> CustomDropDown(
@@ -49,23 +48,23 @@ fun<T> CustomDropDown(
     }
 }
 
+// DDS = DropDownState
 @Composable
-fun ReflectiveCustomDropDown(
-    property: KMutableProperty0<DropDownState<String>>,
+fun DDSCustomDropDown(
+    property: DropDownState<String>,
+    onPropertyChange: (String) -> Unit,
     selectModifier: Modifier = Modifier,
     optionModifier: Modifier = Modifier,
     getText: (String) -> String = { it },
     getValue: (String) -> String = getText,
 ) {
-    with(property) {
-        CustomDropDown(
-            list = get().list,
-            onSelect = { set(get().copy(selected = it)) },
-            selectModifier = selectModifier,
-            optionModifier = optionModifier,
-            getText = getText,
-            getValue = getValue,
-            selected = get().selected,
-        )
-    }
+    CustomDropDown(
+        list = property.list,
+        onSelect = onPropertyChange,
+        selectModifier = selectModifier,
+        optionModifier = optionModifier,
+        getText = getText,
+        getValue = getValue,
+        selected = property.selected,
+    )
 }

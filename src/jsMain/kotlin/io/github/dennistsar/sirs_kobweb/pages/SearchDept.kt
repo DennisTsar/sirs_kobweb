@@ -28,8 +28,7 @@ import io.github.dennistsar.sirs_kobweb.data.mapByCourses
 import io.github.dennistsar.sirs_kobweb.data.toProfScores
 import io.github.dennistsar.sirs_kobweb.data.toTotalAndAvesPair
 import io.github.dennistsar.sirs_kobweb.misc.*
-import io.github.dennistsar.sirs_kobweb.states.SearchDeptState
-import io.github.dennistsar.sirs_kobweb.states.SearchDeptStateImpl
+import io.github.dennistsar.sirs_kobweb.states.SearchDeptViewModel
 import io.github.dennistsar.sirs_kobweb.states.Status
 import kotlinx.browser.window
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
@@ -43,11 +42,11 @@ fun SearchDept() {
         //region non-UI setuo
         val ctx = rememberPageContext()
         val coroutineScope = rememberCoroutineScope()
-        val originalOnPopState = remember { window.onpopstate } // need to use this to avoid recursion
+        val originalOnPopState = remember { window.onpopstate } // need to use this to avoid infinite recursion
         val repository = remember { Repository(Api()) }
 
-        val state = remember {
-            SearchDeptStateImpl(
+        val viewModel = remember {
+            SearchDeptViewModel(
                 repository = repository,
                 coroutineScope = coroutineScope,
                 initialSchool = ctx.params["school"],
@@ -60,18 +59,19 @@ fun SearchDept() {
         DisposableEffect(true){
             window.onpopstate = {
                 originalOnPopState?.run { invoke(it) } // keeps default behavior when going back to other page
-                state.onPopState(window.location.search)
+                viewModel.onPopState(window.location.search)
             }
             onDispose {
                 window.onpopstate = originalOnPopState
             }
         }
 
-        remember(state.url) {
-            state.url?.let { ctx.router.routeTo(it) }
-        }
+        val status = viewModel.status
 
-        val status = state.status
+        remember(viewModel.url) {
+            if (status != Status.InitialLoading)
+                ctx.router.routeTo(viewModel.url)
+        }
         // endregion
 
         LeftRightCenterBox(
@@ -79,12 +79,12 @@ fun SearchDept() {
                 .fillMaxWidth()
                 .alignItems(AlignItems.Center),// vertical alignment
             right = {
-                if (state.profListLoading && status != Status.InitialLoading)
+                if (viewModel.profListLoading && status != Status.InitialLoading)
                     LoadingSpinner()
             },
             center = {
                 if (status != Status.InitialLoading)
-                    SearchDeptFormContent(state)
+                    SearchDeptFormContent(viewModel)
                 else
                     LoadingSpinner()
             }
@@ -92,27 +92,27 @@ fun SearchDept() {
 
         // This logic is kept here as opposed to in State class for performance reasons
         // Prevents having to reload HTML when status changes back to previously used one - it's already loaded
-        val finishLoading = { state.profListLoading = false }
+        val finishLoading = { viewModel.profListLoading = false }
         when(status) {
             Status.Prof -> {
-                SpanText(state.profState.selected)
+                SpanText(viewModel.state.profState.selected)
                 ProfSummary(
-                    state.selectedProfEntries,
-                    state.applicableCourseAves,
-                    { state.courseState = state.courseState.copy(selected = it) },
+                    viewModel.selectedProfEntries,
+                    viewModel.applicableCourseAves,
+                    { viewModel.onSelectCourse(it) },
                     finishLoading,
                 )
             }
             Status.Course ->
                 ProfScoresList(
-                    state.scoresByProfForCourse,
-                    { state.profState = state.profState.copy(selected = it) },
+                    viewModel.scoresByProfForCourse,
+                    { viewModel.onSelectProf(it) },
                     finishLoading,
                 )
             Status.Dept ->
                 ProfScoresList(
-                    state.scoresByProf,
-                    { state.profState = state.profState.copy(selected = it) },
+                    viewModel.scoresByProf,
+                    { viewModel.onSelectProf(it) },
                     finishLoading,
                 )
             else -> {}
@@ -214,7 +214,7 @@ fun ProfScoresList(
         val fontSize = 15.px
 
         val underlineTextModifier = underlineOnHoverStyle.toModifier()
-        (listOf("") + TenQsShortened + "Total # of Responses").forEachIndexed { index, text ->
+        (TenQsShortened.plusElementAtStart("") + "Total # of Responses").forEachIndexed { index, text ->
             Box(
                 Modifier.width(spacing)
             ) {
@@ -275,7 +275,7 @@ fun ProfScoresList(
 }
 
 @Composable
-fun SearchDeptFormContent(state: SearchDeptState) {
+fun SearchDeptFormContent(state: SearchDeptViewModel) {
     val modifier2 = Modifier.fillMaxSize()
 //            .backgroundColor(Color.chocolate)
     val modifier1 = Modifier//.backgroundColor(Color.palevioletred)
@@ -288,10 +288,10 @@ fun SearchDeptFormContent(state: SearchDeptState) {
             labelModifier.alignSelf(AlignSelf.Start),
         )
 
-        with(state::schoolState) {
+        with(state.state.schoolState) {
             CustomDropDown(
-                list = get().list,
-                onSelect = { set(get().copy(selected = it)) },
+                list = list,
+                onSelect = state::onSelectSchool,
                 selectModifier = modifier1
                     .borderRadius(50.px)
                     .fillMaxWidth()
@@ -299,7 +299,7 @@ fun SearchDeptFormContent(state: SearchDeptState) {
                 optionModifier = modifier2,
                 getText = { "${it.code} - ${it.name}" },
                 getValue = { it.code },
-                selected = get().list.first { it.code==get().selected },
+                selected = list.first { it.code==selected },
             )
         }
 
@@ -310,24 +310,27 @@ fun SearchDeptFormContent(state: SearchDeptState) {
         ) {
             Column(secondRowModifier) {
                 SpanText("Department", labelModifier)
-                ReflectiveCustomDropDown(
-                    property = state::deptState,
+                DDSCustomDropDown(
+                    property = state.state.deptState,
+                    onPropertyChange = state::onSelectDept,
                     selectModifier = modifier1.width(125.px),
                     optionModifier = modifier2,
                 )
             }
             Column(secondRowModifier) {
                 SpanText("Course (Optional)", labelModifier)
-                ReflectiveCustomDropDown(
-                    property = state::courseState,
+                DDSCustomDropDown(
+                    property = state.state.courseState,
+                    onPropertyChange = state::onSelectCourse,
                     selectModifier = modifier1.width(125.px),
                     optionModifier = modifier2,
                 )
             }
             Column(secondRowModifier) {
                 SpanText("Prof (Optional)", labelModifier)
-                ReflectiveCustomDropDown(
-                    property = state::profState,
+                DDSCustomDropDown(
+                    property = state.state.profState,
+                    onPropertyChange = state::onSelectProf,
                     selectModifier = modifier1.width(125.px),
                     optionModifier = modifier2,
                 )
